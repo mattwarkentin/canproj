@@ -4,11 +4,12 @@
 #'
 #' @param cdat 19(age groups)*N(years) historical cancer data, 15<=N<=125.
 #' @param pdat 19(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.
+#' @param startp The start calendar year of projection, e.g. 2009.
+#' @param projfor Specify "incidence" or "mortality" if want ASR as criteria for nagg.
 #' @param ncase minimum number of cancer cases/deaths per year for splitting data.
 #' @param nagg number of years for data aggregation (by years), default: 1-annual data
 #' @param startestage user defined age groups for modeling can be input here
 #' @param cuttrd Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.
-#' @param projfor Specify "incidence" or "mortality" if want ASR as criteria for nagg.
 #' @param newcohort assign new cohort effect as 0 (NULL) or the last estimated
 #'   cohort effect (T), default is 0, use "T" only if having evidence on negative new cohort effect.
 #' @param Ave5 Ave5=T invokes the 5 year average method when age-only model is selected.
@@ -20,7 +21,6 @@
 #' @param pD Trend selecting criteria of p-value of drift (linear trend) term.
 #' @param pGOF Model selection criteria of p-value of goodness-of-fit.
 #' @param standpop The weights (proportions) of 19 age groups in a standard population.
-#' @param startp The start calendar year of projection, e.g. 2009.
 #'
 #' @md
 #'

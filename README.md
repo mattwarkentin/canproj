@@ -12,7 +12,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 You can install the development version of `canproj` like so:
 
 ``` r
-pak::pkg_install("mattwarkentin/canproj")
+remotes::install_github("mattwarkentin/canproj")
 ```
 
 ## Code of Conduct

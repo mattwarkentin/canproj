@@ -243,7 +243,7 @@ adpcproj.estimate <- function(
         data = apcdata,
         link = log
       )
-      theta <- as.numeric(theta.md(
+      theta <- as.numeric(MASS::theta.md(
         apcdata$Cases,
         fitted(glmnb),
         dfr = df.residual(glmnb)

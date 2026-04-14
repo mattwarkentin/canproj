@@ -370,7 +370,7 @@ hybdproj.estimate <- function(
         data = apdatan,
         link = log
       )
-      theta <- as.numeric(theta.md(
+      theta <- as.numeric(MASS::theta.md(
         apdatan$Cases,
         fitted(glmnb),
         dfr = df.residual(glmnb)

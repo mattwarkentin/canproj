@@ -1,5 +1,5 @@
 Package: canproj
-Title: Projects of Cancer Incidence and Mortality
+Title: Project Cancer Incidence and Mortality
 Version: 0.0.0.9000
 Authors@R: 
     person("Matthew T.", "Warkentin", , "warkentin@lunenfeld.ca", role = c("aut", "cre"),
@@ -11,3 +11,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3.9000
 Imports: 
     MASS
+Depends: 
+    R (>= 3.5)
+LazyData: true
