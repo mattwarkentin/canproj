@@ -84,11 +84,13 @@ glm.hybdproj(hybdproj.object)
 
 \item{projfor}{Specify "incidence" or "mortality" if want ASR as criteria for nagg.}
 
-\item{nagg}{number of years for data aggregation (by years), default: 1-annual data}
+\item{nagg}{Number of years for data aggregation (by years), default: 1-annual data}
 
-\item{ncase}{minimum number of cancer cases/deaths per year for splitting data.}
+\item{ncase}{Minimum number of cancer cases/deaths per year for splitting data.}
 
 \item{cuttrd}{Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.}
+
+\item{shortp}{Attenuation percent of drift term or slope for the first 5 projection years.}
 
 \item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
 

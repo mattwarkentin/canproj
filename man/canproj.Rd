@@ -58,13 +58,13 @@ glm.canproj(canproj.object)
 
 \item{projfor}{Specify "incidence" or "mortality" if want ASR as criteria for nagg.}
 
-\item{nagg}{number of years for data aggregation (by years), default: 1-annual data}
+\item{nagg}{Number of years for data aggregation (by years), default: 1-annual data}
 
-\item{ncase}{minimum number of cancer cases/deaths per year for splitting data.}
+\item{ncase}{Minimum number of cancer cases/deaths per year for splitting data.}
 
-\item{startestage}{user defined age groups for modeling can be input here}
+\item{startestage}{User defined age groups for modeling can be input here}
 
-\item{newcohort}{assign new cohort effect as 0 (NULL) or the last estimated
+\item{newcohort}{Assign new cohort effect as 0 (NULL) or the last estimated
 cohort effect (T), default is 0, use "T" only if having evidence on negative new cohort effect.}
 
 \item{Ave5}{Ave5=T invokes the 5 year average method when age-only model is selected.}
@@ -72,12 +72,14 @@ cohort effect (T), default is 0, use "T" only if having evidence on negative new
 \item{sum5}{When the 5-year average method is used, sum5=NULL call the 5-year
 period based rate,otherwise, average the 5 rates in the 5 years for each age group.}
 
-\item{methods}{user required projection method can be specified by ADPC
+\item{methods}{User required projection method can be specified by ADPC
 models: "nordpred" or "adpc-nb"; age-cohort models: "ac", "ac-nb"; age-period models: "age-trd", "com-trd"; and average: "ave5".}
 
 \item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
 
 \item{cuttrd}{Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.}
+
+\item{shortp}{Attenuation percent of drift term or slope for the first 5 projection years.}
 
 \item{pD}{Trend selecting criteria of p-value of drift (linear trend) term.}
 

@@ -6,6 +6,11 @@
 #'    of startestage and startuseage.
 #'
 #' @inheritParams canproj
+#' @param n5case Minimum number of cancer cases/deaths per 5 years for splitting data.
+#' @param noperiods List of candidate periods for projection base. Default (`NULL`)
+#'  uses a goodness-of-fit test to determine if ancient periods are removed.
+#' @param recent Estimate drift term from recent trend (`T`) or whole trend (`F`).
+#'  Default (`NULL`) uses compares models to pick.
 #'
 #' @export
 adpcproj <- function(

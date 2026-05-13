@@ -83,14 +83,24 @@ glm.adpcproj(adpcproj.object)
 
 \item{projfor}{Specify "incidence" or "mortality" if want ASR as criteria for nagg.}
 
-\item{startestage}{user defined age groups for modeling can be input here}
+\item{n5case}{Minimum number of cancer cases/deaths per 5 years for splitting data.}
 
-\item{newcohort}{assign new cohort effect as 0 (NULL) or the last estimated
+\item{noperiods}{List of candidate periods for projection base. Default (\code{NULL})
+uses a goodness-of-fit test to determine if ancient periods are removed.}
+
+\item{recent}{Estimate drift term from recent trend (\code{T}) or whole trend (\code{F}).
+Default (\code{NULL}) uses compares models to pick.}
+
+\item{startestage}{User defined age groups for modeling can be input here}
+
+\item{newcohort}{Assign new cohort effect as 0 (NULL) or the last estimated
 cohort effect (T), default is 0, use "T" only if having evidence on negative new cohort effect.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
 
 \item{cuttrd}{Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.}
+
+\item{shortp}{Attenuation percent of drift term or slope for the first 5 projection years.}
 
 \item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
 
