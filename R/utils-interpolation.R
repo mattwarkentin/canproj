@@ -1,7 +1,12 @@
-## Linear interpolation:
-## Convert to annual age-specific rates
-## by linear interpolation for each two-points segment
-## if rate is projected age-specific rates in period:
+#' Linear interpolation
+#'
+#' Convert to annual age-specific rates by linear interpolation
+#'
+#' @inheritParams canproj
+#'
+#' @return A `data.frame()`.
+#'
+#' @keywords internal
 asrpy <- function(rate, cdat, pdat, startp, nagg) {
   # nagg: number of years used for aggregation: 1, 2, ..., 5
   # r0: 19*m matrix, age-specific rate of m periods

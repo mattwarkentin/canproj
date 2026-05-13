@@ -1,4 +1,12 @@
-## Standardizing observed rates and total numbers:
+#' Observed age-standardized rates
+#'
+#' Calculate observed age-standardized rates and total numbers
+#'
+#' @inheritParams canproj
+#'
+#' @return A `data.frame()`.
+#'
+#' @keywords internal
 obasr <- function(cdat, pdat, standpop = ca11) {
   m <- dim(cdat)[2]
   popu <- pdat[, 1:m]
@@ -12,9 +20,16 @@ obasr <- function(cdat, pdat, standpop = ca11) {
   return(cbind(asr, case))
 }
 
+#' Age-standardized rates standard error
+#'
+#' Calculate age-standardized rates and corresponding standard error
+#'
+#' @inheritParams canproj
+#'
+#' @return A `data.frame()`.
+#'
+#' @keywords internal
 asrsd <- function(cdat, pdat, standpop = ca11) {
-  ## calculate the age-standardized rate with correspond standard error
-  ## cdat, pdat: 19 age groups by N years
   m <- dim(cdat)[2]
   popu <- pdat[, 1:m]
   rr <- matrix(NA, 19, m)
@@ -30,14 +45,20 @@ asrsd <- function(cdat, pdat, standpop = ca11) {
   return(cbind(asr, asd))
 }
 
-
+#' Percentage change due to risk, population, and aging
+#'
+#' Calculating percentage changes due to risk, population growth, and aging.
+#'
+#' @inheritParams canproj
+#'
+#' @param byear Reference calendar year
+#' @param cyear Comparison calendar year
+#' @param starty First calendar year in historical data
+#'
+#' @return A `data.frame()`.
+#'
+#' @keywords internal
 chper <- function(aspr, pdat, byear, cyear, starty = NULL) {
-  ## Calculating the percentage changes due to risk, population growth and aging.
-  ## pdat: population data over historical and projection years,
-  ## aspr: data frame for annual age-specific rates,
-  ## byear: baseline calendar year, cyear: comparison calendar year,
-  ## starty: the first calendar year in historical data.
-
   # Check data:
   if (dim(aspr)[2] != dim(pdat)[2]) {
     stop("\"aspr\" and \"pdat\" must have data for same calendar years")

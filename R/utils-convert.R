@@ -1,4 +1,11 @@
-#' Convert data to annual rates and counts
+#' Convert to age-standardized
+#'
+#' Calculate age-standardized annual rates and counts
+#'
+#' @inheritParams canproj
+#' @param rr Observed and projected age-specific rates.
+#'
+#' @keywords internal
 asry <- function(rr, pdat, standpop = ca11) {
   c1 <- rr * pdat / 100000
   a1 <- rr * standpop

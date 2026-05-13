@@ -1,4 +1,15 @@
-# Projection plot contains both ASRs and total numbers:
+#' Projection plot
+#'
+#' Produce the graph of the observed and projected age-standardized rates and numbers
+#'
+#' @inheritParams canproj
+#' @param site.asr Data frame with age-standardized rates and total numbers.
+#' @param sex Specify (`F` or `M`) for defining colour used in graph.
+#' @param ma Coefficient for left y-axis scale.
+#' @param mr Coefficient for right y-axis scale.
+#' @param starty Starting calendar year for observation.
+#'
+#' @keywords internal
 projplot <- function(
   site.asr,
   sex = NULL,

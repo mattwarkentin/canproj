@@ -1,5 +1,12 @@
-# Data aggregation function:
-##aggregating cases and population by nagg=x years
+#' Data aggregation
+#'
+#' Aggregation of data by years
+#'
+#' @inheritParams canproj
+#'
+#' @return A `list()`.
+#'
+#' @keywords internal
 datagg <- function(cdat, pdat, nagg) {
   # aggregating cancer data:
   ny <- dim(cdat)[2] # of years for observed data

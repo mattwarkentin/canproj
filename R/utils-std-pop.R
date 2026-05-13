@@ -1,7 +1,17 @@
+#' Standard population Canada 2011
+#'
+#' @return A `vector()`.
+#'
+#' @export
 stdpop_Canada_2011 <- function() {
   ca11
 }
 
+#' World standard population
+#'
+#' @return A `vector()`.
+#'
+#' @export
 stdpop_WHO <- function() {
   wdsd
 }
