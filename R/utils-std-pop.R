@@ -1,4 +1,4 @@
-#' Standard population Canada 2011
+#' Canada standard population 2011
 #'
 #' @return A `vector()`.
 #'
