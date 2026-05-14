@@ -625,10 +625,8 @@ hybdproj.prediction <- function(
   obsrat <- data.frame(matrix(0, dim(cases)[1], 5))
 
   for (age in 1:(dim(cases)[1])) {
-    obsrat[age, ] <- as.vector(cases[age, (noobsper - 4):noobsper]) /
-      as.vector(
-        pyr[age, (noobsper - 4):noobsper]
-      )
+    obsrat[age, ] <- as.matrix(cases[age, (noobsper - 4):noobsper]) /
+      as.matrix(pyr[age, (noobsper - 4):noobsper])
   }
   obsrate <- apply(obsrat, 1, mean)
 
