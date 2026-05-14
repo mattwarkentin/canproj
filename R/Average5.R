@@ -104,7 +104,7 @@ ave5proj.getproj <- function(pdat, ave5proj.object, standpop = NULL) {
 #' @rdname ave5proj
 #' @export
 summary.ave5proj <- function(ave5proj.object, printcall = FALSE, digits = 0) {
-  if (class(ave5proj.object) != "ave5proj") {
+  if (!inherits(ave5proj.object, "ave5proj")) {
     stop("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
   }
 

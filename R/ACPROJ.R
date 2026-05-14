@@ -271,7 +271,7 @@ acproj.prediction <- function(
   shortp = 0
 ) {
   ## running conditions:
-  if (class(acproj.estimate.object) != "acproj.estimate") {
+  if (!inherits(acproj.estimate.object, "acproj.estimate")) {
     stop(
       "Variable \"acproj.estimate.object\" must be of type \"acproj.estimate\""
     )
@@ -427,7 +427,7 @@ acproj.getpred <- function(
   }
 
   ## Checking input:
-  if (class(acproj.object) != "acproj") {
+  if (!inherits(acproj.object, "acproj")) {
     stop("Variable \"acproj.object\" must be of type \"acproj\"")
   }
 
@@ -525,7 +525,7 @@ summary.acproj <- function(
 ) {
   method <- "Age-Cohort Model"
 
-  if (class(acproj.object) != "acproj") {
+  if (!inherits(acproj.object, "acproj")) {
     stop("Variable \"acproj.object\" must be of type \"acproj\"")
   }
 
@@ -609,7 +609,7 @@ plot.acproj <- function(
   new = T,
   ...
 ) {
-  if (class(acproj.object) != "acproj") {
+  if (!inherits(acproj.object, "acproj")) {
     stop("Variable \"acproj.object\" must be of type \"acproj\"")
   }
 

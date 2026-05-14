@@ -498,7 +498,7 @@ hybdproj.prediction <- function(
   shortp = 0
 ) {
   ## running conditions:
-  if (class(hybdproj.estimate.object) != "hybdproj.estimate") {
+  if (!inherits(hybdproj.estimate.object, "hybdproj.estimate")) {
     stop(
       "Variable \"hybdproj.estimate.object\" must be of type \"hybdproj.estimate\""
     )
@@ -773,7 +773,7 @@ hybdproj.getpred <- function(
   }
 
   ## Checking input:
-  if (class(hybdproj.object) != "hybdproj") {
+  if (!inherits(hybdproj.object, "hybdproj")) {
     stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
   }
 
@@ -903,7 +903,7 @@ summary.hybdproj <- function(
 ) {
   method <- "Hybrid approach"
 
-  if (class(hybdproj.object) != "hybdproj") {
+  if (!inherits(hybdproj.object, "hybdproj")) {
     stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
   }
 
@@ -1007,7 +1007,7 @@ plot.hybdproj <- function(
   new = T,
   ...
 ) {
-  if (class(hybdproj.object) != "hybdproj") {
+  if (!inherits(hybdproj.object, "hybdproj")) {
     stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
   }
 

@@ -449,15 +449,15 @@ plot.canproj <- function(
   new = T,
   ...
 ) {
-  if (class(canproj.object) != "canproj") {
+  if (!inherits(canproj.object, "canproj")) {
     stop("Variable \"canproj.object\" must be of type \"canproj\"")
   }
-  # Reading & formating data:
+  # Reading & formatting data:
   indat <- canproj.getproj(canproj.object, standpop = standpop)
   indata <- indat[, 1]
   indata <- indata[startplot:length(indata)]
 
-  # Seting internal variables:
+  # Setting internal variables:
   nopredy <- length(indata) - canproj.object$obsy
   if (is.null(labels)) {
     labels <- row.names(indat)

@@ -396,7 +396,7 @@ adpcproj.prediction <- function(
   cuttrd = 0.04
 ) {
   ## running conditions:
-  if (class(adpcproj.estimate.object) != "adpcproj.estimate") {
+  if (!inherits(adpcproj.estimate.object, "adpcproj.estimate")) {
     stop(
       "Variable \"adpcproj.estimate.object\" must be of type \"adpcproj.estimate\""
     )
@@ -601,7 +601,7 @@ adpcproj.getpred <- function(
   }
 
   ## Checking input:
-  if (class(adpcproj.object) != "adpcproj") {
+  if (!inherits(adpcproj.object, "adpcproj")) {
     stop("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
   }
 
@@ -701,7 +701,7 @@ summary.adpcproj <- function(
   digits = 0
 ) {
   method <- "Age-drift-Period-Cohort Model"
-  if (class(adpcproj.object) != "adpcproj") {
+  if (!inherits(adpcproj.object, "adpcproj")) {
     stop("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
   }
   # Setting internal variables:
@@ -796,7 +796,7 @@ plot.adpcproj <- function(
   new = T,
   ...
 ) {
-  if (class(adpcproj.object) != "adpcproj") {
+  if (!inherits(adpcproj.object, "adpcproj")) {
     stop("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
   }
 
