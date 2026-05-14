@@ -18,7 +18,11 @@ datagg <- function(cdat, pdat, nagg) {
     cdat0 <- cdat[, -c(1:(ny - nper * nagg))]
   }
   pern <- sort(rep(1:nper, nagg)) # period vector
-  cases <- as.data.frame(t(aggregate(t(cdat0), list(Period = pern), sum)))[-1, ]
+  cases <- as.data.frame(t(stats::aggregate(
+    t(cdat0),
+    list(Period = pern),
+    sum
+  )))[-1, ]
   colnames(cases) <- 1:nper
   rownames(cases) <- 1:19
 
@@ -30,7 +34,11 @@ datagg <- function(cdat, pdat, nagg) {
     # truncate the beginning years less than nagg
     pdat0 <- pdat1[, -c(1:(ny - nper * nagg))]
   }
-  pyr1 <- as.data.frame(t(aggregate(t(pdat0), list(Period = pern), sum)))[-1, ]
+  pyr1 <- as.data.frame(t(stats::aggregate(
+    t(pdat0),
+    list(Period = pern),
+    sum
+  )))[-1, ]
 
   # aggregating projection population data:
   nypop <- dim(pdat)[2]
@@ -44,7 +52,11 @@ datagg <- function(cdat, pdat, nagg) {
     pdatn <- pdat2[, -c((nperp * nagg + 1):nyp)]
   }
   pernp <- sort(rep(1:nperp, nagg)) # period vector
-  pyr2 <- as.data.frame(t(aggregate(t(pdatn), list(Period = pernp), sum)))[-1, ]
+  pyr2 <- as.data.frame(t(stats::aggregate(
+    t(pdatn),
+    list(Period = pernp),
+    sum
+  )))[-1, ]
 
   # combine population data:
   pyr <- as.data.frame(cbind(pyr1, pyr2))

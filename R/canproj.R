@@ -138,8 +138,8 @@ canproj <- function(
       )
       pv1 <- summary(mod0$glm)$coef["Period", 4]
       options(warn = -1)
-      pv2 <- drop1(mod0$glm, test = "F")["as.factor(Cohort)", 5]
-      pv3 <- drop1(mod0$glm, test = "F")["as.factor(Period)", 5]
+      pv2 <- stats::drop1(mod0$glm, test = "F")["as.factor(Cohort)", 5]
+      pv3 <- stats::drop1(mod0$glm, test = "F")["as.factor(Period)", 5]
       options(warn = 0)
       pdPC <- c(pv1, pv3, pv2)
       # Selecting method by decision tree:
@@ -469,13 +469,21 @@ plot.canproj <- function(
     if (is.null(ylim)) {
       ylim <- c(0, maxy)
     }
-    plot(c(1, maxx), ylim, type = "n", ylab = ylab, xlab = xlab, axes = F, ...)
-    axis(2)
-    axis(1, at = 1:maxx, labels = labels)
-    box()
-    title(main)
+    graphics::plot(
+      c(1, maxx),
+      ylim,
+      type = "n",
+      ylab = ylab,
+      xlab = xlab,
+      axes = F,
+      ...
+    )
+    graphics::axis(2)
+    graphics::axis(1, at = 1:maxx, labels = labels)
+    graphics::box()
+    graphics::title(main)
   }
-  lines(
+  graphics::lines(
     1:(maxx - nopredy),
     indata[1:(maxx - nopredy)],
     type = "o",
@@ -484,7 +492,7 @@ plot.canproj <- function(
     col = col[1],
     ...
   )
-  lines(
+  graphics::lines(
     (maxx - nopredy):maxx,
     indata[(maxx - nopredy):maxx],
     lty = lty[2],

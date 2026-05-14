@@ -75,7 +75,7 @@ adpcproj <- function(
   while (length(noperiods) > 1) {
     maxnoperiod <- max(noperiods)
     glmn <- adpcproj.estimate(cases, pyr, maxnoperiod, startestage)$glm
-    pval <- 1 - pchisq(glmn$deviance, glmn$df.residual)
+    pval <- 1 - stats::pchisq(glmn$deviance, glmn$df.residual)
     if (pval < 0.01) {
       noperiods <- noperiods[1:(length(noperiods) - 1)]
     } else {
@@ -180,7 +180,7 @@ adpcproj.estimate <- function(
     # Setting population variable
     y <- apcdata$y
     # Make power5 link function for poisson family:
-    power5link <- poisson()
+    power5link <- stats::poisson()
     power5link$link <- "0.2 root link Poisson family"
     power5link$linkfun <- function(mu) {
       (mu / y)^0.2
@@ -191,14 +191,14 @@ adpcproj.estimate <- function(
     power5link$mu.eta <- function(eta) {
       pmax(.Machine$double.eps, 5 * y * eta^4)
     }
-    res.glm <- glm(
+    res.glm <- stats::glm(
       Cases ~
         as.factor(Age) + Period + as.factor(Period) + as.factor(Cohort) - 1,
       data = apcdata,
       family = power5link
     )
   } else if (linkfunc == "log") {
-    res.glm <- glm(
+    res.glm <- stats::glm(
       Cases ~
         as.factor(Age) +
           Period +
@@ -207,26 +207,26 @@ adpcproj.estimate <- function(
           offset(log(y)) -
           1,
       data = apcdata,
-      family = poisson(link = log)
+      family = stats::poisson(link = log)
     )
   } else if (linkfunc == "sqrt") {
-    res.glm <- glm(
+    res.glm <- stats::glm(
       Cases / y ~
         as.factor(Age) + Period + as.factor(Period) + as.factor(Cohort) - 1,
       data = apcdata,
-      family = poisson(link = sqrt)
+      family = stats::poisson(link = sqrt)
     )
   } else if (linkfunc == "identity") {
-    res.glm <- glm(
+    res.glm <- stats::glm(
       Cases / y ~
         as.factor(Age) + Period + as.factor(Period) + as.factor(Cohort) - 1,
       data = apcdata,
-      family = poisson(link = identity)
+      family = stats::poisson(link = identity)
     )
   } else {
     stop("Unknown \"linkfunc\"")
   }
-  pvalue <- 1 - pchisq(res.glm$deviance, res.glm$df.residual)
+  pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   distn <- "Poisson"
 
   ## change model to negative binomial glm when lack of fit:
@@ -250,8 +250,8 @@ adpcproj.estimate <- function(
       )
       theta <- as.numeric(MASS::theta.md(
         apcdata$Cases,
-        fitted(glmnb),
-        dfr = df.residual(glmnb)
+        stats::fitted(glmnb),
+        dfr = stats::df.residual(glmnb)
       ))
       nbpower5link <- MASS::negative.binomial(theta)
       nbpower5link$link <- "0.2 root link negative.binomial(theta) family"
@@ -264,7 +264,7 @@ adpcproj.estimate <- function(
       nbpower5link$mu.eta <- function(eta) {
         pmax(.Machine$double.eps, 5 * y * eta^4)
       }
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases ~
           as.factor(Age) + Period + as.factor(Period) + as.factor(Cohort) - 1,
         data = apcdata,
@@ -300,18 +300,18 @@ adpcproj.estimate <- function(
       stop("Unknown \"linkfunc\"")
     }
     # updating p-value of goodness of fit and distribution function:
-    pvalue <- 1 - pchisq(res.glm$deviance, res.glm$df.residual)
+    pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
     options(warn = 0)
   }
 
   ## setting suggestion for 'recent' (whether to use recent trend or whole trend)
   if (distn == "poisson") {
-    mod1 <- glm(
+    mod1 <- stats::glm(
       Cases ~ as.factor(Age) + Period + as.factor(Cohort) + offset(log(y)) - 1,
       data = apcdata,
-      family = poisson
+      family = stats::poisson
     )
-    mod2 <- glm(
+    mod2 <- stats::glm(
       Cases ~
         as.factor(Age) +
           Period +
@@ -320,10 +320,10 @@ adpcproj.estimate <- function(
           offset(log(y)) -
           1,
       data = apcdata,
-      family = poisson
+      family = stats::poisson
     )
     pdiff <- 1 -
-      pchisq(
+      stats::pchisq(
         (mod1$deviance - mod2$deviance),
         (mod1$df.residual - mod2$df.residual)
       )
@@ -353,7 +353,7 @@ adpcproj.estimate <- function(
     )
     options(warn = 0)
     pdiff <- 1 -
-      pchisq(
+      stats::pchisq(
         (mod2$twologlik - mod1$twologlik),
         (mod1$df.residual - mod2$df.residual)
       )
@@ -825,13 +825,24 @@ plot.adpcproj <- function(
     if (is.null(ylim)) {
       ylim <- c(0, maxy)
     }
-    plot(c(1, maxx), ylim, type = "n", ylab = ylab, xlab = xlab, axes = F, ...)
-    axis(2)
-    axis(1, at = 1:maxx, labels = labels)
-    box()
-    title(main)
+
+    graphics::plot(
+      c(1, maxx),
+      ylim,
+      type = "n",
+      ylab = ylab,
+      xlab = xlab,
+      axes = F,
+      ...
+    )
+
+    graphics::axis(2)
+    graphics::axis(1, at = 1:maxx, labels = labels)
+    graphics::box()
+    graphics::title(main)
   }
-  lines(
+
+  graphics::lines(
     1:(maxx - nopredy),
     indata[1:(maxx - nopredy)],
     type = "o",
@@ -840,7 +851,8 @@ plot.adpcproj <- function(
     col = col[1],
     ...
   )
-  lines(
+
+  graphics::lines(
     (maxx - nopredy):maxx,
     indata[(maxx - nopredy):maxx],
     lty = lty[2],

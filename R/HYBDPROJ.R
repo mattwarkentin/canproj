@@ -167,18 +167,18 @@ hybdproj.estimate <- function(
     lastper <- 5
     projbase <- 5 * nagg
   } else {
-    mod1 <- glm(
+    mod1 <- stats::glm(
       Cases ~ as.factor(Age) + Period + offset(log(y)) - 1,
       data = apdata,
-      family = poisson
+      family = stats::poisson
     )
-    mod2 <- glm(
+    mod2 <- stats::glm(
       Cases ~ as.factor(Age) + as.factor(Age) * Period + offset(log(y)) - 1,
       data = apdata,
-      family = poisson
+      family = stats::poisson
     )
     pdiff <- 1 -
-      pchisq(
+      stats::pchisq(
         (mod1$deviance - mod2$deviance),
         (mod1$df.residual - mod2$df.residual)
       )
@@ -198,17 +198,17 @@ hybdproj.estimate <- function(
     for (i in 1:(dnoperiods - 5)) {
       trydat$Period[trydat$Period <= i] <- 0
       if (mod == "common") {
-        likeh[i] <- glm(
+        likeh[i] <- stats::glm(
           Cases ~ as.factor(Age) + Period + offset(log(y)) - 1,
           data = trydat,
-          family = poisson
+          family = stats::poisson
         )$deviance /
           (-2)
       } else {
-        likeh[i] <- glm(
+        likeh[i] <- stats::glm(
           Cases ~ as.factor(Age) + as.factor(Age) * Period + offset(log(y)) - 1,
           data = trydat,
-          family = poisson
+          family = stats::poisson
         )$deviance /
           (-2)
       }
@@ -223,23 +223,23 @@ hybdproj.estimate <- function(
   }
 
   ## finalize model using the projection base:
-  mode1 <- glm(
+  mode1 <- stats::glm(
     Cases ~ as.factor(Age) + Period + offset(log(y)) - 1,
     data = apdatan,
-    family = poisson
+    family = stats::poisson
   )
-  mode2 <- glm(
+  mode2 <- stats::glm(
     Cases ~ as.factor(Age) + as.factor(Age) * Period + offset(log(y)) - 1,
     data = apdatan,
-    family = poisson
+    family = stats::poisson
   )
   pdiffn <- 1 -
-    pchisq(
+    stats::pchisq(
       (mod1$deviance - mod2$deviance),
       (mod1$df.residual - mod2$df.residual)
     )
   pd1 <- summary(mode1)$coef["Period", 4]
-  pd2 <- 1 - pchisq(mode2$deviance, mode2$df.residual)
+  pd2 <- 1 - stats::pchisq(mode2$deviance, mode2$df.residual)
 
   if (is.null(pdiffn)) {
     if (pd1 > pD) {
@@ -268,7 +268,7 @@ hybdproj.estimate <- function(
     if (linkfunc == "power5") {
       # Creation of power5 link for poisson family:
       y <- apdatan$y
-      power5link <- poisson()
+      power5link <- stats::poisson()
       power5link$link <- "0.2 root link Poisson family"
       power5link$linkfun <- function(mu) {
         (mu / y)^0.2
@@ -280,38 +280,38 @@ hybdproj.estimate <- function(
         pmax(.Machine$double.eps, 5 * y * eta^4)
       }
       #
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases ~ as.factor(Age) + Period - 1,
         data = apdatan,
         family = power5link
       )
     } else if (linkfunc == "log") {
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases ~ as.factor(Age) + Period + offset(log(y)) - 1,
         data = apdatan,
-        family = poisson(link = log)
+        family = stats::poisson(link = log)
       )
     } else if (linkfunc == "sqrt") {
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases / y ~ as.factor(Age) + Period - 1,
         data = apdatan,
-        family = poisson(link = sqrt)
+        family = stats::poisson(link = sqrt)
       )
     } else if (linkfunc == "identity") {
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases / y ~ as.factor(Age) + Period - 1,
         data = apdatan,
-        family = poisson(link = identity)
+        family = stats::poisson(link = identity)
       )
     } else {
       stop("Unknown \"linkfunc\"")
     }
-    pvalue <- 1 - pchisq(res.glm$deviance, res.glm$df.residual)
+    pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   } else if (fmodel == "age-specific") {
     if (linkfunc == "power5") {
       # Creation of power5 link for poisson family:
       y <- apdatan$y
-      power5link <- poisson()
+      power5link <- stats::poisson()
       power5link$link <- "0.2 root link Poisson family"
       power5link$linkfun <- function(mu) {
         (mu / y)^0.2
@@ -323,13 +323,13 @@ hybdproj.estimate <- function(
         pmax(.Machine$double.eps, 5 * y * eta^4)
       }
       #
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
         data = apdatan,
         family = power5link
       )
     } else if (linkfunc == "log") {
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases ~
           as.factor(Age) +
             as.factor(Age) * Period +
@@ -337,24 +337,24 @@ hybdproj.estimate <- function(
             1 -
             Period,
         data = apdatan,
-        family = poisson(link = log)
+        family = stats::poisson(link = log)
       )
     } else if (linkfunc == "sqrt") {
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
         data = apdatan,
-        family = poisson(link = sqrt)
+        family = stats::poisson(link = sqrt)
       )
     } else if (linkfunc == "identity") {
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
         data = apdatan,
-        family = poisson(link = identity)
+        family = stats::poisson(link = identity)
       )
     } else {
       stop("Unknown \"linkfunc\"")
     }
-    pvalue <- 1 - pchisq(res.glm$deviance, res.glm$df.residual)
+    pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   } else if (fmodel == "nba-specific") {
     options(warn = -1)
     if (linkfunc == "power5") {
@@ -372,8 +372,8 @@ hybdproj.estimate <- function(
       )
       theta <- as.numeric(MASS::theta.md(
         apdatan$Cases,
-        fitted(glmnb),
-        dfr = df.residual(glmnb)
+        stats::fitted(glmnb),
+        dfr = stats::df.residual(glmnb)
       ))
       nbpower5link <- MASS::negative.binomial(theta)
       nbpower5link$link <- "0.2 root link negative.binomial(theta) family"
@@ -387,7 +387,7 @@ hybdproj.estimate <- function(
         pmax(.Machine$double.eps, 5 * y * eta^4)
       }
       #
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
         data = apdatan,
         family = nbpower5link
@@ -418,14 +418,14 @@ hybdproj.estimate <- function(
     } else {
       stop("Unknown \"linkfunc\"")
     }
-    pvalue <- 1 - pchisq(res.glm$deviance, res.glm$df.residual)
+    pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
     options(warn = 0)
   } else {
     ## Using age-model -- average method:
     if (linkfunc == "power5") {
       # Creation of power5 link for poisson family:
       y <- apdatan$y
-      power5link <- poisson()
+      power5link <- stats::poisson()
       power5link$link <- "0.2 root link Poisson family"
       power5link$linkfun <- function(mu) {
         (mu / y)^0.2
@@ -437,33 +437,33 @@ hybdproj.estimate <- function(
         pmax(.Machine$double.eps, 5 * y * eta^4)
       }
       #
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases ~ as.factor(Age) - 1,
         data = apdatan,
         family = power5link
       )
     } else if (linkfunc == "log") {
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases ~ as.factor(Age) + offset(log(y)) - 1,
         data = apdatan,
-        family = poisson(link = log)
+        family = stats::poisson(link = log)
       )
     } else if (linkfunc == "sqrt") {
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases / y ~ as.factor(Age) - 1,
         data = apdatan,
-        family = poisson(link = sqrt)
+        family = stats::poisson(link = sqrt)
       )
     } else if (linkfunc == "identity") {
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases / y ~ as.factor(Age) - 1,
         data = apdatan,
-        family = poisson(link = identity)
+        family = stats::poisson(link = identity)
       )
     } else {
       stop("Unknown \"linkfunc\"")
     }
-    pvalue <- 1 - pchisq(res.glm$deviance, res.glm$df.residual)
+    pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   }
 
   ## Set class and return results
@@ -1036,14 +1036,22 @@ plot.hybdproj <- function(
     if (is.null(ylim)) {
       ylim <- c(0, maxy)
     }
-    plot(c(1, maxx), ylim, type = "n", ylab = ylab, xlab = xlab, axes = F, ...)
-    axis(2)
-    axis(1, at = 1:maxx, labels = labels)
-    box()
-    title(main)
+    graphics::plot(
+      c(1, maxx),
+      ylim,
+      type = "n",
+      ylab = ylab,
+      xlab = xlab,
+      axes = F,
+      ...
+    )
+    graphics::axis(2)
+    graphics::axis(1, at = 1:maxx, labels = labels)
+    graphics::box()
+    graphics::title(main)
   }
 
-  lines(
+  graphics::lines(
     1:(maxx - nopredy),
     indata[1:(maxx - nopredy)],
     type = "o",
@@ -1053,7 +1061,7 @@ plot.hybdproj <- function(
     ...
   )
 
-  lines(
+  graphics::lines(
     (maxx - nopredy):maxx,
     indata[(maxx - nopredy):maxx],
     lty = lty[2],

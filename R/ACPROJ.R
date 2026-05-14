@@ -141,7 +141,7 @@ acproj.estimate <- function(
     # Setting population variable
     y <- apcdata$y
     # Make power5 link function for poisson family:
-    power5link <- poisson()
+    power5link <- stats::poisson()
     power5link$link <- "0.2 root link Poisson family"
     power5link$linkfun <- function(mu) {
       (mu / y)^0.2
@@ -152,33 +152,33 @@ acproj.estimate <- function(
     power5link$mu.eta <- function(eta) {
       pmax(.Machine$double.eps, 5 * y * eta^4)
     }
-    res.glm <- glm(
+    res.glm <- stats::glm(
       Cases ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
       data = apcdata,
       family = power5link
     )
   } else if (linkfunc == "log") {
-    res.glm <- glm(
+    res.glm <- stats::glm(
       Cases ~ factor(Age) + relevel(factor(Cohort), midc) + offset(log(y)) - 1,
       data = apcdata,
-      family = poisson(link = log)
+      family = stats::poisson(link = log)
     )
   } else if (linkfunc == "sqrt") {
-    res.glm <- glm(
+    res.glm <- stats::glm(
       Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
       data = apcdata,
-      family = poisson(link = sqrt)
+      family = stats::poisson(link = sqrt)
     )
   } else if (linkfunc == "identity") {
-    res.glm <- glm(
+    res.glm <- stats::glm(
       Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
       data = apcdata,
-      family = poisson(link = identity)
+      family = stats::poisson(link = identity)
     )
   } else {
     stop("Unknown \"linkfunc\"")
   }
-  pvalue <- 1 - pchisq(res.glm$deviance, res.glm$df.residual)
+  pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   distn <- "Poisson"
 
   ## change model to negative binomial glm when lack of fit:
@@ -197,8 +197,8 @@ acproj.estimate <- function(
       )
       theta <- as.numeric(MASS::theta.md(
         apcdata$Cases,
-        fitted(glmnb),
-        dfr = df.residual(glmnb)
+        stats::fitted(glmnb),
+        dfr = stats::df.residual(glmnb)
       ))
       nbpower5link <- MASS::negative.binomial(theta)
       nbpower5link$link <- "0.2 root link negative.binomial(theta) family"
@@ -211,7 +211,7 @@ acproj.estimate <- function(
       nbpower5link$mu.eta <- function(eta) {
         pmax(.Machine$double.eps, 5 * y * eta^4)
       }
-      res.glm <- glm(
+      res.glm <- stats::glm(
         Cases ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
         data = apcdata,
         family = nbpower5link
@@ -239,7 +239,7 @@ acproj.estimate <- function(
       stop("Unknown \"linkfunc\"")
     }
     # updating p-value of goodness of fit and distribution function:
-    pvalue <- 1 - pchisq(res.glm$deviance, res.glm$df.residual)
+    pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
     options(warn = 0)
   }
 
@@ -364,7 +364,7 @@ acproj.prediction <- function(
   ceff <- coeff[-c(1, 2, lncoh - 1, lncoh)]
   lnceff <- length(ceff)
   tt <- 1:lnceff
-  coeflm <- coef(lm(ceff ~ tt - 1))
+  coeflm <- stats::coef(stats::lm(ceff ~ tt - 1))
   ncoeff <- coeflm *
     c((lncoh - 3):(lncoh - 2), (cumsum(1 - cuttrend) + lncoh - 2))
   coheff <- c(coeff[1:(lncoh - 2)], ncoeff) # replace the last 2 cohort by estimates
@@ -638,14 +638,22 @@ plot.acproj <- function(
     if (is.null(ylim)) {
       ylim <- c(0, maxy)
     }
-    plot(c(1, maxx), ylim, type = "n", ylab = ylab, xlab = xlab, axes = F, ...)
-    axis(2)
-    axis(1, at = 1:maxx, labels = labels)
-    box()
-    title(main)
+    graphics::plot(
+      c(1, maxx),
+      ylim,
+      type = "n",
+      ylab = ylab,
+      xlab = xlab,
+      axes = F,
+      ...
+    )
+    graphics::axis(2)
+    graphics::axis(1, at = 1:maxx, labels = labels)
+    graphics::box()
+    graphics::title(main)
   }
 
-  lines(
+  graphics::lines(
     1:(maxx - nopredy),
     indata[1:(maxx - nopredy)],
     type = "o",
@@ -655,7 +663,7 @@ plot.acproj <- function(
     ...
   )
 
-  lines(
+  graphics::lines(
     (maxx - nopredy):maxx,
     indata[(maxx - nopredy):maxx],
     lty = lty[2],

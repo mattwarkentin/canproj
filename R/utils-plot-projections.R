@@ -32,22 +32,21 @@ projplot <- function(
   } else {
     mycol <- c("hotpink", "lightpink", "hotpink", "lightpink2")
   }
-  par(mar = c(4, 4, 2, 4), mgp = c(3, 1, 0), cex = 0.7)
-  barplot(
+  graphics::par(mar = c(4, 4, 2, 4), mgp = c(3, 1, 0), cex = 0.7)
+  graphics::barplot(
     c(case[1:n1], rep(0, n2)),
     col = mycol[1],
     space = 1,
     ylim = c(0, ma * maxn),
-    #            cex.axis=1,xlab="", las=1, xaxs="r", border = NA, axis.lty = 1)
     cex.axis = 1,
     xlab = "",
     las = 1,
     xaxs = "r",
     border = NA
   )
-  abline(h = 0)
-  par(mgp = c(3, 1, 0))
-  barplot(
+  graphics::abline(h = 0)
+  graphics::par(mgp = c(3, 1, 0))
+  graphics::barplot(
     c(rep(0, n1), case[(n1 + 1):n]),
     add = T,
     col = mycol[2],
@@ -57,8 +56,8 @@ projplot <- function(
     xaxs = "r",
     border = NA
   )
-  par(new = T, mar = c(4, 4, 2, 4), mgp = c(3, 1, 0), cex = 1)
-  plot(
+  graphics::par(new = T, mar = c(4, 4, 2, 4), mgp = c(3, 1, 0), cex = 1)
+  graphics::plot(
     c(starty:(starty + n - 1)),
     c(asr[1:n1], rep("", n2)),
     type = "o",
@@ -73,7 +72,7 @@ projplot <- function(
     xlab = "",
     cex.axis = 1
   )
-  lines(
+  graphics::lines(
     c(starty:(starty + n - 1)),
     c(rep("", (n1 - 1)), asr[n1:n]),
     type = "l",
@@ -87,7 +86,11 @@ projplot <- function(
     col = mycol[4],
     cex.axis = 1
   )
-  axis(4, at = seq(0, (mr * maxr), ceiling(maxr / 6)), las = 1, cex.axis = 1)
-  #    axis(4, las=1, cex.axis=1)
-  mtext(side = 4, "", line = 2.5, cex = 1)
+  graphics::axis(
+    4,
+    at = seq(0, (mr * maxr), ceiling(maxr / 6)),
+    las = 1,
+    cex.axis = 1
+  )
+  graphics::mtext(side = 4, "", line = 2.5, cex = 1)
 }
