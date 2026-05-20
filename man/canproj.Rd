@@ -2,10 +2,6 @@
 % Please edit documentation in R/canproj.R
 \name{canproj}
 \alias{canproj}
-\alias{canproj.getproj}
-\alias{summary.canproj}
-\alias{glm.canproj}
-\alias{plot.canproj}
 \title{CANPROJ}
 \usage{
 canproj(
@@ -26,27 +22,6 @@ canproj(
   pD = 0.05,
   pGOF = 0.05,
   standpop = ca11
-)
-
-canproj.getproj(canproj.object, standpop = NULL)
-
-\method{summary}{canproj}(object, ...)
-
-glm.canproj(canproj.object)
-
-\method{plot}{canproj}(
-  canproj.object,
-  standpop,
-  startplot = 1,
-  xlab = "Calendar Year",
-  ylab = "Rates",
-  main = "",
-  labels = NULL,
-  ylim = NULL,
-  lty = c(1, 3),
-  col = c(1, 1),
-  new = T,
-  ...
 )
 }
 \arguments{

@@ -407,7 +407,15 @@ canproj <- function(
 }
 
 
-#' @rdname canproj
+#' canproj.getproj
+#'
+#' Extract projection results.
+#'
+#' @param canproj.object An object based on the 'canproj()' function.
+#' @inheritParams canproj
+#'
+#' @return A `data.frame()`
+#'
 #' @export
 canproj.getproj <- function(canproj.object, standpop = NULL) {
   if (is.null(standpop)) {
@@ -418,7 +426,15 @@ canproj.getproj <- function(canproj.object, standpop = NULL) {
 }
 
 
-#' @rdname canproj
+#' summary.canproj
+#'
+#' Summarize information on projection method used.
+#'
+#' @param object An object based on the 'canproj()' function.
+#' @param ... Other parameters.
+#'
+#' @return An information table describing the method used.
+#'
 #' @export
 summary.canproj <- function(object, ...) {
   summary(object$out)
@@ -426,14 +442,37 @@ summary.canproj <- function(object, ...) {
 }
 
 
-#' @rdname canproj
+#' glm.canproj
+#'
+#' Summarize estimations from the final model.
+#'
+#' @inheritParams canproj.getproj
+#'
+#' @return A summary table from the `glm.object`.
+#'
 #' @export
 glm.canproj <- function(canproj.object) {
   summary(canproj.object$out$glm)
 }
 
-
-#' @rdname canproj
+#' plot.canproj
+#'
+#' Create the graph of the observed and projected age-standardized rates from a
+#' canproj object.
+#'
+#' @inheritParams canproj
+#' @inheritParams canproj.getproj
+#' @param startplot Start for usage of data. Default (`1`) uses all years,
+#'  increasing this number removes the oldest years from the graph.
+#' @param xlab x-axis label
+#' @param ylab y-axis label
+#' @param main Title for graph
+#' @param labels Labels for age groups. `NULL` matches canproj labels.
+#' @param ylim y-axis limit
+#' @param lty Line type. Applies to oberved rates and predicted rates, respectively.
+#' @param col Line colour.Applies to observed rates and predicted rates, respectively.
+#' @param new Produce graph in new window (`T`), or in the same window (`F`).
+#' @param ... Other parameters
 #' @export
 plot.canproj <- function(
   canproj.object,
