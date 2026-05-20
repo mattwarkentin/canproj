@@ -46,7 +46,7 @@ acproj.getpred(
 
 acproj.getproj(cdat, pdat, startp, acproj.object, standpop = NULL)
 
-\method{summary}{acproj}(acproj.object, printpred = F, printcall = F, digits = 0)
+\method{summary}{acproj}(object, printpred = F, printcall = F, digits = 0, ...)
 
 glm.acproj(acproj.object)
 

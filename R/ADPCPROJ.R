@@ -695,28 +695,29 @@ adpcproj.getproj <- function(
 #' @rdname adpcproj
 #' @export
 summary.adpcproj <- function(
-  adpcproj.object,
+  object,
   printpred = F,
   printcall = F,
-  digits = 0
+  digits = 0,
+  ...
 ) {
   method <- "Age-drift-Period-Cohort Model"
-  if (!inherits(adpcproj.object, "adpcproj")) {
-    stop("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
+  if (!inherits(object, "adpcproj")) {
+    stop("Variable \"object\" must be of type \"adpcproj\"")
   }
   # Setting internal variables:
-  obsto <- names(adpcproj.object$predictions)[
-    dim(adpcproj.object$predictions)[2] - adpcproj.object$nopred
+  obsto <- names(object$predictions)[
+    dim(object$predictions)[2] - object$nopred
   ]
 
-  if (!is.null(adpcproj.object$pvaluerecent)) {
-    precent <- round(adpcproj.object$pvaluerecent, 4)
+  if (!is.null(object$pvaluerecent)) {
+    precent <- round(object$pvaluerecent, 4)
   } else {
     precent <- NA
   }
 
-  if (!is.null(adpcproj.object$gofpvalue)) {
-    gofpvalue <- round(adpcproj.object$gofpvalue, 4)
+  if (!is.null(object$gofpvalue)) {
+    gofpvalue <- round(object$gofpvalue, 4)
   } else {
     gofpvalue <- NA
   }
@@ -725,7 +726,7 @@ summary.adpcproj <- function(
   if (printpred) {
     cat("Observed and predicted values:")
     cat("(observations up to", obsto, ")\n")
-    print(round(as.matrix(adpcproj.object$predictions), digits = digits))
+    print(round(as.matrix(object$predictions), digits = digits))
     cat("\n")
   }
   cat("\nPrediction done with:\n")
@@ -745,15 +746,15 @@ summary.adpcproj <- function(
   )
   moptions[, 2] <- c(
     method,
-    adpcproj.object$nopred,
-    paste(adpcproj.object$cuttrend, collapse = " , "),
-    adpcproj.object$noperiod,
-    adpcproj.object$distribution,
+    object$nopred,
+    paste(object$cuttrend, collapse = " , "),
+    object$noperiod,
+    object$distribution,
     gofpvalue,
-    adpcproj.object$recent,
+    object$recent,
     precent,
-    adpcproj.object$startuseage,
-    adpcproj.object$startestage
+    object$startuseage,
+    object$startestage
   )
   maxl <- max(nchar(moptions[, 1]))
 
@@ -764,9 +765,9 @@ summary.adpcproj <- function(
 
   if (printcall) {
     cat("\n  Call: ")
-    dput(attr(adpcproj.object, "Call"))
+    dput(attr(object, "Call"))
   }
-  invisible(adpcproj.object)
+  invisible(object)
 }
 
 

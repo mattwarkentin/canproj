@@ -420,9 +420,9 @@ canproj.getproj <- function(canproj.object, standpop = NULL) {
 
 #' @rdname canproj
 #' @export
-summary.canproj <- function(canproj.object) {
-  summary(canproj.object$out)
-  invisible(canproj.object)
+summary.canproj <- function(object, ...) {
+  summary(object$out)
+  invisible(object)
 }
 
 

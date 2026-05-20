@@ -10,7 +10,7 @@ ave5proj(cdat, pdat, startp, sum5 = NULL)
 
 ave5proj.getproj(pdat, ave5proj.object, standpop = NULL)
 
-\method{summary}{ave5proj}(ave5proj.object, printcall = FALSE, digits = 0)
+\method{summary}{ave5proj}(object, printcall = FALSE, digits = 0, ...)
 }
 \arguments{
 \item{cdat}{19(age groups)*N(years) historical cancer data, 15<=N<=125.}

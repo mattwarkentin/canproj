@@ -514,28 +514,29 @@ acproj.getproj <- function(cdat, pdat, startp, acproj.object, standpop = NULL) {
 }
 
 
-## Summaring methods used for the projection:
+## Summarizing methods used for the projection:
 #' @rdname acproj
 #' @export
 summary.acproj <- function(
-  acproj.object,
+  object,
   printpred = F,
   printcall = F,
-  digits = 0
+  digits = 0,
+  ...
 ) {
   method <- "Age-Cohort Model"
 
-  if (!inherits(acproj.object, "acproj")) {
-    stop("Variable \"acproj.object\" must be of type \"acproj\"")
+  if (!inherits(object, "acproj")) {
+    stop("Variable \"object\" must be of type \"acproj\"")
   }
 
   # Setting internal variables:
-  obsto <- names(acproj.object$predictions)[
-    dim(acproj.object$predictions)[2] - acproj.object$nopred
+  obsto <- names(object$predictions)[
+    dim(object$predictions)[2] - object$nopred
   ]
 
-  if (!is.null(acproj.object$gofpvalue)) {
-    gofpvalue <- round(acproj.object$gofpvalue, 4)
+  if (!is.null(object$gofpvalue)) {
+    gofpvalue <- round(object$gofpvalue, 4)
   } else {
     gofpvalue <- NA
   }
@@ -544,7 +545,7 @@ summary.acproj <- function(
   if (printpred) {
     cat("Observed and predicted values:")
     cat("(observations up to", obsto, ")\n")
-    print(round(as.matrix(acproj.object$predictions), digits = digits))
+    print(round(as.matrix(object$predictions), digits = digits))
     cat("\n")
   }
   cat("\nPrediction done with:\n")
@@ -561,12 +562,12 @@ summary.acproj <- function(
   )
   moptions[, 2] <- c(
     method,
-    acproj.object$nopred,
-    paste(acproj.object$cuttrend, collapse = " , "),
-    acproj.object$noperiod,
-    acproj.object$distribution,
+    object$nopred,
+    paste(object$cuttrend, collapse = " , "),
+    object$noperiod,
+    object$distribution,
     gofpvalue,
-    acproj.object$startestage
+    object$startestage
   )
 
   maxl <- max(nchar(moptions[, 1]))
@@ -577,9 +578,9 @@ summary.acproj <- function(
   }
   if (printcall) {
     cat("\n  Call: ")
-    dput(attr(acproj.object, "Call"))
+    dput(attr(object, "Call"))
   }
-  invisible(acproj.object)
+  invisible(object)
 }
 
 ## Obtaining modeling info and parameter estimates:

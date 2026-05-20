@@ -30,7 +30,7 @@ canproj(
 
 canproj.getproj(canproj.object, standpop = NULL)
 
-\method{summary}{canproj}(canproj.object)
+\method{summary}{canproj}(object, ...)
 
 glm.canproj(canproj.object)
 

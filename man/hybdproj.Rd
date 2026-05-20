@@ -55,7 +55,7 @@ hybdproj.getproj(
   sum5 = NULL
 )
 
-\method{summary}{hybdproj}(hybdproj.object, printpred = F, printcall = F, digits = 0)
+\method{summary}{hybdproj}(object, printpred = F, printcall = F, digits = 0, ...)
 
 glm.hybdproj(hybdproj.object)
 

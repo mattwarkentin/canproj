@@ -103,20 +103,20 @@ ave5proj.getproj <- function(pdat, ave5proj.object, standpop = NULL) {
 
 #' @rdname ave5proj
 #' @export
-summary.ave5proj <- function(ave5proj.object, printcall = FALSE, digits = 0) {
-  if (!inherits(ave5proj.object, "ave5proj")) {
+summary.ave5proj <- function(object, printcall = FALSE, digits = 0, ...) {
+  if (!inherits(object, "ave5proj")) {
     stop("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
   }
 
   method <- "Five-Year Average"
 
-  if (is.null(ave5proj.object$sum5)) {
+  if (is.null(object$sum5)) {
     sum5 <- "5-year period"
   } else {
     sum5 <- "average yearly-rates"
   }
 
-  noypred <- ave5proj.object$noypred
+  noypred <- object$noypred
 
   cat("\nPrediction done with:\n")
 
@@ -139,8 +139,8 @@ summary.ave5proj <- function(ave5proj.object, printcall = FALSE, digits = 0) {
 
   if (printcall) {
     cat("\n  Call: ")
-    dput(attr(ave5proj.object, "Call"))
+    dput(attr(object, "Call"))
   }
 
-  invisible(ave5proj.object)
+  invisible(object)
 }

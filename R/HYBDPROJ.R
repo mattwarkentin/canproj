@@ -896,30 +896,31 @@ hybdproj.getproj <- function(
 #' @rdname hybdproj
 #' @export
 summary.hybdproj <- function(
-  hybdproj.object,
+  object,
   printpred = F,
   printcall = F,
-  digits = 0
+  digits = 0,
+  ...
 ) {
   method <- "Hybrid approach"
 
-  if (!inherits(hybdproj.object, "hybdproj")) {
-    stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
+  if (!inherits(object, "hybdproj")) {
+    stop("Variable \"object\" must be of type \"hybdproj\"")
   }
 
   # Setting internal variables:
-  nototper <- hybdproj.object$nototper
-  noobsper <- hybdproj.object$noobsper
-  nopred <- hybdproj.object$nopred
-  noypred <- (hybdproj.object$nopred) * (hybdproj.object$noyearagg)
-  noperiod <- hybdproj.object$noperiod
-  obsto <- names(hybdproj.object$predictions)[
-    dim(hybdproj.object$predictions)[2] - nopred
+  nototper <- object$nototper
+  noobsper <- object$noobsper
+  nopred <- object$nopred
+  noypred <- (object$nopred) * (object$noyearagg)
+  noperiod <- object$noperiod
+  obsto <- names(object$predictions)[
+    dim(object$predictions)[2] - nopred
   ]
-  predcases <- hybdproj.object$predictions[, (noobsper + 1):(nototper)]
+  predcases <- object$predictions[, (noobsper + 1):(nototper)]
 
-  if (!is.null(hybdproj.object$gofpvalue)) {
-    gofpvalue <- round(hybdproj.object$gofpvalue, 4)
+  if (!is.null(object$gofpvalue)) {
+    gofpvalue <- round(object$gofpvalue, 4)
   } else {
     gofpvalue <- NA
   }
@@ -953,16 +954,16 @@ summary.hybdproj <- function(
   moptions[, 2] <- c(
     method,
     noypred,
-    hybdproj.object$shortp,
-    hybdproj.object$cuttrd,
-    hybdproj.object$projbase,
-    hybdproj.object$noyearagg,
-    hybdproj.object$nocaseagp,
-    hybdproj.object$finalmod,
-    hybdproj.object$linkfunc,
+    object$shortp,
+    object$cuttrd,
+    object$projbase,
+    object$noyearagg,
+    object$nocaseagp,
+    object$finalmod,
+    object$linkfunc,
     gofpvalue,
-    paste(hybdproj.object$agrpmod, collapse = ","),
-    paste(hybdproj.object$agrpave, collapse = ",")
+    paste(object$agrpmod, collapse = ","),
+    paste(object$agrpave, collapse = ",")
   )
 
   maxl <- max(nchar(moptions[, 1]))
@@ -974,10 +975,10 @@ summary.hybdproj <- function(
 
   if (printcall) {
     cat("\n  Call: ")
-    dput(attr(hybdproj.object, "Call"))
+    dput(attr(object, "Call"))
   }
 
-  invisible(hybdproj.object)
+  invisible(object)
 }
 
 

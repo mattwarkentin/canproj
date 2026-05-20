@@ -54,7 +54,7 @@ adpcproj.getpred(
 
 adpcproj.getproj(cdat, pdat, startp, adpcproj.object, standpop = NULL)
 
-\method{summary}{adpcproj}(adpcproj.object, printpred = F, printcall = F, digits = 0)
+\method{summary}{adpcproj}(object, printpred = F, printcall = F, digits = 0, ...)
 
 glm.adpcproj(adpcproj.object)
 
