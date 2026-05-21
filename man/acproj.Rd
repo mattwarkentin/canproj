@@ -2,13 +2,6 @@
 % Please edit documentation in R/ACPROJ.R
 \name{acproj}
 \alias{acproj}
-\alias{acproj.estimate}
-\alias{acproj.prediction}
-\alias{acproj.getpred}
-\alias{acproj.getproj}
-\alias{summary.acproj}
-\alias{glm.acproj}
-\alias{plot.acproj}
 \title{ACPROJ}
 \usage{
 acproj(
@@ -22,50 +15,6 @@ acproj(
   shortp = 0,
   pGOF = 0.05,
   linkfunc = "power5"
-)
-
-acproj.estimate(
-  cases,
-  pyr,
-  noperiod,
-  startestage,
-  pGOF = 0.05,
-  linkfunc = "power5"
-)
-
-acproj.prediction(acproj.estimate.object, cuttrd = 0.04, shortp = 0)
-
-acproj.getpred(
-  acproj.object,
-  incidence = T,
-  standpop = NULL,
-  excludeobs = F,
-  byage,
-  agegroups = "all"
-)
-
-acproj.getproj(cdat, pdat, startp, acproj.object, standpop = NULL)
-
-\method{summary}{acproj}(object, printpred = F, printcall = F, digits = 0, ...)
-
-glm.acproj(acproj.object)
-
-\method{plot}{acproj}(
-  cdat,
-  pdat,
-  startp,
-  acproj.object,
-  standpop,
-  startplot = 1,
-  xlab = "Calendar Year",
-  ylab = "Rates",
-  main = "",
-  labels = NULL,
-  ylim = NULL,
-  lty = c(1, 3),
-  col = c(1, 1),
-  new = T,
-  ...
 )
 }
 \arguments{
@@ -89,10 +38,9 @@ uses a goodness-of-fit test to determine if ancient periods are removed.}
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
 
 \item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
-
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
-
-\item{startp}{The start calendar year of projection, e.g. 2009.}
+}
+\value{
+A \code{list()}.
 }
 \description{
 R functions for projection of cancer incidence/mortality. Revising and

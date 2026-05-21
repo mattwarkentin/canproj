@@ -9,6 +9,8 @@
 #' @param noperiods List of candidate periods for projection base. Default (`NULL`)
 #'  uses a goodness-of-fit test to determine if ancient periods are removed.
 #'
+#' @return A `list()`.
+#'
 #' @export
 acproj <- function(
   cdat,
@@ -76,8 +78,17 @@ acproj <- function(
 }
 
 
-## Fitting models:
-#' @rdname acproj
+#' acproj.estimate
+#'
+#' Fit age-cohort models
+#'
+#' @inheritParams canproj
+#' @param cases `data.frame` with number of cases in `nagg`-year period by ascending age groups in row.
+#' @param pyr `data.frame` with observed and projected population size in `nagg`-year.
+#' @param noperiod Number of 5-year periods in historical data.
+#'
+#' @return A `list()`.
+#'
 #' @export
 acproj.estimate <- function(
   cases,
@@ -262,8 +273,15 @@ acproj.estimate <- function(
 }
 
 
-## Project age-specific rates:
-#' @rdname acproj
+#' acproj.prediction
+#'
+#' Extrapolate estimated trend from age-cohort model
+#'
+#' @inheritParams canproj
+#' @param acproj.estimate.object An object based on the `acproj.estimate()` function.
+#'
+#' @return A `list()`.
+#'
 #' @export
 acproj.prediction <- function(
   acproj.estimate.object,
@@ -410,8 +428,21 @@ acproj.prediction <- function(
 }
 
 
-## Summary Projection Results by 5-year Period(ASR and total number):
-#' @rdname acproj
+#' acproj.getpred
+#'
+#' Extract projection results by 5-year period
+#'
+#' @inheritParams canproj
+#' @param acproj.object An object based on the `acproj()` function.
+#' @param incidence Whether to give rates (`T`) or numbers (`F`).
+#' @param excludeobs Whether to include observed values (`T` or `F`).
+#' @param byage Report numbers by age groups (`T`), or use age-standardized rates (`F`).
+#' @param agegroups Age groups to include. "all" (default) includes all age groups,
+#'  and individual groups can be selected by group number. E.g. c(1:3, 7) includes
+#'  the first 3 groups and the seventh group.
+#'
+#' @return A `data.frame()`.
+#'
 #' @export
 acproj.getpred <- function(
   acproj.object,
@@ -497,8 +528,15 @@ acproj.getpred <- function(
 }
 
 
-## Summary Annual Projection Results:
-#' @rdname acproj
+#' acproj.getproj
+#'
+#' Extract annual projection results
+#'
+#' @inheritParams canproj
+#' @inheritParams acproj.getpred
+#'
+#' @return A `data.frame()`.
+#'
 #' @export
 acproj.getproj <- function(cdat, pdat, startp, acproj.object, standpop = NULL) {
   r0 <- acproj.getpred(acproj.object, incidence = T)
@@ -514,8 +552,18 @@ acproj.getproj <- function(cdat, pdat, startp, acproj.object, standpop = NULL) {
 }
 
 
-## Summarizing methods used for the projection:
-#' @rdname acproj
+#' summary.acproj
+#'
+#' Summarize information on projection method used.
+#'
+#' @param object An object based on the 'acproj()' function.
+#' @param printpred Whether to print the observed and predicted number of cases (`T` or `F`).
+#' @param printcall Whether to print function `Call` for acproj.object (`T` or `F`).
+#' @param digits Number of digits in output, default (`0`) is integer only.
+#' @param ... Other parameters.
+#'
+#' @return An information table describing the method used.
+#'
 #' @export
 summary.acproj <- function(
   object,
@@ -583,15 +631,30 @@ summary.acproj <- function(
   invisible(object)
 }
 
-## Obtaining modeling info and parameter estimates:
-#' @rdname acproj
+
+#' glm.acproj
+#'
+#' Summarize estimations from the final model.
+#'
+#' @inheritParams acproj.getpred
+#'
+#' @return A summary table from the `glm.object`.
+#'
 #' @export
 glm.acproj <- function(acproj.object) {
   summary(acproj.object$glm)
 }
 
-## Ploting prejected standardized rates:
-#' @rdname acproj
+
+#' plot.acproj
+#'
+#' Create the graph of the observed and projected age-standardized rates from a
+#' acproj object
+#'
+#' @inheritParams plot.canproj
+#' @inheritParams canproj
+#' @inheritParams acproj.getpred
+#'
 #' @export
 plot.acproj <- function(
   cdat,
