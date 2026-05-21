@@ -6,6 +6,8 @@
 #'
 #' @inheritParams canproj
 #'
+#' @return A `list()`.
+#'
 #' @export
 hybdproj <- function(
   cdat,
@@ -101,8 +103,17 @@ hybdproj <- function(
 }
 
 
-## Fitting models for data B:
-#' @rdname hybdproj
+#' hybdproj.estimate
+#'
+#' Define projection base, model selection, and fitting
+#'
+#' @inheritParams canproj
+#' @param cases `data.frame` with number of cases in `nagg`-year period by ascending age groups in row.
+#' @param pyr `data.frame` with observed and projected population size in `nagg`-year.
+#'  period by ascending age groups in row.
+#'
+#' @return A `list()`.
+#'
 #' @export
 hybdproj.estimate <- function(
   cases,
@@ -489,8 +500,16 @@ hybdproj.estimate <- function(
 }
 
 
-## Project age-specific numbers:
-#' @rdname hybdproj
+#' hybdproj.prediction
+#'
+#' Extrapolate estimated trend from the final model
+#'
+#' @inheritParams canproj
+#'
+#' @param hybdproj.estimate.object An object based on the `hybdproj.estimate` function.
+#'
+#' @return A `list()`.
+#'
 #' @export
 hybdproj.prediction <- function(
   hybdproj.estimate.object,
@@ -756,8 +775,21 @@ hybdproj.prediction <- function(
 }
 
 
-## Summary Projection Results (ASR and total number):
-#' @rdname hybdproj
+#' hybdproj.getpred
+#'
+#' Extract projection results by n-year period
+#'
+#' @inheritParams canproj
+#' @param incidence Whether to give rates (`T`) or numbers (`F`).
+#' @param hybdproj.object An object based on the 'hybdproj()' function.
+#' @param excludeobs Whether to include observed values (`T` or `F`).
+#' @param byage Report numbers by age groups (`T`), or use age-standardized rates (`F`).
+#' @param agegroups Age groups to include. "all" (default) includes all age groups,
+#'  and individual groups can be selected by group number. E.g. c(1:3, 7) includes
+#'  the first 3 groups and the seventh group.
+#'
+#' @return A `data.frame()`.
+#'
 #' @export
 hybdproj.getpred <- function(
   hybdproj.object,
@@ -795,11 +827,11 @@ hybdproj.getpred <- function(
     }
   }
 
-  ## Seting local data:
+  ## Setting local data:
   datatable <- hybdproj.object$predictions
   pyr <- data.frame(hybdproj.object$pyr)
 
-  ## Secting agegroups:
+  ## Selecting agegroups:
   if (agegroups[1] != "all") {
     datatable <- datatable[agegroups, ]
     pyr <- pyr[agegroups, ]
@@ -843,8 +875,15 @@ hybdproj.getpred <- function(
 }
 
 
-## Summary Annual Projection Results:
-#' @rdname hybdproj
+#' hybdproj.getproj
+#'
+#' Extract projection results.
+#'
+#' @inheritParams hybdproj.getpred
+#' @inheritParams canproj
+#'
+#' @return A `data.frame()`.
+#'
 #' @export
 hybdproj.getproj <- function(
   cdat,
@@ -892,8 +931,18 @@ hybdproj.getproj <- function(
 }
 
 
-## summary results:
-#' @rdname hybdproj
+#' summary.hybdproj
+#'
+#' Summarize information on projection method used.
+#'
+#' @param object An object based on the 'hybdproj()' function.
+#' @param printpred Whether to print the obeserved and predicted number of cases (`T` or `F`).
+#' @param printcall Whether to print function `Call` for hybd.object (`T` or `F`).
+#' @param digits Number of digits in output, default (`0`) is integer only.
+#' @param ... Other parameters.
+#'
+#' @return An information table describing the method used.
+#'
 #' @export
 summary.hybdproj <- function(
   object,
@@ -982,14 +1031,29 @@ summary.hybdproj <- function(
 }
 
 
-#' @rdname hybdproj
+#' glm.hybdproj
+#'
+#' Summarize estimations from the final model.
+#'
+#' @inheritParams hybdproj.getpred
+#'
+#' @return A summary table from the `glm.object`.
+#'
 #' @export
 glm.hybdproj <- function(hybdproj.object) {
   summary(hybdproj.object$glm)
 }
 
 
-#' @rdname hybdproj
+#' plot.hybdproj
+#'
+#' Create the graph of the observed and projected age-standardized rates from a
+#' hybdproj object
+#'
+#' @inheritParams plot.canproj
+#' @inheritParams canproj
+#' @inheritParams hybdproj.getpred
+#'
 #' @export
 plot.hybdproj <- function(
   cdat,

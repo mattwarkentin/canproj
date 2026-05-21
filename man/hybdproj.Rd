@@ -2,13 +2,6 @@
 % Please edit documentation in R/HYBDPROJ.R
 \name{hybdproj}
 \alias{hybdproj}
-\alias{hybdproj.estimate}
-\alias{hybdproj.prediction}
-\alias{hybdproj.getpred}
-\alias{hybdproj.getproj}
-\alias{summary.hybdproj}
-\alias{glm.hybdproj}
-\alias{plot.hybdproj}
 \title{HYBDPROJ}
 \usage{
 hybdproj(
@@ -22,59 +15,6 @@ hybdproj(
   linkfunc = "power5",
   pD = 0.05,
   pGOF = 0.05
-)
-
-hybdproj.estimate(
-  cases,
-  pyr,
-  nagg,
-  ncase,
-  linkfunc = "power5",
-  pD = 0.05,
-  pGOF = 0.05
-)
-
-hybdproj.prediction(hybdproj.estimate.object, cuttrd = 0.04, shortp = 0)
-
-hybdproj.getpred(
-  hybdproj.object,
-  incidence = T,
-  standpop = NULL,
-  excludeobs = F,
-  byage,
-  agegroups = "all"
-)
-
-hybdproj.getproj(
-  cdat,
-  pdat,
-  startp,
-  hybdproj.object,
-  standpop = NULL,
-  Ave5 = NULL,
-  sum5 = NULL
-)
-
-\method{summary}{hybdproj}(object, printpred = F, printcall = F, digits = 0, ...)
-
-glm.hybdproj(hybdproj.object)
-
-\method{plot}{hybdproj}(
-  cdat,
-  pdat,
-  startp,
-  hybdproj.object,
-  standpop,
-  startplot = 1,
-  xlab = "Calendar Year",
-  ylab = "Rates",
-  main = "",
-  labels = NULL,
-  ylim = NULL,
-  lty = c(1, 3),
-  col = c(1, 1),
-  new = T,
-  ...
 )
 }
 \arguments{
@@ -97,15 +37,9 @@ glm.hybdproj(hybdproj.object)
 \item{pD}{Trend selecting criteria of p-value of drift (linear trend) term.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
-
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
-
-\item{startp}{The start calendar year of projection, e.g. 2009.}
-
-\item{Ave5}{Ave5=T invokes the 5 year average method when age-only model is selected.}
-
-\item{sum5}{When the 5-year average method is used, sum5=NULL call the 5-year
-period based rate,otherwise, average the 5 rates in the 5 years for each age group.}
+}
+\value{
+A \code{list()}.
 }
 \description{
 R functions for projection of cancer incidence/mortality using the modified

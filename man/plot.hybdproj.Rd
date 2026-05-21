@@ -29,6 +29,8 @@
 
 \item{startp}{The start calendar year of projection, e.g. 2009.}
 
+\item{hybdproj.object}{An object based on the 'hybdproj()' function.}
+
 \item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
 
 \item{startplot}{Start for usage of data. Default (\code{1}) uses all years,
