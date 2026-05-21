@@ -87,7 +87,15 @@ ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
 }
 
 
-#' @rdname ave5proj
+#' ave5proj.getproj
+#'
+#' Extract the projection results
+#'
+#' @inheritParams canproj
+#' @param ave5proj.object An object based on the `ave5proj()` function.
+#'
+#' @return A `data.frame()`.
+#'
 #' @export
 ave5proj.getproj <- function(pdat, ave5proj.object, standpop = NULL) {
   outasp <- ave5proj.object$agsproj
@@ -101,7 +109,17 @@ ave5proj.getproj <- function(pdat, ave5proj.object, standpop = NULL) {
 }
 
 
-#' @rdname ave5proj
+#' summary.ave5proj
+#'
+#' Summarize information on projection method used.
+#'
+#' @param object An object based on the `ave5proj()` function.
+#' @param printcall Whether to print function `Call` for hybd.object (`T` or `F`).
+#' @param digits Number of digits in output, default (`0`) is integer only.
+#' @param ... Other parameters
+#'
+#' @return An information table describing the method used.
+#'
 #' @export
 summary.ave5proj <- function(object, printcall = FALSE, digits = 0, ...) {
   if (!inherits(object, "ave5proj")) {

@@ -2,15 +2,9 @@
 % Please edit documentation in R/Average5.R
 \name{ave5proj}
 \alias{ave5proj}
-\alias{ave5proj.getproj}
-\alias{summary.ave5proj}
 \title{Average5}
 \usage{
 ave5proj(cdat, pdat, startp, sum5 = NULL)
-
-ave5proj.getproj(pdat, ave5proj.object, standpop = NULL)
-
-\method{summary}{ave5proj}(object, printcall = FALSE, digits = 0, ...)
 }
 \arguments{
 \item{cdat}{19(age groups)*N(years) historical cancer data, 15<=N<=125.}
@@ -21,8 +15,6 @@ ave5proj.getproj(pdat, ave5proj.object, standpop = NULL)
 
 \item{sum5}{When the 5-year average method is used, sum5=NULL call the 5-year
 period based rate,otherwise, average the 5 rates in the 5 years for each age group.}
-
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
 }
 \value{
 A \code{list()}.
