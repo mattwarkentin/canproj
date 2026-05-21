@@ -936,8 +936,8 @@ hybdproj.getproj <- function(
 #' Summarize information on projection method used.
 #'
 #' @param object An object based on the 'hybdproj()' function.
-#' @param printpred Whether to print the obeserved and predicted number of cases (`T` or `F`).
-#' @param printcall Whether to print function `Call` for hybd.object (`T` or `F`).
+#' @param printpred Whether to print the observed and predicted number of cases (`T` or `F`).
+#' @param printcall Whether to print function `Call` for hybdproj.object (`T` or `F`).
 #' @param digits Number of digits in output, default (`0`) is integer only.
 #' @param ... Other parameters.
 #'

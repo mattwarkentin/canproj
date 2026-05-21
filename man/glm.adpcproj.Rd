@@ -2,12 +2,12 @@
 % Please edit documentation in R/ADPCPROJ.R
 \name{glm.adpcproj}
 \alias{glm.adpcproj}
-\title{glm.hybdproj}
+\title{glm.adpcproj}
 \usage{
 glm.adpcproj(adpcproj.object)
 }
 \arguments{
-\item{adpcproj.object}{An object based on the \code{adpcprojo()} function.}
+\item{adpcproj.object}{An object based on the \code{adpcproj()} function.}
 }
 \value{
 A summary table from the \code{glm.object}.

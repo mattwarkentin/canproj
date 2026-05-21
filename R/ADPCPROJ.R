@@ -737,8 +737,8 @@ adpcproj.getproj <- function(
 #' Summarize information on projection method used.
 #'
 #' @param object An object based on the 'adpcproj()' function.
-#' @param printpred Whether to print the obeserved and predicted number of cases (`T` or `F`).
-#' @param printcall Whether to print function `Call` for adpc.object (`T` or `F`).
+#' @param printpred Whether to print the observed and predicted number of cases (`T` or `F`).
+#' @param printcall Whether to print function `Call` for adpcproj.object (`T` or `F`).
 #' @param digits Number of digits in output, default (`0`) is integer only.
 #' @param ... Other parameters.
 #'
@@ -822,7 +822,7 @@ summary.adpcproj <- function(
 }
 
 
-#' glm.hybdproj
+#' glm.adpcproj
 #'
 #' Summarize estimations from the final model.
 #'

@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{An object based on the \code{ave5proj()} function.}
 
-\item{printcall}{Whether to print function \code{Call} for hybd.object (\code{T} or \code{F}).}
+\item{printcall}{Whether to print function \code{Call} for ave5proj.object (\code{T} or \code{F}).}
 
 \item{digits}{Number of digits in output, default (\code{0}) is integer only.}
 

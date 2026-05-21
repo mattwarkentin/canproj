@@ -9,9 +9,9 @@
 \arguments{
 \item{object}{An object based on the 'hybdproj()' function.}
 
-\item{printpred}{Whether to print the obeserved and predicted number of cases (\code{T} or \code{F}).}
+\item{printpred}{Whether to print the observed and predicted number of cases (\code{T} or \code{F}).}
 
-\item{printcall}{Whether to print function \code{Call} for hybd.object (\code{T} or \code{F}).}
+\item{printcall}{Whether to print function \code{Call} for hybdproj.object (\code{T} or \code{F}).}
 
 \item{digits}{Number of digits in output, default (\code{0}) is integer only.}
 

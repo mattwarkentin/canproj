@@ -29,7 +29,7 @@
 
 \item{startp}{The start calendar year of projection, e.g. 2009.}
 
-\item{adpcproj.object}{An object based on the \code{adpcprojo()} function.}
+\item{adpcproj.object}{An object based on the \code{adpcproj()} function.}
 
 \item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
 
