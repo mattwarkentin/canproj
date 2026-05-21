@@ -2,13 +2,6 @@
 % Please edit documentation in R/ADPCPROJ.R
 \name{adpcproj}
 \alias{adpcproj}
-\alias{adpcproj.estimate}
-\alias{adpcproj.prediction}
-\alias{adpcproj.getpred}
-\alias{adpcproj.getproj}
-\alias{summary.adpcproj}
-\alias{glm.adpcproj}
-\alias{plot.adpcproj}
 \title{ADPCPROJ}
 \usage{
 adpcproj(
@@ -24,56 +17,6 @@ adpcproj(
   cuttrd = 0.04,
   shortp = 0,
   linkfunc = "power5"
-)
-
-adpcproj.estimate(
-  cases,
-  pyr,
-  noperiod,
-  startestage,
-  pGOF = 0.05,
-  linkfunc = "power5"
-)
-
-adpcproj.prediction(
-  adpcproj.estimate.object,
-  startuseage,
-  recent,
-  shortp = 0,
-  cuttrd = 0.04
-)
-
-adpcproj.getpred(
-  adpcproj.object,
-  incidence = T,
-  standpop = NULL,
-  excludeobs = F,
-  byage,
-  agegroups = "all"
-)
-
-adpcproj.getproj(cdat, pdat, startp, adpcproj.object, standpop = NULL)
-
-\method{summary}{adpcproj}(object, printpred = F, printcall = F, digits = 0, ...)
-
-glm.adpcproj(adpcproj.object)
-
-\method{plot}{adpcproj}(
-  cdat,
-  pdat,
-  startp,
-  adpcproj.object,
-  standpop,
-  startplot = 1,
-  xlab = "Calendar Year",
-  ylab = "Rates",
-  main = "",
-  labels = NULL,
-  ylim = NULL,
-  lty = c(1, 3),
-  col = c(1, 1),
-  new = T,
-  ...
 )
 }
 \arguments{
@@ -103,10 +46,9 @@ cohort effect (T), default is 0, use "T" only if having evidence on negative new
 \item{shortp}{Attenuation percent of drift term or slope for the first 5 projection years.}
 
 \item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
-
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
-
-\item{startp}{The start calendar year of projection, e.g. 2009.}
+}
+\value{
+A \code{list()}.
 }
 \description{
 R functions for projection of cancer incidence/mortality. Revising nordpred

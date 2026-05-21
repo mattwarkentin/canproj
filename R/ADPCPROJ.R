@@ -12,6 +12,8 @@
 #' @param recent Estimate drift term from recent trend (`T`) or whole trend (`F`).
 #'  Default (`NULL`) uses compares models to pick.
 #'
+#' @return A `list()`.
+#'
 #' @export
 adpcproj <- function(
   cdat,
@@ -114,8 +116,17 @@ adpcproj <- function(
 }
 
 
-## Fitting models:
-#' @rdname adpcproj
+#' adpcproj.estimate
+#'
+#' Fit age-drift-period-cohort models
+#'
+#' @inheritParams canproj
+#' @param cases `data.frame` with number of cases in `nagg`-year period by ascending age groups in row.
+#' @param pyr `data.frame` with observed and projected population size in `nagg`-year.
+#' @param noperiod Number of 5-year periods in historical data.
+#'
+#' @return A `list()`.
+#'
 #' @export
 adpcproj.estimate <- function(
   cases,
@@ -385,8 +396,17 @@ adpcproj.estimate <- function(
 }
 
 
-## Project age-specific rates:
-#' @rdname adpcproj
+#' adpcproj.prediction
+#'
+#' Extrapolate estimated trend from age-drift-period-cohort model
+#'
+#' @inheritParams canproj
+#' @param adpcproj.estimate.object An object based on the `adpcproj.estimate()` function.
+#' @param startuseage Youngest age group to use estimates from the GLM for projection.
+#' @param recent Indicate estimated drift term from recent trend (`T`) or whole trend (`F`).
+#'
+#' @return A `list()`.
+#'
 #' @export
 adpcproj.prediction <- function(
   adpcproj.estimate.object,
@@ -584,8 +604,21 @@ adpcproj.prediction <- function(
 }
 
 
-## Summary Projection Results by 5-year period(ASR and total number):
-#' @rdname adpcproj
+#' adpcproj.getpred
+#'
+#' Extract projection results by 5-year period
+#'
+#' @inheritParams canproj
+#' @param adpcproj.object An object based on the `adpcproj()` function.
+#' @param incidence Whether to give rates (`T`) or numbers (`F`).
+#' @param excludeobs Whether to include observed values (`T` or `F`).
+#' @param byage Report numbers by age groups (`T`), or use age-standardized rates (`F`).
+#' @param agegroups Age groups to include. "all" (default) includes all age groups,
+#'  and individual groups can be selected by group number. E.g. c(1:3, 7) includes
+#'  the first 3 groups and the seventh group.
+#'
+#' @return A `data.frame()`.
+#'
 #' @export
 adpcproj.getpred <- function(
   adpcproj.object,
@@ -671,8 +704,15 @@ adpcproj.getpred <- function(
 }
 
 
-## Summary Annual Projection Results:
-#' @rdname adpcproj
+#' adpcproj.getproj
+#'
+#' Extract annual projection results
+#'
+#' @inheritParams canproj
+#' @inheritParams adpcproj.getpred
+#'
+#' @return A `data.frame()`.
+#'
 #' @export
 adpcproj.getproj <- function(
   cdat,
@@ -692,7 +732,18 @@ adpcproj.getproj <- function(
 }
 
 
-#' @rdname adpcproj
+#' summary.adpcproj
+#'
+#' Summarize information on projection method used.
+#'
+#' @param object An object based on the 'adpcproj()' function.
+#' @param printpred Whether to print the obeserved and predicted number of cases (`T` or `F`).
+#' @param printcall Whether to print function `Call` for adpc.object (`T` or `F`).
+#' @param digits Number of digits in output, default (`0`) is integer only.
+#' @param ... Other parameters.
+#'
+#' @return An information table describing the method used.
+#'
 #' @export
 summary.adpcproj <- function(
   object,
@@ -771,14 +822,29 @@ summary.adpcproj <- function(
 }
 
 
-#' @rdname adpcproj
+#' glm.hybdproj
+#'
+#' Summarize estimations from the final model.
+#'
+#' @inheritParams adpcproj.getpred
+#'
+#' @return A summary table from the `glm.object`.
+#'
 #' @export
 glm.adpcproj <- function(adpcproj.object) {
   summary(adpcproj.object$glm)
 }
 
 
-#' @rdname adpcproj
+#' plot.adpcproj
+#'
+#' Create the graph of the observed and projected age-standardized rates from a
+#' adpcproj object
+#'
+#' @inheritParams plot.canproj
+#' @inheritParams canproj
+#' @inheritParams adpcproj.getpred
+#'
 #' @export
 plot.adpcproj <- function(
   cdat,
