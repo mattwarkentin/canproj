@@ -5,10 +5,10 @@
 \title{plot.acproj}
 \usage{
 \method{plot}{acproj}(
+  x,
   cdat,
   pdat,
   startp,
-  acproj.object,
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
@@ -23,13 +23,13 @@
 )
 }
 \arguments{
+\item{x}{An object based on the 'acproj()' function.}
+
 \item{cdat}{19(age groups)*N(years) historical cancer data, 15<=N<=125.}
 
 \item{pdat}{19(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
 
 \item{startp}{The start calendar year of projection, e.g. 2009.}
-
-\item{acproj.object}{An object based on the \code{acproj()} function.}
 
 \item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
 

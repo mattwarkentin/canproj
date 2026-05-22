@@ -843,14 +843,14 @@ glm.adpcproj <- function(adpcproj.object) {
 #'
 #' @inheritParams plot.canproj
 #' @inheritParams canproj
-#' @inheritParams adpcproj.getpred
+#' @param x An object based on the 'adpcproj()' function.
 #'
 #' @export
 plot.adpcproj <- function(
+  x,
   cdat,
   pdat,
   startp,
-  adpcproj.object,
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
@@ -863,8 +863,8 @@ plot.adpcproj <- function(
   new = T,
   ...
 ) {
-  if (!inherits(adpcproj.object, "adpcproj")) {
-    stop("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
+  if (!inherits(x, "adpcproj")) {
+    stop("Variable \"x\" must be of type \"adpcproj\"")
   }
 
   # Reading & formating data:
@@ -872,7 +872,7 @@ plot.adpcproj <- function(
     cdat,
     pdat,
     startp = startp,
-    adpcproj.object,
+    x,
     standpop = standpop
   )
   indata <- indat[, 1]
@@ -928,5 +928,5 @@ plot.adpcproj <- function(
   )
 
   # Returning object as invisible
-  invisible(adpcproj.object)
+  invisible(x)
 }

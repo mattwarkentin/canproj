@@ -653,14 +653,14 @@ glm.acproj <- function(acproj.object) {
 #'
 #' @inheritParams plot.canproj
 #' @inheritParams canproj
-#' @inheritParams acproj.getpred
+#' @param x An object based on the 'acproj()' function.
 #'
 #' @export
 plot.acproj <- function(
+  x,
   cdat,
   pdat,
   startp,
-  acproj.object,
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
@@ -673,22 +673,22 @@ plot.acproj <- function(
   new = T,
   ...
 ) {
-  if (!inherits(acproj.object, "acproj")) {
-    stop("Variable \"acproj.object\" must be of type \"acproj\"")
+  if (!inherits(x, "acproj")) {
+    stop("Variable \"x\" must be of type \"acproj\"")
   }
 
-  # Reading & formating data:
+  # Reading & formatting data:
   indat <- acproj.getproj(
     cdat,
     pdat,
     startp = startp,
-    acproj.object,
+    x,
     standpop = standpop
   )
   indata <- indat[, 1]
   indata <- indata[startplot:length(indata)]
 
-  # Seting internal variables:
+  # Setting internal variables:
   obsy <- dim(cdat)[2]
   nopredy <- length(indata) - obsy
   if (is.null(labels)) {
@@ -736,5 +736,5 @@ plot.acproj <- function(
   )
 
   # Returning object as invisible
-  invisible(acproj.object)
+  invisible(x)
 }

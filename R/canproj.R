@@ -461,7 +461,7 @@ glm.canproj <- function(canproj.object) {
 #' canproj object.
 #'
 #' @inheritParams canproj
-#' @inheritParams canproj.getproj
+#' @param x An object based on the 'canproj()' function.
 #' @param startplot Start for usage of data. Default (`1`) uses all years,
 #'  increasing this number removes the oldest years from the graph.
 #' @param xlab x-axis label
@@ -475,7 +475,7 @@ glm.canproj <- function(canproj.object) {
 #' @param ... Other parameters
 #' @export
 plot.canproj <- function(
-  canproj.object,
+  x,
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
@@ -488,16 +488,16 @@ plot.canproj <- function(
   new = T,
   ...
 ) {
-  if (!inherits(canproj.object, "canproj")) {
-    stop("Variable \"canproj.object\" must be of type \"canproj\"")
+  if (!inherits(x, "canproj")) {
+    stop("Variable \"x\" must be of type \"canproj\"")
   }
   # Reading & formatting data:
-  indat <- canproj.getproj(canproj.object, standpop = standpop)
+  indat <- canproj.getproj(x, standpop = standpop)
   indata <- indat[, 1]
   indata <- indata[startplot:length(indata)]
 
   # Setting internal variables:
-  nopredy <- length(indata) - canproj.object$obsy
+  nopredy <- length(indata) - x$obsy
   if (is.null(labels)) {
     labels <- row.names(indat)
   }
@@ -539,5 +539,5 @@ plot.canproj <- function(
     ...
   )
   # Returning object as invisible
-  invisible(canproj.object)
+  invisible(x)
 }

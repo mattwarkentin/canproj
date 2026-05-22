@@ -5,7 +5,7 @@
 \title{plot.canproj}
 \usage{
 \method{plot}{canproj}(
-  canproj.object,
+  x,
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
@@ -20,7 +20,7 @@
 )
 }
 \arguments{
-\item{canproj.object}{An object based on the 'canproj()' function.}
+\item{x}{An object based on the 'canproj()' function.}
 
 \item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
 

@@ -1052,14 +1052,14 @@ glm.hybdproj <- function(hybdproj.object) {
 #'
 #' @inheritParams plot.canproj
 #' @inheritParams canproj
-#' @inheritParams hybdproj.getpred
+#' @param x An object based on the 'hybdproj()' function.
 #'
 #' @export
 plot.hybdproj <- function(
+  x,
   cdat,
   pdat,
   startp,
-  hybdproj.object,
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
@@ -1072,8 +1072,8 @@ plot.hybdproj <- function(
   new = T,
   ...
 ) {
-  if (!inherits(hybdproj.object, "hybdproj")) {
-    stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
+  if (!inherits(x, "hybdproj")) {
+    stop("Variable \"x\" must be of type \"hybdproj\"")
   }
 
   # Reading & formating data:
@@ -1081,7 +1081,7 @@ plot.hybdproj <- function(
     cdat,
     pdat,
     startp = startp,
-    hybdproj.object,
+    x,
     standpop = standpop
   )
   indata <- indat[, 1]
@@ -1135,5 +1135,5 @@ plot.hybdproj <- function(
   )
 
   # Returning object as invisible
-  invisible(hybdproj.object)
+  invisible(x)
 }
