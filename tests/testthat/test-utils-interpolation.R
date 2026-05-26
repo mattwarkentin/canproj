@@ -1,4 +1,4 @@
-test_that("asrpy interpolates annual rates from 5-year aggreration", {
+test_that("asrpy interpolates annual rates from 5-year aggregation", {
   cdat <- matrix(1:95, nrow = 19, ncol = 5)
   pdat <- matrix(100000, nrow = 19, ncol = 10)
   startp <- 2000
@@ -17,7 +17,7 @@ test_that("asrpy interpolates annual rates from 5-year aggreration", {
   expect_equal(out, expected)
 })
 
-test_that("asrpy interpolates annual rates from 4-year aggreration", {
+test_that("asrpy interpolates annual rates from 4-year aggregation", {
   cdat <- matrix(1:76, nrow = 19, ncol = 4)
   pdat <- matrix(100000, nrow = 19, ncol = 8)
   startp <- 2000
@@ -36,7 +36,7 @@ test_that("asrpy interpolates annual rates from 4-year aggreration", {
   expect_equal(out, expected)
 })
 
-test_that("asrpy interpolates annual rates from 3-year aggreration", {
+test_that("asrpy interpolates annual rates from 3-year aggregation", {
   cdat <- matrix(1:57, nrow = 19, ncol = 3)
   pdat <- matrix(100000, nrow = 19, ncol = 6)
   startp <- 2000
@@ -55,7 +55,7 @@ test_that("asrpy interpolates annual rates from 3-year aggreration", {
   expect_equal(out, expected)
 })
 
-test_that("asrpy interpolates annual rates from 2-year aggreration", {
+test_that("asrpy interpolates annual rates from 2-year aggregation", {
   cdat <- matrix(1:38, nrow = 19, ncol = 2)
   pdat <- matrix(100000, nrow = 19, ncol = 4)
   startp <- 2000
