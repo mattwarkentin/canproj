@@ -4,14 +4,12 @@
 \alias{summary.ave5proj}
 \title{summary.ave5proj}
 \usage{
-\method{summary}{ave5proj}(object, printcall = FALSE, digits = 0, ...)
+\method{summary}{ave5proj}(object, printcall = FALSE, ...)
 }
 \arguments{
 \item{object}{An object based on the \code{ave5proj()} function.}
 
 \item{printcall}{Whether to print function \code{Call} for ave5proj.object (\code{T} or \code{F}).}
-
-\item{digits}{Number of digits in output, default (\code{0}) is integer only.}
 
 \item{...}{Other parameters}
 }

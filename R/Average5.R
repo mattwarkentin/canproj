@@ -115,13 +115,12 @@ ave5proj.getproj <- function(pdat, ave5proj.object, standpop = NULL) {
 #'
 #' @param object An object based on the `ave5proj()` function.
 #' @param printcall Whether to print function `Call` for ave5proj.object (`T` or `F`).
-#' @param digits Number of digits in output, default (`0`) is integer only.
 #' @param ... Other parameters
 #'
 #' @return An information table describing the method used.
 #'
 #' @export
-summary.ave5proj <- function(object, printcall = FALSE, digits = 0, ...) {
+summary.ave5proj <- function(object, printcall = FALSE, ...) {
   if (!inherits(object, "ave5proj")) {
     stop("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
   }
