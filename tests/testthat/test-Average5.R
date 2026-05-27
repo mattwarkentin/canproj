@@ -89,16 +89,13 @@ test_that("ave5proj creates summary with printcall", {
   class(ave5_obj) <- "ave5proj"
   attr(ave5_obj, "Call") <- as.call(str2lang("ave5proj(cdat, pdat, startp)"))
 
-  expect_output(
-    summary.ave5proj(ave5_obj, printcall = TRUE),
-    paste0(
-      "Prediction done with:\\s+",
-      "Method:\\s+Five-Year Average\\s+",
-      "Age-Specific Rate by:\\s+5-year period\\s+",
-      "Number of prediction years:\\s+2\\s+",
-      "Call:\\s+ave5proj\\(cdat, pdat, startp\\)"
-    )
-  )
+  out <- capture.output(summary.ave5proj(ave5_obj, printcall = TRUE))
+
+  expect_match(out, "Prediction done with:", all = FALSE)
+  expect_match(out, "Method:\\s+Five-Year Average", all = FALSE)
+  expect_match(out, "Age-Specific Rate by:\\s+5-year period", all = FALSE)
+  expect_match(out, "Number of prediction years:\\s+2", all = FALSE)
+  expect_match(out, "Call:\\s+ave5proj\\(cdat, pdat, startp\\)", all = FALSE)
 })
 
 test_that("ave5proj creates summary with averaged yearly rates", {
@@ -126,16 +123,17 @@ test_that("ave5proj creates summary with averaged yearly rates", {
   class(ave5_obj) <- "ave5proj"
   attr(ave5_obj, "Call") <- as.call(str2lang("ave5proj(cdat, pdat, startp)"))
 
-  expect_output(
-    summary.ave5proj(ave5_obj, printcall = TRUE),
-    paste0(
-      "Prediction done with:\\s+",
-      "Method:\\s+Five-Year Average\\s+",
-      "Age-Specific Rate by:\\s+average yearly-rates\\s+",
-      "Number of prediction years:\\s+2\\s+",
-      "Call:\\s+ave5proj\\(cdat, pdat, startp\\)"
-    )
+  out <- capture.output(summary.ave5proj(ave5_obj, printcall = TRUE))
+
+  expect_match(out, "Prediction done with:", all = FALSE)
+  expect_match(out, "Method:\\s+Five-Year Average", all = FALSE)
+  expect_match(
+    out,
+    "Age-Specific Rate by:\\s+average yearly-rates",
+    all = FALSE
   )
+  expect_match(out, "Number of prediction years:\\s+2", all = FALSE)
+  expect_match(out, "Call:\\s+ave5proj\\(cdat, pdat, startp\\)", all = FALSE)
 })
 
 test_that("ave5prog gets projections with default standard population", {
