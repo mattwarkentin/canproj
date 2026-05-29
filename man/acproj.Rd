@@ -9,7 +9,6 @@ acproj(
   pdat,
   projfor = "incidence",
   n5case = NULL,
-  noperiods = NULL,
   startestage = NULL,
   cuttrd = 0.04,
   shortp = 0,
@@ -25,9 +24,6 @@ acproj(
 \item{projfor}{Specify "incidence" or "mortality" if want ASR as criteria for nagg.}
 
 \item{n5case}{Minimum number of cancer cases/deaths per 5 years for splitting data.}
-
-\item{noperiods}{List of candidate periods for projection base. Default (\code{NULL})
-uses a goodness-of-fit test to determine if ancient periods are removed.}
 
 \item{startestage}{User defined age groups for modeling can be input here}
 

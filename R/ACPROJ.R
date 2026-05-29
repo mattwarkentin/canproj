@@ -6,8 +6,6 @@
 #'
 #' @inheritParams canproj
 #' @param n5case Minimum number of cancer cases/deaths per 5 years for splitting data.
-#' @param noperiods List of candidate periods for projection base. Default (`NULL`)
-#'  uses a goodness-of-fit test to determine if ancient periods are removed.
 #'
 #' @return A `list()`.
 #'
@@ -17,7 +15,6 @@ acproj <- function(
   pdat,
   projfor = "incidence",
   n5case = NULL,
-  noperiods = NULL,
   startestage = NULL,
   cuttrd = 0.04,
   shortp = 0,
@@ -70,8 +67,8 @@ acproj <- function(
 
   pred <- acproj.prediction(
     acproj.estimate.object = est,
-    cuttrd = 0.04,
-    shortp = 0
+    cuttrd = cuttrd,
+    shortp = shortp
   )
 
   return(pred)
@@ -176,13 +173,13 @@ acproj.estimate <- function(
     )
   } else if (linkfunc == "sqrt") {
     res.glm <- stats::glm(
-      Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
+      Cases ~ factor(Age) + relevel(factor(Cohort), midc) + offset(sqrt(y)) - 1,
       data = apcdata,
       family = stats::poisson(link = sqrt)
     )
   } else if (linkfunc == "identity") {
     res.glm <- stats::glm(
-      Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
+      Cases ~ (factor(Age) + relevel(factor(Cohort), midc)):y - 1,
       data = apcdata,
       family = stats::poisson(link = identity)
     )
@@ -476,15 +473,15 @@ acproj.getpred <- function(
       stop("\"standpop\" must be the same length as \"agegroups\"")
     }
     if (byage) {
-      stop("\"standpop\" is only valid for \"byage=T\"")
+      stop("\"standpop\" is only valid for \"byage=F\"")
     }
   }
 
-  ## Seting local data:
+  ## Setting local data:
   datatable <- acproj.object$predictions
   pyr <- data.frame(acproj.object$pyr)
 
-  ## Secting agegroups:
+  ## Selecting agegroups:
   if (agegroups[1] != "all") {
     datatable <- datatable[agegroups, ]
     pyr <- pyr[agegroups, ]
