@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-std-pop.R
 \name{stdpop_Canada_2011}
 \alias{stdpop_Canada_2011}
-\title{Canada standard population 2011}
+\title{2011 Canadian standard population, updated June 2019}
 \usage{
 stdpop_Canada_2011()
 }
@@ -10,5 +10,5 @@ stdpop_Canada_2011()
 A \code{vector()}.
 }
 \description{
-Canada standard population 2011
+2011 Canadian standard population, updated June 2019
 }

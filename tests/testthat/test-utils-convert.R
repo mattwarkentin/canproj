@@ -13,7 +13,7 @@ test_that("conversion uses default standard population when not specified", {
   rr <- matrix(1:57, nrow = 19, ncol = 3)
   pdat <- matrix(1000 + 10 * (1:57), nrow = 19, ncol = 3)
 
-  expected_matrix <- cbind(c(8.477344, 27.477344, 46.477344), c(2, 7, 14))
+  expected_matrix <- cbind(c(8.824153, 27.824153, 46.824153), c(2, 7, 14))
   colnames(expected_matrix) <- c("asr", "case")
 
   expect_equal(asry(rr, pdat), expected_matrix)

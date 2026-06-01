@@ -1,3 +1,34 @@
+#' 2021 Canadian standard population, updated June 2026
+#'
+#' @return A `vector()`.
+#'
+#' @export
+stdpop_Canada_2021 <- function() {
+  c(
+    0.049762,
+    0.054199,
+    0.055283,
+    0.053870,
+    0.062877,
+    0.069944,
+    0.070712,
+    0.069120,
+    0.065514,
+    0.062285,
+    0.063488,
+    0.070359,
+    0.068330,
+    0.058224,
+    0.048268,
+    0.033273,
+    0.022004,
+    0.013635,
+    0.008853
+  )
+  # Age group 35-39 was decreased by 0.00001 so the total sum is 1
+  # This was the farthest number when rounding up
+}
+
 #' 2011 Canadian standard population, updated June 2019
 #'
 #' @return A `vector()`.
@@ -55,5 +86,5 @@ stdpop_WHO <- function() {
     0.00195
   )
   # Age group 35-39 was increased by 0.00001 so the total sum is 1
-  # This was the closes number to rounding up that did not
+  # This was the closest number to rounding up that did not
 }

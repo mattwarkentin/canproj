@@ -34,13 +34,13 @@ test_that("obasr calculates annual age-standardized rates by population", {
   expect_equal(obasr(cdat, pdat, stdpop), out, tolerance = 0.001)
 })
 
-test_that("obasr uses Canada 2011 standard population for default", {
+test_that("obasr uses Canada 2021 standard population for default", {
   cdat <- matrix(1:95, nrow = 19, ncol = 5)
   pdat <- matrix(100, nrow = 19, ncol = 20)
 
   out <- matrix(
     c(
-      c(8477.344, 27477.344, 46477.344, 65477.344, 84477.344),
+      c(8824.153, 27824.153, 46824.153, 65824.153, 84824.153),
       c(190, 551, 912, 1273, 1634)
     ),
     nrow = 5,
@@ -69,14 +69,14 @@ test_that("asrsd calculates age-standardized rates and standard error", {
   expect_equal(asrsd(cdat, pdat, standpop = stdpop), out, tolerance = 0.001)
 })
 
-test_that("asrsd uses Canada 2011 standard population by default", {
+test_that("asrsd uses Canada 2021 standard population by default", {
   cdat <- matrix(1:95, nrow = 19, ncol = 5)
   pdat <- matrix(200 + 2 * (1:95), nrow = 19, ncol = 20)
 
   out <- matrix(
     c(
-      c(3828.828, 10728.919, 15833.109, 19762.243, 22880.420),
-      c(321.1489, 506.4917, 575.8266, 605.9329, 617.8074)
+      c(3971.281, 10832.547, 15911.872, 19824.129, 22930.325),
+      c(322.4399, 499.6548, 566.4957, 595.5213, 606.9089)
     ),
     nrow = 5,
     ncol = 2

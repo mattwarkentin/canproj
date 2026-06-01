@@ -4,7 +4,7 @@
 \alias{asrsd}
 \title{Age-standardized rates standard error}
 \usage{
-asrsd(cdat, pdat, standpop = stdpop_Canada_2011())
+asrsd(cdat, pdat, standpop = stdpop_Canada_2021())
 }
 \arguments{
 \item{cdat}{19(age groups)*N(years) historical cancer data, 15<=N<=125.}

@@ -45,7 +45,7 @@ canproj <- function(
   shortp = 0,
   pD = 0.05,
   pGOF = 0.05,
-  standpop = ca11
+  standpop = stdpop_Canada_2021()
 ) {
   # Check data:
   if (dim(cdat)[1] != 19 || dim(pdat)[1] != 19) {

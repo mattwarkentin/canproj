@@ -1,4 +1,4 @@
-standardize_rates <- function(cdat, pdat, stdpop = ca11) {
+standardize_rates <- function(cdat, pdat, stdpop = stdpop_Canada_2021()) {
   num_years <- ncol(cdat)
   num_agegps <- nrow(cdat)
 

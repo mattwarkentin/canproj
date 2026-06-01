@@ -7,7 +7,7 @@
 #' @return A `data.frame()`.
 #'
 #' @keywords internal
-obasr <- function(cdat, pdat, standpop = ca11) {
+obasr <- function(cdat, pdat, standpop = stdpop_Canada_2021()) {
   m <- dim(cdat)[2]
   popu <- pdat[, 1:m]
   rr <- matrix(NA, 19, m)
@@ -29,7 +29,7 @@ obasr <- function(cdat, pdat, standpop = ca11) {
 #' @return A `data.frame()`.
 #'
 #' @keywords internal
-asrsd <- function(cdat, pdat, standpop = ca11) {
+asrsd <- function(cdat, pdat, standpop = stdpop_Canada_2021()) {
   m <- dim(cdat)[2]
   popu <- pdat[, 1:m]
   rr <- matrix(NA, 19, m)

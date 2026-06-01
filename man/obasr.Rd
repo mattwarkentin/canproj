@@ -4,7 +4,7 @@
 \alias{obasr}
 \title{Observed age-standardized rates}
 \usage{
-obasr(cdat, pdat, standpop = ca11)
+obasr(cdat, pdat, standpop = stdpop_Canada_2021())
 }
 \arguments{
 \item{cdat}{19(age groups)*N(years) historical cancer data, 15<=N<=125.}
