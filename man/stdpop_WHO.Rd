@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-std-pop.R
 \name{stdpop_WHO}
 \alias{stdpop_WHO}
-\title{World standard population}
+\title{WHO world standard population, updated June 2026}
 \usage{
 stdpop_WHO()
 }
@@ -10,5 +10,5 @@ stdpop_WHO()
 A \code{vector()}.
 }
 \description{
-World standard population
+WHO world standard population, updated June 2026
 }
