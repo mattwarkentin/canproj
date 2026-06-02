@@ -21,14 +21,6 @@ hybdproj <- function(
   pD = 0.05,
   pGOF = 0.05
 ) {
-  #cdat: 19 (age groups) x N (years) historical cancer data, N >= 15
-  #pdat: 19 (age groups) x (N + M) (years) observed and projected population, M <= 25
-  #nagg: number of years for data aggregation (by years), default: 1, annual data.
-  #ncases: minimum number of cancer cases/deaths for splitting data.
-  #cuttrd: degenerating percent of trends per year after 5 years (shortp=0)
-  #        or the first projection year.
-  #linkfunc: link function, default is power5, can be log, sqrt and identity
-
   # Define number of cases for data splitting:
   if (is.null(ncase)) {
     if (projfor == "incidence") {

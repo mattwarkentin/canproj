@@ -28,7 +28,7 @@ hybdproj.getproj(
 \item{Ave5}{Ave5=T invokes the 5 year average method when age-only model is selected.}
 
 \item{sum5}{When the 5-year average method is used, sum5=NULL call the 5-year
-period based rate,otherwise, average the 5 rates in the 5 years for each age group.}
+period based rate, otherwise, average the 5 rates in the 5 years for each age group.}
 }
 \value{
 A \code{data.frame()}.

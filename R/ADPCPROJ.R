@@ -42,6 +42,7 @@ adpcproj <- function(
   aggdata <- datagg(cdat, pdat, 5)
   cases <- aggdata$cases
   pyr <- aggdata$pyr
+
   ## Setting startestage and startuseage:
   if (is.null(startestage)) {
     dat <- as.matrix(cases)
@@ -51,6 +52,7 @@ adpcproj <- function(
     }
     startestage <- iage
   }
+
   if (is.null(newcohort)) {
     startuseage <- startestage
   } else {
@@ -109,8 +111,8 @@ adpcproj <- function(
     adpcproj.estimate.object = est,
     startuseage = startuseage,
     recent = recent,
-    cuttrd = 0.04,
-    shortp = 0
+    cuttrd = cuttrd,
+    shortp = shortp
   )
   return(pred)
 }
@@ -316,7 +318,7 @@ adpcproj.estimate <- function(
   }
 
   ## setting suggestion for 'recent' (whether to use recent trend or whole trend)
-  if (distn == "poisson") {
+  if (distn == "Poisson") {
     mod1 <- stats::glm(
       Cases ~ as.factor(Age) + Period + as.factor(Cohort) + offset(log(y)) - 1,
       data = apcdata,
@@ -375,8 +377,6 @@ adpcproj.estimate <- function(
     }
   }
 
-  #options(contrasts("unordered", "ordered"))
-
   ## Set class and return results
   res <- list(
     glm = res.glm,
@@ -423,7 +423,7 @@ adpcproj.prediction <- function(
   }
 
   if (adpcproj.estimate.object$startestage > startuseage) {
-    stop("\"startuseage\" is set too high compared to \"startestage\"")
+    stop("\"startuseage\" is set too low compared to \"startestage\"")
   }
 
   ## Setting local variables:
@@ -433,15 +433,17 @@ adpcproj.prediction <- function(
   nototper <- dim(pyr)[2]
   noobsper <- dim(cases)[2]
   nonewpred <- nototper - noobsper
-
   cuttrend <- rep(shortp, nonewpred)
+
   for (i in 1:nonewpred) {
     cuttrend[i] <- shortp + (i - 1) * 5 * cuttrd
   }
   cuttrend[cuttrend > 1] <- 1
+
   if (length(cuttrend) > nonewpred) {
     cuttrend <- cuttrend[1:nonewpred]
   }
+
   if (
     length(cuttrend) <
       (dim(adpcproj.estimate.object$pyr)[2] -
@@ -652,7 +654,7 @@ adpcproj.getpred <- function(
       stop("\"standpop\" must be the same length as \"agegroups\"")
     }
     if (byage) {
-      stop("\"standpop\" is only valid for \"byage=T\"")
+      stop("\"standpop\" is only valid for \"byage=F\"")
     }
   }
 
@@ -867,7 +869,7 @@ plot.adpcproj <- function(
     stop("Variable \"x\" must be of type \"adpcproj\"")
   }
 
-  # Reading & formating data:
+  # Reading & formatting data:
   indat <- adpcproj.getproj(
     cdat,
     pdat,
@@ -878,7 +880,7 @@ plot.adpcproj <- function(
   indata <- indat[, 1]
   indata <- indata[startplot:length(indata)]
 
-  # Seting internal variables:
+  # Setting internal variables:
   obsy <- dim(cdat)[2]
   nopredy <- length(indata) - obsy
   if (is.null(labels)) {

@@ -21,7 +21,7 @@ canproj(
   shortp = 0,
   pD = 0.05,
   pGOF = 0.05,
-  standpop = ca11
+  standpop = stdpop_Canada_2021()
 )
 }
 \arguments{
@@ -45,7 +45,7 @@ cohort effect (T), default is 0, use "T" only if having evidence on negative new
 \item{Ave5}{Ave5=T invokes the 5 year average method when age-only model is selected.}
 
 \item{sum5}{When the 5-year average method is used, sum5=NULL call the 5-year
-period based rate,otherwise, average the 5 rates in the 5 years for each age group.}
+period based rate, otherwise, average the 5 rates in the 5 years for each age group.}
 
 \item{methods}{User required projection method can be specified by ADPC
 models: "nordpred" or "adpc-nb"; age-cohort models: "ac", "ac-nb"; age-period models: "age-trd", "com-trd"; and average: "ave5".}
