@@ -143,14 +143,14 @@ test_that("adpcproj estimate works with sqrt link function", {
   cases <- matrix(1:57, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
-  out <- suppressWarnings(adpcproj.estimate(
+  out <- adpcproj.estimate(
     cases,
     pyr,
     noperiod = 3,
     startestage = 1,
     pGOF = 0,
     linkfunc = "sqrt"
-  ))
+  )
 
   expect_equal(out$linkfunc, "sqrt")
   expect_equal(out$distribution, "Poisson")

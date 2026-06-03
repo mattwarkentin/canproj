@@ -223,18 +223,22 @@ adpcproj.estimate <- function(
       family = stats::poisson(link = log)
     )
   } else if (linkfunc == "sqrt") {
-    res.glm <- stats::glm(
-      Cases / y ~
-        as.factor(Age) + Period + as.factor(Period) + as.factor(Cohort) - 1,
-      data = apcdata,
-      family = stats::poisson(link = sqrt)
+    suppressWarnings(
+      res.glm <- stats::glm(
+        Cases / y ~
+          as.factor(Age) + Period + as.factor(Period) + as.factor(Cohort) - 1,
+        data = apcdata,
+        family = stats::poisson(link = sqrt)
+      )
     )
   } else if (linkfunc == "identity") {
-    res.glm <- stats::glm(
-      Cases / y ~
-        as.factor(Age) + Period + as.factor(Period) + as.factor(Cohort) - 1,
-      data = apcdata,
-      family = stats::poisson(link = identity)
+    suppressWarnings(
+      res.glm <- stats::glm(
+        Cases / y ~
+          as.factor(Age) + Period + as.factor(Period) + as.factor(Cohort) - 1,
+        data = apcdata,
+        family = stats::poisson(link = identity)
+      )
     )
   } else {
     stop("Unknown \"linkfunc\"")

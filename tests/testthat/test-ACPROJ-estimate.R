@@ -72,13 +72,13 @@ test_that("acproj estimate works with sqrt link function", {
 
   expect_equal(
     unname(out$glm$coefficients[5]),
-    -252.5895,
-    tolerance = 0.0001
+    -0.1325743,
+    tolerance = 0.00001
   )
   expect_snapshot_value(
     out$glm$coefficients,
     style = "json2",
-    tolerance = 0.0001
+    tolerance = 0.00001
   )
 })
 
@@ -100,7 +100,7 @@ test_that("acproj estimate works with identity link function", {
 
   expect_equal(
     unname(out$glm$coefficients[5]),
-    -0.03531735,
+    -0.03531739,
     tolerance = 0.000001
   )
   expect_snapshot_value(
@@ -186,7 +186,7 @@ test_that("acproj estimate works with negative-binomial glm and sqrt link functi
     pyr,
     noperiod = 3,
     startestage = 1,
-    pGOF = 1,
+    pGOF = 2,
     linkfunc = "sqrt"
   )
 

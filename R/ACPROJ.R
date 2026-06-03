@@ -172,16 +172,20 @@ acproj.estimate <- function(
       family = stats::poisson(link = log)
     )
   } else if (linkfunc == "sqrt") {
-    res.glm <- stats::glm(
-      Cases ~ factor(Age) + relevel(factor(Cohort), midc) + offset(sqrt(y)) - 1,
-      data = apcdata,
-      family = stats::poisson(link = sqrt)
+    suppressWarnings(
+      res.glm <- stats::glm(
+        Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
+        data = apcdata,
+        family = poisson(link = sqrt)
+      )
     )
   } else if (linkfunc == "identity") {
-    res.glm <- stats::glm(
-      Cases ~ (factor(Age) + relevel(factor(Cohort), midc)):y - 1,
-      data = apcdata,
-      family = stats::poisson(link = identity)
+    suppressWarnings(
+      res.glm <- stats::glm(
+        Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
+        data = apcdata,
+        family = poisson(link = identity)
+      )
     )
   } else {
     stop("Unknown \"linkfunc\"")
