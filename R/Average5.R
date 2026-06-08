@@ -55,10 +55,10 @@ ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
   # Calculate predictions in age-specific rates:
   for (age in 1:19) {
     if (is.null(sum5)) {
-      obsinc <- apply(cdat[age, (nc - 5):nc], 1, sum) /
-        apply(pdat[age, (nc - 5):nc], 1, sum)
+      obsinc <- apply(cdat[age, (nc - 4):nc], 1, sum) /
+        apply(pdat[age, (nc - 4):nc], 1, sum)
     } else {
-      obsinc <- cdat[age, (nc - 5):nc] / pdat[age, (nc - 5):nc]
+      obsinc <- cdat[age, (nc - 4):nc] / pdat[age, (nc - 4):nc]
     }
     if (sum(is.na(obsinc))) {
       obsinc[is.na(obsinc)] <- 0

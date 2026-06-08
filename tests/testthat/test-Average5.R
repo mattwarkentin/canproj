@@ -6,7 +6,7 @@ test_that("ave5proj works when aggregating data", {
   projection <- data.frame(matrix(
     c(
       seq(from = 10, to = 1900, by = 10),
-      rep(seq(from = 1245, to = 1425, by = 10), 5)
+      rep(seq(from = 1340, to = 1520, by = 10), 5)
     ),
     nrow = 19,
     ncol = 15
@@ -38,7 +38,7 @@ test_that("ave5proj works when averaging data", {
   projection <- data.frame(matrix(
     c(
       seq(from = 10, to = 1900, by = 10),
-      rep(seq(from = 1150, to = 1330, by = 10), 5)
+      rep(seq(from = 1340, to = 1520, by = 10), 5)
     ),
     nrow = 19,
     ncol = 15

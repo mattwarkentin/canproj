@@ -47,10 +47,10 @@ test_that("canproj can choose ave5proj during model selection", {
 
   expect_equal(out$method, "average5")
 
-  expect_equal(out$annproj["2003", "asr"], 0.410515, tolerance = 0.00001)
+  expect_equal(out$annproj["2003", "asr"], 0.492162, tolerance = 0.00001)
   expect_snapshot_value(out$annproj, style = "json2", tolerance = 0.00001)
 
-  expect_equal(out$agsproj["70-74", "2002"], 3.257594, tolerance = 0.00001)
+  expect_equal(out$agsproj["70-74", "2002"], 3.905487, tolerance = 0.00001)
   expect_snapshot_value(out$agsproj, style = "json2", tolerance = 0.00001)
 })
 
@@ -144,8 +144,8 @@ test_that("canproj can specify ave5 method", {
   out <- canproj(cdat, pdat, 2000, methods = "ave5")
 
   expect_equal(out$method, "average5")
-  expect_equal(out$annproj["2001", "asr"], 234.76557, tolerance = 0.00001)
-  expect_equal(out$agsproj["65-69", "2003"], 299.3041, tolerance = 0.0001)
+  expect_equal(out$annproj["2001", "asr"], 244.13305, tolerance = 0.00001)
+  expect_equal(out$agsproj["65-69", "2003"], 311.2468, tolerance = 0.0001)
 })
 
 test_that("canproj plot works", {
