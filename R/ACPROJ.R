@@ -176,7 +176,7 @@ acproj.estimate <- function(
       res.glm <- stats::glm(
         Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
         data = apcdata,
-        family = poisson(link = sqrt)
+        family = stats::poisson(link = sqrt)
       )
     )
   } else if (linkfunc == "identity") {
@@ -184,7 +184,7 @@ acproj.estimate <- function(
       res.glm <- stats::glm(
         Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
         data = apcdata,
-        family = poisson(link = identity)
+        family = stats::poisson(link = identity)
       )
     )
   } else {

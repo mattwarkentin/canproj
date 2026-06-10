@@ -295,16 +295,20 @@ hybdproj.estimate <- function(
         family = stats::poisson(link = log)
       )
     } else if (linkfunc == "sqrt") {
-      res.glm <- stats::glm(
-        Cases / y ~ as.factor(Age) + Period - 1,
-        data = apdatan,
-        family = stats::poisson(link = sqrt)
+      suppressWarnings(
+        res.glm <- stats::glm(
+          Cases / y ~ as.factor(Age) + Period - 1,
+          data = apdatan,
+          family = stats::poisson(link = sqrt)
+        )
       )
     } else if (linkfunc == "identity") {
-      res.glm <- stats::glm(
-        Cases / y ~ as.factor(Age) + Period - 1,
-        data = apdatan,
-        family = stats::poisson(link = identity)
+      suppressWarnings(
+        res.glm <- stats::glm(
+          Cases / y ~ as.factor(Age) + Period - 1,
+          data = apdatan,
+          family = stats::poisson(link = identity)
+        )
       )
     } else {
       stop("Unknown \"linkfunc\"")
@@ -343,16 +347,20 @@ hybdproj.estimate <- function(
         family = stats::poisson(link = log)
       )
     } else if (linkfunc == "sqrt") {
-      res.glm <- stats::glm(
-        Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
-        data = apdatan,
-        family = stats::poisson(link = sqrt)
+      suppressWarnings(
+        res.glm <- stats::glm(
+          Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
+          data = apdatan,
+          family = stats::poisson(link = sqrt)
+        )
       )
     } else if (linkfunc == "identity") {
-      res.glm <- stats::glm(
-        Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
-        data = apdatan,
-        family = stats::poisson(link = identity)
+      suppressWarnings(
+        res.glm <- stats::glm(
+          Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
+          data = apdatan,
+          family = stats::poisson(link = identity)
+        )
       )
     } else {
       stop("Unknown \"linkfunc\"")
@@ -452,16 +460,20 @@ hybdproj.estimate <- function(
         family = stats::poisson(link = log)
       )
     } else if (linkfunc == "sqrt") {
-      res.glm <- stats::glm(
-        Cases / y ~ as.factor(Age) - 1,
-        data = apdatan,
-        family = stats::poisson(link = sqrt)
+      suppressWarnings(
+        res.glm <- stats::glm(
+          Cases / y ~ as.factor(Age) - 1,
+          data = apdatan,
+          family = stats::poisson(link = sqrt)
+        )
       )
     } else if (linkfunc == "identity") {
-      res.glm <- stats::glm(
-        Cases / y ~ as.factor(Age) - 1,
-        data = apdatan,
-        family = stats::poisson(link = identity)
+      suppressWarnings(
+        res.glm <- stats::glm(
+          Cases / y ~ as.factor(Age) - 1,
+          data = apdatan,
+          family = stats::poisson(link = identity)
+        )
       )
     } else {
       stop("Unknown \"linkfunc\"")
@@ -815,7 +827,7 @@ hybdproj.getpred <- function(
       stop("\"standpop\" must be the same length as \"agegroups\"")
     }
     if (byage) {
-      stop("\"standpop\" is only valid for \"byage=T\"")
+      stop("\"standpop\" is only valid for \"byage=F\"")
     }
   }
 
