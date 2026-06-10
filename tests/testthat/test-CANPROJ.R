@@ -149,6 +149,8 @@ test_that("canproj can specify ave5 method", {
 })
 
 test_that("canproj plot works", {
+  skip_if_not_installed("vdiffr")
+
   cdat <- matrix(floor((0:284) / 19) + 5, nrow = 19, ncol = 15)
   pdat <- matrix(10000:10379, nrow = 19, ncol = 20)
   stdpop <- c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
