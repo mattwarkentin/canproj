@@ -20,31 +20,6 @@ obasr <- function(cdat, pdat, standpop = stdpop_Canada_2021()) {
   return(cbind(asr, case))
 }
 
-#' Age-standardized rates standard error
-#'
-#' Calculate age-standardized rates and corresponding standard error
-#'
-#' @inheritParams canproj
-#'
-#' @return A `data.frame()`.
-#'
-#' @keywords internal
-asrsd <- function(cdat, pdat, standpop = stdpop_Canada_2021()) {
-  m <- dim(cdat)[2]
-  popu <- pdat[, 1:m]
-  rr <- matrix(NA, 19, m)
-  ww <- matrix(NA, 19, m)
-  for (i in 1:m) {
-    rr[, i] <- cdat[, i] / popu[, i]
-    ww[, i] <- cdat[, i] * (standpop / popu[, i])^2
-  }
-  aspr <- rr * standpop
-  asr <- 100000 * apply(aspr, 2, sum)
-  asd <- 100000 * sqrt(apply(ww, 2, sum))
-  case <- apply(cdat, 2, sum)
-  return(cbind(asr, asd))
-}
-
 #' Percentage change due to risk, population, and aging
 #'
 #' Calculating percentage changes due to risk, population growth, and aging.

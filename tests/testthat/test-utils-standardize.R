@@ -51,39 +51,9 @@ test_that("obasr uses Canada 2021 standard population for default", {
   expect_equal(obasr(cdat, pdat), out, tolerance = 0.001)
 })
 
-test_that("asrsd calculates age-standardized rates and standard error", {
-  cdat <- matrix(1:95, nrow = 19, ncol = 5)
-  pdat <- matrix(200 + 2 * (1:95), nrow = 19, ncol = 20)
-  stdpop <- c(rep(0.02, 5), rep(0.04, 5), rep(0.06, 5), rep(0.1, 4))
 
-  out <- matrix(
-    c(
-      c(5584.634, 12008.157, 16806.539, 20527.776, 23498.211),
-      c(432.9002, 565.0387, 619.3358, 642.7181, 650.9717)
-    ),
-    nrow = 5,
-    ncol = 2
-  )
-  colnames(out) <- c("asr", "asd")
 
-  expect_equal(asrsd(cdat, pdat, standpop = stdpop), out, tolerance = 0.001)
-})
 
-test_that("asrsd uses Canada 2021 standard population by default", {
-  cdat <- matrix(1:95, nrow = 19, ncol = 5)
-  pdat <- matrix(200 + 2 * (1:95), nrow = 19, ncol = 20)
-
-  out <- matrix(
-    c(
-      c(3971.281, 10832.547, 15911.872, 19824.129, 22930.325),
-      c(322.4399, 499.6548, 566.4957, 595.5213, 606.9089)
-    ),
-    nrow = 5,
-    ncol = 2
-  )
-  colnames(out) <- c("asr", "asd")
-
-  expect_equal(asrsd(cdat, pdat), out, tolerance = 0.001)
 })
 
 test_that("chper calculates percentage change", {
