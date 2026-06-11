@@ -5,6 +5,7 @@
 #' @param cdat 19(age groups)*N(years) historical cancer data, 15<=N<=125.
 #' @param pdat 19(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.
 #' @param startp The start calendar year of projection, e.g. 2009.
+#' @param standpop The weights (proportions) of 19 age groups in a standard population.
 #' @param projfor Specify "incidence" or "mortality" if want ASR as criteria for nagg.
 #' @param nagg Number of years for data aggregation (by years), default: 1-annual data
 #' @param ncase Minimum number of cancer cases/deaths per year for splitting data.
@@ -21,7 +22,6 @@
 #' @param shortp Attenuation percent of drift term or slope for the first 5 projection years.
 #' @param pD Trend selecting criteria of p-value of drift (linear trend) term.
 #' @param pGOF Model selection criteria of p-value of goodness-of-fit.
-#' @param standpop The weights (proportions) of 19 age groups in a standard population.
 #'
 #' @md
 #'
@@ -32,6 +32,7 @@ canproj <- function(
   cdat,
   pdat,
   startp,
+  standpop,
   projfor = "incidence",
   nagg = NULL,
   ncase = NULL,
@@ -44,8 +45,7 @@ canproj <- function(
   cuttrd = 0.04,
   shortp = 0,
   pD = 0.05,
-  pGOF = 0.05,
-  standpop = stdpop_Canada_2021()
+  pGOF = 0.05
 ) {
   # Check data:
   if (dim(cdat)[1] != 19 || dim(pdat)[1] != 19) {
@@ -81,7 +81,7 @@ canproj <- function(
 
     # Define number of years for data aggregation:
     if (is.null(nagg)) {
-      masr <- mean(obasr(cdat, pdat)[, 1])
+      masr <- mean(obasr(cdat, pdat, standpop)[, 1])
       if (projfor == "incidence") {
         if (masr > 15) {
           nagg <- 1

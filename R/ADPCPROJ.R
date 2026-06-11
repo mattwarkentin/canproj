@@ -713,7 +713,7 @@ adpcproj.getproj <- function(
   if (is.null(standpop)) {
     return(outasp)
   } else {
-    outann <- asry(outasp, pdat, standpop = standpop)
+    outann <- asry(outasp, pdat, standpop)
     return(outann)
   }
 }

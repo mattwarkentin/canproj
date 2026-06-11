@@ -12,6 +12,7 @@
 hybdproj <- function(
   cdat,
   pdat,
+  standpop,
   projfor = "incidence",
   nagg = NULL,
   ncase = NULL,
@@ -32,7 +33,7 @@ hybdproj <- function(
 
   # Define number of years for data aggregation:
   if (is.null(nagg)) {
-    masr <- mean(obasr(cdat, pdat)[, 1])
+    masr <- mean(obasr(cdat, pdat, standpop)[, 1])
     if (projfor == "incidence") {
       if (masr > 15) {
         nagg <- 1
@@ -890,7 +891,7 @@ hybdproj.getproj <- function(
     if (is.null(standpop)) {
       return(outasp)
     } else {
-      outann <- asry(outasp, pdat, standpop = standpop)
+      outann <- asry(outasp, pdat, standpop)
       return(outann)
     }
   } else {
@@ -898,7 +899,7 @@ hybdproj.getproj <- function(
       if (is.null(standpop)) {
         return(outasp)
       } else {
-        outann <- asry(outasp, pdat, standpop = standpop)
+        outann <- asry(outasp, pdat, standpop)
         return(outann)
       }
     } else {
@@ -907,7 +908,7 @@ hybdproj.getproj <- function(
       if (is.null(standpop)) {
         return(outasp)
       } else {
-        outann <- asry(outasp, pdat, standpop = standpop)
+        outann <- asry(outasp, pdat, standpop)
         return(outann)
       }
     }

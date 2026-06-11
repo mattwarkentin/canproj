@@ -84,7 +84,7 @@ ave5proj.getproj <- function(pdat, ave5proj.object, standpop = NULL) {
   if (is.null(standpop)) {
     return(outasp)
   } else {
-    annproj <- asry(outasp, pdat, standpop = standpop)
+    annproj <- asry(outasp, pdat, standpop)
     return(annproj)
   }
 }

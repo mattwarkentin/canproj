@@ -528,7 +528,7 @@ acproj.getproj <- function(cdat, pdat, startp, acproj.object, standpop = NULL) {
   if (is.null(standpop)) {
     return(outasp)
   } else {
-    outann <- asry(outasp, pdat, standpop = standpop)
+    outann <- asry(outasp, pdat, standpop)
     return(outann)
   }
 }

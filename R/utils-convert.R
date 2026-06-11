@@ -6,7 +6,7 @@
 #' @param rr Observed and projected age-specific rates.
 #'
 #' @keywords internal
-asry <- function(rr, pdat, standpop = stdpop_Canada_2021()) {
+asry <- function(rr, pdat, standpop) {
   c1 <- rr * pdat / 100000
   a1 <- rr * standpop
   asr <- round(apply(a1, 2, sum), 6)

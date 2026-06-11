@@ -6,7 +6,7 @@ test_that("hybdproj works", {
   ))
   pdat <- data.frame(matrix(10000:10379, nrow = 19, ncol = 20))
 
-  out <- hybdproj(cdat, pdat)
+  out <- hybdproj(cdat, pdat, stdpop_Canada_2021())
 
   expect_equal(out$cuttrd, 0.04)
   expect_equal(out$shortp, 0)
@@ -39,6 +39,7 @@ test_that("hybdproj plot works", {
   out <- hybdproj(
     cdat,
     pdat,
+    stdpop_Canada_2021(),
     projfor = "incidence",
     nagg = 1,
     ncase = 5,
