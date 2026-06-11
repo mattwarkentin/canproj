@@ -10,6 +10,7 @@
 asrpy <- function(rate, cdat, pdat, startp, nagg) {
   # nagg: number of years used for aggregation: 1, 2, ..., 5
   # r0: 19*m matrix, age-specific rate of m periods
+  ngroups <- nrow(cdat)
   nt <- dim(cdat)[2]
   nperd <- floor(nt / nagg) # of observed periods if aggregated by nagg
   np <- dim(pdat)[2]
@@ -128,27 +129,7 @@ asrpy <- function(rate, cdat, pdat, startp, nagg) {
   datatab <- matrix(NA, 19, np)
   datatab[, 1:nt] <- as.matrix(obasr)
   datatab <- data.frame(datatab)
-  row.names(datatab) <- c(
-    "0-4",
-    "5-9",
-    "10-14",
-    "15-19",
-    "20-24",
-    "25-29",
-    "30-34",
-    "35-39",
-    "40-44",
-    "45-49",
-    "50-54",
-    "55-59",
-    "60-64",
-    "65-69",
-    "70-74",
-    "75-79",
-    "80-84",
-    "85-89",
-    "90+"
-  )
+  row.names(datatab) <- 1:ngroups
   colnames(datatab) <- (startp - nt):(startp + nyp - 1)
   # fill in projected age-specific rates per 100,000:
   datatab[, (nt + 1):np] <- rr

@@ -52,7 +52,7 @@ test_that("acproj prediction works with identity link function (default)", {
   expect_equal(out$startestage, 1)
 
   expect_equal(
-    out$predictions["45-49", "X4"],
+    out$predictions["10", "X4"],
     1652.8000,
     tolerance = 0.0001
   )
@@ -92,7 +92,7 @@ test_that("acproj prediction works with log link function", {
 
   out <- acproj.prediction(estimate_obj, cuttrd = 0.1, shortp = 0.01)
 
-  expect_equal(out$predictions["80-84", "X4"], 12285.68, tolerance = 0.01)
+  expect_equal(out$predictions["17", "X4"], 12285.68, tolerance = 0.01)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.01)
 })
 
@@ -125,7 +125,7 @@ test_that("acproj prediction works with sqrt link fucntion", {
 
   out <- acproj.prediction(estimate_obj, cuttrd = 0.1, shortp = 0.01)
 
-  expect_equal(out$predictions["30-34", "X4"], 264.0640, tolerance = 0.0001)
+  expect_equal(out$predictions["7", "X4"], 264.0640, tolerance = 0.0001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.0001)
 })
 
@@ -159,7 +159,7 @@ test_that("acproj prediction works with power5 link function", {
   out <- acproj.prediction(estimate_obj, cuttrd = 0.1, shortp = 0.01)
 
   expect_equal(
-    out$predictions["60-64", "X4"],
+    out$predictions["13", "X4"],
     1.46884207,
     tolerance = 0.00000001
   )

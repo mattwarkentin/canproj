@@ -88,7 +88,6 @@ test_that("acproj summary default produces correct output", {
   )
 })
 
-
 test_that("acproj summary can create printcall", {
   acproj_obj <- list(
     predictions = matrix(floor(0:75 / 19) * 25 + 35.5, nrow = 19, ncol = 4),

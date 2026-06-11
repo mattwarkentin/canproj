@@ -6,7 +6,7 @@ test_that("canproj can choose adpcproj during model selection", {
 
   expect_equal(out$method, "ADPC")
   expect_equal(out$annproj["2003", "asr"], 203.65801, tolerance = 0.00001)
-  expect_equal(out$agsproj["30-34", "2004"], 218.1044, tolerance = 0.0001)
+  expect_equal(out$agsproj["7", "2004"], 218.1044, tolerance = 0.0001)
 })
 
 test_that("canproj can choose acproj during model selection", {
@@ -17,7 +17,7 @@ test_that("canproj can choose acproj during model selection", {
 
   expect_equal(out$method, "AC")
   expect_equal(out$annproj["2000", "asr"], 91.81886, tolerance = 0.00001)
-  expect_equal(out$agsproj["40-44", "2002"], 83.03031, tolerance = 0.0001)
+  expect_equal(out$agsproj["9", "2002"], 83.03031, tolerance = 0.0001)
 })
 
 test_that("canproj can choose hybdproj during model selection", {
@@ -32,7 +32,7 @@ test_that("canproj can choose hybdproj during model selection", {
 
   expect_equal(out$method, "Hybrid")
   expect_equal(out$annproj["2001", "asr"], 26.076498, tolerance = 0.00001)
-  expect_equal(out$agsproj["10-14", "2004"], 26.09135, tolerance = 0.0001)
+  expect_equal(out$agsproj["3", "2004"], 26.09135, tolerance = 0.0001)
 })
 
 test_that("canproj can choose ave5proj during model selection", {
@@ -50,7 +50,7 @@ test_that("canproj can choose ave5proj during model selection", {
   expect_equal(out$annproj["2003", "asr"], 0.492162, tolerance = 0.00001)
   expect_snapshot_value(out$annproj, style = "json2", tolerance = 0.00001)
 
-  expect_equal(out$agsproj["70-74", "2002"], 3.905487, tolerance = 0.00001)
+  expect_equal(out$agsproj["15", "2002"], 3.905487, tolerance = 0.00001)
   expect_snapshot_value(out$agsproj, style = "json2", tolerance = 0.00001)
 })
 
@@ -62,7 +62,7 @@ test_that("canproj can specify nordpred method", {
 
   expect_equal(out$method, "nordpred")
   expect_equal(out$annproj["2003", "asr"], 404.35309, tolerance = 0.00001)
-  expect_equal(out$agsproj["65-69", "2004"], 553.8477, tolerance = 0.0001)
+  expect_equal(out$agsproj["14", "2004"], 553.8477, tolerance = 0.0001)
 })
 
 test_that("canproj can specify adpc-nb method", {
@@ -73,7 +73,7 @@ test_that("canproj can specify adpc-nb method", {
 
   expect_equal(out$method, "adpc-nb")
   expect_equal(out$annproj["2001", "asr"], 47.25288, tolerance = 0.00001)
-  expect_equal(out$agsproj["80-84", "2001"], 48.88024, tolerance = 0.0001)
+  expect_equal(out$agsproj["17", "2001"], 48.88024, tolerance = 0.0001)
 })
 
 test_that("canproj can specify ac-poi method", {
@@ -84,7 +84,7 @@ test_that("canproj can specify ac-poi method", {
 
   expect_equal(out$method, "ac-poi")
   expect_equal(out$annproj["2002", "asr"], 399.25027, tolerance = 0.00001)
-  expect_equal(out$agsproj["40-44", "2003"], 488.12615, tolerance = 0.00001)
+  expect_equal(out$agsproj["9", "2003"], 488.12615, tolerance = 0.00001)
 })
 
 test_that("canproj can specify ac-nb method", {
@@ -95,7 +95,7 @@ test_that("canproj can specify ac-nb method", {
 
   expect_equal(out$method, "ac-nb")
   expect_equal(out$annproj["2003", "asr"], 466.08970, tolerance = 0.00001)
-  expect_equal(out$agsproj["85-89", "2000"], 570.75521, tolerance = 0.00001)
+  expect_equal(out$agsproj["18", "2000"], 570.75521, tolerance = 0.00001)
 })
 
 test_that("canproj can specify age-trd-nb method", {
@@ -105,7 +105,7 @@ test_that("canproj can specify age-trd-nb method", {
 
   expect_equal(out$method, "a-s-nb")
   expect_equal(out$annproj["2004", "asr"], 509.25829, tolerance = 0.00001)
-  expect_equal(out$agsproj["70-74", "2001"], 505.1084, tolerance = 0.00001)
+  expect_equal(out$agsproj["15", "2001"], 505.1084, tolerance = 0.00001)
 })
 
 test_that("canproj can specify age-trd-poi method", {
@@ -115,7 +115,7 @@ test_that("canproj can specify age-trd-poi method", {
 
   expect_equal(out$method, "a-s-poi")
   expect_equal(out$annproj["2002", "asr"], 410.22099, tolerance = 0.00001)
-  expect_equal(out$agsproj["10-14", "2003"], 311.9490, tolerance = 0.00001)
+  expect_equal(out$agsproj["3", "2003"], 311.9490, tolerance = 0.00001)
 })
 
 test_that("canproj can specify com-trd method", {
@@ -125,7 +125,7 @@ test_that("canproj can specify com-trd method", {
 
   expect_equal(out$method, "c-t")
   expect_equal(out$annproj["2001", "asr"], 374.76110, tolerance = 0.00001)
-  expect_equal(out$agsproj["30-34", "2000"], 310.6442, tolerance = 0.00001)
+  expect_equal(out$agsproj["7", "2000"], 310.6442, tolerance = 0.00001)
 })
 
 test_that("canproj can specify age-only method", {
@@ -135,7 +135,7 @@ test_that("canproj can specify age-only method", {
 
   expect_equal(out$method, "average")
   expect_equal(out$annproj["2004", "asr"], 501.74981, tolerance = 0.00001)
-  expect_equal(out$agsproj["5-9", "2002"], 284.9060, tolerance = 0.0001)
+  expect_equal(out$agsproj["2", "2002"], 284.9060, tolerance = 0.0001)
 })
 
 test_that("canproj can specify ave5 method", {
@@ -145,7 +145,7 @@ test_that("canproj can specify ave5 method", {
 
   expect_equal(out$method, "average5")
   expect_equal(out$annproj["2001", "asr"], 244.13305, tolerance = 0.00001)
-  expect_equal(out$agsproj["65-69", "2003"], 311.2468, tolerance = 0.0001)
+  expect_equal(out$agsproj["14", "2003"], 311.2468, tolerance = 0.0001)
 })
 
 test_that("canproj plot works", {

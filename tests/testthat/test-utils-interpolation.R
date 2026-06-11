@@ -9,10 +9,7 @@ test_that("asrpy interpolates annual rates from 5-year aggregation", {
 
   expected <- data.frame(matrix(1:190, nrow = 19, ncol = 10))
   colnames(expected) <- c(1995:2004)
-  rownames(expected) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(expected) <- 1:19
 
   expect_equal(out, expected)
 })
@@ -28,10 +25,7 @@ test_that("asrpy interpolates annual rates from 4-year aggregation", {
 
   expected <- data.frame(matrix(1:152, nrow = 19, ncol = 8))
   colnames(expected) <- c(1996:2003)
-  rownames(expected) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(expected) <- 1:19
 
   expect_equal(out, expected)
 })
@@ -47,10 +41,7 @@ test_that("asrpy interpolates annual rates from 3-year aggregation", {
 
   expected <- data.frame(matrix(1:114, nrow = 19, ncol = 6))
   colnames(expected) <- c(1997:2002)
-  rownames(expected) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(expected) <- 1:19
 
   expect_equal(out, expected)
 })
@@ -66,10 +57,7 @@ test_that("asrpy interpolates annual rates from 2-year aggregation", {
 
   expected <- data.frame(matrix(1:76, nrow = 19, ncol = 4))
   colnames(expected) <- c(1998:2001)
-  rownames(expected) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(expected) <- 1:19
 
   expect_equal(out, expected)
 })
@@ -85,10 +73,7 @@ test_that("interpolation without aggregation returns original rates", {
 
   expected <- data.frame(matrix(2 * 1:76, nrow = 19, ncol = 4))
   colnames(expected) <- c(1998:2001)
-  rownames(expected) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(expected) <- 1:19
 
   expect_equal(out, expected)
 })

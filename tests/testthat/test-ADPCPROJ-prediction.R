@@ -71,7 +71,7 @@ test_that("adpcproj prediction works with recent trend and power5 link func", {
 
   expect_equal(out$recent, TRUE)
 
-  expect_equal(out$predictions["10-14", "X4"], 1.948014, tolerance = 0.00001)
+  expect_equal(out$predictions["3", "X4"], 1.948014, tolerance = 0.00001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.00001)
 })
 
@@ -118,7 +118,7 @@ test_that("adpcproj prediction works with recent trend and log link func", {
 
   expect_equal(out$recent, TRUE)
 
-  expect_equal(out$predictions["35-39", "X4"], 12668.69, tolerance = 0.01)
+  expect_equal(out$predictions["8", "X4"], 12668.69, tolerance = 0.01)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.01)
 })
 
@@ -165,7 +165,7 @@ test_that("adpcproj prediction works with recent trend and sqrt link func", {
 
   expect_equal(out$recent, TRUE)
 
-  expect_equal(out$predictions["75-79", "X4"], 622.1128, tolerance = 0.0001)
+  expect_equal(out$predictions["16", "X4"], 622.1128, tolerance = 0.0001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.0001)
 })
 
@@ -212,7 +212,7 @@ test_that("adpcproj prediction works with recent trend and identity link func", 
 
   expect_equal(out$recent, TRUE)
 
-  expect_equal(out$predictions["0-4", "X4"], 1748.964, tolerance = 0.001)
+  expect_equal(out$predictions["1", "X4"], 1748.964, tolerance = 0.001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.001)
 })
 
@@ -257,7 +257,7 @@ test_that("adpcproj prediction works with power5 link function", {
     cuttrd = 0.05
   )
 
-  expect_equal(out$predictions["40-44", "X4"], 5.940696, tolerance = 0.0000001)
+  expect_equal(out$predictions["9", "X4"], 5.940696, tolerance = 0.0000001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.0000001)
 })
 
@@ -302,7 +302,7 @@ test_that("adpcproj prediction works with log link function", {
     cuttrd = 0.05
   )
 
-  expect_equal(out$predictions["85-89", "X4"], 13582.97, tolerance = 0.01)
+  expect_equal(out$predictions["18", "X4"], 13582.97, tolerance = 0.01)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.01)
 })
 
@@ -347,7 +347,7 @@ test_that("adpcproj prediction works with sqrt link function", {
     cuttrd = 0.05
   )
 
-  expect_equal(out$predictions["65-69", "X4"], 646.3576, tolerance = 0.0001)
+  expect_equal(out$predictions["14", "X4"], 646.3576, tolerance = 0.0001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.0001)
 })
 
@@ -408,6 +408,6 @@ test_that("adpcproj prediction works with identity link function (default)", {
   expect_equal(out$startuseage, 1)
   expect_equal(out$startestage, 1)
 
-  expect_equal(out$predictions["60-64", "X4"], 2533.490, tolerance = 0.001)
+  expect_equal(out$predictions["13", "X4"], 2533.490, tolerance = 0.001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.001)
 })

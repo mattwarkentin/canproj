@@ -25,7 +25,7 @@ test_that("hybdproj works", {
   expect_equal(out$finalmod, "average")
   expect_equal(out$gofpvalue, 0.03994028, tolerance = 0.000001)
 
-  expect_equal(out$predictions["10-14", "18"], 2.693932, tolerance = 0.000001)
+  expect_equal(out$predictions["3", "18"], 2.693932, tolerance = 0.000001)
   expect_s3_class(out$glm, "glm")
 })
 

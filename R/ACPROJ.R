@@ -306,6 +306,7 @@ acproj.prediction <- function(
   nototper <- dim(pyr)[2]
   noobsper <- dim(cases)[2]
   nonewpred <- nototper - noobsper
+  ngroups <- nrow(cases)
 
   cuttrend <- rep(shortp, nonewpred)
   for (i in 1:nonewpred) {
@@ -331,27 +332,7 @@ acproj.prediction <- function(
   # fill in observed cases:
   datatable[, 1:(nototper - nonewpred)] <- as.matrix(cases)
   datatable <- data.frame(datatable)
-  row.names(datatable) <- c(
-    "0-4",
-    "5-9",
-    "10-14",
-    "15-19",
-    "20-24",
-    "25-29",
-    "30-34",
-    "35-39",
-    "40-44",
-    "45-49",
-    "50-54",
-    "55-59",
-    "60-64",
-    "65-69",
-    "70-74",
-    "75-79",
-    "80-84",
-    "85-89",
-    "90+"
-  )
+  row.names(datatable) <- 1:ngroups
   names(datatable) <- years
 
   ## Calculate predictions in number of cases:

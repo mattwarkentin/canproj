@@ -24,7 +24,7 @@ datagg <- function(cdat, pdat, nagg) {
     sum
   )))[-1, ]
   colnames(cases) <- 1:nper
-  rownames(cases) <- 1:19
+  rownames(cases) <- 1:nrow(cdat)
 
   # aggregating population data:
   pdat1 <- pdat[, 1:ny] # observed population
@@ -61,6 +61,6 @@ datagg <- function(cdat, pdat, nagg) {
   # combine population data:
   pyr <- as.data.frame(cbind(pyr1, pyr2))
   colnames(pyr) <- 1:(nper + nperp)
-  rownames(pyr) <- 1:19
+  rownames(pyr) <- 1:nrow(cdat)
   return(list(cases = cases, pyr = pyr))
 }

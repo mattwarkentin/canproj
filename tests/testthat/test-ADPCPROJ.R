@@ -30,7 +30,7 @@ test_that("adpcproj works with all variables", {
   expect_equal(out$startuseage, 1)
   expect_equal(out$startestage, 1)
 
-  expect_equal(out$predictions["5-9", "4"], 188.0918, tolerance = 0.0001)
+  expect_equal(out$predictions["2", "4"], 188.0918, tolerance = 0.0001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.00001)
 
   expect_equal(out$pyr["12", "4"], 51670)
@@ -168,8 +168,8 @@ test_that("adpcproj getproj works without standard population", {
 
   out <- adpcproj.getproj(cdat, pdat, 2000, adpcproj_obj)
 
-  expect_equal(out["90+", "1987"], 3.995525, tolerance = 0.00001)
-  expect_equal(out["25-29", "2000"], 198.1467, tolerance = 0.00001)
+  expect_equal(out["19", "1987"], 3.995525, tolerance = 0.00001)
+  expect_equal(out["6", "2000"], 198.1467, tolerance = 0.00001)
 
   expect_snapshot_value(out, style = "json2", tolerance = 0.00001)
 })

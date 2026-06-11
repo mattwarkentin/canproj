@@ -12,10 +12,7 @@ test_that("ave5proj works when aggregating data", {
     ncol = 15
   ))
   colnames(projection) <- c(1990:2004)
-  rownames(projection) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(projection) <- 1:19
 
   expected <- list(
     agsproj = projection,
@@ -44,10 +41,7 @@ test_that("ave5proj works when averaging data", {
     ncol = 15
   ))
   colnames(projection) <- c(1990:2004)
-  rownames(projection) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(projection) <- 1:19
 
   expected <- list(
     agsproj = projection,
@@ -75,10 +69,7 @@ test_that("ave5proj creates summary with printcall", {
     ncol = 4
   ))
   colnames(projection) <- c(1990:1993)
-  rownames(projection) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(projection) <- 1:19
 
   ave5_obj <- list(
     agsproj = projection,
@@ -109,10 +100,7 @@ test_that("ave5proj creates summary with averaged yearly rates", {
     ncol = 4
   ))
   colnames(projection) <- c(1990:1993)
-  rownames(projection) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(projection) <- 1:19
 
   ave5_obj <- list(
     agsproj = projection,
@@ -149,10 +137,7 @@ test_that("ave5prog gets projections with default standard population", {
     ncol = 15
   ))
   colnames(projection) <- c(1990:2004)
-  rownames(projection) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(projection) <- 1:19
 
   ave5_object <- list(
     agsproj = projection,
@@ -173,10 +158,7 @@ test_that("ave5proj gets projections with specified standard population", {
     ncol = 5
   ))
   colnames(projection) <- c(1990:1994)
-  rownames(projection) <- c(
-    paste0(seq(0, 85, by = 5), "-", seq(4, 89, by = 5)),
-    "90+"
-  )
+  rownames(projection) <- 1:19
 
   ave5_object <- list(
     agsproj = projection,

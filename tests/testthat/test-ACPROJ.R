@@ -25,7 +25,7 @@ test_that("acproj works", {
   expect_s3_class(output$glm, "glm")
 
   expect_equal(output$gofpvalue, 0.9997187, tolerance = 0.0000001)
-  expect_equal(output$predictions["15-19", "4"], 127.04251, tolerance = 0.00001)
+  expect_equal(output$predictions["4", "4"], 127.04251, tolerance = 0.00001)
   expect_equal(output$pyr["10", "3"], 51185)
   expect_equal(
     unname(output$glm$coefficients[14]),
@@ -110,8 +110,8 @@ test_that("acproj getproj works without a standard population", {
 
   out <- acproj.getproj(cdat, pdat, 2000, acproj_obj)
 
-  expect_equal(out["20-24", "1988"], 79.51496, tolerance = 0.00001)
-  expect_equal(out["55-59", "2003"], 227.5242, tolerance = 0.00001)
+  expect_equal(out["5", "1988"], 79.51496, tolerance = 0.00001)
+  expect_equal(out["12", "2003"], 227.5242, tolerance = 0.00001)
 
   expect_snapshot_value(out, style = "json2", tolerance = 0.00001)
 })

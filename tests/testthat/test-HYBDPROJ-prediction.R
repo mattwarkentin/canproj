@@ -43,7 +43,7 @@ test_that("hybdproj prediction runs (nagg 1, average model, and power5 link func
   expect_equal(out$glm, glm)
 
   expect_equal(
-    out$predictions["55-59", "Periode 6"],
+    out$predictions["12", "Periode 6"],
     1.860438,
     tolerance = 0.000001
   )
@@ -80,7 +80,7 @@ test_that("hybdproj prediction works with age and nba specific models w/ power5 
   expect_equal(out$finalmod, "age-specific")
 
   expect_equal(
-    out$predictions["30-34", "Periode 6"],
+    out$predictions["7", "Periode 6"],
     39.23385,
     tolerance = 0.00001
   )
@@ -117,7 +117,7 @@ test_that("hybdproj prediction works with age and nba specific models w/ log lin
   expect_equal(out$finalmod, "nba-specific")
 
   expect_equal(
-    out$predictions["80-84", "Periode 6"],
+    out$predictions["17", "Periode 6"],
     85837.89,
     tolerance = 0.00001
   )
@@ -154,7 +154,7 @@ test_that("hybdproj prediction works with age and nba specific models w/ sqrt li
   expect_equal(out$finalmod, "nba-specific")
 
   expect_equal(
-    out$predictions["45-49", "Periode 6"],
+    out$predictions["10", "Periode 6"],
     5420.1189,
     tolerance = 0.00001
   )
@@ -191,7 +191,7 @@ test_that("hybdproj prediction works with age and nba specific models w/ identit
   expect_equal(out$finalmod, "age-specific")
 
   expect_equal(
-    out$predictions["10-14", "Periode 6"],
+    out$predictions["3", "Periode 6"],
     5991.721,
     tolerance = 0.00001
   )
@@ -228,7 +228,7 @@ test_that("hybdproj prediction works with common-trend model and power5 link fun
   expect_equal(out$finalmod, "common-trend")
 
   expect_equal(
-    out$predictions["85-89", "Periode 6"],
+    out$predictions["18", "Periode 6"],
     13.7637,
     tolerance = 0.00001
   )
@@ -265,7 +265,7 @@ test_that("hybdproj prediction works with common-trend model and log link func",
   expect_equal(out$finalmod, "common-trend")
 
   expect_equal(
-    out$predictions["50-54", "Periode 6"],
+    out$predictions["11", "Periode 6"],
     56719.65,
     tolerance = 0.00001
   )
@@ -302,7 +302,7 @@ test_that("hybdproj prediction works with common-trend model and sqrt link func"
   expect_equal(out$finalmod, "common-trend")
 
   expect_equal(
-    out$predictions["5-9", "Periode 6"],
+    out$predictions["2", "Periode 6"],
     57.84402,
     tolerance = 0.00001
   )
@@ -339,7 +339,7 @@ test_that("hybdproj prediction works with common-trend model and identity link f
   expect_equal(out$finalmod, "common-trend")
 
   expect_equal(
-    out$predictions["70-74", "Periode 6"],
+    out$predictions["15", "Periode 6"],
     8217.038,
     tolerance = 0.00001
   )
@@ -375,7 +375,7 @@ test_that("hybdproj prediction works with average model and power5 link func", {
   expect_equal(out$finalmod, "average")
 
   expect_equal(
-    out$predictions["90+", "Periode 6"],
+    out$predictions["19", "Periode 6"],
     16.03648,
     tolerance = 0.00001
   )
@@ -411,7 +411,7 @@ test_that("hybdproj prediction works with average model and log link func", {
   expect_equal(out$finalmod, "average")
 
   expect_equal(
-    out$predictions["20-24", "Periode 6"],
+    out$predictions["5", "Periode 6"],
     53198.01,
     tolerance = 0.00001
   )
@@ -447,7 +447,7 @@ test_that("hybdproj prediction works with average model and sqrt link func", {
   expect_equal(out$finalmod, "average")
 
   expect_equal(
-    out$predictions["40-44", "Periode 6"],
+    out$predictions["9", "Periode 6"],
     501.0400,
     tolerance = 0.00001
   )
@@ -483,7 +483,7 @@ test_that("hybdproj prediction works with average model and identity link func",
   expect_equal(out$finalmod, "average")
 
   expect_equal(
-    out$predictions["70-74", "Periode 6"],
+    out$predictions["15", "Periode 6"],
     8017.60,
     tolerance = 0.00001
   )
