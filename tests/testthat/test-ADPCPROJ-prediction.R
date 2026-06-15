@@ -411,3 +411,48 @@ test_that("adpcproj prediction works with identity link function (default)", {
   expect_equal(out$predictions["13", "X4"], 2533.490, tolerance = 0.001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.001)
 })
+
+test_that("adpcproj prediction works with varying age groups", {
+  glm <- list(
+    coefficients = c(
+      seq(from = 0.02, to = 0.11, by = 0.01),
+      seq(from = 0.01, to = 0.08, by = 0.005)
+    ),
+    method = "fake"
+  )
+  attributes(glm$coefficients)$names <- c(
+    paste0("as.factor(Age)", 1:10),
+    "Period",
+    paste0("as.factor(Period)", 2:3),
+    paste0("as.factor(Cohort)", 2:12)
+  )
+
+  estimate_adpc <- list(
+    glm = glm,
+    cases = data.frame(matrix(1:30 + 20, nrow = 10, ncol = 3)),
+    pyr = data.frame(matrix(
+      seq(from = 10000, to = 10195, by = 5),
+      nrow = 10,
+      ncol = 4
+    )),
+    noperiod = 3,
+    linkfunc = "identity",
+    startestage = 1,
+    distribution = "Poisson",
+    gofpvalue = 0.8,
+    suggestionrecent = FALSE,
+    pvaluerecent = 0.01
+  )
+  class(estimate_adpc) <- "adpcproj.estimate"
+
+  out <- adpcproj.prediction(
+    estimate_adpc,
+    startuseage = 1,
+    recent = FALSE,
+    shortp = 0.01,
+    cuttrd = 0.05
+  )
+
+  expect_equal(nrow(out$predictions), 10)
+  expect_equal(out$predictions["7", "X4"], 1729.582, tolerance = 0.001)
+})

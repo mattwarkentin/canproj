@@ -166,6 +166,16 @@ test_that("canproj can specify ave5 method", {
   expect_equal(out$agsproj["14", "2003"], 311.2468, tolerance = 0.0001)
 })
 
+test_that("canproj works with varying age groups", {
+  cdat <- data.frame(matrix(floor(0:149 / 10), nrow = 10, ncol = 15))
+  pdat <- data.frame(matrix(10000:10199, nrow = 10, ncol = 20))
+  standpop <- rep(0.1, 10)
+  out <- canproj(cdat, pdat, 2000, standpop)
+
+  expect_equal(nrow(out$agsproj), 10)
+  expect_equal(nrow(out$out$predictions), 10)
+})
+
 test_that("canproj plot works", {
   skip_if_not_installed("vdiffr")
 

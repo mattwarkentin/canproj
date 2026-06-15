@@ -489,3 +489,32 @@ test_that("hybdproj prediction works with average model and identity link func",
   )
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.00001)
 })
+
+test_that("hybdproj prediction works with varying age groups", {
+  glm <- list(
+    coefficients = c(
+      seq(from = 0.02, to = 0.11, by = 0.01)
+    ),
+    method = "fake"
+  )
+
+  estimate_obj <- list(
+    cases = matrix(2 * 1:10 + 20, nrow = 10, ncol = 5),
+    pyr = matrix(50001:50060, nrow = 10, ncol = 6),
+    glm = glm,
+    linkfunc = "power5",
+    noyearagg = 1,
+    nocaseagp = 5,
+    projbase = 3,
+    agrpmod = 1:10,
+    agrpave = integer(0),
+    finalmod = "average",
+    noperiod = 5,
+    lastper = 3
+  )
+  class(estimate_obj) <- "hybdproj.estimate"
+
+  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+
+  expect_equal(nrow(out$predictions), 10)
+})

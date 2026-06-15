@@ -17,13 +17,13 @@ ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
   ngroups <- nrow(cdat)
 
   # fill in observed rates:
-  obasr <- matrix(NA, 19, nc)
+  obasr <- matrix(NA, ngroups, nc)
 
   for (i in 1:nc) {
     obasr[, i] <- 100000 * cdat[, i] / pdat[, i]
   }
 
-  datatab <- matrix(NA, 19, np)
+  datatab <- matrix(NA, ngroups, np)
 
   datatab[, 1:nc] <- as.matrix(obasr)
 
@@ -34,7 +34,7 @@ ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
   colnames(datatab) <- (startp - nc):(startp + (np - nc) - 1)
 
   # Calculate predictions in age-specific rates:
-  for (age in 1:19) {
+  for (age in 1:ngroups) {
     if (is.null(sum5)) {
       obsinc <- apply(cdat[age, (nc - 4):nc], 1, sum) /
         apply(pdat[age, (nc - 4):nc], 1, sum)

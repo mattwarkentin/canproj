@@ -26,7 +26,6 @@ test_that("ave5proj works when aggregating data", {
   expect_equal(ave5proj(cdat, pdat, startp), expected)
 })
 
-
 test_that("ave5proj works when averaging data", {
   cdat <- data.frame(matrix(1:190, nrow = 19, ncol = 10))
   pdat <- data.frame(matrix(10000, nrow = 19, ncol = 15))
@@ -57,6 +56,47 @@ test_that("ave5proj works when averaging data", {
   expect_equal(ave5proj(cdat, pdat, startp, sum5 = T), expected)
 })
 
+test_that("ave5proj works with non-standard age groups", {
+  cdat <- data.frame(matrix(1:100, nrow = 10, ncol = 10))
+  pdat <- data.frame(matrix(10000, nrow = 10, ncol = 15))
+  startp <- 2000
+
+  out <- ave5proj(cdat, pdat, startp)
+
+  projection <- data.frame(matrix(
+    c(
+      seq(from = 10, to = 1000, by = 10),
+      rep(seq(from = 710, to = 800, by = 10), 5)
+    ),
+    nrow = 10,
+    ncol = 15
+  ))
+  colnames(projection) <- c(1990:2004)
+  rownames(projection) <- 1:10
+
+  expect_equal(out$agsproj, projection)
+})
+
+test_that("ave5proj works with only one age group", {
+  cdat <- data.frame(matrix(10:19, nrow = 1, ncol = 10))
+  pdat <- data.frame(matrix(10000, nrow = 1, ncol = 15))
+  startp <- 2000
+
+  out <- ave5proj(cdat, pdat, startp)
+
+  projection <- data.frame(matrix(
+    c(
+      seq(from = 100, to = 190, by = 10),
+      rep(170, 5)
+    ),
+    nrow = 1,
+    ncol = 15
+  ))
+  colnames(projection) <- c(1990:2004)
+  rownames(projection) <- as.integer(1)
+
+  expect_equal(out$agsproj, projection)
+})
 
 test_that("ave5proj creates summary with printcall", {
   cdat <- data.frame(matrix(1:38, nrow = 19, ncol = 2))

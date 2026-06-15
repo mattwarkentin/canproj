@@ -1,21 +1,3 @@
-test_that("adpcproj estimate must have 19 age groups", {
-  cases <- matrix(5, nrow = 12, ncol = 3)
-  pyr <- matrix(10, nrow = 34, ncol = 4)
-
-  expect_error(
-    adpcproj.estimate(
-      cases,
-      pyr,
-      noperiod = 3,
-      startestage = 1,
-      pGOF = 1,
-      linkfunc = "power5"
-    ),
-    "\"cases\" and \"pyr\" must have data for 19 age groups",
-    fixed = TRUE
-  )
-})
-
 test_that("adpcproj estimate must have population data for all periods in cases", {
   cases <- matrix(5, nrow = 19, ncol = 4)
   pyr <- matrix(15, nrow = 19, ncol = 3)

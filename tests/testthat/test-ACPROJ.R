@@ -76,6 +76,26 @@ test_that("acproj moves start stage according to n5case when NULL", {
   expect_equal(output$startestage, 2)
 })
 
+test_that("acproj works with varying age groups", {
+  cdat <- matrix(floor((0:149) / 19) + 5, nrow = 10, ncol = 15)
+  pdat <- matrix(10000:10199, nrow = 10, ncol = 20)
+
+  output <- acproj(
+    cdat,
+    pdat,
+    projfor = "incidence",
+    n5case = 5,
+    startestage = 1,
+    cuttrd = 0.05,
+    shortp = 0.01,
+    pGOF = 0.05,
+    linkfunc = "power5"
+  )
+
+  expect_equal(nrow(output$predictions), 10)
+  expect_equal(output$predictions["4", "4"], 73.09689, tolerance = 0.00001)
+})
+
 test_that("acproj getproj works with a standard population", {
   cdat <- matrix(floor((0:284) / 19) + 5, nrow = 19, ncol = 15)
   pdat <- matrix(10000:10379, nrow = 19, ncol = 20)

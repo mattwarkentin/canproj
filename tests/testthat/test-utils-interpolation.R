@@ -96,3 +96,23 @@ test_that("nagg must be integer from 1 to 5", {
     "Years of aggregation \"nagg\" must be integer between 1 and 5"
   )
 })
+
+test_that("asrpy accomodates varying age groups", {
+  cdat <- matrix(1:50, nrow = 10, ncol = 5)
+  pdat <- matrix(100000, nrow = 10, ncol = 10)
+  startp <- 2000
+  nagg <- 5
+  rate <- matrix(c(39:48, 124:133), nrow = 10, ncol = 2)
+
+  out <- asrpy(rate, cdat, pdat, startp, nagg)
+
+  expected <- data.frame(matrix(
+    c(1:50, 90:99, 107:116, 124:133, 141:150, 158:167),
+    nrow = 10,
+    ncol = 10
+  ))
+  colnames(expected) <- c(1995:2004)
+  rownames(expected) <- 1:10
+
+  expect_equal(out, expected)
+})

@@ -34,9 +34,16 @@ test_that("obasr calculates annual age-standardized rates by population", {
   expect_equal(obasr(cdat, pdat, stdpop), out, tolerance = 0.001)
 })
 
+test_that("obasr can accomodate varying numbers of age groups", {
+  cdat <- matrix(1:50, nrow = 10, ncol = 5)
+  pdat <- matrix(100:299, nrow = 10, ncol = 20)
 
+  stdpop <- c(0.05, 0.15, 0.05, 0.15, 0.05, 0.15, 0.05, 0.15, 0.05, 0.15)
 
+  out <- obasr(cdat, pdat, standpop = stdpop)
 
+  expect_equal(unname(out[4, "asr"]), 26497.455, tolerance = 0.001)
+  expect_equal(unname(out[2, "case"]), 155)
 })
 
 test_that("chper calculates percentage change", {

@@ -138,11 +138,6 @@ adpcproj.estimate <- function(
   pGOF = 0.05,
   linkfunc = "power5"
 ) {
-  ## Checking data
-  if (dim(cases)[1] != 19 || dim(pyr)[1] != 19) {
-    stop("\"cases\" and \"pyr\" must have data for 19 age groups")
-  }
-
   if (dim(cases)[2] > dim(pyr)[2]) {
     stop("\"pyr\" must include information about all periods in \"cases\"")
   }
@@ -470,7 +465,7 @@ adpcproj.prediction <- function(
   }
 
   ## Making data object:
-  datatable <- matrix(NA, 19, nototper)
+  datatable <- matrix(NA, ngroups, nototper)
   # fill in observed cases:
   datatable[, 1:(nototper - nonewpred)] <- as.matrix(cases)
   datatable <- data.frame(datatable)
@@ -491,17 +486,19 @@ adpcproj.prediction <- function(
   }
 
   # For old agegroups, use trend from model estimates:
-  for (age in startuseage:19) {
+  for (age in startuseage:ngroups) {
     startestage <- adpcproj.estimate.object$startestage
     coefficients <- adpcproj.estimate.object$glm$coefficients
 
     # Cohort index: No. agegoups - age + period
-    coh <- (19 - startestage) - (age - startestage) + (noperiod + 1:nonewpred)
+    coh <- (ngroups - startestage) -
+      (age - startestage) +
+      (noperiod + 1:nonewpred)
 
-    noages <- 19 - startestage + 1
+    noages <- ngroups - startestage + 1
     driftmp <- cumsum(1 - cuttrend)
     cohfind <- noages + (noperiod - 1) + 1 + (coh - 1)
-    maxcoh <- 19 - startuseage + noperiod
+    maxcoh <- ngroups - startuseage + noperiod
     agepar <- as.numeric(coefficients[age - startestage + 1])
     driftfind <- pmatch("Period", attributes(coefficients)$names)
     driftpar <- as.numeric(coefficients[driftfind])

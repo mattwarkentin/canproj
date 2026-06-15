@@ -29,6 +29,21 @@ test_that("hybdproj works", {
   expect_s3_class(out$glm, "glm")
 })
 
+test_that("hybdproj works with varying age groups", {
+  cdat <- data.frame(matrix(
+    c(rep(1, 10), rep(5, 10), rep(2, 10)),
+    nrow = 10,
+    ncol = 15
+  ))
+  pdat <- data.frame(matrix(10000:10199, nrow = 10, ncol = 20))
+
+  out <- hybdproj(cdat, pdat, rep(0.1, 10))
+
+  expect_equal(length(out$glm$coefficients), 10)
+  expect_equal(out$agrpmod, 1:10)
+  expect_equal(nrow(out$predictions), 10)
+})
+
 test_that("hybdproj plot works", {
   skip_if_not_installed("vdiffr")
 

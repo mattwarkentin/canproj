@@ -169,3 +169,40 @@ test_that("acproj prediction works with power5 link function", {
     tolerance = 0.00000001
   )
 })
+
+test_that("acproj prediction works with varying age groups", {
+  glm <- list(
+    coefficients = c(
+      seq(from = 0.06, to = 0.15, by = 0.01),
+      seq(from = -0.1, to = 0.0, by = 0.01)
+    ),
+    method = "fake"
+  )
+
+  estimate_obj <- list(
+    glm = glm,
+    cases = data.frame(matrix(1:10 + 20, nrow = 10, ncol = 3)),
+    pyr = data.frame(matrix(
+      seq(from = 10000, to = 10195, by = 5),
+      nrow = 10,
+      ncol = 4
+    )),
+    maxc = 21,
+    midc = 11,
+    noperiod = 3,
+    linkfunc = "identity",
+    startestage = 1,
+    distribution = "Poisson",
+    gofpvalue = 0.8
+  )
+  class(estimate_obj) <- "acproj.estimate"
+
+  out <- acproj.prediction(estimate_obj, cuttrd = 0.1, shortp = 0.01)
+
+  expect_equal(nrow(out$predictions), 10)
+  expect_equal(
+    out$predictions["10", "X4"],
+    815.60000,
+    tolerance = 0.0001
+  )
+})

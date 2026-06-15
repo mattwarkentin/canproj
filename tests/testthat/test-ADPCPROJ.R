@@ -201,3 +201,26 @@ test_that("adpcproj plot works", {
     function() plot(out, cdat, pdat, 2000, stdpop)
   )
 })
+
+test_that("adpcproj works with varying age groups", {
+  cdat <- matrix(floor(0:149 / 19) + 20, nrow = 10, ncol = 15)
+  pdat <- matrix(10000:10199, nrow = 10, ncol = 20)
+
+  out <- adpcproj(
+    cdat,
+    pdat,
+    projfor = "incidence",
+    n5case = 5,
+    noperiods = 3,
+    recent = TRUE,
+    startestage = 1,
+    newcohort = NULL,
+    pGOF = 0.1,
+    cuttrd = 0.03,
+    shortp = 0.02,
+    linkfunc = "power5"
+  )
+
+  expect_equal(nrow(out$predictions), 10)
+  expect_equal(out$predictions["2", "4"], 142.4279, tolerance = 0.0001)
+})

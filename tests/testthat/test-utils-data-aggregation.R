@@ -70,3 +70,18 @@ test_that("population input must include projection years", {
 
   expect_error(datagg(cdat, pdat, 1))
 })
+
+test_that("datagg supports other age groupings", {
+  cdat <- matrix(1:10, nrow = 10, ncol = 15)
+  pdat <- matrix(1000:1009, nrow = 10, ncol = 20)
+
+  cases <- data.frame(matrix(5 * 1:10, 10, 3), row.names = 1:10)
+  colnames(cases) <- 1:3
+
+  pyr <- data.frame(matrix(5 * 0:9 + 5000, 10, 4), row.names = 1:10)
+  colnames(pyr) <- 1:4
+
+  agg <- list(cases = cases, pyr = pyr)
+
+  expect_equal(datagg(cdat, pdat, 5), agg)
+})

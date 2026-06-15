@@ -18,6 +18,18 @@ test_that("hybdproj estimate works", {
   expect_equal(out$projbase, 20)
 })
 
+test_that("hybdproj estimate works with varying age groups", {
+  cases <- matrix(2 * 1:10 + 20, nrow = 10, ncol = 5)
+  pyr <- matrix(50001:50060, nrow = 10, ncol = 6)
+  nagg <- 4
+  ncase <- 5
+
+  out <- hybdproj.estimate(cases, pyr, nagg, ncase)
+
+  expect_equal(out$agrpmod, 1:10)
+  expect_equal(length(out$glm$coefficients), 10)
+})
+
 test_that("hybdproj estimate works with average model and power5 link func", {
   cases <- matrix(2 * 1:19 + 20, nrow = 19, ncol = 5)
   pyr <- matrix(50001:50114, nrow = 19, ncol = 6)

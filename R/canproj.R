@@ -48,11 +48,6 @@ canproj <- function(
   pGOF = 0.05
 ) {
   # Check data:
-  if (dim(cdat)[1] != 19 || dim(pdat)[1] != 19) {
-    stop(
-      "\"cdat\" and \"pdat\" must have data for 19 age groups by row in this version"
-    )
-  }
   if (dim(cdat)[2] > dim(pdat)[2]) {
     stop("\"pdat\" must include information about all years in \"cdat\"")
   }

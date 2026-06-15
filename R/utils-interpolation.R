@@ -48,7 +48,7 @@ asrpy <- function(rate, cdat, pdat, startp, nagg) {
   rc3 <- 2 * rc2 - r0[, m]
   r1 <- cbind(rc1, r0, rc2)
   # producing annual age-specific rates:
-  rr <- matrix(NA, 19, nyp)
+  rr <- matrix(NA, ngroups, nyp)
   if (nagg == 1) {
     rr <- r0
   } else if (nagg == 2) {
@@ -122,11 +122,11 @@ asrpy <- function(rate, cdat, pdat, startp, nagg) {
   }
 
   # fill in observed age-specific rates per 100,000:
-  obasr <- matrix(NA, 19, nt)
+  obasr <- matrix(NA, ngroups, nt)
   for (i in 1:nt) {
     obasr[, i] <- 100000 * cdat[, i] / pdat[, i]
   }
-  datatab <- matrix(NA, 19, np)
+  datatab <- matrix(NA, ngroups, np)
   datatab[, 1:nt] <- as.matrix(obasr)
   datatab <- data.frame(datatab)
   row.names(datatab) <- 1:ngroups

@@ -135,7 +135,7 @@ hybdproj.estimate <- function(
   }
 
   ## Splitting data by age groups: A for average method, B for regression.
-  nage <- 1:19
+  nage <- 1:nrow(cases)
   mcase <- apply(cases, 1, mean) # calculate the mean cases
   caseage <- as.data.frame(cbind(nage, cases))
   pyrage <- as.data.frame(cbind(nage, pyr))
@@ -617,7 +617,7 @@ hybdproj.prediction <- function(
   }
 
   ## Making data object:
-  datatable <- matrix(NA, 19, nototper)
+  datatable <- matrix(NA, nrow(cases), nototper)
 
   # fill in observed cases:
   datatable[, 1:(nototper - nonewpred)] <- as.matrix(cases)
@@ -682,7 +682,7 @@ hybdproj.prediction <- function(
     colnames(acoef) <- c("a.eff", "p.eff", "agrp")
 
     # Project age-specific numbers:
-    for (age in 1:19) {
+    for (age in 1:nrow(cases)) {
       if (is.na(acoef$a.eff[acoef$agrp == age])) {
         rate <- rep(obsrate[age], length(driftmp))
       } else {
@@ -711,7 +711,7 @@ hybdproj.prediction <- function(
     row.names(acoef) <- NULL
     colnames(acoef) <- c("a.eff", "p.eff", "agrp")
     # Project age-specific numbers:
-    for (age in 1:19) {
+    for (age in 1:nrow(cases)) {
       if (is.na(acoef$a.eff[acoef$agrp == age])) {
         rate <- rep(obsrate[age], length(driftmp))
       } else {

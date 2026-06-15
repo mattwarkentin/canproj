@@ -95,11 +95,6 @@ acproj.estimate <- function(
   pGOF = 0.05,
   linkfunc = "power5"
 ) {
-  ## Checking data
-  if (dim(cases)[1] != 19 || dim(pyr)[1] != 19) {
-    stop("\"cases\" and \"pyr\" must have data for 19 age groups")
-  }
-
   if (dim(cases)[2] > dim(pyr)[2]) {
     stop("\"pyr\" must include information about all periods in \"cases\"")
   }
@@ -328,7 +323,7 @@ acproj.prediction <- function(
   }
 
   ## Making data object:
-  datatable <- matrix(NA, 19, nototper)
+  datatable <- matrix(NA, ngroups, nototper)
   # fill in observed cases:
   datatable[, 1:(nototper - nonewpred)] <- as.matrix(cases)
   datatable <- data.frame(datatable)
@@ -351,7 +346,7 @@ acproj.prediction <- function(
   # For old agegroups, use AC model estimates:
   coefficients <- acproj.estimate.object$glm$coefficients
   # Age effects:
-  noages <- 19 - startestage + 1
+  noages <- ngroups - startestage + 1
   ageff <- coefficients[1:noages]
   # Cohort effects:
   coeff <- c(
@@ -369,11 +364,13 @@ acproj.prediction <- function(
     c((lncoh - 3):(lncoh - 2), (cumsum(1 - cuttrend) + lncoh - 2))
   coheff <- c(coeff[1:(lncoh - 2)], ncoeff) # replace the last 2 cohort by estimates
 
-  for (age in startestage:19) {
+  for (age in startestage:ngroups) {
     # Age effect:
     agepar <- as.numeric(ageff[age - startestage + 1])
     # Cohort index: No. agegoups - age + period
-    coh <- (19 - startestage) - (age - startestage) + (noperiod + 1:nonewpred)
+    coh <- (ngroups - startestage) -
+      (age - startestage) +
+      (noperiod + 1:nonewpred)
     cohpar <- coheff[coh]
     # Project age-specific rates:
     if (acproj.estimate.object$linkfunc == "power5") {

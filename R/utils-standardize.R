@@ -10,7 +10,7 @@
 obasr <- function(cdat, pdat, standpop) {
   m <- dim(cdat)[2]
   popu <- pdat[, 1:m]
-  rr <- matrix(NA, 19, m)
+  rr <- matrix(NA, nrow(cdat), m)
   for (i in 1:m) {
     rr[, i] <- 100000 * cdat[, i] / popu[, i]
   }
