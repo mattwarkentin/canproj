@@ -4,7 +4,7 @@
 \alias{asry}
 \title{Convert to age-standardized}
 \usage{
-asry(rr, pdat, standpop = stdpop_Canada_2021())
+asry(rr, pdat, standpop)
 }
 \arguments{
 \item{rr}{Observed and projected age-specific rates.}

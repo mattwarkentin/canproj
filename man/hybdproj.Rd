@@ -7,6 +7,7 @@
 hybdproj(
   cdat,
   pdat,
+  standpop,
   projfor = "incidence",
   nagg = NULL,
   ncase = NULL,
@@ -21,6 +22,8 @@ hybdproj(
 \item{cdat}{19(age groups)*N(years) historical cancer data, 15<=N<=125.}
 
 \item{pdat}{19(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+
+\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
 
 \item{projfor}{Specify "incidence" or "mortality" if want ASR as criteria for nagg.}
 

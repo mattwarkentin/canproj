@@ -8,6 +8,7 @@ canproj(
   cdat,
   pdat,
   startp,
+  standpop,
   projfor = "incidence",
   nagg = NULL,
   ncase = NULL,
@@ -20,8 +21,7 @@ canproj(
   cuttrd = 0.04,
   shortp = 0,
   pD = 0.05,
-  pGOF = 0.05,
-  standpop = stdpop_Canada_2021()
+  pGOF = 0.05
 )
 }
 \arguments{
@@ -30,6 +30,8 @@ canproj(
 \item{pdat}{19(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
 
 \item{startp}{The start calendar year of projection, e.g. 2009.}
+
+\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
 
 \item{projfor}{Specify "incidence" or "mortality" if want ASR as criteria for nagg.}
 
@@ -59,8 +61,6 @@ models: "nordpred" or "adpc-nb"; age-cohort models: "ac", "ac-nb"; age-period mo
 \item{pD}{Trend selecting criteria of p-value of drift (linear trend) term.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
-
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
 }
 \value{
 A \code{list()}.
