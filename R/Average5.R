@@ -16,7 +16,6 @@ ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
   noypred <- np - nc
   ngroups <- nrow(cdat)
 
-  # fill in observed rates:
   obasr <- matrix(NA, ngroups, nc)
 
   for (i in 1:nc) {
@@ -24,34 +23,23 @@ ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
   }
 
   datatab <- matrix(NA, ngroups, np)
-
   datatab[, 1:nc] <- as.matrix(obasr)
-
   datatab <- data.frame(datatab)
 
   row.names(datatab) <- 1:ngroups
-
   colnames(datatab) <- (startp - nc):(startp + (np - nc) - 1)
 
-  # Calculate predictions in age-specific rates:
-  for (age in 1:ngroups) {
-    if (is.null(sum5)) {
-      obsinc <- apply(cdat[age, (nc - 4):nc], 1, sum) /
-        apply(pdat[age, (nc - 4):nc], 1, sum)
-    } else {
-      obsinc <- cdat[age, (nc - 4):nc] / pdat[age, (nc - 4):nc]
-    }
-    if (sum(is.na(obsinc))) {
-      obsinc[is.na(obsinc)] <- 0
-    }
-    if (is.null(sum5)) {
-      datatab[age, (nc + 1):np] <- 100000 * obsinc
-    } else {
-      datatab[age, (nc + 1):np] <- 100000 *
-        (obsinc[, 1] + obsinc[, 2] + obsinc[, 3] + obsinc[, 4] + obsinc[, 5]) /
-        5
-    }
+  if (is.null(sum5)) {
+    obsinc <- rowSums(cdat[, (nc - 4):nc]) / rowSums(pdat[, (nc - 4):nc])
+  } else {
+    obsinc <- rowSums(cdat[, (nc - 4):nc] / pdat[, (nc - 4):nc]) / 5
   }
+
+  if (sum(is.na(obsinc))) {
+    obsinc[is.na(obsinc)] <- 0
+  }
+
+  datatab[, (nc + 1):np] <- 100000 * obsinc
 
   res <- list(
     agsproj = datatab,
