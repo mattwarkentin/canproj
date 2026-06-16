@@ -8,59 +8,48 @@
 #'
 #' @keywords internal
 datagg <- function(cdat, pdat, nagg) {
-  # aggregating cancer data:
-  ny <- dim(cdat)[2] # of years for observed data
-  nper <- floor(ny / nagg) # of period if aggregated by nagg
-  if (ny == nper * nagg) {
-    cdat0 <- cdat
+  num_obs_year <- ncol(cdat)
+  nagg_obs_period <- floor(num_obs_year / nagg)
+
+  if (num_obs_year == nagg_obs_period * nagg) {
+    trunc_cdat <- cdat
   } else {
-    # truncate the beginning years less than nagg
-    cdat0 <- cdat[, -c(1:(ny - nper * nagg))]
+    trunc_cdat <- cdat[, -c(1:(num_obs_year - nagg_obs_period * nagg))]
   }
-  pern <- sort(rep(1:nper, nagg)) # period vector
-  cases <- as.data.frame(t(stats::aggregate(
-    t(cdat0),
-    list(Period = pern),
-    sum
-  )))[-1, ]
-  colnames(cases) <- 1:nper
+
+  per_groups <- sort(rep(1:nagg_obs_period, nagg))
+
+  cases <- as.data.frame(t(rowsum(t(trunc_cdat), per_groups)))
+  colnames(cases) <- 1:nagg_obs_period
   rownames(cases) <- 1:nrow(cdat)
 
-  # aggregating population data:
-  pdat1 <- pdat[, 1:ny] # observed population
-  if (ny == nper * nagg) {
-    pdat0 <- pdat1
+  obs_pop <- pdat[, 1:num_obs_year]
+  if (num_obs_year == nagg_obs_period * nagg) {
+    trunc_obs_pop <- obs_pop
   } else {
-    # truncate the beginning years less than nagg
-    pdat0 <- pdat1[, -c(1:(ny - nper * nagg))]
+    trunc_obs_pop <- obs_pop[, -c(1:(num_obs_year - nagg_obs_period * nagg))]
   }
-  pyr1 <- as.data.frame(t(stats::aggregate(
-    t(pdat0),
-    list(Period = pern),
-    sum
-  )))[-1, ]
 
-  # aggregating projection population data:
-  nypop <- dim(pdat)[2]
-  pdat2 <- pdat[, c((ny + 1):nypop)] # projected population
-  nyp <- nypop - ny
-  nperp <- floor(nyp / nagg) # of period if aggregated by nagg
-  if (nyp == nperp * nagg) {
-    pdatn <- pdat2
+  obs_pyr <- as.data.frame(t(rowsum(t(trunc_obs_pop), per_groups)))
+
+  proj_pop <- pdat[, c((num_obs_year + 1):ncol(pdat))]
+  num_proj_year <- ncol(pdat) - num_obs_year
+  nagg_proj_period <- floor(num_proj_year / nagg)
+
+  if (num_proj_year == nagg_proj_period * nagg) {
+    trunc_proj_pop <- proj_pop
   } else {
-    # truncate the end years great than nagg
-    pdatn <- pdat2[, -c((nperp * nagg + 1):nyp)]
+    trunc_proj_pop <- proj_pop[,
+      -c((nagg_proj_period * nagg + 1):num_proj_year)
+    ]
   }
-  pernp <- sort(rep(1:nperp, nagg)) # period vector
-  pyr2 <- as.data.frame(t(stats::aggregate(
-    t(pdatn),
-    list(Period = pernp),
-    sum
-  )))[-1, ]
 
-  # combine population data:
-  pyr <- as.data.frame(cbind(pyr1, pyr2))
-  colnames(pyr) <- 1:(nper + nperp)
+  proj_groups <- sort(rep(1:nagg_proj_period, nagg))
+  proj_pyr <- as.data.frame(t(rowsum(t(trunc_proj_pop), proj_groups)))
+
+  pyr <- as.data.frame(cbind(obs_pyr, proj_pyr))
+  colnames(pyr) <- 1:(nagg_obs_period + nagg_proj_period)
   rownames(pyr) <- 1:nrow(cdat)
+
   return(list(cases = cases, pyr = pyr))
 }

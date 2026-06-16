@@ -3,19 +3,17 @@
 #' Calculate age-standardized annual rates and counts
 #'
 #' @inheritParams canproj
-#' @param rr Observed and projected age-specific rates.
+#' @param rates Observed and projected age-specific rates.
 #'
 #' @keywords internal
-asry <- function(rr, pdat, standpop) {
-  c1 <- rr * pdat / 100000
-  a1 <- rr * standpop
-  asr <- round(apply(a1, 2, sum), 6)
-  case <- round(apply(c1, 2, sum), 0)
-  for (i in 1:length(asr)) {
-    if (asr[i] < 0) asr[i] <- 0
-  }
-  for (i in 1:length(case)) {
-    if (case[i] < 0) case[i] <- 0
-  }
+asry <- function(rates, pdat, standpop) {
+  c1 <- rates * pdat / 100000
+  case <- round(colSums(c1), 0)
+  case[case < 0] <- 0
+
+  a1 <- rates * standpop
+  asr <- round(colSums(a1), 6)
+  asr[asr < 0] <- 0
+
   return(cbind(asr, case))
 }

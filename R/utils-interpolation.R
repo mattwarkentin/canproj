@@ -8,130 +8,219 @@
 #'
 #' @keywords internal
 asrpy <- function(rate, cdat, pdat, startp, nagg) {
-  # nagg: number of years used for aggregation: 1, 2, ..., 5
-  # r0: 19*m matrix, age-specific rate of m periods
   ngroups <- nrow(cdat)
-  nt <- dim(cdat)[2]
-  nperd <- floor(nt / nagg) # of observed periods if aggregated by nagg
-  np <- dim(pdat)[2]
-  if (nperd <= 25) {
-    nypop <- dim(pdat)[2] # of years for observed and projected data
-    ny <- dim(cdat)[2] # of years for observed data
-    nyp <- nypop - ny # of years for projection
-    pdat0 <- pdat
+  tot_obs_years <- ncol(cdat)
+  tot_years <- ncol(pdat)
+
+  if (floor(tot_obs_years / nagg) <= 25) {
+    ny_pop <- ncol(pdat)
+    ny_obs <- ncol(cdat)
+    ny_proj <- ny_pop - ny_obs
+    pdat_effective <- pdat
   } else {
-    ny <- 25
-    nypop <- dim(pdat)[2] - (nt - 25)
-    nyp <- nypop - ny
-    pdat0 <- pdat[, -c(1:(nt - 25))]
+    ny_obs <- 25
+    ny_pop <- ncol(pdat) - (tot_obs_years - 25)
+    ny_proj <- ny_pop - ny_obs
+    pdat_effective <- pdat[, -c(1:(tot_obs_years - 25))]
   }
 
-  nper <- floor(ny / nagg) # of observed periods if aggregated by nagg
-  nperp <- floor(nyp / nagg) # of projected period if aggregated by nagg
+  nagg_obs_per <- floor(ny_obs / nagg)
+  nagg_proj_year <- floor(ny_proj / nagg) * nagg
 
-  nycp <- nperp * nagg # of projection years be aggregated
-  ry <- nyp - nycp # of rest projection years not aggregated
+  pred_rates <- as.matrix(rate[, (nagg_obs_per + 1):ncol(rate)])
+  npred <- dim(pred_rates)[2]
 
-  pdat1 <- pdat0[, 1:ny] # yearly observed population
-  pdat2 <- pdat0[, (ny + 1):nypop] # yearly projected population
-
-  mt <- dim(rate)[2] # of periods from output
-  r0 <- as.matrix(rate[, (nper + 1):mt]) # of projected periods
-  m <- dim(r0)[2]
-  # producing the end periods rates:
-  rc1 <- rate[, nper]
-  if (m > 1) {
-    rc2 <- 2 * r0[, m] - r0[, (m - 1)]
+  last_obs_rate <- rate[, nagg_obs_per]
+  if (npred > 1) {
+    next_rate <- 2 * pred_rates[, npred] - pred_rates[, (npred - 1)]
   } else {
-    rc2 <- 2 * r0[, m] - rc1
+    next_rate <- 2 * pred_rates[, npred] - last_obs_rate
   }
-  rc3 <- 2 * rc2 - r0[, m]
-  r1 <- cbind(rc1, r0, rc2)
-  # producing annual age-specific rates:
-  rr <- matrix(NA, ngroups, nyp)
+  last_rate <- 2 * next_rate - pred_rates[, npred]
+  r1 <- cbind(last_obs_rate, pred_rates, next_rate)
+
+  annual_rates <- interpolate(
+    nagg,
+    matrix(NA, ngroups, ny_proj),
+    r1,
+    next_rate,
+    last_rate,
+    npred,
+    nagg_proj_year,
+    ny_proj
+  )
+
+  obasr <- matrix(NA, ngroups, tot_obs_years)
+
+  for (i in 1:tot_obs_years) {
+    obasr[, i] <- 100000 * cdat[, i] / pdat[, i]
+  }
+
+  datatab <- matrix(NA, ngroups, tot_years)
+  datatab[, 1:tot_obs_years] <- as.matrix(obasr)
+  datatab <- data.frame(datatab)
+  row.names(datatab) <- 1:ngroups
+  colnames(datatab) <- (startp - tot_obs_years):(startp + ny_proj - 1)
+
+  datatab[, (tot_obs_years + 1):tot_years] <- annual_rates
+  return(datatab)
+}
+
+#' Interpolation
+#'
+#' Calculate rates by linear interpolation
+#'
+#' @inheritParams canproj
+#' @param matrix Base matrix to work off of.
+#' @param rates Matrix of rates for predicted periods.
+#' @param next_rate Calculated rate for extra years.
+#' @param last_rate Calculated rate for extra years.
+#' @param npred Number of predicted periods after aggregation.
+#' @param nagg_proj_year Number of aggregated projection years.
+#' @param ny_proj Number of years for preojection, not aggregated.
+#'
+#' @return A `matrix()`.
+#'
+#' @keywords internal
+interpolate <- function(
+  nagg,
+  matrix,
+  rates,
+  next_rate,
+  last_rate,
+  npred,
+  nagg_proj_year,
+  ny_proj
+) {
   if (nagg == 1) {
-    rr <- r0
+    matrix <- rates[, -c(1, ncol(rates))]
   } else if (nagg == 2) {
-    for (i in 2:(m + 1)) {
-      rr[, (i - 2) * 2 + 1] <- (1 / 4) * r1[, i - 1] + (3 / 4) * r1[, i]
-      rr[, (i - 2) * 2 + 2] <- (1 / 4) * r1[, i + 1] + (3 / 4) * r1[, i]
+    for (i in 2:(npred + 1)) {
+      matrix[, (i - 2) * 2 + 1] <- (1 / 4) *
+        rates[, i - 1] +
+        (3 / 4) * rates[, i]
+      matrix[, (i - 2) * 2 + 2] <- (1 / 4) *
+        rates[, i + 1] +
+        (3 / 4) * rates[, i]
     }
-    if (nyp > nycp) {
-      rr[, nyp] <- (1 / 4) * r1[, (m + 1)] + (3 / 4) * r1[, (m + 2)]
+    if (ny_proj > nagg_proj_year) {
+      matrix[, ny_proj] <- (1 / 4) *
+        rates[, (npred + 1)] +
+        (3 / 4) * rates[, (npred + 2)]
     }
   } else if (nagg == 3) {
-    for (i in 2:(m + 1)) {
-      rr[, (i - 2) * 3 + 1] <- (1 / 3) * r1[, i - 1] + (2 / 3) * r1[, i]
-      rr[, (i - 2) * 3 + 2] <- (0 / 3) * r1[, i - 1] + (3 / 3) * r1[, i]
-      rr[, (i - 2) * 3 + 3] <- (1 / 3) * r1[, i + 1] + (2 / 3) * r1[, i]
+    for (i in 2:(npred + 1)) {
+      matrix[, (i - 2) * 3 + 1] <- (1 / 3) *
+        rates[, i - 1] +
+        (2 / 3) * rates[, i]
+      matrix[, (i - 2) * 3 + 2] <- (0 / 3) *
+        rates[, i - 1] +
+        (3 / 3) * rates[, i]
+      matrix[, (i - 2) * 3 + 3] <- (1 / 3) *
+        rates[, i + 1] +
+        (2 / 3) * rates[, i]
     }
-    if (nyp == (nycp + 1)) {
-      rr[, nyp] <- (1 / 3) * r1[, (m + 1)] + (2 / 3) * r1[, (m + 2)]
+    if (ny_proj == (nagg_proj_year + 1)) {
+      matrix[, ny_proj] <- (1 / 3) *
+        rates[, (npred + 1)] +
+        (2 / 3) * rates[, (npred + 2)]
     }
-    if (nyp == (nycp + 2)) {
-      rr[, (nyp - 1)] <- (1 / 3) * r1[, (m + 1)] + (2 / 3) * r1[, (m + 2)]
-      rr[, nyp] <- rc2
+    if (ny_proj == (nagg_proj_year + 2)) {
+      matrix[, (ny_proj - 1)] <- (1 / 3) *
+        rates[, (npred + 1)] +
+        (2 / 3) * rates[, (npred + 2)]
+      matrix[, ny_proj] <- next_rate
     }
   } else if (nagg == 4) {
-    for (i in 2:(m + 1)) {
-      rr[, (i - 2) * 4 + 1] <- (3 / 8) * r1[, i - 1] + (5 / 8) * r1[, i]
-      rr[, (i - 2) * 4 + 2] <- (1 / 8) * r1[, i - 1] + (7 / 8) * r1[, i]
-      rr[, (i - 2) * 4 + 3] <- (1 / 8) * r1[, i + 1] + (7 / 8) * r1[, i]
-      rr[, (i - 2) * 4 + 4] <- (3 / 8) * r1[, i + 1] + (5 / 8) * r1[, i]
+    for (i in 2:(npred + 1)) {
+      matrix[, (i - 2) * 4 + 1] <- (3 / 8) *
+        rates[, i - 1] +
+        (5 / 8) * rates[, i]
+      matrix[, (i - 2) * 4 + 2] <- (1 / 8) *
+        rates[, i - 1] +
+        (7 / 8) * rates[, i]
+      matrix[, (i - 2) * 4 + 3] <- (1 / 8) *
+        rates[, i + 1] +
+        (7 / 8) * rates[, i]
+      matrix[, (i - 2) * 4 + 4] <- (3 / 8) *
+        rates[, i + 1] +
+        (5 / 8) * rates[, i]
     }
-    if (nyp == (nycp + 1)) {
-      rr[, nyp] <- (3 / 8) * r1[, (m + 1)] + (5 / 8) * r1[, (m + 2)]
+    if (ny_proj == (nagg_proj_year + 1)) {
+      matrix[, ny_proj] <- (3 / 8) *
+        rates[, (npred + 1)] +
+        (5 / 8) * rates[, (npred + 2)]
     }
-    if (nyp == (nycp + 2)) {
-      rr[, (nyp - 1)] <- (3 / 8) * r1[, (m + 1)] + (5 / 8) * r1[, (m + 2)]
-      rr[, nyp] <- (1 / 8) * r1[, (m + 1)] + (7 / 8) * r1[, (m + 2)]
+    if (ny_proj == (nagg_proj_year + 2)) {
+      matrix[, (ny_proj - 1)] <- (3 / 8) *
+        rates[, (npred + 1)] +
+        (5 / 8) * rates[, (npred + 2)]
+      matrix[, ny_proj] <- (1 / 8) *
+        rates[, (npred + 1)] +
+        (7 / 8) * rates[, (npred + 2)]
     }
-    if (nyp == (nycp + 3)) {
-      rr[, (nyp - 2)] <- (3 / 8) * r1[, (m + 1)] + (5 / 8) * r1[, (m + 2)]
-      rr[, (nyp - 1)] <- (1 / 8) * r1[, (m + 1)] + (7 / 8) * r1[, (m + 2)]
-      rr[, nyp] <- (7 / 8) * r1[, (m + 2)] + (1 / 8) * rc3
+    if (ny_proj == (nagg_proj_year + 3)) {
+      matrix[, (ny_proj - 2)] <- (3 / 8) *
+        rates[, (npred + 1)] +
+        (5 / 8) * rates[, (npred + 2)]
+      matrix[, (ny_proj - 1)] <- (1 / 8) *
+        rates[, (npred + 1)] +
+        (7 / 8) * rates[, (npred + 2)]
+      matrix[, ny_proj] <- (7 / 8) * rates[, (npred + 2)] + (1 / 8) * next_rate
     }
   } else if (nagg == 5) {
-    for (i in 2:(m + 1)) {
-      rr[, (i - 2) * 5 + 1] <- (2 / 5) * r1[, i - 1] + (3 / 5) * r1[, i]
-      rr[, (i - 2) * 5 + 2] <- (1 / 5) * r1[, i - 1] + (4 / 5) * r1[, i]
-      rr[, (i - 2) * 5 + 3] <- (0 / 5) * r1[, i - 1] + (5 / 5) * r1[, i]
-      rr[, (i - 2) * 5 + 4] <- (1 / 5) * r1[, i + 1] + (4 / 5) * r1[, i]
-      rr[, (i - 2) * 5 + 5] <- (2 / 5) * r1[, i + 1] + (3 / 5) * r1[, i]
+    for (i in 2:(npred + 1)) {
+      matrix[, (i - 2) * 5 + 1] <- (2 / 5) *
+        rates[, i - 1] +
+        (3 / 5) * rates[, i]
+      matrix[, (i - 2) * 5 + 2] <- (1 / 5) *
+        rates[, i - 1] +
+        (4 / 5) * rates[, i]
+      matrix[, (i - 2) * 5 + 3] <- (0 / 5) *
+        rates[, i - 1] +
+        (5 / 5) * rates[, i]
+      matrix[, (i - 2) * 5 + 4] <- (1 / 5) *
+        rates[, i + 1] +
+        (4 / 5) * rates[, i]
+      matrix[, (i - 2) * 5 + 5] <- (2 / 5) *
+        rates[, i + 1] +
+        (3 / 5) * rates[, i]
     }
-    if (nyp == (nycp + 1)) {
-      rr[, nyp] <- (2 / 5) * r1[, (m + 1)] + (3 / 5) * r1[, (m + 2)]
+    if (ny_proj == (nagg_proj_year + 1)) {
+      matrix[, ny_proj] <- (2 / 5) *
+        rates[, (npred + 1)] +
+        (3 / 5) * rates[, (npred + 2)]
     }
-    if (nyp == (nycp + 2)) {
-      rr[, (nyp - 1)] <- (2 / 5) * r1[, (m + 1)] + (3 / 5) * r1[, (m + 2)]
-      rr[, nyp] <- (1 / 5) * r1[, (m + 1)] + (4 / 5) * r1[, (m + 2)]
+    if (ny_proj == (nagg_proj_year + 2)) {
+      matrix[, (ny_proj - 1)] <- (2 / 5) *
+        rates[, (npred + 1)] +
+        (3 / 5) * rates[, (npred + 2)]
+      matrix[, ny_proj] <- (1 / 5) *
+        rates[, (npred + 1)] +
+        (4 / 5) * rates[, (npred + 2)]
     }
-    if (nyp == (nycp + 3)) {
-      rr[, (nyp - 2)] <- (2 / 5) * r1[, (m + 1)] + (3 / 5) * r1[, (m + 2)]
-      rr[, (nyp - 1)] <- (1 / 5) * r1[, (m + 1)] + (4 / 5) * r1[, (m + 2)]
-      rr[, nyp] <- rc2
+    if (ny_proj == (nagg_proj_year + 3)) {
+      matrix[, (ny_proj - 2)] <- (2 / 5) *
+        rates[, (npred + 1)] +
+        (3 / 5) * rates[, (npred + 2)]
+      matrix[, (ny_proj - 1)] <- (1 / 5) *
+        rates[, (npred + 1)] +
+        (4 / 5) * rates[, (npred + 2)]
+      matrix[, ny_proj] <- next_rate
     }
-    if (nyp == (nycp + 4)) {
-      rr[, (nyp - 3)] <- (2 / 5) * r1[, (m + 1)] + (3 / 5) * r1[, (m + 2)]
-      rr[, (nyp - 2)] <- (1 / 5) * r1[, (m + 1)] + (4 / 5) * r1[, (m + 2)]
-      rr[, (nyp - 1)] <- rc2
-      rr[, nyp] <- (1 / 5) * rc3 + (4 / 5) * rc2
+    if (ny_proj == (nagg_proj_year + 4)) {
+      matrix[, (ny_proj - 3)] <- (2 / 5) *
+        rates[, (npred + 1)] +
+        (3 / 5) * rates[, (npred + 2)]
+      matrix[, (ny_proj - 2)] <- (1 / 5) *
+        rates[, (npred + 1)] +
+        (4 / 5) * rates[, (npred + 2)]
+      matrix[, (ny_proj - 1)] <- next_rate
+      matrix[, ny_proj] <- (1 / 5) * next_rate + (4 / 5) * next_rate
     }
   } else {
     stop("Years of aggregation \"nagg\" must be integer between 1 and 5")
   }
 
-  # fill in observed age-specific rates per 100,000:
-  obasr <- matrix(NA, ngroups, nt)
-  for (i in 1:nt) {
-    obasr[, i] <- 100000 * cdat[, i] / pdat[, i]
-  }
-  datatab <- matrix(NA, ngroups, np)
-  datatab[, 1:nt] <- as.matrix(obasr)
-  datatab <- data.frame(datatab)
-  row.names(datatab) <- 1:ngroups
-  colnames(datatab) <- (startp - nt):(startp + nyp - 1)
-  # fill in projected age-specific rates per 100,000:
-  datatab[, (nt + 1):np] <- rr
-  return(datatab)
+  return(matrix)
 }

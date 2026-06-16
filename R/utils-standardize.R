@@ -8,14 +8,14 @@
 #'
 #' @keywords internal
 obasr <- function(cdat, pdat, standpop) {
-  m <- dim(cdat)[2]
-  popu <- pdat[, 1:m]
-  rr <- matrix(NA, nrow(cdat), m)
-  for (i in 1:m) {
+  numyears <- dim(cdat)[2]
+  popu <- pdat[, 1:numyears]
+  rr <- matrix(NA, nrow(cdat), numyears)
+  for (i in 1:numyears) {
     rr[, i] <- 100000 * cdat[, i] / popu[, i]
   }
   aspr <- rr * standpop
-  asr <- apply(aspr, 2, sum)
-  case <- apply(cdat, 2, sum)
+  asr <- colSums(aspr)
+  case <- colSums(cdat)
   return(cbind(asr, case))
 }

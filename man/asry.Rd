@@ -4,10 +4,10 @@
 \alias{asry}
 \title{Convert to age-standardized}
 \usage{
-asry(rr, pdat, standpop)
+asry(rates, pdat, standpop)
 }
 \arguments{
-\item{rr}{Observed and projected age-specific rates.}
+\item{rates}{Observed and projected age-specific rates.}
 
 \item{pdat}{19(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
 
