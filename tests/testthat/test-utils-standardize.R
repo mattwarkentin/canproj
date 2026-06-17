@@ -1,7 +1,11 @@
 test_that("obasr calculates annual age-standardized rates by cases", {
   cdat <- matrix(1:95, nrow = 19, ncol = 5)
   pdat <- matrix(100, nrow = 19, ncol = 20)
-  stdpop <- c(rep(0.02, 5), rep(0.04, 5), rep(0.06, 5), rep(0.1, 4))
+  stdpop <- StandardPopulation(
+    "dummy",
+    as.character(1:19),
+    c(rep(0.02, 5), rep(0.04, 5), rep(0.06, 5), rep(0.1, 4))
+  )
 
   out <- matrix(
     c(
@@ -19,7 +23,11 @@ test_that("obasr calculates annual age-standardized rates by cases", {
 test_that("obasr calculates annual age-standardized rates by population", {
   cdat <- matrix(5, nrow = 19, ncol = 5)
   pdat <- matrix(100 + 2 * (1:95), nrow = 19, ncol = 20)
-  stdpop <- c(rep(0.02, 5), rep(0.04, 5), rep(0.06, 5), rep(0.1, 4))
+  stdpop <- StandardPopulation(
+    "dummy",
+    as.character(1:19),
+    c(rep(0.02, 5), rep(0.04, 5), rep(0.06, 5), rep(0.1, 4))
+  )
 
   out <- matrix(
     c(
@@ -38,9 +46,13 @@ test_that("obasr can accomodate varying numbers of age groups", {
   cdat <- matrix(1:50, nrow = 10, ncol = 5)
   pdat <- matrix(100:299, nrow = 10, ncol = 20)
 
-  stdpop <- c(0.05, 0.15, 0.05, 0.15, 0.05, 0.15, 0.05, 0.15, 0.05, 0.15)
+  stdpop <- StandardPopulation(
+    "dummy",
+    as.character(1:10),
+    c(0.05, 0.15, 0.05, 0.15, 0.05, 0.15, 0.05, 0.15, 0.05, 0.15)
+  )
 
-  out <- obasr(cdat, pdat, standpop = stdpop)
+  out <- obasr(cdat, pdat, stdpop = stdpop)
 
   expect_equal(unname(out[4, "asr"]), 26497.455, tolerance = 0.001)
   expect_equal(unname(out[2, "case"]), 155)

@@ -27,22 +27,6 @@ test_that("adpcproj getpred standpop requires incidence prediction", {
   )
 })
 
-test_that("adpcproj getpred standpop must sum to 1", {
-  adpc_obj <- list(
-    predictions = matrix(5, 19, 4),
-    pyr = matrix(10, 19, 4)
-  )
-  class(adpc_obj) <- "adpcproj"
-
-  stdpop <- 1:19
-
-  expect_error(
-    adpcproj.getpred(adpc_obj, standpop = stdpop),
-    "\"standpop\" must be of sum 1",
-    fixed = TRUE
-  )
-})
-
 test_that("adpcproj getpred standpop must be same length as age groups", {
   adpc_obj <- list(
     predictions = matrix(5, 19, 4),
@@ -50,7 +34,7 @@ test_that("adpcproj getpred standpop must be same length as age groups", {
   )
   class(adpc_obj) <- "adpcproj"
 
-  stdpop <- c(0.5, 0.5)
+  stdpop <- StandardPopulation("a", rep("a", 2), c(0.5, 0.5))
 
   expect_error(
     adpcproj.getpred(adpc_obj, agegroups = 4:9, standpop = stdpop),
@@ -66,7 +50,11 @@ test_that("adpcproj getpred standpop requires 'by age' = F", {
   )
   class(adpc_obj) <- "adpcproj"
 
-  stdpop <- c(0.5, 0.5)
+  stdpop <- StandardPopulation(
+    "a",
+    rep("a", 19),
+    c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  )
 
   expect_error(
     adpcproj.getpred(adpc_obj, byage = TRUE, standpop = stdpop),
@@ -106,7 +94,11 @@ test_that("adpcproj getpred works with a standard population", {
   )
   class(adpcproj_obj) <- "adpcproj"
 
-  stdpop <- stdpop <- c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  stdpop <- StandardPopulation(
+    "a",
+    rep("a", 19),
+    c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  )
 
   expected <- c(X1 = 503.3541, X2 = 1449.6464, X3 = 2392.3601, X4 = 3331.5152)
 

@@ -21,24 +21,15 @@ test_that("acproj getpred requires incidence if using a standard population", {
   )
 })
 
-test_that("acproj getpred standpop must sum to 1", {
-  acproj_obj <- list(1:5)
-  class(acproj_obj) <- "acproj"
-
-  stdpop <- 1:19
-
-  expect_error(
-    acproj.getpred(acproj_obj, standpop = stdpop),
-    "\"standpop\" must be of sum 1",
-    fixed = TRUE
-  )
-})
-
 test_that("acproj getpred requires 'by age' = T when using standard population", {
   acproj_obj <- list(1:5)
   class(acproj_obj) <- "acproj"
 
-  stdpop <- c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  stdpop <- StandardPopulation(
+    "a",
+    rep("a", 19),
+    c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  )
 
   expect_error(
     acproj.getpred(acproj_obj, standpop = stdpop, byage = TRUE),
@@ -78,7 +69,11 @@ test_that("acproj getpred works with a standard population", {
   )
   class(acproj_obj) <- "acproj"
 
-  stdpop <- c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  stdpop <- StandardPopulation(
+    "a",
+    rep("a", 19),
+    c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  )
 
   expected <- c(
     X1 = 503.354104249281,

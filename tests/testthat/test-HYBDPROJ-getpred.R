@@ -57,7 +57,11 @@ test_that("hybdproj getpred works with a standard population", {
   )
   class(hybd_obj) <- "hybdproj"
 
-  stdpop <- stdpop <- c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  stdpop <- StandardPopulation(
+    "dummy",
+    rep("a", 19),
+    c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  )
 
   expected <- c(
     X1 = 69.9844922133113,

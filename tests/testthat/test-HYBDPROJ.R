@@ -6,7 +6,7 @@ test_that("hybdproj works", {
   ))
   pdat <- data.frame(matrix(10000:10379, nrow = 19, ncol = 20))
 
-  out <- hybdproj(cdat, pdat, stdpop_Canada_2021())
+  out <- hybdproj(cdat, pdat, stdpop_Canada_2021)
 
   expect_equal(out$cuttrd, 0.04)
   expect_equal(out$shortp, 0)
@@ -36,8 +36,9 @@ test_that("hybdproj works with varying age groups", {
     ncol = 15
   ))
   pdat <- data.frame(matrix(10000:10199, nrow = 10, ncol = 20))
+  pop <- StandardPopulation("dummy", rep("a", 10), rep(0.1, 10))
 
-  out <- hybdproj(cdat, pdat, rep(0.1, 10))
+  out <- hybdproj(cdat, pdat, pop)
 
   expect_equal(length(out$glm$coefficients), 10)
   expect_equal(out$agrpmod, 1:10)
@@ -49,12 +50,16 @@ test_that("hybdproj plot works", {
 
   cdat <- matrix(floor(0:284 / 19) + 20, nrow = 19, ncol = 15)
   pdat <- matrix(10000:10379, nrow = 19, ncol = 20)
-  stdpop <- c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  stdpop <- StandardPopulation(
+    "dummy",
+    as.character(1:19),
+    c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  )
 
   out <- hybdproj(
     cdat,
     pdat,
-    stdpop_Canada_2021(),
+    stdpop_Canada_2021,
     projfor = "incidence",
     nagg = 1,
     ncase = 5,

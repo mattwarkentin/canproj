@@ -448,9 +448,8 @@ acproj.getpred <- function(
   }
 
   if (!is.null(standpop)) {
-    if (round(sum(standpop), 5) != 1) {
-      stop("\"standpop\" must be of sum 1")
-    }
+    S7::check_is_S7(standpop, StandardPopulation)
+
     if ((length(standpop) != length(agegroups)) && (agegroups[1] != "all")) {
       stop("\"standpop\" must be the same length as \"agegroups\"")
     }
@@ -475,7 +474,7 @@ acproj.getpred <- function(
     if (sum(is.na(datainc)) > 0) {
       datainc[is.na(datainc)] <- 0
     }
-    res <- apply(datainc * standpop, 2, sum)
+    res <- colSums(incidence * standpop@weights)
   } else {
     if (!byage) {
       datatable <- apply(datatable, 2, sum)
@@ -518,6 +517,10 @@ acproj.getpred <- function(
 #'
 #' @export
 acproj.getproj <- function(cdat, pdat, startp, acproj.object, standpop = NULL) {
+  if (!is.null(standpop)) {
+    S7::check_is_S7(standpop, StandardPopulation)
+  }
+
   r0 <- acproj.getpred(acproj.object, incidence = T)
 
   outasp <- asrpy(r0, cdat, pdat, startp = startp, nagg = 5)
@@ -655,6 +658,8 @@ plot.acproj <- function(
   if (!inherits(x, "acproj")) {
     stop("Variable \"x\" must be of type \"acproj\"")
   }
+
+  S7::check_is_S7(standpop, StandardPopulation)
 
   # Reading & formatting data:
   indat <- acproj.getproj(

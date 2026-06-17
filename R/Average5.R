@@ -67,6 +67,9 @@ ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
 #'
 #' @export
 ave5proj.getproj <- function(pdat, ave5proj.object, standpop = NULL) {
+  if (!is.null(standpop)) {
+    S7::check_is_S7(standpop, StandardPopulation)
+  }
   outasp <- ave5proj.object$agsproj
 
   if (is.null(standpop)) {

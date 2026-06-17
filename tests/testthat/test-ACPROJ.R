@@ -107,7 +107,11 @@ test_that("acproj getproj works with a standard population", {
   )
   class(acproj_obj) <- "acproj"
 
-  stdpop <- c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  stdpop <- StandardPopulation(
+    "a",
+    rep("a", 19),
+    c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  )
 
   out <- acproj.getproj(cdat, pdat, 2000, acproj_obj, standpop = stdpop)
 
@@ -141,7 +145,11 @@ test_that("acproj plot works", {
 
   cdat <- matrix(floor((0:284) / 19) + 5, nrow = 19, ncol = 15)
   pdat <- matrix(10000:10379, nrow = 19, ncol = 20)
-  stdpop <- c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  stdpop <- StandardPopulation(
+    "a",
+    rep("a", 19),
+    c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  )
 
   output <- acproj(
     cdat,

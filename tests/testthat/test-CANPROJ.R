@@ -1,7 +1,7 @@
 test_that("canproj can choose adpcproj during model selection", {
   cdat <- data.frame(matrix(floor(0:284 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(10000:10379, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop)
 
@@ -13,7 +13,7 @@ test_that("canproj can choose adpcproj during model selection", {
 test_that("canproj can choose acproj during model selection", {
   cdat <- data.frame((row(matrix(1, 19, 15)) - col(matrix(1, 19, 15)) + 50))
   pdat <- data.frame(matrix(50000, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, pGOF = 1.0e-16, pD = 1.0e-22)
 
@@ -29,7 +29,7 @@ test_that("canproj can choose hybdproj during model selection", {
     ncol = 15
   ))
   pdat <- data.frame(matrix(10000:10379, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop)
 
@@ -45,7 +45,7 @@ test_that("canproj can choose ave5proj during model selection", {
     ncol = 15
   ))
   pdat <- data.frame(matrix(10000:10379, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop)
 
@@ -61,7 +61,7 @@ test_that("canproj can choose ave5proj during model selection", {
 test_that("canproj can specify nordpred method", {
   cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "nordpred")
 
@@ -73,7 +73,7 @@ test_that("canproj can specify nordpred method", {
 test_that("canproj can specify adpc-nb method", {
   cdat <- data.frame(matrix(1:285, nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "adpc-nb")
 
@@ -85,7 +85,7 @@ test_that("canproj can specify adpc-nb method", {
 test_that("canproj can specify ac-poi method", {
   cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "ac-poi")
 
@@ -97,7 +97,7 @@ test_that("canproj can specify ac-poi method", {
 test_that("canproj can specify ac-nb method", {
   cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "ac-nb")
 
@@ -109,7 +109,7 @@ test_that("canproj can specify ac-nb method", {
 test_that("canproj can specify age-trd-nb method", {
   cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "age-trd-nb")
 
@@ -121,7 +121,7 @@ test_that("canproj can specify age-trd-nb method", {
 test_that("canproj can specify age-trd-poi method", {
   cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "age-trd-poi")
 
@@ -133,7 +133,7 @@ test_that("canproj can specify age-trd-poi method", {
 test_that("canproj can specify com-trd method", {
   cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "com-trd")
 
@@ -145,7 +145,7 @@ test_that("canproj can specify com-trd method", {
 test_that("canproj can specify age-only method", {
   cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "age-only")
 
@@ -157,7 +157,7 @@ test_that("canproj can specify age-only method", {
 test_that("canproj can specify ave5 method", {
   cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
-  standpop <- stdpop_Canada_2021()
+  standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "ave5")
 
@@ -169,7 +169,7 @@ test_that("canproj can specify ave5 method", {
 test_that("canproj works with varying age groups", {
   cdat <- data.frame(matrix(floor(0:149 / 10), nrow = 10, ncol = 15))
   pdat <- data.frame(matrix(10000:10199, nrow = 10, ncol = 20))
-  standpop <- rep(0.1, 10)
+  standpop <- StandardPopulation("dummy", rep("a", 10), rep(0.1, 10))
   out <- canproj(cdat, pdat, 2000, standpop)
 
   expect_equal(nrow(out$agsproj), 10)
@@ -183,7 +183,7 @@ test_that("canproj plot works", {
   pdat <- matrix(10000:10379, nrow = 19, ncol = 20)
   stdpop <- c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
 
-  out <- canproj(cdat, pdat, 2000, stdpop_Canada_2021())
+  out <- canproj(cdat, pdat, 2000, stdpop_Canada_2021)
 
   vdiffr::expect_doppelganger("canproj plot", function() plot(out, stdpop))
 })

@@ -145,7 +145,11 @@ test_that("adpcproj getproj works with standard population", {
   )
   class(adpcproj_obj) <- "adpcproj"
 
-  stdpop <- c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  stdpop <- StandardPopulation(
+    "a",
+    rep("a", 19),
+    c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  )
 
   out <- adpcproj.getproj(cdat, pdat, 2000, adpcproj_obj, standpop = stdpop)
 
@@ -179,7 +183,11 @@ test_that("adpcproj plot works", {
 
   cdat <- matrix(floor(0:284 / 19) + 20, nrow = 19, ncol = 15)
   pdat <- matrix(10000:10379, nrow = 19, ncol = 20)
-  stdpop <- c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  stdpop <- StandardPopulation(
+    "a",
+    rep("a", 19),
+    c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  )
 
   out <- adpcproj(
     cdat,

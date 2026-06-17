@@ -22,6 +22,8 @@ hybdproj <- function(
   pD = 0.05,
   pGOF = 0.05
 ) {
+  S7::check_is_S7(standpop, StandardPopulation)
+
   # Define number of cases for data splitting:
   if (is.null(ncase)) {
     if (projfor == "incidence") {
@@ -801,7 +803,9 @@ hybdproj.getpred <- function(
   }
 
   if (!is.null(standpop)) {
-    if (round(sum(standpop), 5) != 1) {
+    S7::check_is_S7(standpop, StandardPopulation)
+
+    if (round(sum(standpop@weights), 5) != 1) {
       stop("\"standpop\" must be of sum 1")
     }
     if ((length(standpop) != length(agegroups)) && (agegroups[1] != "all")) {
@@ -828,7 +832,7 @@ hybdproj.getpred <- function(
     if (sum(is.na(datainc)) > 0) {
       datainc[is.na(datainc)] <- 0
     }
-    res <- apply(datainc * standpop, 2, sum)
+    res <- apply(datainc * standpop@weights, 2, sum)
   } else {
     if (!byage) {
       datatable <- apply(datatable, 2, sum)
@@ -879,6 +883,10 @@ hybdproj.getproj <- function(
   Ave5 = NULL,
   sum5 = NULL
 ) {
+  if (!is.null(standpop)) {
+    S7::check_is_S7(standpop, StandardPopulation)
+  }
+
   finalmod <- hybdproj.object$finalmod
 
   r0 <- hybdproj.getpred(hybdproj.object, incidence = T)
@@ -1060,8 +1068,8 @@ plot.hybdproj <- function(
   if (!inherits(x, "hybdproj")) {
     stop("Variable \"x\" must be of type \"hybdproj\"")
   }
+  S7::check_is_S7(standpop, StandardPopulation)
 
-  # Reading & formating data:
   indat <- hybdproj.getproj(
     cdat,
     pdat,
@@ -1072,14 +1080,12 @@ plot.hybdproj <- function(
   indata <- indat[, 1]
   indata <- indata[startplot:length(indata)]
 
-  # Seting internal variables:
   obsy <- dim(cdat)[2]
   nopredy <- length(indata) - obsy
   if (is.null(labels)) {
     labels <- row.names(indat)
   }
 
-  # Create plots:
   maxx <- length(indata)
   if (new) {
     maxy <- max(indata) * (21 / 20)

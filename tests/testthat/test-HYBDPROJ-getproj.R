@@ -52,7 +52,11 @@ test_that("hybdproj getproj works with non-average model and standpop", {
   )
   class(hybd_obj) <- "hybdproj"
 
-  stdpop <- stdpop <- c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  stdpop <- StandardPopulation(
+    "dummy",
+    rep("a", 19),
+    c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  )
 
   out <- hybdproj.getproj(
     cdat,
@@ -121,7 +125,11 @@ test_that("hybdproj getproj works with 5-year average method and standpop", {
   )
   class(hybd_obj) <- "hybdproj"
 
-  stdpop <- stdpop <- c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  stdpop <- StandardPopulation(
+    "dummy",
+    rep("a", 19),
+    c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  )
 
   out <- hybdproj.getproj(
     cdat,
@@ -191,7 +199,11 @@ test_that("hybdproj getproj works with average method and standpop", {
   )
   class(hybd_obj) <- "hybdproj"
 
-  stdpop <- stdpop <- c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  stdpop <- StandardPopulation(
+    "dummy",
+    rep("a", 19),
+    c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  )
 
   out <- hybdproj.getproj(
     cdat,

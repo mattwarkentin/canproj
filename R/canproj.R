@@ -47,7 +47,8 @@ canproj <- function(
   pD = 0.05,
   pGOF = 0.05
 ) {
-  # Check data:
+  S7::check_is_S7(standpop, StandardPopulation)
+
   if (dim(cdat)[2] > dim(pdat)[2]) {
     stop("\"pdat\" must include information about all years in \"cdat\"")
   }
@@ -154,7 +155,7 @@ canproj <- function(
           )
           r0 <- adpcproj.getpred(out, incidence = T)
           outasp <- asrpy(r0, cdat, pdat, startp = startp, nagg = 5)
-          outann <- asry(outasp, pdat, standpop = standpop)
+          outann <- asry(outasp, pdat, stdpop = standpop)
           mod <- "ADPC"
         } else {
           out <- acproj(
@@ -182,6 +183,7 @@ canproj <- function(
         out <- hybdproj(
           cdat,
           pdat,
+          standpop,
           projfor = projfor,
           nagg = nagg,
           ncase = ncase,
@@ -199,7 +201,7 @@ canproj <- function(
           Ave5 = Ave5,
           sum5 = sum5
         )
-        outann <- asry(outasp, pdat, standpop = standpop)
+        outann <- asry(outasp, pdat, stdpop = standpop)
         mod <- "Hybrid"
       }
     } else {
@@ -221,7 +223,7 @@ canproj <- function(
         )
         r0 <- adpcproj.getpred(out, incidence = T)
         outasp <- asrpy(r0, cdat, pdat, startp = startp, nagg = 5)
-        outann <- asry(outasp, pdat, standpop = standpop)
+        outann <- asry(outasp, pdat, stdpop = standpop)
         mod <- "nordpred"
       }
       if (methods == "adpc-nb") {
@@ -239,7 +241,7 @@ canproj <- function(
         )
         r0 <- adpcproj.getpred(out, incidence = T)
         outasp <- asrpy(r0, cdat, pdat, startp = startp, nagg = 5)
-        outann <- asry(outasp, pdat, standpop = standpop)
+        outann <- asry(outasp, pdat, stdpop = standpop)
         mod <- "adpc-nb"
       }
       if (methods == "ac-poi") {
@@ -290,6 +292,7 @@ canproj <- function(
         out <- hybdproj(
           cdat,
           pdat,
+          standpop,
           projfor = projfor,
           nagg = nagg,
           ncase = ncase,
@@ -306,13 +309,14 @@ canproj <- function(
           out,
           Ave5 = Ave5
         )
-        outann <- asry(outasp, pdat, standpop = standpop)
+        outann <- asry(outasp, pdat, stdpop = standpop)
         mod <- "a-s-nb"
       }
       if (methods == "age-trd-poi") {
         out <- hybdproj(
           cdat,
           pdat,
+          standpop,
           projfor = projfor,
           nagg = nagg,
           ncase = ncase,
@@ -329,13 +333,14 @@ canproj <- function(
           out,
           Ave5 = Ave5
         )
-        outann <- asry(outasp, pdat, standpop = standpop)
+        outann <- asry(outasp, pdat, stdpop = standpop)
         mod <- "a-s-poi"
       }
       if (methods == "com-trd") {
         out <- hybdproj(
           cdat,
           pdat,
+          standpop,
           projfor = projfor,
           nagg = nagg,
           ncase = ncase,
@@ -352,13 +357,14 @@ canproj <- function(
           out,
           Ave5 = Ave5
         )
-        outann <- asry(outasp, pdat, standpop = standpop)
+        outann <- asry(outasp, pdat, stdpop = standpop)
         mod <- "c-t"
       }
       if (methods == "age-only") {
         out <- hybdproj(
           cdat,
           pdat,
+          standpop,
           projfor = projfor,
           nagg = nagg,
           ncase = ncase,
@@ -376,7 +382,7 @@ canproj <- function(
           Ave5 = Ave5,
           sum5 = sum5
         )
-        outann <- asry(outasp, pdat, standpop = standpop)
+        outann <- asry(outasp, pdat, stdpop = standpop)
         mod <- "average"
       }
       if (methods == "ave5") {

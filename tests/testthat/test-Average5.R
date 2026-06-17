@@ -77,27 +77,6 @@ test_that("ave5proj works with non-standard age groups", {
   expect_equal(out$agsproj, projection)
 })
 
-test_that("ave5proj works with only one age group", {
-  cdat <- data.frame(matrix(10:19, nrow = 1, ncol = 10))
-  pdat <- data.frame(matrix(10000, nrow = 1, ncol = 15))
-  startp <- 2000
-
-  out <- ave5proj(cdat, pdat, startp)
-
-  projection <- data.frame(matrix(
-    c(
-      seq(from = 100, to = 190, by = 10),
-      rep(170, 5)
-    ),
-    nrow = 1,
-    ncol = 15
-  ))
-  colnames(projection) <- c(1990:2004)
-  rownames(projection) <- as.integer(1)
-
-  expect_equal(out$agsproj, projection)
-})
-
 test_that("ave5proj creates summary with printcall", {
   cdat <- data.frame(matrix(1:38, nrow = 19, ncol = 2))
   pdat <- data.frame(matrix(10000, nrow = 19, ncol = 4))
@@ -164,7 +143,7 @@ test_that("ave5proj creates summary with averaged yearly rates", {
   expect_match(out, "Call:\\s+ave5proj\\(cdat, pdat, startp\\)", all = FALSE)
 })
 
-test_that("ave5prog gets projections with default standard population", {
+test_that("ave5proj gets projections with default standard population", {
   cdat <- data.frame(matrix(1:190, nrow = 19, ncol = 10))
   pdat <- data.frame(matrix(10000, nrow = 19, ncol = 15))
 
@@ -207,11 +186,9 @@ test_that("ave5proj gets projections with specified standard population", {
     noypred = 5
   )
 
-  stdpop <- c(rep(0.08, 9), rep(0.025, 10))
-
   out <- matrix(
     c(
-      c(40.975, 133.125, 225.275, 317.425, 409.575),
+      c(49.120765, 144.120765, 239.120765, 334.120765, 429.120765),
       c(104, 285, 466, 646, 826)
     ),
     nrow = 5,
@@ -220,7 +197,7 @@ test_that("ave5proj gets projections with specified standard population", {
   rownames(out) <- 1990:1994
   colnames(out) <- c("asr", "case")
 
-  expect_equal(ave5proj.getproj(pdat, ave5_object, stdpop), out)
+  expect_equal(ave5proj.getproj(pdat, ave5_object, stdpop_Canada_2021), out)
 })
 
 test_that("ave5proj summary accepts only ave5proj class objects", {

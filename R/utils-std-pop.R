@@ -25,15 +25,15 @@ StandardPopulation <-
     properties = list(
       name = S7::new_property(
         class = S7::class_character,
-        default = quote(rlang::abort("@name is requied."))
+        default = quote(rlang::abort("@name is required."))
       ),
       strata = S7::new_property(
         class = S7::class_character,
-        default = quote(rlang::abort("@strata is requied."))
+        default = quote(rlang::abort("@strata is required."))
       ),
       weights = S7::new_property(
         class = S7::class_double,
-        default = quote(rlang::abort("@weights is requied.")),
+        default = quote(rlang::abort("@weights is required.")),
         validator = function(value) {
           if (rlang::is_true(all.equal(sum(value), 1, tolerance = 0.01))) {
             return(NULL)
