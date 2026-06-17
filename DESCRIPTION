@@ -2,20 +2,27 @@ Package: canproj
 Title: Project Cancer Incidence and Mortality
 Version: 0.0.0.9000
 Authors@R: 
-    c(person("Matthew T.", "Warkentin", , "warkentin@lunenfeld.ca", role = c("aut", "cre"),
+    c(person("Matthew T.", "Warkentin", , "warkentin@lunenfeld.ca", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-8730-3511")),
       person("Harmony A.", "Smith",, "harmony.smith@ucalgary.ca", role = "aut"))
-Description: What the package does (one paragraph).
+Description: An R package for short-term cancer rate projection that extends the 
+    functionality other projection models. The objective of this project is to 
+    provide and validate a flexible framework for projecting cancer incidence 
+    and mortality trends, enabling comparison across multiple modeling approaches
+    and supporting improved forecasting of future cancer burden.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-Imports: 
-    MASS
+RoxygenNote: 7.3.3.9000
 Depends: 
     R (>= 3.5)
-LazyData: true
-Config/roxygen2/version: 8.0.0
+Imports: 
+    MASS,
+    rlang,
+    S7
 Suggests: 
     testthat (>= 3.0.0),
     vdiffr
+LazyData: true
+Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3

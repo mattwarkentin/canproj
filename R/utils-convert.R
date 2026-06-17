@@ -6,12 +6,13 @@
 #' @param rates Observed and projected age-specific rates.
 #'
 #' @keywords internal
-asry <- function(rates, pdat, standpop) {
+asry <- function(rates, pdat, stdpop) {
+  S7::check_is_S7(stdpop, standard_population)
   c1 <- rates * pdat / 100000
   case <- round(colSums(c1), 0)
   case[case < 0] <- 0
 
-  a1 <- rates * standpop
+  a1 <- rates * stdpop@weights
   asr <- round(colSums(a1), 6)
   asr[asr < 0] <- 0
 
