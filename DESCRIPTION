@@ -11,6 +11,8 @@ Description: An R package for short-term cancer rate projection that extends the
     and mortality trends, enabling comparison across multiple modeling approaches
     and supporting improved forecasting of future cancer burden.
 License: MIT + file LICENSE
+URL: https://github.com/mattwarkentin/canproj/
+BugReports: hhttps://github.com/mattwarkentin/canproj/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3.9000
