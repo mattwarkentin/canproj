@@ -4,14 +4,12 @@
 \alias{asry}
 \title{Convert to age-standardized}
 \usage{
-asry(rates, pdat, standpop)
+asry(rates, pdat, stdpop)
 }
 \arguments{
 \item{rates}{Observed and projected age-specific rates.}
 
 \item{pdat}{19(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
-
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
 }
 \description{
 Calculate age-standardized annual rates and counts

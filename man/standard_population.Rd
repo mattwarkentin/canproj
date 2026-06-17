@@ -31,9 +31,9 @@ stdpop_WHO_2000_2025
 \arguments{
 \item{name}{Descriptive name of the standard population.}
 
-\item{strata}{Character vector of the strata.}
+\item{strata}{Character vector of strata labels.}
 
-\item{weights}{Numeric vector of weights.}
+\item{weights}{Numeric vector of strata weights.}
 
 \item{metadata}{Optional. We provide this \code{metadata} property so that users
 can include arbitrary metadata in an object.}
@@ -45,8 +45,8 @@ An \code{S7} \code{standard_population} object.
 An \code{S7} class for creating standard populations to be used in other functions
 in this package. For convenience, we provide three commonly used standard
 populations for Canada (2011 and 2021) and the world (WHO 2000-2025). If
-users require a custom standard population, you must use
-\code{standard_population()} to construct the object and pass it as an argument
-to other functions, as needed.
+a user requires a custom standard population, you must use
+\code{standard_population()} to construct the standard population and pass the
+object as an argument to other functions, as needed.
 }
 \keyword{datasets}
