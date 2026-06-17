@@ -9,7 +9,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 ## Installation
 
-You can install the development version of `canproj` like so:
+You can install the development version of `canproj` from
+[GitHub](https://github.com/mattwarkentin/canproj) with:
 
 ``` r
 remotes::install_github("mattwarkentin/canproj")
