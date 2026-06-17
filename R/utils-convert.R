@@ -7,7 +7,7 @@
 #'
 #' @keywords internal
 asry <- function(rates, pdat, stdpop) {
-  S7::check_is_S7(stdpop, standard_population)
+  S7::check_is_S7(stdpop, StandardPopulation)
   c1 <- rates * pdat / 100000
   case <- round(colSums(c1), 0)
   case[case < 0] <- 0

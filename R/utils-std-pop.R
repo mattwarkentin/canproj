@@ -4,7 +4,7 @@
 #'   in this package. For convenience, we provide three commonly used standard
 #'   populations for Canada (2011 and 2021) and the world (WHO 2000-2025). If
 #'   a user requires a custom standard population, you must use
-#'   `standard_population()` to construct the standard population and pass the
+#'   `StandardPopulation()` to construct the standard population and pass the
 #'   object as an argument to other functions, as needed.
 #'
 #' @param name Descriptive name of the standard population.
@@ -13,14 +13,14 @@
 #' @param metadata Optional. We provide this `metadata` property so that users
 #'   can include arbitrary metadata in an object.
 #'
-#' @return An `S7` `standard_population` object.
+#' @return An `S7` `StandardPopulation` object.
 #'
 #' @import S7
 #'
 #' @export
-standard_population <-
+StandardPopulation <-
   S7::new_class(
-    name = "standard_population",
+    name = "StandardPopulation",
     package = "canproj",
     properties = list(
       name = S7::new_property(
@@ -54,10 +54,10 @@ standard_population <-
     }
   )
 
-#' @rdname standard_population
+#' @rdname StandardPopulation
 #' @export
 stdpop_Canada_2021 <-
-  standard_population(
+  StandardPopulation(
     name = "Canadian Standard Population (2021)",
     strata = c(
       "0 to 4 years",
@@ -106,10 +106,10 @@ stdpop_Canada_2021 <-
     )
   )
 
-#' @rdname standard_population
+#' @rdname StandardPopulation
 #' @export
 stdpop_Canada_2011 <-
-  standard_population(
+  StandardPopulation(
     name = "Canadian Standard Population (2011)",
     strata = c(
       "0 to 4 years",
@@ -158,10 +158,10 @@ stdpop_Canada_2011 <-
     )
   )
 
-#' @rdname standard_population
+#' @rdname StandardPopulation
 #' @export
 stdpop_WHO_2000_2025 <-
-  standard_population(
+  StandardPopulation(
     name = "World (WHO 2000-2025) Standard Population",
     strata = c(
       "0 to 4 years",
@@ -210,7 +210,7 @@ stdpop_WHO_2000_2025 <-
     )
   )
 
-S7::method(as.data.frame, standard_population) <- function(x, ...) {
+S7::method(as.data.frame, StandardPopulation) <- function(x, ...) {
   rlang::check_dots_empty()
   data.frame(strata = x@strata, weights = x@weights)
 }
