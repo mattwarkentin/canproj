@@ -24,7 +24,6 @@ hybdproj <- function(
 ) {
   S7::check_is_S7(standpop, StandardPopulation)
 
-  # Define number of cases for data splitting:
   if (is.null(ncase)) {
     if (projfor == "incidence") {
       ncase <- 1
@@ -33,7 +32,6 @@ hybdproj <- function(
     }
   }
 
-  # Define number of years for data aggregation:
   if (is.null(nagg)) {
     masr <- mean(obasr(cdat, pdat, standpop)[, 1])
     if (projfor == "incidence") {
@@ -59,27 +57,22 @@ hybdproj <- function(
     }
   }
 
-  ## Data aggregation:
   aggdata <- datagg(cdat, pdat, nagg)
   cases <- aggdata$cases
   pyr <- aggdata$pyr
 
-  ## Setting default and checking data:
-  # minimum number of periods in observed data
-  percases <- dim(cases)[2]
+  percases <- ncol(cases)
   if (percases < 5) {
     stop("Minimum number of period is 5 (5*nagg years) in \"cases\"")
   }
 
-  # maximum number of periods for projection base:
   noperiod <- percases
   if (percases > 25) {
-    noperiod <- 25 # maximum points is 25, cut-off ancient data:
+    noperiod <- 25
     cases <- cases[, -c(1:(percases - 25))]
     pyr <- pyr[, -c(1:(percases - 25))]
   }
 
-  ## Perform estimation and prediction:
   est <- hybdproj.estimate(
     cases = cases,
     pyr = pyr,
@@ -119,7 +112,6 @@ hybdproj.estimate <- function(
   pD = 0.05,
   pGOF = 0.05
 ) {
-  ## Checking data
   if (dim(cases)[2] > dim(pyr)[2]) {
     stop("\"pyr\" must include information about all periods in \"cases\"")
   }
@@ -136,27 +128,26 @@ hybdproj.estimate <- function(
     stop("\"noperiod\" must be 5 or larger")
   }
 
-  ## Splitting data by age groups: A for average method, B for regression.
   nage <- 1:nrow(cases)
-  mcase <- apply(cases, 1, mean) # calculate the mean cases
+  mcase <- apply(cases, 1, mean)
   caseage <- as.data.frame(cbind(nage, cases))
   pyrage <- as.data.frame(cbind(nage, pyr))
+
   casesA <- caseage[mcase < (nagg * ncase), ]
   pyrA <- pyrage[mcase < (nagg * ncase), ]
+
   casesB <- caseage[mcase >= (nagg * ncase), ]
   pyrB <- pyrage[mcase >= (nagg * ncase), ]
 
-  ## Setting internal variables:
-  dnoperiods <- dim(casesB)[2] - 1
-  dnoagegr <- dim(casesB)[1]
+  dnoperiods <- ncol(casesB) - 1
+  dnoagegr <- nrow(casesB)
   agpreg <- casesB[, 1]
   agpave <- casesA[, 1]
-  #
+
   if (dnoagegr < 2) {
     stop("\"dnoagegr\" must be 2 or larger")
   }
 
-  ## Transform data format:
   ageno <- rep(agpreg, dnoperiods)
   periodno <- sort(rep(1:dnoperiods, dnoagegr))
   y <- c(as.matrix(pyrB[, 2:(dnoperiods + 1)]))
@@ -167,7 +158,6 @@ hybdproj.estimate <- function(
     y = y
   )
 
-  ## Select cutting year:
   if (dim(casesB)[2] == 5) {
     apdatan <- apdata
     lastper <- 5
@@ -198,7 +188,6 @@ hybdproj.estimate <- function(
       }
     }
 
-    # likelihood searching:
     trydat <- apdata
     likeh <- rep(0, (dnoperiods - 5))
     for (i in 1:(dnoperiods - 5)) {
@@ -228,7 +217,6 @@ hybdproj.estimate <- function(
     projbase <- lastper * nagg
   }
 
-  ## finalize model using the projection base:
   mode1 <- stats::glm(
     Cases ~ as.factor(Age) + Period + offset(log(y)) - 1,
     data = apdatan,
@@ -269,10 +257,8 @@ hybdproj.estimate <- function(
     }
   }
 
-  ## Estimation:
   if (fmodel == "common-trend") {
     if (linkfunc == "power5") {
-      # Creation of power5 link for poisson family:
       y <- apdatan$y
       power5link <- stats::poisson()
       power5link$link <- "0.2 root link Poisson family"
@@ -285,7 +271,7 @@ hybdproj.estimate <- function(
       power5link$mu.eta <- function(eta) {
         pmax(.Machine$double.eps, 5 * y * eta^4)
       }
-      #
+
       res.glm <- stats::glm(
         Cases ~ as.factor(Age) + Period - 1,
         data = apdatan,
@@ -316,10 +302,10 @@ hybdproj.estimate <- function(
     } else {
       stop("Unknown \"linkfunc\"")
     }
+
     pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   } else if (fmodel == "age-specific") {
     if (linkfunc == "power5") {
-      # Creation of power5 link for poisson family:
       y <- apdatan$y
       power5link <- stats::poisson()
       power5link$link <- "0.2 root link Poisson family"
@@ -332,7 +318,7 @@ hybdproj.estimate <- function(
       power5link$mu.eta <- function(eta) {
         pmax(.Machine$double.eps, 5 * y * eta^4)
       }
-      #
+
       res.glm <- stats::glm(
         Cases ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
         data = apdatan,
@@ -368,13 +354,12 @@ hybdproj.estimate <- function(
     } else {
       stop("Unknown \"linkfunc\"")
     }
+
     pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   } else if (fmodel == "nba-specific") {
-    options(warn = -1)
     if (linkfunc == "power5") {
-      # Make power5 link function for negative binomial family:
       y <- apdatan$y
-      glmnb <- MASS::glm.nb(
+      glmnb <- suppressWarnings(MASS::glm.nb(
         Cases ~
           as.factor(Age) +
             as.factor(Age) * Period -
@@ -383,7 +368,7 @@ hybdproj.estimate <- function(
             offset(log(y)),
         data = apdatan,
         link = log
-      )
+      ))
       theta <- as.numeric(MASS::theta.md(
         apdatan$Cases,
         stats::fitted(glmnb),
@@ -400,14 +385,14 @@ hybdproj.estimate <- function(
       nbpower5link$mu.eta <- function(eta) {
         pmax(.Machine$double.eps, 5 * y * eta^4)
       }
-      #
+
       res.glm <- stats::glm(
         Cases ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
         data = apdatan,
         family = nbpower5link
       )
     } else if (linkfunc == "log") {
-      res.glm <- MASS::glm.nb(
+      res.glm <- suppressWarnings(MASS::glm.nb(
         Cases ~
           as.factor(Age) +
             as.factor(Age) * Period +
@@ -416,28 +401,25 @@ hybdproj.estimate <- function(
             Period,
         data = apdatan,
         link = log
-      )
+      ))
     } else if (linkfunc == "sqrt") {
-      res.glm <- MASS::glm.nb(
+      res.glm <- suppressWarnings(MASS::glm.nb(
         Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
         data = apdatan,
         link = sqrt
-      )
+      ))
     } else if (linkfunc == "identity") {
-      res.glm <- MASS::glm.nb(
+      res.glm <- suppressWarnings(MASS::glm.nb(
         Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
         data = apdatan,
         link = identity
-      )
+      ))
     } else {
       stop("Unknown \"linkfunc\"")
     }
     pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
-    options(warn = 0)
   } else {
-    ## Using age-model -- average method:
     if (linkfunc == "power5") {
-      # Creation of power5 link for poisson family:
       y <- apdatan$y
       power5link <- stats::poisson()
       power5link$link <- "0.2 root link Poisson family"
@@ -484,7 +466,6 @@ hybdproj.estimate <- function(
     pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   }
 
-  ## Set class and return results
   res <- list(
     glm = res.glm,
     cases = cases,
@@ -523,14 +504,12 @@ hybdproj.prediction <- function(
   cuttrd = 0.04,
   shortp = 0
 ) {
-  ## running conditions:
   if (!inherits(hybdproj.estimate.object, "hybdproj.estimate")) {
     stop(
       "Variable \"hybdproj.estimate.object\" must be of type \"hybdproj.estimate\""
     )
   }
 
-  ## Setting local variables:
   cases <- hybdproj.estimate.object$cases
   pyr <- hybdproj.estimate.object$pyr
   nagg <- hybdproj.estimate.object$noyearagg
@@ -543,59 +522,50 @@ hybdproj.prediction <- function(
   lastper <- hybdproj.estimate.object$lastper
   ngroups <- nrow(cases)
 
-  nototper <- dim(pyr)[2]
-  noobsper <- dim(cases)[2]
+  noobsper <- ncol(cases)
+  nototper <- ncol(pyr)
   nonewpred <- nototper - noobsper
 
-  ## Define degenerating parameters:
   cuttrend <- rep(shortp, nonewpred)
   if (nagg == 1) {
     if (nonewpred <= 5) {
-      cuttrend <- rep(shortp, nonewpred) # first 5 years
+      cuttrend <- rep(shortp, nonewpred)
     } else {
       for (i in 6:nonewpred) {
         cuttrend[i] <- shortp + (i - 5) * cuttrd
       }
     }
     cuttrend[cuttrend > 1] <- 1
-  }
-
-  if (nagg == 2) {
+  } else if (nagg == 2) {
     if (nonewpred <= 3) {
-      cuttrend <- rep(shortp, nonewpred) # first 6 years
+      cuttrend <- rep(shortp, nonewpred)
     } else {
       for (i in 4:nonewpred) {
         cuttrend[i] <- shortp + (i - 3) * 2 * cuttrd
       }
     }
     cuttrend[cuttrend > 1] <- 1
-  }
-
-  if (nagg == 3) {
+  } else if (nagg == 3) {
     if (nonewpred <= 2) {
-      cuttrend <- rep(shortp, nonewpred) # first 6 years
+      cuttrend <- rep(shortp, nonewpred)
     } else {
       for (i in 3:nonewpred) {
         cuttrend[i] <- shortp + (i - 2) * 3 * cuttrd
       }
     }
     cuttrend[cuttrend > 1] <- 1
-  }
-
-  if (nagg == 4) {
+  } else if (nagg == 4) {
     if (nonewpred == 1) {
-      cuttrend <- shortp # first 4 years
+      cuttrend <- shortp
     } else {
       for (i in 2:nonewpred) {
         cuttrend[i] <- shortp + (i - 1) * 4 * cuttrd
       }
     }
     cuttrend[cuttrend > 1] <- 1
-  }
-
-  if (nagg == 5) {
+  } else if (nagg == 5) {
     if (nonewpred == 1) {
-      cuttrend <- shortp # first 5 years
+      cuttrend <- shortp
     } else {
       for (i in 2:nonewpred) {
         cuttrend[i] <- shortp + (i - 1) * 5 * cuttrd
@@ -604,10 +574,8 @@ hybdproj.prediction <- function(
     cuttrend[cuttrend > 1] <- 1
   }
 
-  ## Future period values:
   driftmp <- cumsum(1 - cuttrend)
 
-  ## define years or period names:
   if (is.data.frame(pyr)) {
     years <- names(pyr)
   } else {
@@ -618,16 +586,9 @@ hybdproj.prediction <- function(
     }
   }
 
-  ## Making data object:
-  datatable <- matrix(NA, nrow(cases), nototper)
-
-  # fill in observed cases:
-  datatable[, 1:(nototper - nonewpred)] <- as.matrix(cases)
-  datatable <- data.frame(datatable)
-  row.names(datatable) <- 1:ngroups
+  datatable <- data.frame(cases, matrix(NA, nrow(cases), nonewpred))
   names(datatable) <- years
 
-  ## calculate average rates:
   obsrat <- data.frame(matrix(0, dim(cases)[1], 5))
 
   for (age in 1:(dim(cases)[1])) {
@@ -636,7 +597,6 @@ hybdproj.prediction <- function(
   }
   obsrate <- apply(obsrat, 1, mean)
 
-  ## extract parameter estimation and project age-specific numbers:
   if (fmodel == "age-specific" || fmodel == "nba-specific") {
     coef <- hybdproj.estimate.object$glm$coef
     m.eff <- cbind(
@@ -650,7 +610,7 @@ hybdproj.prediction <- function(
     acoef <- mcoef[with(mcoef, order(mcoef[, 3])), ]
     row.names(acoef) <- NULL
     colnames(acoef) <- c("a.eff", "p.eff", "agrp")
-    # Project age-specific numbers:
+
     for (age in 1:19) {
       if (is.na(acoef$a.eff[acoef$agrp == age])) {
         rate <- rep(obsrate[age], length(driftmp))
@@ -683,7 +643,6 @@ hybdproj.prediction <- function(
     row.names(acoef) <- NULL
     colnames(acoef) <- c("a.eff", "p.eff", "agrp")
 
-    # Project age-specific numbers:
     for (age in 1:nrow(cases)) {
       if (is.na(acoef$a.eff[acoef$agrp == age])) {
         rate <- rep(obsrate[age], length(driftmp))
@@ -695,7 +654,6 @@ hybdproj.prediction <- function(
         } else if (hybdproj.estimate.object$linkfunc == "sqrt") {
           rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))^2
         } else {
-          # identity link:
           rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))
         }
       }
@@ -703,7 +661,6 @@ hybdproj.prediction <- function(
         pyr[age, (noobsper + 1):nototper]
     }
   } else {
-    # Average method
     coef <- hybdproj.estimate.object$glm$coef
     m.eff <- cbind(coef[1:length(coef)], rep(0, length(agpreg)), agpreg)
     row.names(m.eff) <- NULL
@@ -712,7 +669,7 @@ hybdproj.prediction <- function(
     acoef <- mcoef[with(mcoef, order(mcoef[, 3])), ]
     row.names(acoef) <- NULL
     colnames(acoef) <- c("a.eff", "p.eff", "agrp")
-    # Project age-specific numbers:
+
     for (age in 1:nrow(cases)) {
       if (is.na(acoef$a.eff[acoef$agrp == age])) {
         rate <- rep(obsrate[age], length(driftmp))
@@ -724,7 +681,6 @@ hybdproj.prediction <- function(
         } else if (hybdproj.estimate.object$linkfunc == "sqrt") {
           rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))^2
         } else {
-          # identity link:
           rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))
         }
       }
@@ -733,7 +689,6 @@ hybdproj.prediction <- function(
     }
   }
 
-  ## Structure and return results:
   res <- list(
     predictions = datatable,
     pyr = pyr,
@@ -786,12 +741,10 @@ hybdproj.getpred <- function(
   byage,
   agegroups = "all"
 ) {
-  ## Setting defaults:
   if (missing(byage)) {
     byage <- ifelse(is.null(standpop), T, F)
   }
 
-  ## Checking input:
   if (!inherits(hybdproj.object, "hybdproj")) {
     stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
   }
@@ -816,42 +769,34 @@ hybdproj.getpred <- function(
     }
   }
 
-  ## Setting local data:
   datatable <- hybdproj.object$predictions
   pyr <- data.frame(hybdproj.object$pyr)
 
-  ## Selecting agegroups:
   if (agegroups[1] != "all") {
     datatable <- datatable[agegroups, ]
     pyr <- pyr[agegroups, ]
   }
 
-  ## If needed; Standardize data and Collapse agegroups
   if (!is.null(standpop)) {
     datainc <- (datatable / pyr) * 100000
-    if (sum(is.na(datainc)) > 0) {
-      datainc[is.na(datainc)] <- 0
-    }
+    datainc[is.na(datainc)] <- 0
     res <- apply(datainc * standpop@weights, 2, sum)
   } else {
     if (!byage) {
-      datatable <- apply(datatable, 2, sum)
-      pyr <- apply(pyr, 2, sum)
+      datatable <- colSums(datatable)
+      pyr <- colSums(pyr)
     }
     if (incidence) {
       res <- (datatable / pyr) * 100000
-      if (sum(is.na(res)) > 0) {
-        res[is.na(res)] <- 0
-      }
+      res[is.na(res)] <- 0
     } else {
       res <- datatable
     }
   }
 
-  ## Select data:
   if (excludeobs) {
     if (is.matrix(res)) {
-      predstart <- dim(res)[2] - hybdproj.object$nopred + 1
+      predstart <- ncol(res) - hybdproj.object$nopred + 1
       res <- res[, predstart:(predstart + hybdproj.object$nopred - 1)]
     } else {
       predstart <- length(res) - hybdproj.object$nopred + 1
@@ -859,7 +804,6 @@ hybdproj.getpred <- function(
     }
   }
 
-  ## Return data:
   return(res)
 }
 
@@ -950,7 +894,6 @@ summary.hybdproj <- function(
     stop("Variable \"object\" must be of type \"hybdproj\"")
   }
 
-  # Setting internal variables:
   nototper <- object$nototper
   noobsper <- object$noobsper
   nopred <- object$nopred
@@ -967,7 +910,6 @@ summary.hybdproj <- function(
     gofpvalue <- NA
   }
 
-  # Print information about object:
   if (printpred) {
     cat("Predicted number of cases or deaths:")
     cat("(observations up to", obsto, ")\n")
@@ -1125,6 +1067,5 @@ plot.hybdproj <- function(
     ...
   )
 
-  # Returning object as invisible
   invisible(x)
 }

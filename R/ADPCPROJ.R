@@ -29,7 +29,6 @@ adpcproj <- function(
   shortp = 0,
   linkfunc = "power5"
 ) {
-  # Define number of cases for data splitting:
   if (is.null(n5case)) {
     if (projfor == "incidence") {
       n5case <- 5
@@ -38,12 +37,10 @@ adpcproj <- function(
     }
   }
 
-  ## aggregating data by 5 years:
   aggdata <- datagg(cdat, pdat, 5)
   cases <- aggdata$cases
   pyr <- aggdata$pyr
 
-  ## Setting startestage and startuseage:
   if (is.null(startestage)) {
     dat <- as.matrix(cases)
     iage <- 1
@@ -56,25 +53,18 @@ adpcproj <- function(
   if (is.null(newcohort)) {
     startuseage <- startestage
   } else {
-    startuseage <- startestage + 1 # assign newcohort effects as the last estimated cohort effect
+    startuseage <- startestage + 1
   }
 
-  ## Setting default and checking data:
-  # Number of periods in observed data
-  percases <- dim(cases)[2]
+  percases <- ncol(cases)
   if (percases < 3) {
     stop("Minimum number of period is 3 (15 years) in \"cases\"")
   }
 
-  ## Setting number of periods for projection base
-  # List possible candidates for number of periods to base predictions on
-  # Default is 4:6 if available
   if (is.null(noperiods)) {
     noperiods <- c(min(percases, 4):min(percases, 6))
   }
 
-  # Choose number of periods by cutting stepwise execution of the
-  # highest candidate number (i.e. cutting the most ancient periods)
   noperiods <- sort(noperiods)
   while (length(noperiods) > 1) {
     maxnoperiod <- max(noperiods)
@@ -88,7 +78,6 @@ adpcproj <- function(
   }
   noperiod <- noperiods
 
-  ## Setting status for recent (whether to use recent trend or whole trend)
   if (is.null(recent)) {
     recent <- adpcproj.estimate(
       cases,
@@ -98,7 +87,6 @@ adpcproj <- function(
     )$suggestionrecent
   }
 
-  ## Perform estimation and prediction:
   est <- adpcproj.estimate(
     cases = cases,
     pyr = pyr,
@@ -158,11 +146,9 @@ adpcproj.estimate <- function(
     stop("\"noperiod\" must be 3 or larger")
   }
 
-  ## Setting internal variables:
-  dnoperiods <- dim(cases)[2]
-  dnoagegr <- dim(cases)[1]
+  dnoperiods <- ncol(cases)
+  dnoagegr <- nrow(cases)
 
-  ## Transform dataformat:
   ageno <- rep(1:dnoagegr, dnoperiods)
   periodno <- sort(rep(1:dnoperiods, dnoagegr))
   cohort <- max(ageno) - ageno + periodno
@@ -175,19 +161,14 @@ adpcproj.estimate <- function(
     y = y
   )
 
-  ## Selecting data for regression:
   apcdata <- apcdata[apcdata$Age >= startestage, ]
   apcdata <- apcdata[apcdata$Period > (dnoperiods - noperiod), ]
 
-  ## Setting contrast for age+drift+period+cohort
   options(contrasts = c("contr.treatment", "contr.poly"))
 
-  ## Estimation:
   if (linkfunc == "power5") {
-    ## Creation of power5 link:
-    # Setting population variable
     y <- apcdata$y
-    # Make power5 link function for poisson family:
+
     power5link <- stats::poisson()
     power5link$link <- "0.2 root link Poisson family"
     power5link$linkfun <- function(mu) {
@@ -199,6 +180,7 @@ adpcproj.estimate <- function(
     power5link$mu.eta <- function(eta) {
       pmax(.Machine$double.eps, 5 * y * eta^4)
     }
+
     res.glm <- stats::glm(
       Cases ~
         as.factor(Age) + Period + as.factor(Period) + as.factor(Cohort) - 1,
@@ -238,18 +220,17 @@ adpcproj.estimate <- function(
   } else {
     stop("Unknown \"linkfunc\"")
   }
+
   pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   distn <- "Poisson"
 
-  ## change model to negative binomial glm when lack of fit:
   if (pvalue < pGOF) {
     distn <- "Negative-binomial"
-    options(warn = -1)
-    # Estimation:
+
     if (linkfunc == "power5") {
       y <- apcdata$y
-      # Make power5 link function for negative binomial family:
-      glmnb <- MASS::glm.nb(
+
+      glmnb <- suppressWarnings(MASS::glm.nb(
         Cases ~
           as.factor(Age) +
             Period +
@@ -259,12 +240,12 @@ adpcproj.estimate <- function(
             offset(log(y)),
         data = apcdata,
         link = log
-      )
-      theta <- as.numeric(MASS::theta.md(
+      ))
+      theta <- as.numeric(suppressWarnings(MASS::theta.md(
         apcdata$Cases,
         stats::fitted(glmnb),
         dfr = stats::df.residual(glmnb)
-      ))
+      )))
       nbpower5link <- MASS::negative.binomial(theta)
       nbpower5link$link <- "0.2 root link negative.binomial(theta) family"
       nbpower5link$linkfun <- function(mu) {
@@ -283,7 +264,7 @@ adpcproj.estimate <- function(
         family = nbpower5link
       )
     } else if (linkfunc == "log") {
-      res.glm <- MASS::glm.nb(
+      res.glm <- suppressWarnings(MASS::glm.nb(
         Cases ~
           as.factor(Age) +
             Period +
@@ -293,7 +274,7 @@ adpcproj.estimate <- function(
             offset(log(y)),
         data = apcdata,
         link = log
-      )
+      ))
     } else if (linkfunc == "sqrt") {
       res.glm <- MASS::glm.nb(
         Cases / y ~
@@ -311,12 +292,10 @@ adpcproj.estimate <- function(
     } else {
       stop("Unknown \"linkfunc\"")
     }
-    # updating p-value of goodness of fit and distribution function:
+
     pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
-    options(warn = 0)
   }
 
-  ## setting suggestion for 'recent' (whether to use recent trend or whole trend)
   if (distn == "Poisson") {
     mod1 <- stats::glm(
       Cases ~ as.factor(Age) + Period + as.factor(Cohort) + offset(log(y)) - 1,
@@ -346,13 +325,12 @@ adpcproj.estimate <- function(
       suggestionrecent <- F
     }
   } else {
-    options(warn = -1)
-    mod1 <- MASS::glm.nb(
+    mod1 <- suppressWarnings(MASS::glm.nb(
       Cases ~ as.factor(Age) + Period + as.factor(Cohort) + offset(log(y)) - 1,
       data = apcdata,
       link = log
-    )
-    mod2 <- MASS::glm.nb(
+    ))
+    mod2 <- suppressWarnings(MASS::glm.nb(
       Cases ~
         as.factor(Age) +
           Period +
@@ -362,8 +340,7 @@ adpcproj.estimate <- function(
           1,
       data = apcdata,
       link = log
-    )
-    options(warn = 0)
+    ))
     pdiff <- 1 -
       stats::pchisq(
         (mod2$twologlik - mod1$twologlik),
@@ -376,7 +353,6 @@ adpcproj.estimate <- function(
     }
   }
 
-  ## Set class and return results
   res <- list(
     glm = res.glm,
     cases = cases,
@@ -414,7 +390,6 @@ adpcproj.prediction <- function(
   shortp = 0,
   cuttrd = 0.04
 ) {
-  ## running conditions:
   if (!inherits(adpcproj.estimate.object, "adpcproj.estimate")) {
     stop(
       "Variable \"adpcproj.estimate.object\" must be of type \"adpcproj.estimate\""
@@ -425,12 +400,11 @@ adpcproj.prediction <- function(
     stop("\"startuseage\" is set too low compared to \"startestage\"")
   }
 
-  ## Setting local variables:
   cases <- adpcproj.estimate.object$cases
   pyr <- adpcproj.estimate.object$pyr
   noperiod <- adpcproj.estimate.object$noperiod
-  nototper <- dim(pyr)[2]
-  noobsper <- dim(cases)[2]
+  nototper <- ncol(pyr)
+  noobsper <- ncol(cases)
   nonewpred <- nototper - noobsper
   cuttrend <- rep(shortp, nonewpred)
   ngroups <- nrow(cases)
@@ -440,57 +414,24 @@ adpcproj.prediction <- function(
   }
   cuttrend[cuttrend > 1] <- 1
 
-  if (length(cuttrend) > nonewpred) {
-    cuttrend <- cuttrend[1:nonewpred]
-  }
+  datatable <- data.frame(cases, matrix(NA, ngroups, nonewpred))
+  names(datatable) <- names(pyr)
 
-  if (
-    length(cuttrend) <
-      (dim(adpcproj.estimate.object$pyr)[2] -
-        dim(adpcproj.estimate.object$cases)[2])
-  ) {
-    err <- paste("\"cuttrend\" must always be at least the same length as")
-    err <- paste(err, "the number of periods with population forecasts")
-    stop(err)
-  }
+  skipped_ages <- 1:(startuseage - 1)
+  obsinc <- cases[skipped_ages, (noobsper - 1):noobsper] /
+    pyr[skipped_ages, (noobsper - 1):noobsper]
+  obsinc[is.na(obsinc)] <- 0
 
-  if (is.data.frame(pyr)) {
-    years <- names(pyr)
-  } else {
-    if (is.null(dimnames(pyr))) {
-      years <- paste("Periode", 1:nototper)
-    } else {
-      years <- dimnames(pyr)[[2]]
-    }
-  }
-
-  ## Making data object:
-  datatable <- matrix(NA, ngroups, nototper)
-  # fill in observed cases:
-  datatable[, 1:(nototper - nonewpred)] <- as.matrix(cases)
-  datatable <- data.frame(datatable)
-  row.names(datatable) <- 1:ngroups
-  names(datatable) <- years
-
-  ## Calculate predictions in number of cases:
-  # For young agegroups with little data, use average from last two periods:
-  for (age in 1:(startuseage - 1)) {
-    obsinc <- cases[age, (noobsper - 1):noobsper] /
-      pyr[age, (noobsper - 1):noobsper]
-    if (sum(is.na(obsinc))) {
-      obsinc[is.na(obsinc)] <- 0
-    }
-    datatable[age, (noobsper + 1):nototper] <- ((obsinc[, 1] + obsinc[, 2]) /
-      2) *
-      pyr[age, (noobsper + 1):nototper]
-  }
+  datatable[skipped_ages, (noobsper + 1):nototper] <- ((obsinc[, 1] +
+    obsinc[, 2]) /
+    2) *
+    pyr[skipped_ages, (noobsper + 1):nototper]
 
   # For old agegroups, use trend from model estimates:
   for (age in startuseage:ngroups) {
     startestage <- adpcproj.estimate.object$startestage
     coefficients <- adpcproj.estimate.object$glm$coefficients
 
-    # Cohort index: No. agegoups - age + period
     coh <- (ngroups - startestage) -
       (age - startestage) +
       (noperiod + 1:nonewpred)
@@ -508,25 +449,19 @@ adpcproj.prediction <- function(
       if (coh[i] < maxcoh) {
         cohpar[i] <- as.numeric(coefficients[cohfind[i]])
       } else {
-        # For new young cohorts in the future, define the effect as the last cohort:
         cohpar[i] <- as.numeric(coefficients[
           length(coefficients) - (startuseage - startestage)
         ])
-        #       cohpar[i][is.na(cohpar[i])] <- as.numeric(coefficients[length(coefficients)-1])
         cohpar[i][is.na(cohpar[i])] <- 0
       }
     }
 
-    # Getting recent drift (D_last) estimate:
     if (recent) {
-      # localize the last period effect (note: p.first=p.last)
       lpfind <- driftfind + noperiod - 2
-      # find the estimate of the last two period effect (P-1)
       lppar <- as.numeric(coefficients[lpfind])
       driftrecent <- driftpar - lppar
     }
 
-    # Project age-specific rates:
     if (adpcproj.estimate.object$linkfunc == "power5") {
       if (recent) {
         rate <- (agepar +
@@ -565,7 +500,6 @@ adpcproj.prediction <- function(
       pyr[age, (noobsper + 1):nototper]
   }
 
-  # Structure and return results:
   res <- list(
     predictions = datatable,
     pyr = pyr,
@@ -612,12 +546,10 @@ adpcproj.getpred <- function(
   byage,
   agegroups = "all"
 ) {
-  ## Setting defaults:
   if (missing(byage)) {
     byage <- ifelse(is.null(standpop), T, F)
   }
 
-  ## Checking input:
   if (!inherits(adpcproj.object, "adpcproj")) {
     stop("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
   }
@@ -639,17 +571,14 @@ adpcproj.getpred <- function(
     }
   }
 
-  ## Seting local data:
   datatable <- adpcproj.object$predictions
   pyr <- data.frame(adpcproj.object$pyr)
 
-  ## Secting agegroups:
   if (agegroups[1] != "all") {
     datatable <- datatable[agegroups, ]
     pyr <- pyr[agegroups, ]
   }
 
-  ## If needed; Standardize data and Collapse agegroups
   if (!is.null(standpop)) {
     datainc <- (datatable / pyr) * 100000
     if (sum(is.na(datainc)) > 0) {
@@ -671,10 +600,9 @@ adpcproj.getpred <- function(
     }
   }
 
-  ## Select data:
   if (excludeobs) {
     if (is.matrix(res)) {
-      predstart <- dim(res)[2] - adpcproj.object$nopred + 1
+      predstart <- ncol(res) - adpcproj.object$nopred + 1
       res <- res[, predstart:(predstart + adpcproj.object$nopred - 1)]
     } else {
       predstart <- length(res) - adpcproj.object$nopred + 1
@@ -682,7 +610,6 @@ adpcproj.getpred <- function(
     }
   }
 
-  ## Return data:
   return(res)
 }
 
@@ -743,9 +670,8 @@ summary.adpcproj <- function(
   if (!inherits(object, "adpcproj")) {
     stop("Variable \"object\" must be of type \"adpcproj\"")
   }
-  # Setting internal variables:
   obsto <- names(object$predictions)[
-    dim(object$predictions)[2] - object$nopred
+    ncol(object$predictions) - object$nopred
   ]
 
   if (!is.null(object$pvaluerecent)) {
@@ -760,7 +686,6 @@ summary.adpcproj <- function(
     gofpvalue <- NA
   }
 
-  # Print information about object:
   if (printpred) {
     cat("Observed and predicted values:")
     cat("(observations up to", obsto, ")\n")
