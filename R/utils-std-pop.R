@@ -7,7 +7,7 @@
 #'   `StandardPopulation()` to construct the standard population and pass the
 #'   object as an argument to other functions, as needed.
 #'
-#' @param name Descriptive name of the standard population.
+#' @param name Name of the standard population.
 #' @param strata Character vector of strata labels.
 #' @param weights Numeric vector of strata weights.
 #' @param metadata Optional. We provide this `metadata` property so that users
@@ -52,6 +52,77 @@ StandardPopulation <-
         "`strata` and `weights` must be the same length."
       }
     }
+  )
+
+#' @rdname StandardPopulation
+#' @export
+get_standard_population <- function(name) {
+  rlang::arg_match(
+    arg = name,
+    values = c(
+      "Canada (2011)",
+      "Canada (2021)",
+      "WHO (2000-2025)"
+    )
+  )
+  switch(
+    name,
+    "Canada (2011)" = stdpop_Canada_2011,
+    "Canada (2021)" = stdpop_Canada_2021,
+    "WHO (2000-2025)" = stdpop_WHO_2000_2025
+  )
+}
+
+#' @rdname StandardPopulation
+#' @export
+stdpop_Canada_2011 <-
+  StandardPopulation(
+    name = "Canadian Standard Population (2011)",
+    strata = c(
+      "0 to 4 years",
+      "5 to 9 years",
+      "10 to 14 years",
+      "15 to 19 years",
+      "20 to 24 years",
+      "25 to 29 years",
+      "30 to 34 years",
+      "35 to 39 years",
+      "40 to 44 years",
+      "45 to 49 years",
+      "50 to 54 years",
+      "55 to 59 years",
+      "60 to 64 years",
+      "65 to 69 years",
+      "70 to 74 years",
+      "75 to 79 years",
+      "80 to 84 years",
+      "85 to 89 years",
+      "90 years and over"
+    ),
+    weights = c(
+      0.055325,
+      0.052736,
+      0.055857,
+      0.065121,
+      0.068506,
+      0.068967,
+      0.067743,
+      0.066176,
+      0.069477,
+      0.079209,
+      0.078366,
+      0.068519,
+      0.059696,
+      0.044613,
+      0.033573,
+      0.026761,
+      0.020406,
+      0.012420,
+      0.006529
+    ),
+    metadata = list(
+      last_updated = "June 2019"
+    )
   )
 
 #' @rdname StandardPopulation
@@ -103,58 +174,6 @@ stdpop_Canada_2021 <-
     ),
     metadata = list(
       last_updated = "June 2026"
-    )
-  )
-
-#' @rdname StandardPopulation
-#' @export
-stdpop_Canada_2011 <-
-  StandardPopulation(
-    name = "Canadian Standard Population (2011)",
-    strata = c(
-      "0 to 4 years",
-      "5 to 9 years",
-      "10 to 14 years",
-      "15 to 19 years",
-      "20 to 24 years",
-      "25 to 29 years",
-      "30 to 34 years",
-      "35 to 39 years",
-      "40 to 44 years",
-      "45 to 49 years",
-      "50 to 54 years",
-      "55 to 59 years",
-      "60 to 64 years",
-      "65 to 69 years",
-      "70 to 74 years",
-      "75 to 79 years",
-      "80 to 84 years",
-      "85 to 89 years",
-      "90 years and over"
-    ),
-    weights = c(
-      0.055325,
-      0.052736,
-      0.055857,
-      0.065121,
-      0.068506,
-      0.068967,
-      0.067743,
-      0.066176,
-      0.069477,
-      0.079209,
-      0.078366,
-      0.068519,
-      0.059696,
-      0.044613,
-      0.033573,
-      0.026761,
-      0.020406,
-      0.012420,
-      0.006529
-    ),
-    metadata = list(
-      last_updated = "June 2019"
     )
   )
 
