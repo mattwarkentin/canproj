@@ -512,68 +512,20 @@ hybdproj.prediction <- function(
 
   cases <- hybdproj.estimate.object$cases
   pyr <- hybdproj.estimate.object$pyr
-  nagg <- hybdproj.estimate.object$noyearagg
-  ncase <- hybdproj.estimate.object$nocaseagp
-  projbase <- hybdproj.estimate.object$projbase
   agpreg <- hybdproj.estimate.object$agrpmod
   agpave <- hybdproj.estimate.object$agrpave
   fmodel <- hybdproj.estimate.object$finalmod
-  noperiod <- hybdproj.estimate.object$noperiod
   lastper <- hybdproj.estimate.object$lastper
-  ngroups <- nrow(cases)
 
   noobsper <- ncol(cases)
   nototper <- ncol(pyr)
   nonewpred <- nototper - noobsper
 
-  cuttrend <- rep(shortp, nonewpred)
-  if (nagg == 1) {
-    if (nonewpred <= 5) {
-      cuttrend <- rep(shortp, nonewpred)
-    } else {
-      for (i in 6:nonewpred) {
-        cuttrend[i] <- shortp + (i - 5) * cuttrd
-      }
-    }
-    cuttrend[cuttrend > 1] <- 1
-  } else if (nagg == 2) {
-    if (nonewpred <= 3) {
-      cuttrend <- rep(shortp, nonewpred)
-    } else {
-      for (i in 4:nonewpred) {
-        cuttrend[i] <- shortp + (i - 3) * 2 * cuttrd
-      }
-    }
-    cuttrend[cuttrend > 1] <- 1
-  } else if (nagg == 3) {
-    if (nonewpred <= 2) {
-      cuttrend <- rep(shortp, nonewpred)
-    } else {
-      for (i in 3:nonewpred) {
-        cuttrend[i] <- shortp + (i - 2) * 3 * cuttrd
-      }
-    }
-    cuttrend[cuttrend > 1] <- 1
-  } else if (nagg == 4) {
-    if (nonewpred == 1) {
-      cuttrend <- shortp
-    } else {
-      for (i in 2:nonewpred) {
-        cuttrend[i] <- shortp + (i - 1) * 4 * cuttrd
-      }
-    }
-    cuttrend[cuttrend > 1] <- 1
-  } else if (nagg == 5) {
-    if (nonewpred == 1) {
-      cuttrend <- shortp
-    } else {
-      for (i in 2:nonewpred) {
-        cuttrend[i] <- shortp + (i - 1) * 5 * cuttrd
-      }
-    }
-    cuttrend[cuttrend > 1] <- 1
-  }
-
+  cuttrend <- get_hybd_cuttrend(
+    shortp,
+    nonewpred,
+    hybdproj.estimate.object$noyearagg
+  )
   driftmp <- cumsum(1 - cuttrend)
 
   if (is.data.frame(pyr)) {
@@ -589,105 +541,59 @@ hybdproj.prediction <- function(
   datatable <- data.frame(cases, matrix(NA, nrow(cases), nonewpred))
   names(datatable) <- years
 
-  obsrat <- data.frame(matrix(0, dim(cases)[1], 5))
+  obsrate <- (as.matrix(cases[, (noobsper - 4):noobsper]) /
+    as.matrix(pyr[, (noobsper - 4):noobsper])) |>
+    apply(1, mean)
 
-  for (age in 1:(nrow(cases))) {
-    obsrat[age, ] <- as.matrix(cases[age, (noobsper - 4):noobsper]) /
-      as.matrix(pyr[age, (noobsper - 4):noobsper])
-  }
-  obsrate <- apply(obsrat, 1, mean)
-
+  coef <- hybdproj.estimate.object$glm$coef
   if (fmodel == "age-specific" || fmodel == "nba-specific") {
-    coef <- hybdproj.estimate.object$glm$coef
     m.eff <- cbind(
       coef[1:(length(coef) / 2)],
       coef[(length(coef) / 2 + 1):length(coef)],
       agpreg
     )
-    row.names(m.eff) <- NULL
-    avef <- cbind(rep(NA, length(agpave)), rep(0, length(agpave)), agpave)
-    mcoef <- data.frame(rbind(avef, m.eff))
-    acoef <- mcoef[with(mcoef, order(mcoef[, 3])), ]
-    row.names(acoef) <- NULL
-    colnames(acoef) <- c("a.eff", "p.eff", "agrp")
-
-    for (age in 1:nrow(cases)) {
-      if (is.na(acoef$a.eff[acoef$agrp == age])) {
-        rate <- rep(obsrate[age], length(driftmp))
-      } else {
-        if (hybdproj.estimate.object$linkfunc == "power5") {
-          rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))^5
-        } else if (hybdproj.estimate.object$linkfunc == "log") {
-          rate <- exp(acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))
-        } else if (hybdproj.estimate.object$linkfunc == "sqrt") {
-          rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))^2
-        } else {
-          # identity link:
-          rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))
-        }
-      }
-      datatable[age, (noobsper + 1):nototper] <- rate *
-        pyr[age, (noobsper + 1):nototper]
-    }
   } else if (fmodel == "common-trend") {
-    coef <- hybdproj.estimate.object$glm$coef
     m.eff <- cbind(
       coef[1:(length(coef) - 1)],
       rep(coef[length(coef)], length(agpreg)),
       agpreg
     )
-    row.names(m.eff) <- NULL
-    avef <- cbind(rep(NA, length(agpave)), rep(0, length(agpave)), agpave)
-    mcoef <- data.frame(rbind(avef, m.eff))
-    acoef <- mcoef[with(mcoef, order(mcoef[, 3])), ]
-    row.names(acoef) <- NULL
-    colnames(acoef) <- c("a.eff", "p.eff", "agrp")
-
-    for (age in 1:nrow(cases)) {
-      if (is.na(acoef$a.eff[acoef$agrp == age])) {
-        rate <- rep(obsrate[age], length(driftmp))
-      } else {
-        if (hybdproj.estimate.object$linkfunc == "power5") {
-          rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))^5
-        } else if (hybdproj.estimate.object$linkfunc == "log") {
-          rate <- exp(acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))
-        } else if (hybdproj.estimate.object$linkfunc == "sqrt") {
-          rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))^2
-        } else {
-          rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))
-        }
-      }
-      datatable[age, (noobsper + 1):nototper] <- rate *
-        pyr[age, (noobsper + 1):nototper]
-    }
   } else {
-    coef <- hybdproj.estimate.object$glm$coef
-    m.eff <- cbind(coef[1:length(coef)], rep(0, length(agpreg)), agpreg)
-    row.names(m.eff) <- NULL
-    avef <- cbind(rep(NA, length(agpave)), rep(0, length(agpave)), agpave)
-    mcoef <- data.frame(rbind(avef, m.eff))
-    acoef <- mcoef[with(mcoef, order(mcoef[, 3])), ]
-    row.names(acoef) <- NULL
-    colnames(acoef) <- c("a.eff", "p.eff", "agrp")
-
-    for (age in 1:nrow(cases)) {
-      if (is.na(acoef$a.eff[acoef$agrp == age])) {
-        rate <- rep(obsrate[age], length(driftmp))
-      } else {
-        if (hybdproj.estimate.object$linkfunc == "power5") {
-          rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))^5
-        } else if (hybdproj.estimate.object$linkfunc == "log") {
-          rate <- exp(acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))
-        } else if (hybdproj.estimate.object$linkfunc == "sqrt") {
-          rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))^2
-        } else {
-          rate <- (acoef$a.eff[age] + acoef$p.eff[age] * (lastper + driftmp))
-        }
-      }
-      datatable[age, (noobsper + 1):nototper] <- rate *
-        pyr[age, (noobsper + 1):nototper]
-    }
+    m.eff <- cbind(coef, rep(0, length(agpreg)), agpreg)
   }
+
+  row.names(m.eff) <- NULL
+  mcoef <- cbind(rep(NA, length(agpave)), rep(0, length(agpave)), agpave) |>
+    rbind(m.eff) |>
+    data.frame()
+  acoef <- mcoef[with(mcoef, order(mcoef[, 3])), ]
+  row.names(acoef) <- NULL
+  colnames(acoef) <- c("a.eff", "p.eff", "agrp")
+
+  rate_mat <- matrix(
+    acoef$p.eff,
+    length(acoef$p.eff),
+    length(driftmp)
+  ) |>
+    sweep(MARGIN = 2, (lastper + driftmp), `*`)
+
+  if (hybdproj.estimate.object$linkfunc == "power5") {
+    rate <- (acoef$a.eff + rate_mat)^5
+  } else if (hybdproj.estimate.object$linkfunc == "log") {
+    rate <- exp(acoef$a.eff + rate_mat)
+  } else if (hybdproj.estimate.object$linkfunc == "sqrt") {
+    rate <- (acoef$a.eff + rate_mat)^2
+  } else {
+    rate <- (acoef$a.eff + rate_mat)
+  }
+
+  na_groups <- is.na(acoef$a.eff)
+  rate[na_groups, ] <- rep(obsrate[na_groups], length(driftmp))
+
+  datatable[, (noobsper + 1):nototper] <- as.data.frame(
+    rate *
+      pyr[, (noobsper + 1):nototper]
+  )
 
   res <- list(
     predictions = datatable,
