@@ -162,209 +162,20 @@ hybdproj.estimate <- function(
   fmodel <- model[[1]]
   apdatan <- model[[2]]
 
-  if (fmodel == "common-trend") {
-    if (linkfunc == "power5") {
-      y <- apdatan$y
-      power5link <- stats::poisson()
-      power5link$link <- "0.2 root link Poisson family"
-      power5link$linkfun <- function(mu) {
-        (mu / y)^0.2
-      }
-      power5link$linkinv <- function(eta) {
-        pmax(.Machine$double.eps, y * eta^5)
-      }
-      power5link$mu.eta <- function(eta) {
-        pmax(.Machine$double.eps, 5 * y * eta^4)
-      }
-
-      res.glm <- stats::glm(
-        Cases ~ as.factor(Age) + Period - 1,
-        data = apdatan,
-        family = power5link
-      )
-    } else if (linkfunc == "log") {
-      res.glm <- stats::glm(
-        Cases ~ as.factor(Age) + Period + offset(log(y)) - 1,
-        data = apdatan,
-        family = stats::poisson(link = log)
-      )
-    } else if (linkfunc == "sqrt") {
-      suppressWarnings(
-        res.glm <- stats::glm(
-          Cases / y ~ as.factor(Age) + Period - 1,
-          data = apdatan,
-          family = stats::poisson(link = sqrt)
-        )
-      )
-    } else if (linkfunc == "identity") {
-      suppressWarnings(
-        res.glm <- stats::glm(
-          Cases / y ~ as.factor(Age) + Period - 1,
-          data = apdatan,
-          family = stats::poisson(link = identity)
-        )
-      )
+  if (fmodel != "nba-specific") {
+    if (fmodel == "common-trend") {
+      formula_string <- "Cases ~ as.factor(Age) + Period - 1"
+    } else if (fmodel == "age-specific") {
+      formula_string <- "Cases ~ as.factor(Age) + as.factor(Age) * Period - Period - 1"
     } else {
-      stop("Unknown \"linkfunc\"")
+      # average model
+      formula_string <- "Cases ~ as.factor(Age) - 1"
     }
-  } else if (fmodel == "age-specific") {
-    if (linkfunc == "power5") {
-      y <- apdatan$y
-      power5link <- stats::poisson()
-      power5link$link <- "0.2 root link Poisson family"
-      power5link$linkfun <- function(mu) {
-        (mu / y)^0.2
-      }
-      power5link$linkinv <- function(eta) {
-        pmax(.Machine$double.eps, y * eta^5)
-      }
-      power5link$mu.eta <- function(eta) {
-        pmax(.Machine$double.eps, 5 * y * eta^4)
-      }
 
-      res.glm <- stats::glm(
-        Cases ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
-        data = apdatan,
-        family = power5link
-      )
-    } else if (linkfunc == "log") {
-      res.glm <- stats::glm(
-        Cases ~
-          as.factor(Age) +
-            as.factor(Age) * Period +
-            offset(log(y)) -
-            1 -
-            Period,
-        data = apdatan,
-        family = stats::poisson(link = log)
-      )
-    } else if (linkfunc == "sqrt") {
-      suppressWarnings(
-        res.glm <- stats::glm(
-          Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
-          data = apdatan,
-          family = stats::poisson(link = sqrt)
-        )
-      )
-    } else if (linkfunc == "identity") {
-      suppressWarnings(
-        res.glm <- stats::glm(
-          Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
-          data = apdatan,
-          family = stats::poisson(link = identity)
-        )
-      )
-    } else {
-      stop("Unknown \"linkfunc\"")
-    }
-  } else if (fmodel == "nba-specific") {
-    if (linkfunc == "power5") {
-      y <- apdatan$y
-      glmnb <- suppressWarnings(MASS::glm.nb(
-        Cases ~
-          as.factor(Age) +
-            as.factor(Age) * Period -
-            1 -
-            Period +
-            offset(log(y)),
-        data = apdatan,
-        link = log
-      ))
-      theta <- as.numeric(MASS::theta.md(
-        apdatan$Cases,
-        stats::fitted(glmnb),
-        dfr = stats::df.residual(glmnb)
-      ))
-      nbpower5link <- MASS::negative.binomial(theta)
-      nbpower5link$link <- "0.2 root link negative.binomial(theta) family"
-      nbpower5link$linkfun <- function(mu) {
-        (mu / y)^0.2
-      }
-      nbpower5link$linkinv <- function(eta) {
-        pmax(.Machine$double.eps, y * eta^5)
-      }
-      nbpower5link$mu.eta <- function(eta) {
-        pmax(.Machine$double.eps, 5 * y * eta^4)
-      }
-
-      res.glm <- stats::glm(
-        Cases ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
-        data = apdatan,
-        family = nbpower5link
-      )
-    } else if (linkfunc == "log") {
-      res.glm <- suppressWarnings(MASS::glm.nb(
-        Cases ~
-          as.factor(Age) +
-            as.factor(Age) * Period +
-            offset(log(y)) -
-            1 -
-            Period,
-        data = apdatan,
-        link = log
-      ))
-    } else if (linkfunc == "sqrt") {
-      res.glm <- suppressWarnings(MASS::glm.nb(
-        Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
-        data = apdatan,
-        link = sqrt
-      ))
-    } else if (linkfunc == "identity") {
-      res.glm <- suppressWarnings(MASS::glm.nb(
-        Cases / y ~ as.factor(Age) + as.factor(Age) * Period - 1 - Period,
-        data = apdatan,
-        link = identity
-      ))
-    } else {
-      stop("Unknown \"linkfunc\"")
-    }
+    res.glm <- get_glm(formula_string, apdatan, linkfunc)
   } else {
-    # average model
-
-    if (linkfunc == "power5") {
-      y <- apdatan$y
-      power5link <- stats::poisson()
-      power5link$link <- "0.2 root link Poisson family"
-      power5link$linkfun <- function(mu) {
-        (mu / y)^0.2
-      }
-      power5link$linkinv <- function(eta) {
-        pmax(.Machine$double.eps, y * eta^5)
-      }
-      power5link$mu.eta <- function(eta) {
-        pmax(.Machine$double.eps, 5 * y * eta^4)
-      }
-      #
-      res.glm <- stats::glm(
-        Cases ~ as.factor(Age) - 1,
-        data = apdatan,
-        family = power5link
-      )
-    } else if (linkfunc == "log") {
-      res.glm <- stats::glm(
-        Cases ~ as.factor(Age) + offset(log(y)) - 1,
-        data = apdatan,
-        family = stats::poisson(link = log)
-      )
-    } else if (linkfunc == "sqrt") {
-      suppressWarnings(
-        res.glm <- stats::glm(
-          Cases / y ~ as.factor(Age) - 1,
-          data = apdatan,
-          family = stats::poisson(link = sqrt)
-        )
-      )
-    } else if (linkfunc == "identity") {
-      suppressWarnings(
-        res.glm <- stats::glm(
-          Cases / y ~ as.factor(Age) - 1,
-          data = apdatan,
-          family = stats::poisson(link = identity)
-        )
-      )
-    } else {
-      stop("Unknown \"linkfunc\"")
-    }
+    formula_string <- " Cases ~ as.factor(Age) + as.factor(Age) * Period - Period - 1"
+    res.glm <- get_glm_nb(formula_string, apdatan, linkfunc)
   }
 
   pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
@@ -426,7 +237,8 @@ hybdproj.prediction <- function(
   cuttrend <- get_hybd_cuttrend(
     shortp,
     nonewpred,
-    hybdproj.estimate.object$noyearagg
+    hybdproj.estimate.object$noyearagg,
+    cuttrd
   )
   driftmp <- cumsum(1 - cuttrend)
 

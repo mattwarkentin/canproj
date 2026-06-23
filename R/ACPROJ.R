@@ -127,124 +127,25 @@ acproj.estimate <- function(
   maxc <- max(apcdata$Cohort)
   midc <- ceiling(maxc / 2)
 
-  if (linkfunc == "power5") {
-    y <- apcdata$y
-
-    power5link <- stats::poisson()
-    power5link$link <- "0.2 root link Poisson family"
-    power5link$linkfun <- function(mu) {
-      (mu / y)^0.2
-    }
-
-    power5link$linkinv <- function(eta) {
-      pmax(.Machine$double.eps, y * eta^5)
-    }
-
-    power5link$mu.eta <- function(eta) {
-      pmax(.Machine$double.eps, 5 * y * eta^4)
-    }
-
-    res.glm <- stats::glm(
-      Cases ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
-      data = apcdata,
-      family = power5link
-    )
-  } else if (linkfunc == "log") {
-    res.glm <- stats::glm(
-      Cases ~ factor(Age) + relevel(factor(Cohort), midc) + offset(log(y)) - 1,
-      data = apcdata,
-      family = stats::poisson(link = log)
-    )
-  } else if (linkfunc == "sqrt") {
-    suppressWarnings(
-      res.glm <- stats::glm(
-        Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
-        data = apcdata,
-        family = stats::poisson(link = sqrt)
-      )
-    )
-  } else if (linkfunc == "identity") {
-    suppressWarnings(
-      res.glm <- stats::glm(
-        Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
-        data = apcdata,
-        family = stats::poisson(link = identity)
-      )
-    )
-  } else {
-    stop("Unknown \"linkfunc\"")
-  }
+  formula_string <- paste0(
+    "Cases ~ factor(Age) + relevel(factor(Cohort), ",
+    midc,
+    ") - 1"
+  )
+  res.glm <- get_glm(formula_string, apcdata, linkfunc)
 
   pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   distn <- "Poisson"
 
   if (pvalue < pGOF) {
     distn <- "Negative-binomial"
-    if (linkfunc == "power5") {
-      y <- apcdata$y
 
-      suppressWarnings(
-        glmnb <- MASS::glm.nb(
-          Cases ~
-            factor(Age) + relevel(factor(Cohort), midc) + offset(log(y)) - 1,
-          data = apcdata,
-          link = log
-        )
-      )
-
-      theta <- as.numeric(MASS::theta.md(
-        apcdata$Cases,
-        stats::fitted(glmnb),
-        dfr = stats::df.residual(glmnb)
-      ))
-
-      nbpower5link <- MASS::negative.binomial(theta)
-      nbpower5link$link <- "0.2 root link negative.binomial(theta) family"
-      nbpower5link$linkfun <- function(mu) {
-        (mu / y)^0.2
-      }
-
-      nbpower5link$linkinv <- function(eta) {
-        pmax(.Machine$double.eps, y * eta^5)
-      }
-
-      nbpower5link$mu.eta <- function(eta) {
-        pmax(.Machine$double.eps, 5 * y * eta^4)
-      }
-
-      res.glm <- stats::glm(
-        Cases ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
-        data = apcdata,
-        family = nbpower5link
-      )
-    } else if (linkfunc == "log") {
-      suppressWarnings(
-        res.glm <- MASS::glm.nb(
-          Cases ~
-            factor(Age) + relevel(factor(Cohort), midc) + offset(log(y)) - 1,
-          data = apcdata,
-          link = log
-        )
-      )
-    } else if (linkfunc == "sqrt") {
-      suppressWarnings(
-        res.glm <- MASS::glm.nb(
-          Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
-          data = apcdata,
-          link = sqrt
-        )
-      )
-    } else if (linkfunc == "identity") {
-      suppressWarnings(
-        res.glm <- MASS::glm.nb(
-          Cases / y ~ factor(Age) + relevel(factor(Cohort), midc) - 1,
-          data = apcdata,
-          link = identity
-        )
-      )
-    } else {
-      stop("Unknown \"linkfunc\"")
-    }
+    formula_string <- paste0(
+      "Cases ~ factor(Age) + relevel(factor(Cohort), ",
+      midc,
+      ") - 1"
+    )
+    res.glm <- get_glm_nb(formula_string, apcdata, linkfunc)
 
     pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   }

@@ -4,7 +4,7 @@
 #' @param nonewpred Number of predicted periods
 #'
 #' @keywords internal
-get_hybd_cuttrend <- function(shortp, nonewpred, nagg) {
+get_hybd_cuttrend <- function(shortp, nonewpred, nagg, cuttrd) {
   cuttrend <- rep(shortp, nonewpred)
 
   if (nagg == 1) {
