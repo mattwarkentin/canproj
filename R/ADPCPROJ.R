@@ -554,61 +554,16 @@ adpcproj.getpred <- function(
     stop("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
   }
 
-  if ((!is.null(standpop)) && (!incidence)) {
-    stop(
-      "\"standpop\" should only be used with incidence predictions (incidence=T)"
-    )
-  }
+  validate_getpred_inputs(byage, standpop, incidence, agegroups)
 
-  if (!is.null(standpop)) {
-    S7::check_is_S7(standpop, StandardPopulation)
-
-    if ((length(standpop) != length(agegroups)) && (agegroups[1] != "all")) {
-      stop("\"standpop\" must be the same length as \"agegroups\"")
-    }
-    if (byage) {
-      stop("\"standpop\" is only valid for \"byage=F\"")
-    }
-  }
-
-  datatable <- adpcproj.object$predictions
-  pyr <- data.frame(adpcproj.object$pyr)
-
-  if (agegroups[1] != "all") {
-    datatable <- datatable[agegroups, ]
-    pyr <- pyr[agegroups, ]
-  }
-
-  if (!is.null(standpop)) {
-    datainc <- (datatable / pyr) * 100000
-    if (sum(is.na(datainc)) > 0) {
-      datainc[is.na(datainc)] <- 0
-    }
-    res <- apply(datainc * standpop@weights, 2, sum)
-  } else {
-    if (!byage) {
-      datatable <- apply(datatable, 2, sum)
-      pyr <- apply(pyr, 2, sum)
-    }
-    if (incidence) {
-      res <- (datatable / pyr) * 100000
-      if (sum(is.na(res)) > 0) {
-        res[is.na(res)] <- 0
-      }
-    } else {
-      res <- datatable
-    }
-  }
-
-  if (excludeobs) {
-    if (is.matrix(res)) {
-      predstart <- ncol(res) - adpcproj.object$nopred + 1
-      res <- res[, predstart:(predstart + adpcproj.object$nopred - 1)]
-    } else {
-      predstart <- length(res) - adpcproj.object$nopred + 1
-      res <- res[predstart:(predstart + adpcproj.object$nopred - 1)]
-    }
-  }
+  res <- make_pred_table(
+    adpcproj.object,
+    agegroups,
+    standpop,
+    byage,
+    incidence,
+    excludeobs
+  )
 
   return(res)
 }

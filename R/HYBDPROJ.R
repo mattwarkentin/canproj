@@ -611,7 +611,7 @@ hybdproj.prediction <- function(
     row.names(acoef) <- NULL
     colnames(acoef) <- c("a.eff", "p.eff", "agrp")
 
-    for (age in 1:19) {
+    for (age in 1:nrow(cases)) {
       if (is.na(acoef$a.eff[acoef$agrp == age])) {
         rate <- rep(obsrate[age], length(driftmp))
       } else {
@@ -741,68 +741,24 @@ hybdproj.getpred <- function(
   byage,
   agegroups = "all"
 ) {
-  if (missing(byage)) {
-    byage <- ifelse(is.null(standpop), T, F)
-  }
-
   if (!inherits(hybdproj.object, "hybdproj")) {
     stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
   }
 
-  if ((!is.null(standpop)) && (!incidence)) {
-    stop(
-      "\"standpop\" should only be used with incidence predictions (incidence=T)"
-    )
+  if (missing(byage)) {
+    byage <- ifelse(is.null(standpop), T, F)
   }
 
-  if (!is.null(standpop)) {
-    S7::check_is_S7(standpop, StandardPopulation)
+  validate_getpred_inputs(byage, standpop, incidence, agegroups)
 
-    if (round(sum(standpop@weights), 5) != 1) {
-      stop("\"standpop\" must be of sum 1")
-    }
-    if ((length(standpop) != length(agegroups)) && (agegroups[1] != "all")) {
-      stop("\"standpop\" must be the same length as \"agegroups\"")
-    }
-    if (byage) {
-      stop("\"standpop\" is only valid for \"byage=F\"")
-    }
-  }
-
-  datatable <- hybdproj.object$predictions
-  pyr <- data.frame(hybdproj.object$pyr)
-
-  if (agegroups[1] != "all") {
-    datatable <- datatable[agegroups, ]
-    pyr <- pyr[agegroups, ]
-  }
-
-  if (!is.null(standpop)) {
-    datainc <- (datatable / pyr) * 100000
-    datainc[is.na(datainc)] <- 0
-    res <- apply(datainc * standpop@weights, 2, sum)
-  } else {
-    if (!byage) {
-      datatable <- colSums(datatable)
-      pyr <- colSums(pyr)
-    }
-    if (incidence) {
-      res <- (datatable / pyr) * 100000
-      res[is.na(res)] <- 0
-    } else {
-      res <- datatable
-    }
-  }
-
-  if (excludeobs) {
-    if (is.matrix(res)) {
-      predstart <- ncol(res) - hybdproj.object$nopred + 1
-      res <- res[, predstart:(predstart + hybdproj.object$nopred - 1)]
-    } else {
-      predstart <- length(res) - hybdproj.object$nopred + 1
-      res <- res[predstart:(predstart + hybdproj.object$nopred - 1)]
-    }
-  }
+  res <- make_pred_table(
+    hybdproj.object,
+    agegroups,
+    standpop,
+    byage,
+    incidence,
+    excludeobs
+  )
 
   return(res)
 }

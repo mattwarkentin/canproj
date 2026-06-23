@@ -410,55 +410,16 @@ acproj.getpred <- function(
     stop("Variable \"acproj.object\" must be of type \"acproj\"")
   }
 
-  if ((!is.null(standpop)) && (!incidence)) {
-    stop(
-      "\"standpop\" should only be used with incidence predictions (incidence=T)"
-    )
-  }
+  validate_getpred_inputs(byage, standpop, incidence, agegroups)
 
-  if (!is.null(standpop)) {
-    S7::check_is_S7(standpop, StandardPopulation)
-
-    if ((length(standpop) != length(agegroups)) && (agegroups[1] != "all")) {
-      stop("\"standpop\" must be the same length as \"agegroups\"")
-    }
-    if (byage) {
-      stop("\"standpop\" is only valid for \"byage=F\"")
-    }
-  }
-
-  datatable <- acproj.object$predictions
-  pyr <- data.frame(acproj.object$pyr)
-
-  if (agegroups[1] != "all") {
-    datatable <- datatable[agegroups, ]
-    pyr <- pyr[agegroups, ]
-  }
-
-  if (!is.null(standpop)) {
-    incidence <- (datatable / pyr) * 100000
-    if (sum(is.na(incidence)) > 0) {
-      incidence[is.na(incidence)] <- 0
-    }
-    res <- colSums(incidence * standpop@weights)
-  } else {
-    if (!byage) {
-      datatable <- colSums(datatable)
-      pyr <- colSums(pyr)
-    }
-
-    if (incidence) {
-      res <- (datatable / pyr) * 100000
-      res[is.na(res)] <- 0
-    } else {
-      res <- datatable
-    }
-  }
-
-  if (excludeobs) {
-    predstart <- ncol(res) - acproj.object$nopred + 1
-    res <- res[predstart:(predstart + acproj.object$nopred - 1)]
-  }
+  res <- make_pred_table(
+    acproj.object,
+    agegroups,
+    standpop,
+    byage,
+    incidence,
+    excludeobs
+  )
 
   return(res)
 }
