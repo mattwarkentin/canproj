@@ -158,104 +158,9 @@ hybdproj.estimate <- function(
     y = y
   )
 
-  if (ncol(casesB) == 5) {
-    apdatan <- apdata
-    lastper <- 5
-    projbase <- 5 * nagg
-  } else {
-    mod1 <- stats::glm(
-      Cases ~ as.factor(Age) + Period + offset(log(y)) - 1,
-      data = apdata,
-      family = stats::poisson
-    )
-    mod2 <- stats::glm(
-      Cases ~ as.factor(Age) + as.factor(Age) * Period + offset(log(y)) - 1,
-      data = apdata,
-      family = stats::poisson
-    )
-    pdiff <- 1 -
-      stats::pchisq(
-        (mod1$deviance - mod2$deviance),
-        (mod1$df.residual - mod2$df.residual)
-      )
-    if (is.null(pdiff)) {
-      mod <- "common"
-    } else {
-      if (pdiff < pGOF) {
-        mod <- "age-specific"
-      } else {
-        mod <- "common"
-      }
-    }
-
-    trydat <- apdata
-    likeh <- rep(0, (dnoperiods - 5))
-    for (i in 1:(dnoperiods - 5)) {
-      trydat$Period[trydat$Period <= i] <- 0
-      if (mod == "common") {
-        likeh[i] <- stats::glm(
-          Cases ~ as.factor(Age) + Period + offset(log(y)) - 1,
-          data = trydat,
-          family = stats::poisson
-        )$deviance /
-          (-2)
-      } else {
-        likeh[i] <- stats::glm(
-          Cases ~ as.factor(Age) + as.factor(Age) * Period + offset(log(y)) - 1,
-          data = trydat,
-          family = stats::poisson
-        )$deviance /
-          (-2)
-      }
-    }
-    cuty <- which(likeh == max(likeh))
-    apdatan <- apdata[apdata$Period >= cuty, ]
-    if (cuty > 1) {
-      apdatan$Period <- apdatan$Period - cuty + 1
-    }
-    lastper <- length(cuty:dnoperiods)
-    projbase <- lastper * nagg
-  }
-
-  mode1 <- stats::glm(
-    Cases ~ as.factor(Age) + Period + offset(log(y)) - 1,
-    data = apdatan,
-    family = stats::poisson
-  )
-  mode2 <- stats::glm(
-    Cases ~ as.factor(Age) + as.factor(Age) * Period + offset(log(y)) - 1,
-    data = apdatan,
-    family = stats::poisson
-  )
-  pdiffn <- 1 -
-    stats::pchisq(
-      (mod1$deviance - mod2$deviance),
-      (mod1$df.residual - mod2$df.residual)
-    )
-  pd1 <- summary(mode1)$coef["Period", 4]
-  pd2 <- 1 - stats::pchisq(mode2$deviance, mode2$df.residual)
-
-  if (is.null(pdiffn)) {
-    if (pd1 > pD) {
-      fmodel <- "average"
-    } else {
-      fmodel <- "common-trend"
-    }
-  } else {
-    if (pdiffn > pGOF) {
-      if (pd1 > pD) {
-        fmodel <- "average"
-      } else {
-        fmodel <- "common-trend"
-      }
-    } else {
-      if (pd2 > pD) {
-        fmodel <- "age-specific"
-      } else {
-        fmodel <- "nba-specific"
-      }
-    }
-  }
+  model <- select_hybd_method(casesB, apdata, nagg, pGOF, dnoperiods, pD)
+  fmodel <- model[[1]]
+  apdatan <- model[[2]]
 
   if (fmodel == "common-trend") {
     if (linkfunc == "power5") {
@@ -302,8 +207,6 @@ hybdproj.estimate <- function(
     } else {
       stop("Unknown \"linkfunc\"")
     }
-
-    pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   } else if (fmodel == "age-specific") {
     if (linkfunc == "power5") {
       y <- apdatan$y
@@ -354,8 +257,6 @@ hybdproj.estimate <- function(
     } else {
       stop("Unknown \"linkfunc\"")
     }
-
-    pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   } else if (fmodel == "nba-specific") {
     if (linkfunc == "power5") {
       y <- apdatan$y
@@ -417,8 +318,9 @@ hybdproj.estimate <- function(
     } else {
       stop("Unknown \"linkfunc\"")
     }
-    pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   } else {
+    # average model
+
     if (linkfunc == "power5") {
       y <- apdatan$y
       power5link <- stats::poisson()
@@ -463,22 +365,22 @@ hybdproj.estimate <- function(
     } else {
       stop("Unknown \"linkfunc\"")
     }
-    pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   }
 
+  pvalue <- 1 - stats::pchisq(res.glm$deviance, res.glm$df.residual)
   res <- list(
     glm = res.glm,
     cases = cases,
     pyr = pyr,
     agrpave = agpave,
-    lastper = lastper,
-    cuty = cuty,
-    noperiod = lastper,
+    lastper = model[[3]],
+    cuty = model[[4]],
+    noperiod = model[[3]],
     noyearagg = nagg,
     nocaseagp = ncase,
     linkfunc = linkfunc,
     agrpmod = agpreg,
-    projbase = projbase,
+    projbase = model[[5]],
     finalmod = fmodel,
     gofpvalue = pvalue
   )
