@@ -158,7 +158,7 @@ hybdproj.estimate <- function(
     y = y
   )
 
-  if (dim(casesB)[2] == 5) {
+  if (ncol(casesB) == 5) {
     apdatan <- apdata
     lastper <- 5
     projbase <- 5 * nagg
@@ -591,7 +591,7 @@ hybdproj.prediction <- function(
 
   obsrat <- data.frame(matrix(0, dim(cases)[1], 5))
 
-  for (age in 1:(dim(cases)[1])) {
+  for (age in 1:(nrow(cases))) {
     obsrat[age, ] <- as.matrix(cases[age, (noobsper - 4):noobsper]) /
       as.matrix(pyr[age, (noobsper - 4):noobsper])
   }
@@ -788,38 +788,20 @@ hybdproj.getproj <- function(
   }
 
   finalmod <- hybdproj.object$finalmod
-
   r0 <- hybdproj.getpred(hybdproj.object, incidence = T)
-
   nagg <- hybdproj.object$noyearagg
-
   outasp <- asrpy(r0, cdat, pdat, startp = startp, nagg = nagg)
 
-  if (finalmod != "average") {
-    if (is.null(standpop)) {
-      return(outasp)
-    } else {
-      outann <- asry(outasp, pdat, standpop)
-      return(outann)
-    }
+  if (finalmod == "average" & !is.null(Ave5)) {
+    mod <- ave5proj(cdat, pdat, startp, sum5 = sum5)
+    outasp <- mod$agsproj
+  }
+
+  if (is.null(standpop)) {
+    return(outasp)
   } else {
-    if (is.null(Ave5)) {
-      if (is.null(standpop)) {
-        return(outasp)
-      } else {
-        outann <- asry(outasp, pdat, standpop)
-        return(outann)
-      }
-    } else {
-      mod <- ave5proj(cdat, pdat, startp, sum5 = sum5)
-      outasp <- mod$agsproj
-      if (is.null(standpop)) {
-        return(outasp)
-      } else {
-        outann <- asry(outasp, pdat, standpop)
-        return(outann)
-      }
-    }
+    outann <- asry(outasp, pdat, standpop)
+    return(outann)
   }
 }
 
