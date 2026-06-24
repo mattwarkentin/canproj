@@ -75,28 +75,7 @@ canproj <- function(
     }
 
     if (is.null(nagg)) {
-      masr <- mean(obasr(cdat, pdat, standpop)[, 1])
-      if (projfor == "incidence") {
-        if (masr > 15) {
-          nagg <- 1
-        } else if (masr > 10) {
-          nagg <- 2
-        } else if (masr > 5) {
-          nagg <- 3
-        } else {
-          nagg <- 4
-        }
-      } else {
-        if (masr > 9) {
-          nagg <- 1
-        } else if (masr > 6) {
-          nagg <- 2
-        } else if (masr > 3) {
-          nagg <- 3
-        } else {
-          nagg <- 4
-        }
-      }
+      nagg <- select_nagg(cdat, pdat, standpop, projfor)
     }
 
     aggdata <- datagg(cdat, pdat, 5)

@@ -1,24 +1,21 @@
-#' Observed age-standardized rates
+#' Convert to age-standardized
 #'
-#' Calculate observed age-standardized rates and total numbers
+#' Calculate age-standardized annual rates and counts
 #'
 #' @inheritParams canproj
-#'
-#' @return A `data.frame()`.
+#' @param rates Observed and projected age-specific rates.
 #'
 #' @keywords internal
-obasr <- function(cdat, pdat, stdpop) {
+asry <- function(rates, pdat, stdpop) {
   S7::check_is_S7(stdpop, StandardPopulation)
+  c1 <- rates * pdat / 100000
+  case <- round(colSums(c1), 0)
+  case[case < 0] <- 0
 
-  numyears <- dim(cdat)[2]
-  popu <- pdat[, 1:numyears]
-  rr <- matrix(NA, nrow(cdat), numyears)
-  for (i in 1:numyears) {
-    rr[, i] <- 100000 * cdat[, i] / popu[, i]
-  }
-  aspr <- rr * stdpop@weights
-  asr <- colSums(aspr)
-  case <- colSums(cdat)
+  a1 <- rates * stdpop@weights
+  asr <- round(colSums(a1), 6)
+  asr[asr < 0] <- 0
+
   return(cbind(asr, case))
 }
 

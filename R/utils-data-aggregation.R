@@ -53,3 +53,47 @@ datagg <- function(cdat, pdat, nagg) {
 
   return(list(cases = cases, pyr = pyr))
 }
+
+#' Select nagg
+#'
+#' Select number of years to aggregate data by.
+#'
+#' @inheritParams canproj
+#'
+#' @return A whole number.
+#'
+#' @keywords internal
+select_nagg <- function(cdat, pdat, standpop, projfor) {
+  S7::check_is_S7(standpop, StandardPopulation)
+
+  mean_asr <- (100000 *
+    cdat /
+    pdat[, 1:ncol(cdat)] *
+    standpop@weights) |>
+    colSums() |>
+    mean()
+
+  if (projfor == "incidence") {
+    if (mean_asr > 15) {
+      nagg <- 1
+    } else if (mean_asr > 10) {
+      nagg <- 2
+    } else if (mean_asr > 5) {
+      nagg <- 3
+    } else {
+      nagg <- 4
+    }
+  } else {
+    if (mean_asr > 9) {
+      nagg <- 1
+    } else if (mean_asr > 6) {
+      nagg <- 2
+    } else if (mean_asr > 3) {
+      nagg <- 3
+    } else {
+      nagg <- 4
+    }
+  }
+
+  return(nagg)
+}
