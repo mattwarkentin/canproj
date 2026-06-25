@@ -240,25 +240,32 @@ acproj.prediction <- function(
     c((lncoh - 3):(lncoh - 2), (cumsum(1 - cuttrend) + lncoh - 2))
   coheff <- c(coeff[1:(lncoh - 2)], ncoeff)
 
-  for (age in startestage:ngroups) {
-    agepar <- as.numeric(ageff[age - startestage + 1])
-    coh <- (ngroups - startestage) -
-      (age - startestage) +
-      (noperiod + 1:nonewpred)
-    cohpar <- coheff[coh]
+  eff_groups <- ngroups - startestage + 1
+  agepar <- matrix(
+    as.numeric(ageff[startestage:ngroups]),
+    (eff_groups),
+    nonewpred
+  )
+  cohpar <- matrix(
+    coheff[
+      (eff_groups + noperiod):(noperiod + 1) +
+        floor(0:(eff_groups * nonewpred - 1) / eff_groups)
+    ],
+    eff_groups,
+    nonewpred
+  )
 
-    if (acproj.estimate.object$linkfunc == "power5") {
-      rate <- (agepar + cohpar)^5
-    } else if (acproj.estimate.object$linkfunc == "log") {
-      rate <- exp(agepar + cohpar)
-    } else if (acproj.estimate.object$linkfunc == "sqrt") {
-      rate <- (agepar + cohpar)^2
-    } else {
-      rate <- (agepar + cohpar)
-    }
-    datatable[age, (noobsper + 1):nototper] <- rate *
-      pyr[age, (noobsper + 1):nototper]
+  if (acproj.estimate.object$linkfunc == "power5") {
+    rate <- (agepar + cohpar)^5
+  } else if (acproj.estimate.object$linkfunc == "log") {
+    rate <- exp(agepar + cohpar)
+  } else if (acproj.estimate.object$linkfunc == "sqrt") {
+    rate <- (agepar + cohpar)^2
+  } else {
+    rate <- (agepar + cohpar)
   }
+  datatable[startestage:ngroups, (noobsper + 1):nototper] <- rate *
+    pyr[startestage:ngroups, (noobsper + 1):nototper]
 
   res <- list(
     predictions = datatable,
