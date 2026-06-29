@@ -75,7 +75,7 @@ ave5proj.getproj <- function(pdat, ave5proj.object, standpop = NULL) {
   if (is.null(standpop)) {
     return(outasp)
   } else {
-    annproj <- asry(outasp, pdat, standpop)
+    annproj <- standardize_annual_rates(outasp, pdat, standpop)
     return(annproj)
   }
 }

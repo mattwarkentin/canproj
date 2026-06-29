@@ -78,7 +78,7 @@ canproj <- function(
       nagg <- select_nagg(cdat, pdat, standpop, projfor)
     }
 
-    aggdata <- datagg(cdat, pdat, 5)
+    aggdata <- aggregate_data(cdat, pdat, 5)
     cases <- aggdata$cases
     pyr <- aggdata$pyr
     nonewpred <- ncol(pyr) - ncol(cases)
@@ -132,8 +132,14 @@ canproj <- function(
           )
 
           r0 <- adpcproj.getpred(out, incidence = T)
-          outasp <- asrpy(r0, cdat, pdat, startp = startp, nagg = 5)
-          outann <- asry(outasp, pdat, stdpop = standpop)
+          outasp <- interpolate_age_specific_rates(
+            r0,
+            cdat,
+            pdat,
+            startp = startp,
+            nagg = 5
+          )
+          outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
           mod <- "ADPC"
         } else {
           out <- acproj(
@@ -183,7 +189,7 @@ canproj <- function(
           sum5 = sum5
         )
 
-        outann <- asry(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
         mod <- "Hybrid"
       }
     } else {
@@ -204,8 +210,14 @@ canproj <- function(
         )
 
         r0 <- adpcproj.getpred(out, incidence = T)
-        outasp <- asrpy(r0, cdat, pdat, startp = startp, nagg = 5)
-        outann <- asry(outasp, pdat, stdpop = standpop)
+        outasp <- interpolate_age_specific_rates(
+          r0,
+          cdat,
+          pdat,
+          startp = startp,
+          nagg = 5
+        )
+        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
         mod <- "nordpred"
       } else if (methods == "adpc-nb") {
         out <- adpcproj(
@@ -222,8 +234,14 @@ canproj <- function(
         )
 
         r0 <- adpcproj.getpred(out, incidence = T)
-        outasp <- asrpy(r0, cdat, pdat, startp = startp, nagg = 5)
-        outann <- asry(outasp, pdat, stdpop = standpop)
+        outasp <- interpolate_age_specific_rates(
+          r0,
+          cdat,
+          pdat,
+          startp = startp,
+          nagg = 5
+        )
+        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
         mod <- "adpc-nb"
       } else if (methods == "ac-poi") {
         out <- acproj(
@@ -291,7 +309,7 @@ canproj <- function(
           out,
           Ave5 = Ave5
         )
-        outann <- asry(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
         mod <- "a-s-nb"
       } else if (methods == "age-trd-poi") {
         out <- hybdproj(
@@ -315,7 +333,7 @@ canproj <- function(
           out,
           Ave5 = Ave5
         )
-        outann <- asry(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
         mod <- "a-s-poi"
       } else if (methods == "com-trd") {
         out <- hybdproj(
@@ -339,7 +357,7 @@ canproj <- function(
           out,
           Ave5 = Ave5
         )
-        outann <- asry(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
         mod <- "c-t"
       } else if (methods == "age-only") {
         out <- hybdproj(
@@ -364,7 +382,7 @@ canproj <- function(
           Ave5 = Ave5,
           sum5 = sum5
         )
-        outann <- asry(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
         mod <- "average"
       } else if (methods == "ave5") {
         out <- ave5proj(cdat, pdat, startp = startp, sum5 = sum5)

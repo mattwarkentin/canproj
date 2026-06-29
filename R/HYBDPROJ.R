@@ -36,7 +36,7 @@ hybdproj <- function(
     nagg <- select_nagg(cdat, pdat, standpop, projfor)
   }
 
-  aggdata <- datagg(cdat, pdat, nagg)
+  aggdata <- aggregate_data(cdat, pdat, nagg)
   cases <- aggdata$cases
   pyr <- aggdata$pyr
 
@@ -389,7 +389,13 @@ hybdproj.getproj <- function(
   finalmod <- hybdproj.object$finalmod
   r0 <- hybdproj.getpred(hybdproj.object, incidence = T)
   nagg <- hybdproj.object$noyearagg
-  outasp <- asrpy(r0, cdat, pdat, startp = startp, nagg = nagg)
+  outasp <- interpolate_age_specific_rates(
+    r0,
+    cdat,
+    pdat,
+    startp = startp,
+    nagg = nagg
+  )
 
   if (finalmod == "average" & !is.null(Ave5)) {
     mod <- ave5proj(cdat, pdat, startp, sum5 = sum5)
@@ -399,7 +405,7 @@ hybdproj.getproj <- function(
   if (is.null(standpop)) {
     return(outasp)
   } else {
-    outann <- asry(outasp, pdat, standpop)
+    outann <- standardize_annual_rates(outasp, pdat, standpop)
     return(outann)
   }
 }

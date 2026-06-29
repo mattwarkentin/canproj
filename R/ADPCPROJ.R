@@ -37,7 +37,7 @@ adpcproj <- function(
     }
   }
 
-  aggdata <- datagg(cdat, pdat, 5)
+  aggdata <- aggregate_data(cdat, pdat, 5)
   cases <- aggdata$cases
   pyr <- aggdata$pyr
 
@@ -472,11 +472,17 @@ adpcproj.getproj <- function(
   }
 
   r0 <- adpcproj.getpred(adpcproj.object, incidence = T)
-  outasp <- asrpy(r0, cdat, pdat, startp = startp, nagg = 5)
+  outasp <- interpolate_age_specific_rates(
+    r0,
+    cdat,
+    pdat,
+    startp = startp,
+    nagg = 5
+  )
   if (is.null(standpop)) {
     return(outasp)
   } else {
-    outann <- asry(outasp, pdat, standpop)
+    outann <- standardize_annual_rates(outasp, pdat, standpop)
     return(outann)
   }
 }

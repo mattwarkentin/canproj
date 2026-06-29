@@ -16,7 +16,7 @@ test_that("aggregation by 1 returns all years without aggregation", {
 
   agg <- list(cases = cases, pyr = pyr)
 
-  expect_equal(datagg(cdat, pdat, 1), agg)
+  expect_equal(aggregate_data(cdat, pdat, 1), agg)
 })
 
 test_that("aggregation by a factor of nyears aggregates all years", {
@@ -37,7 +37,7 @@ test_that("aggregation by a factor of nyears aggregates all years", {
 
   agg <- list(cases = cases, pyr = pyr)
 
-  expect_equal(datagg(cdat, pdat, 5), agg)
+  expect_equal(aggregate_data(cdat, pdat, 5), agg)
 })
 
 test_that("aggregation by a nonfactor removes extra years at beginning", {
@@ -61,7 +61,7 @@ test_that("aggregation by a nonfactor removes extra years at beginning", {
 
   agg <- list(cases = cases, pyr = pyr)
 
-  expect_equal(datagg(cdat, pdat, 2), agg)
+  expect_equal(aggregate_data(cdat, pdat, 2), agg)
 })
 
 test_that("population input must include projection years", {
@@ -71,7 +71,7 @@ test_that("population input must include projection years", {
   expect_error(datagg(cdat, pdat, 1))
 })
 
-test_that("datagg supports other age groupings", {
+test_that("data aggregation supports other age groupings", {
   cdat <- matrix(1:10, nrow = 10, ncol = 15)
   pdat <- matrix(1000:1009, nrow = 10, ncol = 20)
 
@@ -83,5 +83,5 @@ test_that("datagg supports other age groupings", {
 
   agg <- list(cases = cases, pyr = pyr)
 
-  expect_equal(datagg(cdat, pdat, 5), agg)
+  expect_equal(aggregate_data(cdat, pdat, 5), agg)
 })

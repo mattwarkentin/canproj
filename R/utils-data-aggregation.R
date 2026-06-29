@@ -7,7 +7,7 @@
 #' @return A `list()`.
 #'
 #' @keywords internal
-datagg <- function(cdat, pdat, nagg) {
+aggregate_data <- function(cdat, pdat, nagg) {
   num_obs_year <- ncol(cdat)
   nagg_obs_period <- floor(num_obs_year / nagg)
 

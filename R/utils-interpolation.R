@@ -7,7 +7,7 @@
 #' @return A `data.frame()`.
 #'
 #' @keywords internal
-asrpy <- function(rate, cdat, pdat, startp, nagg) {
+interpolate_age_specific_rates <- function(rate, cdat, pdat, startp, nagg) {
   ngroups <- nrow(cdat)
   tot_obs_years <- ncol(cdat)
   tot_years <- ncol(pdat)
