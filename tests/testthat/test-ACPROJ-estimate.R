@@ -2,7 +2,7 @@ test_that("acproj estimate works with power5 link function (default)", {
   cases <- matrix(0:56 * 25, nrow = 19, ncol = 3)
   pyr <- matrix(seq(from = 50000, to = 50375, by = 5), nrow = 19, ncol = 4)
 
-  out <- acproj.estimate(cases, pyr, noperiod = 3, startage = 1, pGOF = 0)
+  out <- acproj_estimate(cases, pyr, noperiod = 3, startage = 1, pGOF = 0)
 
   expect_equal(out$cases, cases)
   expect_equal(out$pyr, pyr)
@@ -30,7 +30,7 @@ test_that("acproj estimate works with log link function", {
   cases <- matrix(0:56 * 25, nrow = 19, ncol = 3)
   pyr <- matrix(seq(from = 50000, to = 50375, by = 5), nrow = 19, ncol = 4)
 
-  out <- acproj.estimate(
+  out <- acproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -58,7 +58,7 @@ test_that("acproj estimate works with sqrt link function", {
   cases <- matrix(0:56 * 25, nrow = 19, ncol = 3)
   pyr <- matrix(seq(from = 50000, to = 50375, by = 5), nrow = 19, ncol = 4)
 
-  out <- acproj.estimate(
+  out <- acproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -86,7 +86,7 @@ test_that("acproj estimate works with identity link function", {
   cases <- matrix(1:57 * 25, nrow = 19, ncol = 3)
   pyr <- matrix(seq(from = 50000, to = 50375, by = 5), nrow = 19, ncol = 4)
 
-  out <- acproj.estimate(
+  out <- acproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -115,7 +115,7 @@ test_that("acproj estimate fails with unknown link function", {
   pyr <- matrix(seq(from = 50000, to = 50375, by = 5), nrow = 19, ncol = 4)
 
   expect_error(
-    acproj.estimate(
+    acproj_estimate(
       cases,
       pyr,
       noperiod = 3,
@@ -132,7 +132,7 @@ test_that("acproj estimate works with negative-binomial glm and power5 link func
   cases <- matrix(0:56 * 25, nrow = 19, ncol = 3)
   pyr <- matrix(seq(from = 50000, to = 50375, by = 5), nrow = 19, ncol = 4)
 
-  out <- acproj.estimate(cases, pyr, noperiod = 3, startage = 1, pGOF = 1)
+  out <- acproj_estimate(cases, pyr, noperiod = 3, startage = 1, pGOF = 1)
 
   expect_equal(out$linkfunc, "power5")
   expect_equal(out$distribution, "Negative-binomial")
@@ -153,7 +153,7 @@ test_that("acproj estimate works with negative-binomial glm and log link functio
   cases <- matrix(0:56 * 25, nrow = 19, ncol = 3)
   pyr <- matrix(seq(from = 50000, to = 50375, by = 5), nrow = 19, ncol = 4)
 
-  out <- acproj.estimate(
+  out <- acproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -181,7 +181,7 @@ test_that("acproj estimate works with negative-binomial glm and sqrt link functi
   cases <- matrix(0:56 * 25, nrow = 19, ncol = 3)
   pyr <- matrix(seq(from = 50000, to = 50375, by = 5), nrow = 19, ncol = 4)
 
-  out <- acproj.estimate(
+  out <- acproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -209,7 +209,7 @@ test_that("acproj estimate works with negative-binomial glm and identity link fu
   cases <- matrix(1:57 * 25, nrow = 19, ncol = 3)
   pyr <- matrix(seq(from = 50000, to = 50375, by = 5), nrow = 19, ncol = 4)
 
-  out <- acproj.estimate(
+  out <- acproj_estimate(
     cases,
     pyr,
     noperiod = 3,

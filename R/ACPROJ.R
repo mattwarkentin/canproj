@@ -47,7 +47,7 @@ acproj <- function(
     stop("Minimum number of period is 3 (15 years) in \"cases\"")
   }
 
-  est <- acproj.estimate(
+  est <- acproj_estimate(
     cases = cases,
     pyr = pyr,
     noperiod = percases,
@@ -56,8 +56,8 @@ acproj <- function(
     linkfunc = linkfunc
   )
 
-  pred <- acproj.prediction(
-    acproj.estimate.object = est,
+  pred <- acproj_predict(
+    acproj_estimate.object = est,
     cuttrd = cuttrd,
     shortp = shortp
   )
@@ -66,7 +66,7 @@ acproj <- function(
 }
 
 
-#' acproj.estimate
+#' acproj_estimate
 #'
 #' Fit age-cohort models
 #'
@@ -78,7 +78,7 @@ acproj <- function(
 #' @return A `list()`.
 #'
 #' @export
-acproj.estimate <- function(
+acproj_estimate <- function(
   cases,
   pyr,
   noperiod,
@@ -162,39 +162,39 @@ acproj.estimate <- function(
     distribution = distn,
     gofpvalue = pvalue
   )
-  class(res) <- "acproj.estimate"
+  class(res) <- "acproj_estimate"
   attr(res, "Call") <- sys.call()
   return(res)
 }
 
 
-#' acproj.prediction
+#' acproj_predict
 #'
 #' Extrapolate estimated trend from age-cohort model
 #'
 #' @inheritParams canproj
-#' @param acproj.estimate.object An object based on the `acproj.estimate()` function.
+#' @param acproj_estimate.object An object based on the `acproj_estimate()` function.
 #'
 #' @return A `list()`.
 #'
 #' @export
-acproj.prediction <- function(
-  acproj.estimate.object,
+acproj_predict <- function(
+  acproj_estimate.object,
   cuttrd = 0.04,
   shortp = 0
 ) {
-  if (!inherits(acproj.estimate.object, "acproj.estimate")) {
+  if (!inherits(acproj_estimate.object, "acproj_estimate")) {
     stop(
-      "Variable \"acproj.estimate.object\" must be of type \"acproj.estimate\""
+      "Variable \"acproj_estimate.object\" must be of type \"acproj_estimate\""
     )
   }
 
-  cases <- acproj.estimate.object$cases
-  pyr <- acproj.estimate.object$pyr
-  noperiod <- acproj.estimate.object$noperiod
-  startage <- acproj.estimate.object$startage
-  maxc <- acproj.estimate.object$maxc
-  midc <- acproj.estimate.object$midc
+  cases <- acproj_estimate.object$cases
+  pyr <- acproj_estimate.object$pyr
+  noperiod <- acproj_estimate.object$noperiod
+  startage <- acproj_estimate.object$startage
+  maxc <- acproj_estimate.object$maxc
+  midc <- acproj_estimate.object$midc
   nototper <- ncol(pyr)
   noobsper <- ncol(cases)
   nonewpred <- nototper - noobsper
@@ -219,7 +219,7 @@ acproj.prediction <- function(
     2) *
     pyr[skipped_ages, (noobsper + 1):nototper]
 
-  coefficients <- acproj.estimate.object$glm$coefficients
+  coefficients <- acproj_estimate.object$glm$coefficients
 
   num_ages <- ngroups - startage + 1
   ageff <- coefficients[1:num_ages]
@@ -255,11 +255,11 @@ acproj.prediction <- function(
     nonewpred
   )
 
-  if (acproj.estimate.object$linkfunc == "power5") {
+  if (acproj_estimate.object$linkfunc == "power5") {
     rate <- (agepar + cohpar)^5
-  } else if (acproj.estimate.object$linkfunc == "log") {
+  } else if (acproj_estimate.object$linkfunc == "log") {
     rate <- exp(agepar + cohpar)
-  } else if (acproj.estimate.object$linkfunc == "sqrt") {
+  } else if (acproj_estimate.object$linkfunc == "sqrt") {
     rate <- (agepar + cohpar)^2
   } else {
     rate <- (agepar + cohpar)
@@ -271,14 +271,14 @@ acproj.prediction <- function(
     predictions = datatable,
     pyr = pyr,
     nopred = nonewpred,
-    noperiod = acproj.estimate.object$noperiod,
+    noperiod = acproj_estimate.object$noperiod,
     cuttrd = cuttrd,
     shortp = shortp,
     cuttrend = cuttrend,
-    gofpvalue = acproj.estimate.object$gofpvalue,
-    distribution = acproj.estimate.object$distribution,
-    startage = acproj.estimate.object$startage,
-    glm = acproj.estimate.object$glm
+    gofpvalue = acproj_estimate.object$gofpvalue,
+    distribution = acproj_estimate.object$distribution,
+    startage = acproj_estimate.object$startage,
+    glm = acproj_estimate.object$glm
   )
   class(res) <- "acproj"
   attr(res, "Call") <- sys.call()
@@ -286,7 +286,7 @@ acproj.prediction <- function(
 }
 
 
-#' acproj.getpred
+#' acproj_get_predictions
 #'
 #' Extract projection results by 5-year period
 #'
@@ -302,7 +302,7 @@ acproj.prediction <- function(
 #' @return A `data.frame()`.
 #'
 #' @export
-acproj.getpred <- function(
+acproj_get_predictions <- function(
   acproj.object,
   incidence = T,
   standpop = NULL,
@@ -338,7 +338,7 @@ acproj.getpred <- function(
 #' Extract annual projection results
 #'
 #' @inheritParams canproj
-#' @inheritParams acproj.getpred
+#' @inheritParams acproj_get_predictions
 #'
 #' @return A `data.frame()`.
 #'
@@ -354,7 +354,7 @@ acproj_get_projections <- function(
     S7::check_is_S7(standpop, StandardPopulation)
   }
 
-  r0 <- acproj.getpred(acproj.object, incidence = T)
+  r0 <- acproj_get_predictions(acproj.object, incidence = T)
 
   outasp <- interpolate_age_specific_rates(
     r0,
@@ -455,7 +455,7 @@ summary.acproj <- function(
 #'
 #' Summarize estimations from the final model.
 #'
-#' @inheritParams acproj.getpred
+#' @inheritParams acproj_get_predictions
 #'
 #' @return A summary table from the `glm.object`.
 #'

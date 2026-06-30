@@ -1,4 +1,4 @@
-test_that("acproj prediction requires class type acproj.estimate", {
+test_that("acproj prediction requires class type acproj_estimate", {
   object <- list(
     glm = list(1:3),
     cases = matrix(5, 5, 5),
@@ -6,8 +6,8 @@ test_that("acproj prediction requires class type acproj.estimate", {
   )
 
   expect_error(
-    acproj.prediction(object),
-    "Variable \"acproj.estimate.object\" must be of type \"acproj.estimate\"",
+    acproj_predict(object),
+    "Variable \"acproj_estimate.object\" must be of type \"acproj_estimate\"",
     fixed = TRUE
   )
 })
@@ -37,9 +37,9 @@ test_that("acproj prediction works with identity link function (default)", {
     distribution = "Poisson",
     gofpvalue = 0.8
   )
-  class(estimate_obj) <- "acproj.estimate"
+  class(estimate_obj) <- "acproj_estimate"
 
-  out <- acproj.prediction(estimate_obj, cuttrd = 0.1, shortp = 0.01)
+  out <- acproj_predict(estimate_obj, cuttrd = 0.1, shortp = 0.01)
 
   expect_equal(out$glm, estimate_obj$glm)
   expect_equal(out$pyr, estimate_obj$pyr)
@@ -88,9 +88,9 @@ test_that("acproj prediction works with log link function", {
     distribution = "Poisson",
     gofpvalue = 0.8
   )
-  class(estimate_obj) <- "acproj.estimate"
+  class(estimate_obj) <- "acproj_estimate"
 
-  out <- acproj.prediction(estimate_obj, cuttrd = 0.1, shortp = 0.01)
+  out <- acproj_predict(estimate_obj, cuttrd = 0.1, shortp = 0.01)
 
   expect_equal(out$predictions["17", "X4"], 12285.68, tolerance = 0.01)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.01)
@@ -121,9 +121,9 @@ test_that("acproj prediction works with sqrt link fucntion", {
     distribution = "Poisson",
     gofpvalue = 0.8
   )
-  class(estimate_obj) <- "acproj.estimate"
+  class(estimate_obj) <- "acproj_estimate"
 
-  out <- acproj.prediction(estimate_obj, cuttrd = 0.1, shortp = 0.01)
+  out <- acproj_predict(estimate_obj, cuttrd = 0.1, shortp = 0.01)
 
   expect_equal(out$predictions["7", "X4"], 264.0640, tolerance = 0.0001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.0001)
@@ -154,9 +154,9 @@ test_that("acproj prediction works with power5 link function", {
     distribution = "Poisson",
     gofpvalue = 0.8
   )
-  class(estimate_obj) <- "acproj.estimate"
+  class(estimate_obj) <- "acproj_estimate"
 
-  out <- acproj.prediction(estimate_obj, cuttrd = 0.1, shortp = 0.01)
+  out <- acproj_predict(estimate_obj, cuttrd = 0.1, shortp = 0.01)
 
   expect_equal(
     out$predictions["13", "X4"],
@@ -195,9 +195,9 @@ test_that("acproj prediction works with varying age groups", {
     distribution = "Poisson",
     gofpvalue = 0.8
   )
-  class(estimate_obj) <- "acproj.estimate"
+  class(estimate_obj) <- "acproj_estimate"
 
-  out <- acproj.prediction(estimate_obj, cuttrd = 0.1, shortp = 0.01)
+  out <- acproj_predict(estimate_obj, cuttrd = 0.1, shortp = 0.01)
 
   expect_equal(nrow(out$predictions), 10)
   expect_equal(

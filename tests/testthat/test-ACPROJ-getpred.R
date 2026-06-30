@@ -2,7 +2,7 @@ test_that("acproj getpred requires acproj.object class", {
   object <- list(1:6)
 
   expect_error(
-    acproj.getpred(object, TRUE),
+    acproj_get_predictions(object, TRUE),
     "Variable \"acproj.object\" must be of type \"acproj\"",
     fixed = TRUE
   )
@@ -15,7 +15,7 @@ test_that("acproj getpred requires incidence if using a standard population", {
   stdpop <- 1:19
 
   expect_error(
-    acproj.getpred(acproj_obj, incidence = F, standpop = stdpop),
+    acproj_get_predictions(acproj_obj, incidence = F, standpop = stdpop),
     "\"standpop\" should only be used with incidence predictions (incidence=T)",
     fixed = TRUE
   )
@@ -32,7 +32,7 @@ test_that("acproj getpred requires 'by age' = T when using standard population",
   )
 
   expect_error(
-    acproj.getpred(acproj_obj, standpop = stdpop, byage = TRUE),
+    acproj_get_predictions(acproj_obj, standpop = stdpop, byage = TRUE),
     "\"standpop\" is only valid for \"byage=F\"",
     fixed = TRUE
   )
@@ -55,7 +55,7 @@ test_that("acproj getpred can specify age groups to use", {
   attr(expected, "row.names") <- as.integer(c(2, 19))
 
   expect_equal(
-    acproj.getpred(acproj_obj, agegroups = c(2, 19)),
+    acproj_get_predictions(acproj_obj, agegroups = c(2, 19)),
     expected,
     tolerance = 0.0001
   )
@@ -83,7 +83,7 @@ test_that("acproj getpred works with a standard population", {
   )
 
   expect_equal(
-    acproj.getpred(acproj_obj, standpop = stdpop, byage = FALSE),
+    acproj_get_predictions(acproj_obj, standpop = stdpop, byage = FALSE),
     expected,
     tolerance = 0.0001
   )
@@ -123,7 +123,7 @@ test_that("acproj getpred works when excluding observed values", {
   rownames(expected) <- 1:19
 
   expect_equal(
-    acproj.getpred(acproj_obj, excludeobs = TRUE),
+    acproj_get_predictions(acproj_obj, excludeobs = TRUE),
     expected,
     tolerance = 0.0001
   )
