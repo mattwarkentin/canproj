@@ -165,7 +165,7 @@ test_that("ave5proj gets projections with default standard population", {
     noypred = 5
   )
 
-  expect_equal(ave5proj.getproj(pdat, ave5_object), projection)
+  expect_equal(ave5proj_get_projections(pdat, ave5_object), projection)
 })
 
 test_that("ave5proj gets projections with specified standard population", {
@@ -197,7 +197,10 @@ test_that("ave5proj gets projections with specified standard population", {
   rownames(out) <- 1990:1994
   colnames(out) <- c("asr", "case")
 
-  expect_equal(ave5proj.getproj(pdat, ave5_object, stdpop_Canada_2021), out)
+  expect_equal(
+    ave5proj_get_projections(pdat, ave5_object, stdpop_Canada_2021),
+    out
+  )
 })
 
 test_that("ave5proj summary accepts only ave5proj class objects", {

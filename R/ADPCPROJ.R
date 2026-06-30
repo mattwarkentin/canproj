@@ -450,7 +450,7 @@ adpcproj.getpred <- function(
 }
 
 
-#' adpcproj.getproj
+#' adpcproj_get_projections
 #'
 #' Extract annual projection results
 #'
@@ -460,7 +460,7 @@ adpcproj.getpred <- function(
 #' @return A `data.frame()`.
 #'
 #' @export
-adpcproj.getproj <- function(
+adpcproj_get_projections <- function(
   cdat,
   pdat,
   startp,
@@ -624,7 +624,7 @@ plot.adpcproj <- function(
   S7::check_is_S7(standpop, StandardPopulation)
 
   # Reading & formatting data:
-  indat <- adpcproj.getproj(
+  indat <- adpcproj_get_projections(
     cdat,
     pdat,
     startp = startp,

@@ -56,7 +56,7 @@ ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
 }
 
 
-#' ave5proj.getproj
+#' ave5proj_get_projections
 #'
 #' Extract the projection results
 #'
@@ -66,7 +66,7 @@ ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
 #' @return A `data.frame()`.
 #'
 #' @export
-ave5proj.getproj <- function(pdat, ave5proj.object, standpop = NULL) {
+ave5proj_get_projections <- function(pdat, ave5proj.object, standpop = NULL) {
   if (!is.null(standpop)) {
     S7::check_is_S7(standpop, StandardPopulation)
   }

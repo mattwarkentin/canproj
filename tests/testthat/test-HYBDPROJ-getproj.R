@@ -22,7 +22,7 @@ test_that("hybdproj getproj works with non-average model", {
   )
   class(hybd_obj) <- "hybdproj"
 
-  out <- hybdproj.getproj(cdat, pdat, startp = 2000, hybd_obj)
+  out <- hybdproj_get_projections(cdat, pdat, startp = 2000, hybd_obj)
 
   expect_equal(out["11", "2002"], 57.41385, tolerance = 0.00001)
   expect_snapshot_value(out, style = "json2", tolerance = 0.00001)
@@ -58,7 +58,7 @@ test_that("hybdproj getproj works with non-average model and standpop", {
     c(rep(0.04, 10), rep(0.07, 8), 0.04)
   )
 
-  out <- hybdproj.getproj(
+  out <- hybdproj_get_projections(
     cdat,
     pdat,
     startp = 2000,
@@ -95,7 +95,13 @@ test_that("hybdproj getproj works with 5-year average method", {
   )
   class(hybd_obj) <- "hybdproj"
 
-  out <- hybdproj.getproj(cdat, pdat, startp = 2000, hybd_obj, Ave5 = TRUE)
+  out <- hybdproj_get_projections(
+    cdat,
+    pdat,
+    startp = 2000,
+    hybd_obj,
+    Ave5 = TRUE
+  )
 
   expect_equal(out["17", "2003"], 376)
   expect_snapshot_value(out, style = "json2")
@@ -131,7 +137,7 @@ test_that("hybdproj getproj works with 5-year average method and standpop", {
     c(rep(0.04, 10), rep(0.07, 8), 0.04)
   )
 
-  out <- hybdproj.getproj(
+  out <- hybdproj_get_projections(
     cdat,
     pdat,
     startp = 2000,
@@ -169,7 +175,7 @@ test_that("hybdproj getproj works with average method", {
   )
   class(hybd_obj) <- "hybdproj"
 
-  out <- hybdproj.getproj(cdat, pdat, startp = 2000, hybd_obj)
+  out <- hybdproj_get_projections(cdat, pdat, startp = 2000, hybd_obj)
 
   expect_equal(out["7", "2002"], 57.41844, tolerance = 0.00001)
   expect_snapshot_value(out, style = "json2", tolerance = 0.00001)
@@ -205,7 +211,7 @@ test_that("hybdproj getproj works with average method and standpop", {
     c(rep(0.04, 10), rep(0.07, 8), 0.04)
   )
 
-  out <- hybdproj.getproj(
+  out <- hybdproj_get_projections(
     cdat,
     pdat,
     startp = 2000,

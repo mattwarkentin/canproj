@@ -61,8 +61,8 @@ canproj <- function(
 
   if (mean(apply(cdat, 2, sum)[(dim(cdat)[2] - 9):(dim(cdat)[2])]) < 3) {
     out <- ave5proj(cdat, pdat, startp = startp, sum5 = sum5)
-    outasp <- ave5proj.getproj(pdat, out, standpop = NULL)
-    outann <- ave5proj.getproj(pdat, out, standpop = standpop)
+    outasp <- ave5proj_get_projections(pdat, out, standpop = NULL)
+    outann <- ave5proj_get_projections(pdat, out, standpop = standpop)
     mod <- "average5"
     pdPC <- NA
   } else {
@@ -154,8 +154,8 @@ canproj <- function(
             linkfunc = linkfunc
           )
 
-          outasp <- acproj.getproj(cdat, pdat, startp = startp, out)
-          outann <- acproj.getproj(
+          outasp <- acproj_get_projections(cdat, pdat, startp = startp, out)
+          outann <- acproj_get_projections(
             cdat,
             pdat,
             startp = startp,
@@ -180,7 +180,7 @@ canproj <- function(
           pGOF = pGOF
         )
 
-        outasp <- hybdproj.getproj(
+        outasp <- hybdproj_get_projections(
           cdat,
           pdat,
           startp = startp,
@@ -256,8 +256,8 @@ canproj <- function(
           linkfunc = linkfunc
         )
 
-        outasp <- acproj.getproj(cdat, pdat, startp = startp, out)
-        outann <- acproj.getproj(
+        outasp <- acproj_get_projections(cdat, pdat, startp = startp, out)
+        outann <- acproj_get_projections(
           cdat,
           pdat,
           startp = startp,
@@ -278,8 +278,8 @@ canproj <- function(
           linkfunc = linkfunc
         )
 
-        outasp <- acproj.getproj(cdat, pdat, startp = startp, out)
-        outann <- acproj.getproj(
+        outasp <- acproj_get_projections(cdat, pdat, startp = startp, out)
+        outann <- acproj_get_projections(
           cdat,
           pdat,
           startp = startp,
@@ -302,7 +302,7 @@ canproj <- function(
           pGOF = 1
         )
 
-        outasp <- hybdproj.getproj(
+        outasp <- hybdproj_get_projections(
           cdat,
           pdat,
           startp = startp,
@@ -326,7 +326,7 @@ canproj <- function(
           pGOF = 1
         )
 
-        outasp <- hybdproj.getproj(
+        outasp <- hybdproj_get_projections(
           cdat,
           pdat,
           startp = startp,
@@ -350,7 +350,7 @@ canproj <- function(
           pGOF = 0
         )
 
-        outasp <- hybdproj.getproj(
+        outasp <- hybdproj_get_projections(
           cdat,
           pdat,
           startp = startp,
@@ -374,7 +374,7 @@ canproj <- function(
           pGOF = 0
         )
 
-        outasp <- hybdproj.getproj(
+        outasp <- hybdproj_get_projections(
           cdat,
           pdat,
           startp = startp,
@@ -386,8 +386,8 @@ canproj <- function(
         mod <- "average"
       } else if (methods == "ave5") {
         out <- ave5proj(cdat, pdat, startp = startp, sum5 = sum5)
-        outasp <- ave5proj.getproj(pdat, out, standpop = NULL)
-        outann <- ave5proj.getproj(pdat, out, standpop = standpop)
+        outasp <- ave5proj_get_projections(pdat, out, standpop = NULL)
+        outann <- ave5proj_get_projections(pdat, out, standpop = standpop)
         mod <- "average5"
       }
     }
@@ -408,7 +408,7 @@ canproj <- function(
 }
 
 
-#' canproj.getproj
+#' canproj_get_projections
 #'
 #' Extract projection results.
 #'
@@ -418,7 +418,7 @@ canproj <- function(
 #' @return A `data.frame()`
 #'
 #' @export
-canproj.getproj <- function(canproj.object, standpop = NULL) {
+canproj_get_projections <- function(canproj.object, standpop = NULL) {
   if (is.null(standpop)) {
     return(canproj.object$agsproj)
   } else {
@@ -447,7 +447,7 @@ summary.canproj <- function(object, ...) {
 #'
 #' Summarize estimations from the final model.
 #'
-#' @inheritParams canproj.getproj
+#' @inheritParams canproj_get_projections
 #'
 #' @return A summary table from the `glm.object`.
 #'
@@ -493,7 +493,7 @@ plot.canproj <- function(
     stop("Variable \"x\" must be of type \"canproj\"")
   }
   # Reading & formatting data:
-  indat <- canproj.getproj(x, standpop = standpop)
+  indat <- canproj_get_projections(x, standpop = standpop)
   indata <- indat[, 1]
   indata <- indata[startplot:length(indata)]
 

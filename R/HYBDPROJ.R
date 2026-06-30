@@ -363,7 +363,7 @@ hybdproj.getpred <- function(
 }
 
 
-#' hybdproj.getproj
+#' hybdproj_get_projections
 #'
 #' Extract projection results.
 #'
@@ -373,7 +373,7 @@ hybdproj.getpred <- function(
 #' @return A `data.frame()`.
 #'
 #' @export
-hybdproj.getproj <- function(
+hybdproj_get_projections <- function(
   cdat,
   pdat,
   startp,
@@ -555,7 +555,7 @@ plot.hybdproj <- function(
   }
   S7::check_is_S7(standpop, StandardPopulation)
 
-  indat <- hybdproj.getproj(
+  indat <- hybdproj_get_projections(
     cdat,
     pdat,
     startp = startp,

@@ -333,7 +333,7 @@ acproj.getpred <- function(
 }
 
 
-#' acproj.getproj
+#' acproj_get_projections
 #'
 #' Extract annual projection results
 #'
@@ -343,7 +343,13 @@ acproj.getpred <- function(
 #' @return A `data.frame()`.
 #'
 #' @export
-acproj.getproj <- function(cdat, pdat, startp, acproj.object, standpop = NULL) {
+acproj_get_projections <- function(
+  cdat,
+  pdat,
+  startp,
+  acproj.object,
+  standpop = NULL
+) {
   if (!is.null(standpop)) {
     S7::check_is_S7(standpop, StandardPopulation)
   }
@@ -493,7 +499,7 @@ plot.acproj <- function(
   S7::check_is_S7(standpop, StandardPopulation)
 
   # Reading & formatting data:
-  indat <- acproj.getproj(
+  indat <- acproj_get_projections(
     cdat,
     pdat,
     startp = startp,
