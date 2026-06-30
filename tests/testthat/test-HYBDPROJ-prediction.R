@@ -20,9 +20,9 @@ test_that("hybdproj prediction runs (nagg 1, average model, and power5 link func
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$cuttrd, 0.05)
   expect_equal(out$shortp, 0.02)
@@ -72,9 +72,9 @@ test_that("hybdproj prediction works with age and nba specific models w/ power5 
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "power5")
   expect_equal(out$finalmod, "age-specific")
@@ -109,9 +109,9 @@ test_that("hybdproj prediction works with age and nba specific models w/ log lin
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "log")
   expect_equal(out$finalmod, "nba-specific")
@@ -146,9 +146,9 @@ test_that("hybdproj prediction works with age and nba specific models w/ sqrt li
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "sqrt")
   expect_equal(out$finalmod, "nba-specific")
@@ -183,9 +183,9 @@ test_that("hybdproj prediction works with age and nba specific models w/ identit
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "identity")
   expect_equal(out$finalmod, "age-specific")
@@ -220,9 +220,9 @@ test_that("hybdproj prediction works with common-trend model and power5 link fun
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "power5")
   expect_equal(out$finalmod, "common-trend")
@@ -257,9 +257,9 @@ test_that("hybdproj prediction works with common-trend model and log link func",
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "log")
   expect_equal(out$finalmod, "common-trend")
@@ -294,9 +294,9 @@ test_that("hybdproj prediction works with common-trend model and sqrt link func"
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "sqrt")
   expect_equal(out$finalmod, "common-trend")
@@ -331,9 +331,9 @@ test_that("hybdproj prediction works with common-trend model and identity link f
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "identity")
   expect_equal(out$finalmod, "common-trend")
@@ -367,9 +367,9 @@ test_that("hybdproj prediction works with average model and power5 link func", {
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "power5")
   expect_equal(out$finalmod, "average")
@@ -403,9 +403,9 @@ test_that("hybdproj prediction works with average model and log link func", {
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "log")
   expect_equal(out$finalmod, "average")
@@ -439,9 +439,9 @@ test_that("hybdproj prediction works with average model and sqrt link func", {
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "sqrt")
   expect_equal(out$finalmod, "average")
@@ -475,9 +475,9 @@ test_that("hybdproj prediction works with average model and identity link func",
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(out$linkfunc, "identity")
   expect_equal(out$finalmod, "average")
@@ -512,9 +512,9 @@ test_that("hybdproj prediction works with varying age groups", {
     noperiod = 5,
     lastper = 3
   )
-  class(estimate_obj) <- "hybdproj.estimate"
+  class(estimate_obj) <- "hybdproj_estimate"
 
-  out <- hybdproj.prediction(estimate_obj, cuttrd = 0.05, shortp = 0.02)
+  out <- hybdproj_predict(estimate_obj, cuttrd = 0.05, shortp = 0.02)
 
   expect_equal(nrow(out$predictions), 10)
 })

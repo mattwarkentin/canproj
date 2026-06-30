@@ -4,7 +4,7 @@ test_that("hybdproj estimate works", {
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase)
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase)
 
   expect_equal(out$cases, cases)
   expect_equal(out$pyr, pyr)
@@ -24,7 +24,7 @@ test_that("hybdproj estimate works with varying age groups", {
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase)
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase)
 
   expect_equal(out$agrpmod, 1:10)
   expect_equal(length(out$glm$coefficients), 10)
@@ -36,7 +36,7 @@ test_that("hybdproj estimate works with average model and power5 link func", {
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "power5")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "power5")
 
   expect_equal(out$finalmod, "average")
   expect_equal(out$linkfunc, "power5")
@@ -55,7 +55,7 @@ test_that("hybdproj estimate works with average model and log link func", {
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "log")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "log")
 
   expect_equal(out$finalmod, "average")
   expect_equal(out$linkfunc, "log")
@@ -78,7 +78,7 @@ test_that("hybdproj estimate works with average model and sqrt link func", {
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "sqrt")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "sqrt")
 
   expect_equal(out$finalmod, "average")
   expect_equal(out$linkfunc, "sqrt")
@@ -101,7 +101,7 @@ test_that("hybdproj estimate works with average model and identity link func", {
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "identity")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "identity")
 
   expect_equal(out$finalmod, "average")
   expect_equal(out$linkfunc, "identity")
@@ -124,7 +124,7 @@ test_that("hybdproj estimate works with common-trend model and power5 link func"
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "power5")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "power5")
 
   expect_equal(out$finalmod, "common-trend")
   expect_equal(out$linkfunc, "power5")
@@ -147,7 +147,7 @@ test_that("hybdproj estimate works with common-trend model and log link func", {
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "log")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "log")
 
   expect_equal(out$finalmod, "common-trend")
   expect_equal(out$linkfunc, "log")
@@ -166,7 +166,7 @@ test_that("hybdproj estimate works with common-trend model and sqrt link func", 
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "sqrt")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "sqrt")
 
   expect_equal(out$finalmod, "common-trend")
   expect_equal(out$linkfunc, "sqrt")
@@ -189,7 +189,7 @@ test_that("hybdproj estimate works with common-trend model and identity link fun
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "identity")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "identity")
 
   expect_equal(out$finalmod, "common-trend")
   expect_equal(out$linkfunc, "identity")
@@ -212,7 +212,7 @@ test_that("hybdproj estimate works with age-specific model and power5 link func"
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "power5", pD = 0)
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "power5", pD = 0)
 
   expect_equal(out$finalmod, "age-specific")
   expect_equal(out$linkfunc, "power5")
@@ -235,7 +235,7 @@ test_that("hybdproj estimate works with age-specific model and log link func", {
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "log", pD = 0)
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "log", pD = 0)
 
   expect_equal(out$finalmod, "age-specific")
   expect_equal(out$linkfunc, "log")
@@ -258,7 +258,7 @@ test_that("hybdproj estimate works with age-specific model and sqrt link func", 
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "sqrt", pD = 0)
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "sqrt", pD = 0)
 
   expect_equal(out$finalmod, "age-specific")
   expect_equal(out$linkfunc, "sqrt")
@@ -281,7 +281,7 @@ test_that("hybdproj estimate works with age-specific model and identity link fun
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(
+  out <- hybdproj_estimate(
     cases,
     pyr,
     nagg,
@@ -311,7 +311,7 @@ test_that("hybdproj estimate works with nba-specific model and power5 link func"
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "power5")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "power5")
 
   expect_equal(out$finalmod, "nba-specific")
   expect_equal(out$linkfunc, "power5")
@@ -330,7 +330,7 @@ test_that("hybdproj estimate works with nba-specific model and log link func", {
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "log")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "log")
 
   expect_equal(out$finalmod, "nba-specific")
   expect_equal(out$linkfunc, "log")
@@ -353,7 +353,7 @@ test_that("hybdproj estimate works with nba-specific model and sqrt link func", 
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "sqrt")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "sqrt")
 
   expect_equal(out$finalmod, "nba-specific")
   expect_equal(out$linkfunc, "sqrt")
@@ -376,7 +376,7 @@ test_that("hybdproj estimate works with nba-specific model and identity link fun
   nagg <- 4
   ncase <- 5
 
-  out <- hybdproj.estimate(cases, pyr, nagg, ncase, linkfunc = "identity")
+  out <- hybdproj_estimate(cases, pyr, nagg, ncase, linkfunc = "identity")
 
   expect_equal(out$finalmod, "nba-specific")
   expect_equal(out$linkfunc, "identity")

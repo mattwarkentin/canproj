@@ -30,7 +30,7 @@ test_that("hybdproj getpred allows for selecting age groups", {
   attr(expected, "row.names") <- as.integer(c(2, 10))
 
   expect_equal(
-    hybdproj.getpred(hybd_obj, incidence = T, agegroups = c(2, 10)),
+    hybdproj_get_predictions(hybd_obj, incidence = T, agegroups = c(2, 10)),
     expected,
     tolerance = 0.000001
   )
@@ -73,7 +73,7 @@ test_that("hybdproj getpred works with a standard population", {
   )
 
   expect_equal(
-    hybdproj.getpred(hybd_obj, standpop = stdpop),
+    hybdproj_get_predictions(hybd_obj, standpop = stdpop),
     expected,
     tolerance = 0.000001
   )
@@ -103,7 +103,7 @@ test_that("hybdproj getpred can track by case numbers", {
   expected <- matrix(floor(0:75 / 19) * 25 + 35, 19, 4)
 
   expect_equal(
-    hybdproj.getpred(hybd_obj, incidence = F),
+    hybdproj_get_predictions(hybd_obj, incidence = F),
     expected,
     tolerance = 0.000001
   )
@@ -156,7 +156,7 @@ test_that("hybdproj getpred works without observed values", {
   rownames(expected) <- 1:19
 
   expect_equal(
-    hybdproj.getpred(hybd_obj, excludeobs = T),
+    hybdproj_get_predictions(hybd_obj, excludeobs = T),
     expected,
     tolerance = 0.000001
   )

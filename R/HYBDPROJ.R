@@ -52,7 +52,7 @@ hybdproj <- function(
     pyr <- pyr[, -c(1:(percases - 25))]
   }
 
-  est <- hybdproj.estimate(
+  est <- hybdproj_estimate(
     cases = cases,
     pyr = pyr,
     nagg = nagg,
@@ -61,8 +61,8 @@ hybdproj <- function(
     pD = pD,
     pGOF = pGOF
   )
-  pred <- hybdproj.prediction(
-    hybdproj.estimate.object = est,
+  pred <- hybdproj_predict(
+    hybdproj_estimate.object = est,
     cuttrd = cuttrd,
     shortp = shortp
   )
@@ -70,7 +70,7 @@ hybdproj <- function(
 }
 
 
-#' hybdproj.estimate
+#' hybdproj_estimate
 #'
 #' Define projection base, model selection, and fitting
 #'
@@ -82,7 +82,7 @@ hybdproj <- function(
 #' @return A `list()`.
 #'
 #' @export
-hybdproj.estimate <- function(
+hybdproj_estimate <- function(
   cases,
   pyr,
   nagg,
@@ -174,40 +174,40 @@ hybdproj.estimate <- function(
     finalmod = fmodel,
     gofpvalue = pvalue
   )
-  class(res) <- "hybdproj.estimate"
+  class(res) <- "hybdproj_estimate"
   attr(res, "Call") <- sys.call()
   return(res)
 }
 
 
-#' hybdproj.prediction
+#' hybdproj_predict
 #'
 #' Extrapolate estimated trend from the final model
 #'
 #' @inheritParams canproj
 #'
-#' @param hybdproj.estimate.object An object based on the `hybdproj.estimate` function.
+#' @param hybdproj_estimate.object An object based on the `hybdproj_estimate` function.
 #'
 #' @return A `list()`.
 #'
 #' @export
-hybdproj.prediction <- function(
-  hybdproj.estimate.object,
+hybdproj_predict <- function(
+  hybdproj_estimate.object,
   cuttrd = 0.04,
   shortp = 0
 ) {
-  if (!inherits(hybdproj.estimate.object, "hybdproj.estimate")) {
+  if (!inherits(hybdproj_estimate.object, "hybdproj_estimate")) {
     stop(
-      "Variable \"hybdproj.estimate.object\" must be of type \"hybdproj.estimate\""
+      "Variable \"hybdproj_estimate.object\" must be of type \"hybdproj_estimate\""
     )
   }
 
-  cases <- hybdproj.estimate.object$cases
-  pyr <- hybdproj.estimate.object$pyr
-  agpreg <- hybdproj.estimate.object$agrpmod
-  agpave <- hybdproj.estimate.object$agrpave
-  fmodel <- hybdproj.estimate.object$finalmod
-  lastper <- hybdproj.estimate.object$lastper
+  cases <- hybdproj_estimate.object$cases
+  pyr <- hybdproj_estimate.object$pyr
+  agpreg <- hybdproj_estimate.object$agrpmod
+  agpave <- hybdproj_estimate.object$agrpave
+  fmodel <- hybdproj_estimate.object$finalmod
+  lastper <- hybdproj_estimate.object$lastper
 
   noobsper <- ncol(cases)
   nototper <- ncol(pyr)
@@ -216,7 +216,7 @@ hybdproj.prediction <- function(
   cuttrend <- get_hybd_cuttrend(
     shortp,
     nonewpred,
-    hybdproj.estimate.object$noyearagg,
+    hybdproj_estimate.object$noyearagg,
     cuttrd
   )
   driftmp <- cumsum(1 - cuttrend)
@@ -238,7 +238,7 @@ hybdproj.prediction <- function(
     as.matrix(pyr[, (noobsper - 4):noobsper])) |>
     apply(1, mean)
 
-  coef <- hybdproj.estimate.object$glm$coef
+  coef <- hybdproj_estimate.object$glm$coef
   if (fmodel == "age-specific" || fmodel == "nba-specific") {
     m.eff <- cbind(
       coef[1:(length(coef) / 2)],
@@ -270,11 +270,11 @@ hybdproj.prediction <- function(
   ) |>
     sweep(MARGIN = 2, (lastper + driftmp), `*`)
 
-  if (hybdproj.estimate.object$linkfunc == "power5") {
+  if (hybdproj_estimate.object$linkfunc == "power5") {
     rate <- (acoef$a.eff + rate_mat)^5
-  } else if (hybdproj.estimate.object$linkfunc == "log") {
+  } else if (hybdproj_estimate.object$linkfunc == "log") {
     rate <- exp(acoef$a.eff + rate_mat)
-  } else if (hybdproj.estimate.object$linkfunc == "sqrt") {
+  } else if (hybdproj_estimate.object$linkfunc == "sqrt") {
     rate <- (acoef$a.eff + rate_mat)^2
   } else {
     rate <- (acoef$a.eff + rate_mat)
@@ -295,19 +295,19 @@ hybdproj.prediction <- function(
     shortp = shortp,
     cuttrend = cuttrend,
     nopred = nonewpred,
-    noperiod = hybdproj.estimate.object$noperiod,
+    noperiod = hybdproj_estimate.object$noperiod,
     lastperiod = lastper,
     noobsper = noobsper,
     nototper = nototper,
-    noyearagg = hybdproj.estimate.object$noyearagg,
-    nocaseagp = hybdproj.estimate.object$nocaseagp,
-    agrpave = hybdproj.estimate.object$agrpave,
-    agrpmod = hybdproj.estimate.object$agrpmod,
-    linkfunc = hybdproj.estimate.object$linkfunc,
-    projbase = hybdproj.estimate.object$projbase,
-    finalmod = hybdproj.estimate.object$finalmod,
-    gofpvalue = hybdproj.estimate.object$gofpvalue,
-    glm = hybdproj.estimate.object$glm
+    noyearagg = hybdproj_estimate.object$noyearagg,
+    nocaseagp = hybdproj_estimate.object$nocaseagp,
+    agrpave = hybdproj_estimate.object$agrpave,
+    agrpmod = hybdproj_estimate.object$agrpmod,
+    linkfunc = hybdproj_estimate.object$linkfunc,
+    projbase = hybdproj_estimate.object$projbase,
+    finalmod = hybdproj_estimate.object$finalmod,
+    gofpvalue = hybdproj_estimate.object$gofpvalue,
+    glm = hybdproj_estimate.object$glm
   )
 
   class(res) <- "hybdproj"
@@ -316,7 +316,7 @@ hybdproj.prediction <- function(
 }
 
 
-#' hybdproj.getpred
+#' hybdproj_get_predictions
 #'
 #' Extract projection results by n-year period
 #'
@@ -332,7 +332,7 @@ hybdproj.prediction <- function(
 #' @return A `data.frame()`.
 #'
 #' @export
-hybdproj.getpred <- function(
+hybdproj_get_predictions <- function(
   hybdproj.object,
   incidence = T,
   standpop = NULL,
@@ -367,7 +367,7 @@ hybdproj.getpred <- function(
 #'
 #' Extract projection results.
 #'
-#' @inheritParams hybdproj.getpred
+#' @inheritParams hybdproj_get_predictions
 #' @inheritParams canproj
 #'
 #' @return A `data.frame()`.
@@ -387,7 +387,7 @@ hybdproj_get_projections <- function(
   }
 
   finalmod <- hybdproj.object$finalmod
-  r0 <- hybdproj.getpred(hybdproj.object, incidence = T)
+  r0 <- hybdproj_get_predictions(hybdproj.object, incidence = T)
   nagg <- hybdproj.object$noyearagg
   outasp <- interpolate_age_specific_rates(
     r0,
@@ -513,7 +513,7 @@ summary.hybdproj <- function(
 #'
 #' Summarize estimations from the final model.
 #'
-#' @inheritParams hybdproj.getpred
+#' @inheritParams hybdproj_get_predictions
 #'
 #' @return A summary table from the `glm.object`.
 #'

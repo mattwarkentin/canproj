@@ -3,7 +3,7 @@
 #' Check to see if inputs to 'get prediction' are valid
 #'
 #' @inheritParams canproj
-#' @inheritParams hybdproj.getpred
+#' @inheritParams hybdproj_get_predictions
 #'
 #' @keywords internal
 validate_getpred_inputs <- function(byage, standpop, incidence, agegroups) {
@@ -35,7 +35,7 @@ validate_getpred_inputs <- function(byage, standpop, incidence, agegroups) {
 #' Check to see if inputs to 'get prediction' are valid
 #'
 #' @inheritParams canproj
-#' @inheritParams hybdproj.getpred
+#' @inheritParams hybdproj_get_predictions
 #' @param object "adpcproj", "hybdproj", or "acproj" object
 #'
 #' @keywords internal
