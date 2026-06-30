@@ -3,7 +3,7 @@
 #' R functions for projection of cancer incidence/mortality. Revising nordpred
 #'   and introducing negative binomial distribution when lack of fit appears
 #'   from nordpred, additional link functions of sqrt and identity, and settings
-#'    of startestage and startuseage.
+#'    of startage and startuseage.
 #'
 #' @inheritParams canproj
 #' @param n5case Minimum number of cancer cases/deaths per 5 years for splitting data.
@@ -22,7 +22,7 @@ adpcproj <- function(
   n5case = NULL,
   noperiods = NULL,
   recent = NULL,
-  startestage = NULL,
+  startage = NULL,
   newcohort = NULL,
   pGOF = 0.05,
   cuttrd = 0.04,
@@ -41,19 +41,19 @@ adpcproj <- function(
   cases <- aggdata$cases
   pyr <- aggdata$pyr
 
-  if (is.null(startestage)) {
+  if (is.null(startage)) {
     dat <- as.matrix(cases)
     iage <- 1
     while (mean(dat[iage, ]) < n5case | dat[iage, 1] == 0) {
       iage <- iage + 1
     }
-    startestage <- iage
+    startage <- iage
   }
 
   if (is.null(newcohort)) {
-    startuseage <- startestage
+    startuseage <- startage
   } else {
-    startuseage <- startestage + 1
+    startuseage <- startage + 1
   }
 
   percases <- ncol(cases)
@@ -68,7 +68,7 @@ adpcproj <- function(
   noperiods <- sort(noperiods)
   while (length(noperiods) > 1) {
     maxnoperiod <- max(noperiods)
-    glmn <- adpcproj.estimate(cases, pyr, maxnoperiod, startestage)$glm
+    glmn <- adpcproj.estimate(cases, pyr, maxnoperiod, startage)$glm
     pval <- 1 - stats::pchisq(glmn$deviance, glmn$df.residual)
     if (pval < 0.01) {
       noperiods <- noperiods[1:(length(noperiods) - 1)]
@@ -83,7 +83,7 @@ adpcproj <- function(
       cases,
       pyr,
       noperiod,
-      startestage
+      startage
     )$suggestionrecent
   }
 
@@ -92,7 +92,7 @@ adpcproj <- function(
     pyr = pyr,
     noperiod = noperiod,
     pGOF = pGOF,
-    startestage = startestage,
+    startage = startage,
     linkfunc = linkfunc
   )
   pred <- adpcproj.prediction(
@@ -122,7 +122,7 @@ adpcproj.estimate <- function(
   cases,
   pyr,
   noperiod,
-  startestage,
+  startage,
   pGOF = 0.05,
   linkfunc = "power5"
 ) {
@@ -161,7 +161,7 @@ adpcproj.estimate <- function(
     y = y
   )
 
-  apcdata <- apcdata[apcdata$Age >= startestage, ]
+  apcdata <- apcdata[apcdata$Age >= startage, ]
   apcdata <- apcdata[apcdata$Period > (dnoperiods - noperiod), ]
 
   options(contrasts = c("contr.treatment", "contr.poly"))
@@ -244,7 +244,7 @@ adpcproj.estimate <- function(
     pyr = pyr,
     noperiod = noperiod,
     linkfunc = linkfunc,
-    startestage = startestage,
+    startage = startage,
     distribution = distn,
     gofpvalue = pvalue,
     suggestionrecent = suggestionrecent,
@@ -281,8 +281,8 @@ adpcproj.prediction <- function(
     )
   }
 
-  if (adpcproj.estimate.object$startestage > startuseage) {
-    stop("\"startuseage\" is set too low compared to \"startestage\"")
+  if (adpcproj.estimate.object$startage > startuseage) {
+    stop("\"startuseage\" is set too low compared to \"startage\"")
   }
 
   cases <- adpcproj.estimate.object$cases
@@ -312,12 +312,12 @@ adpcproj.prediction <- function(
     2) *
     pyr[skipped_ages, (noobsper + 1):nototper]
 
-  startestage <- adpcproj.estimate.object$startestage
+  startage <- adpcproj.estimate.object$startage
   coefficients <- adpcproj.estimate.object$glm$coefficients
-  eff_groups <- ngroups - startestage + 1
+  eff_groups <- ngroups - startage + 1
 
   agepar <- matrix(
-    as.numeric(coefficients[startestage:ngroups]),
+    as.numeric(coefficients[startage:ngroups]),
     (eff_groups),
     nonewpred
   )
@@ -330,7 +330,7 @@ adpcproj.prediction <- function(
   cohfind[cohfind >= 2 * (ngroups - startuseage + noperiod)] <- length(
     coefficients
   ) -
-    (startuseage - startestage)
+    (startuseage - startage)
   cohpar <- matrix(
     coefficients[cohfind],
     eff_groups,
@@ -378,8 +378,8 @@ adpcproj.prediction <- function(
     }
   }
 
-  datatable[startestage:ngroups, (noobsper + 1):nototper] <- rate *
-    pyr[startestage:ngroups, (noobsper + 1):nototper]
+  datatable[startage:ngroups, (noobsper + 1):nototper] <- rate *
+    pyr[startage:ngroups, (noobsper + 1):nototper]
 
   res <- list(
     predictions = datatable,
@@ -394,7 +394,7 @@ adpcproj.prediction <- function(
     cuttrend = cuttrend,
     distribution = adpcproj.estimate.object$distribution,
     startuseage = startuseage,
-    startestage = adpcproj.estimate.object$startestage,
+    startage = adpcproj.estimate.object$startage,
     glm = adpcproj.estimate.object$glm
   )
   class(res) <- "adpcproj"
@@ -547,7 +547,7 @@ summary.adpcproj <- function(
     "Used recent (recent):",
     "P-value for recent:",
     "First age group used (startuseage):",
-    "First age group estimated (startestage):"
+    "First age group estimated (startage):"
   )
   moptions[, 2] <- c(
     method,
@@ -559,7 +559,7 @@ summary.adpcproj <- function(
     object$recent,
     precent,
     object$startuseage,
-    object$startestage
+    object$startage
   )
   maxl <- max(nchar(moptions[, 1]))
 

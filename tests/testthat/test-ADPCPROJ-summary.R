@@ -24,7 +24,7 @@ test_that("adpcproj summary works with default settings", {
     cuttrend = 0.02,
     gofpvalue = 1,
     distribution = "Poisson",
-    startestage = 1,
+    startage = 1,
     startuseage = 1,
     glm = list("a", "b", "c")
   )
@@ -61,7 +61,7 @@ test_that("adpcproj summary works with default settings", {
   expect_match(out, "First age group used \\(startuseage\\):\\s+1", all = FALSE)
   expect_match(
     out,
-    "First age group estimated \\(startestage\\):\\s+1",
+    "First age group estimated \\(startage\\):\\s+1",
     all = FALSE
   )
 })
@@ -79,7 +79,7 @@ test_that("adpcproj summary works with printpred", {
     cuttrend = 0.02,
     gofpvalue = 1,
     distribution = "Poisson",
-    startestage = 1,
+    startage = 1,
     startuseage = 1,
     glm = list("a", "b", "c")
   )
@@ -109,7 +109,7 @@ test_that("adpcproj summary works with printcall", {
     cuttrend = 0.02,
     gofpvalue = 1,
     distribution = "Poisson",
-    startestage = 1,
+    startage = 1,
     startuseage = 1,
     glm = list("a", "b", "c")
   )
@@ -134,7 +134,7 @@ test_that("adpcproj summary can specify number of digits to print", {
     cuttrend = 0.02,
     gofpvalue = 1,
     distribution = "Poisson",
-    startestage = 1,
+    startage = 1,
     startuseage = 1,
     glm = list("a", "b", "c")
   )

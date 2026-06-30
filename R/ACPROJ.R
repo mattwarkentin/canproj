@@ -15,7 +15,7 @@ acproj <- function(
   pdat,
   projfor = "incidence",
   n5case = NULL,
-  startestage = NULL,
+  startage = NULL,
   cuttrd = 0.04,
   shortp = 0,
   pGOF = 0.05,
@@ -33,13 +33,13 @@ acproj <- function(
   cases <- aggdata$cases
   pyr <- aggdata$pyr
 
-  if (is.null(startestage)) {
+  if (is.null(startage)) {
     dat <- as.matrix(cases)
     iage <- 1
     while (mean(dat[iage, ]) < n5case | dat[iage, 1] == 0) {
       iage <- iage + 1
     }
-    startestage <- iage
+    startage <- iage
   }
 
   percases <- ncol(cases)
@@ -52,7 +52,7 @@ acproj <- function(
     pyr = pyr,
     noperiod = percases,
     pGOF = pGOF,
-    startestage = startestage,
+    startage = startage,
     linkfunc = linkfunc
   )
 
@@ -82,7 +82,7 @@ acproj.estimate <- function(
   cases,
   pyr,
   noperiod,
-  startestage,
+  startage,
   pGOF = 0.05,
   linkfunc = "power5"
 ) {
@@ -122,7 +122,7 @@ acproj.estimate <- function(
   )
 
   ## Selecting data for regression:
-  apcdata <- apcdata[apcdata$Age >= startestage, ]
+  apcdata <- apcdata[apcdata$Age >= startage, ]
   apcdata <- apcdata[apcdata$Period > (dnoperiods - noperiod), ]
   maxc <- max(apcdata$Cohort)
   midc <- ceiling(maxc / 2)
@@ -158,7 +158,7 @@ acproj.estimate <- function(
     midc = midc,
     noperiod = noperiod,
     linkfunc = linkfunc,
-    startestage = startestage,
+    startage = startage,
     distribution = distn,
     gofpvalue = pvalue
   )
@@ -192,7 +192,7 @@ acproj.prediction <- function(
   cases <- acproj.estimate.object$cases
   pyr <- acproj.estimate.object$pyr
   noperiod <- acproj.estimate.object$noperiod
-  startestage <- acproj.estimate.object$startestage
+  startage <- acproj.estimate.object$startage
   maxc <- acproj.estimate.object$maxc
   midc <- acproj.estimate.object$midc
   nototper <- ncol(pyr)
@@ -209,7 +209,7 @@ acproj.prediction <- function(
   datatable <- data.frame(cases, matrix(NA, ngroups, nonewpred))
   names(datatable) <- names(pyr)
 
-  skipped_ages <- 1:(startestage - 1)
+  skipped_ages <- 1:(startage - 1)
   obsinc <- cases[skipped_ages, (noobsper - 1):noobsper] /
     pyr[skipped_ages, (noobsper - 1):noobsper]
   obsinc[is.na(obsinc)] <- 0
@@ -221,7 +221,7 @@ acproj.prediction <- function(
 
   coefficients <- acproj.estimate.object$glm$coefficients
 
-  num_ages <- ngroups - startestage + 1
+  num_ages <- ngroups - startage + 1
   ageff <- coefficients[1:num_ages]
 
   coeff <- c(
@@ -240,9 +240,9 @@ acproj.prediction <- function(
     c((lncoh - 3):(lncoh - 2), (cumsum(1 - cuttrend) + lncoh - 2))
   coheff <- c(coeff[1:(lncoh - 2)], ncoeff)
 
-  eff_groups <- ngroups - startestage + 1
+  eff_groups <- ngroups - startage + 1
   agepar <- matrix(
-    as.numeric(ageff[startestage:ngroups]),
+    as.numeric(ageff[startage:ngroups]),
     (eff_groups),
     nonewpred
   )
@@ -264,8 +264,8 @@ acproj.prediction <- function(
   } else {
     rate <- (agepar + cohpar)
   }
-  datatable[startestage:ngroups, (noobsper + 1):nototper] <- rate *
-    pyr[startestage:ngroups, (noobsper + 1):nototper]
+  datatable[startage:ngroups, (noobsper + 1):nototper] <- rate *
+    pyr[startage:ngroups, (noobsper + 1):nototper]
 
   res <- list(
     predictions = datatable,
@@ -277,7 +277,7 @@ acproj.prediction <- function(
     cuttrend = cuttrend,
     gofpvalue = acproj.estimate.object$gofpvalue,
     distribution = acproj.estimate.object$distribution,
-    startestage = acproj.estimate.object$startestage,
+    startage = acproj.estimate.object$startage,
     glm = acproj.estimate.object$glm
   )
   class(res) <- "acproj"
@@ -419,7 +419,7 @@ summary.acproj <- function(
     "Number of periods used in estimate (noperiod):",
     "Distribution function of regression:",
     "P-value for goodness of fit:",
-    "First age group estimated (startestage):"
+    "First age group estimated (startage):"
   )
   moptions[, 2] <- c(
     method,
@@ -428,7 +428,7 @@ summary.acproj <- function(
     object$noperiod,
     object$distribution,
     gofpvalue,
-    object$startestage
+    object$startage
   )
 
   maxl <- max(nchar(moptions[, 1]))

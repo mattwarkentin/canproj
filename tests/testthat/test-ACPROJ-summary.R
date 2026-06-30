@@ -22,7 +22,7 @@ test_that("acproj summary works with printpred", {
     cuttrend = 0,
     gofpvalue = 0.9,
     distribution = "Poisson",
-    startestage = 1,
+    startage = 1,
     glm = list("a", "b", "c")
   )
   class(acproj_obj) <- "acproj"
@@ -50,7 +50,7 @@ test_that("acproj summary default produces correct output", {
     cuttrend = 0,
     gofpvalue = 0.9,
     distribution = "Poisson",
-    startestage = 1,
+    startage = 1,
     glm = list("a", "b", "c")
   )
   class(acproj_obj) <- "acproj"
@@ -83,7 +83,7 @@ test_that("acproj summary default produces correct output", {
   expect_match(out, "P-value for goodness of fit:\\s+0.9", all = FALSE)
   expect_match(
     out,
-    "First age group estimated \\(startestage\\):\\s+1",
+    "First age group estimated \\(startage\\):\\s+1",
     all = FALSE
   )
 })
@@ -99,7 +99,7 @@ test_that("acproj summary can create printcall", {
     cuttrend = 0,
     gofpvalue = 0.9,
     distribution = "Poisson",
-    startestage = 1,
+    startage = 1,
     glm = list("a", "b", "c")
   )
   class(acproj_obj) <- "acproj"
@@ -121,7 +121,7 @@ test_that("acproj summary can specify number of digits to print", {
     cuttrend = 0,
     gofpvalue = 0.9,
     distribution = "Poisson",
-    startestage = 1,
+    startage = 1,
     glm = list("a", "b", "c")
   )
   class(acproj_obj) <- "acproj"

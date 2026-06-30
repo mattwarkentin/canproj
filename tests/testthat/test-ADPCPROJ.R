@@ -9,7 +9,7 @@ test_that("adpcproj works with all variables", {
     n5case = 5,
     noperiods = 3,
     recent = TRUE,
-    startestage = 1,
+    startage = 1,
     newcohort = NULL,
     pGOF = 0.1,
     cuttrd = 0.03,
@@ -28,7 +28,7 @@ test_that("adpcproj works with all variables", {
   expect_equal(out$cuttrend, 0.02)
   expect_equal(out$distribution, "Poisson")
   expect_equal(out$startuseage, 1)
-  expect_equal(out$startestage, 1)
+  expect_equal(out$startage, 1)
 
   expect_equal(out$predictions["2", "4"], 188.0918, tolerance = 0.0001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.00001)
@@ -55,7 +55,7 @@ test_that("adpcproj assigns start stage when NULL", {
     n5case = 5,
     noperiods = 3,
     recent = FALSE,
-    startestage = NULL,
+    startage = NULL,
     newcohort = NULL,
     pGOF = 0.1,
     cuttrd = 0.03,
@@ -64,7 +64,7 @@ test_that("adpcproj assigns start stage when NULL", {
   )
 
   expect_equal(out$startuseage, 2)
-  expect_equal(out$startestage, 2)
+  expect_equal(out$startage, 2)
 
   expect_length(out$glm$coefficients, 40)
   expect_equal(
@@ -101,7 +101,7 @@ test_that("adpcproj determines number of periods when NULL", {
     n5case = 5,
     noperiods = NULL,
     recent = FALSE,
-    startestage = 1,
+    startage = 1,
     newcohort = NULL,
     pGOF = 0.1,
     cuttrd = 0.03,
@@ -123,7 +123,7 @@ test_that("adpcproj decides between recent or whole trend when NULL", {
     n5case = 5,
     noperiods = NULL,
     recent = NULL,
-    startestage = 1,
+    startage = 1,
     newcohort = NULL,
     pGOF = 0.1,
     cuttrd = 0.03,
@@ -196,7 +196,7 @@ test_that("adpcproj plot works", {
     n5case = 5,
     noperiods = 3,
     recent = TRUE,
-    startestage = 1,
+    startage = 1,
     newcohort = NULL,
     pGOF = 0.1,
     cuttrd = 0.03,
@@ -221,7 +221,7 @@ test_that("adpcproj works with varying age groups", {
     n5case = 5,
     noperiods = 3,
     recent = TRUE,
-    startestage = 1,
+    startage = 1,
     newcohort = NULL,
     pGOF = 0.1,
     cuttrd = 0.03,

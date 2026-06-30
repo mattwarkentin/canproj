@@ -7,7 +7,7 @@ test_that("adpcproj estimate must have population data for all periods in cases"
       cases,
       pyr,
       noperiod = 4,
-      startestage = 1,
+      startage = 1,
       pGOF = 1,
       linkfunc = "power5"
     ),
@@ -24,7 +24,7 @@ test_that("adpcproj estimate must have population data for projection", {
       cases,
       pyr,
       noperiod = 4,
-      startestage = 1,
+      startage = 1,
       pGOF = 1,
       linkfunc = "power5"
     ),
@@ -41,7 +41,7 @@ test_that("adpcproj estimate can't project more than 6 periods", {
       cases,
       pyr,
       noperiod = 4,
-      startestage = 1,
+      startage = 1,
       pGOF = 1,
       linkfunc = "power5"
     ),
@@ -58,7 +58,7 @@ test_that("adpcproj estimate requires at least 3 periods", {
       cases,
       pyr,
       noperiod = 2,
-      startestage = 1,
+      startage = 1,
       pGOF = 1,
       linkfunc = "power5"
     ),
@@ -70,14 +70,14 @@ test_that("adpcproj estimate works with power5 link function (default)", {
   cases <- matrix(1:57, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
-  out <- adpcproj.estimate(cases, pyr, noperiod = 3, startestage = 1, pGOF = 0)
+  out <- adpcproj.estimate(cases, pyr, noperiod = 3, startage = 1, pGOF = 0)
 
   expect_s3_class(out, "adpcproj.estimate")
   expect_equal(out$cases, cases)
   expect_equal(out$pyr, pyr)
   expect_equal(out$noperiod, 3)
   expect_equal(out$linkfunc, "power5")
-  expect_equal(out$startestage, 1)
+  expect_equal(out$startage, 1)
   expect_equal(out$distribution, "Poisson")
   expect_equal(out$gofpvalue, 0.9917539, tolerance = 0.000001)
   expect_equal(out$suggestionrecent, TRUE)
@@ -104,7 +104,7 @@ test_that("adpcproj estimate works with log link function", {
     cases,
     pyr,
     noperiod = 3,
-    startestage = 1,
+    startage = 1,
     pGOF = 0,
     linkfunc = "log"
   )
@@ -129,7 +129,7 @@ test_that("adpcproj estimate works with sqrt link function", {
     cases,
     pyr,
     noperiod = 3,
-    startestage = 1,
+    startage = 1,
     pGOF = 0,
     linkfunc = "sqrt"
   )
@@ -154,7 +154,7 @@ test_that("adpcproj estimate works with identity link function", {
     cases,
     pyr,
     noperiod = 3,
-    startestage = 1,
+    startage = 1,
     pGOF = 0,
     linkfunc = "identity"
   ))
@@ -184,7 +184,7 @@ test_that("adpcproj estimate fails with unknown link function", {
       cases,
       pyr,
       noperiod = 3,
-      startestage = 1,
+      startage = 1,
       pGOF = 0,
       linkfunc = "function"
     ),
@@ -201,7 +201,7 @@ test_that("adpcproj estimate works with negative-binomial glm and power5 link fu
     cases,
     pyr,
     noperiod = 3,
-    startestage = 1,
+    startage = 1,
     pGOF = 1,
     linkfunc = "power5"
   )
@@ -230,7 +230,7 @@ test_that("adpcproj estimate works with negative-binomial glm and log link funct
     cases,
     pyr,
     noperiod = 3,
-    startestage = 1,
+    startage = 1,
     pGOF = 1,
     linkfunc = "log"
   )
@@ -255,7 +255,7 @@ test_that("adpcproj estimate works with negative-binomial glm and sqrt link func
     cases,
     pyr,
     noperiod = 3,
-    startestage = 1,
+    startage = 1,
     pGOF = 2,
     linkfunc = "sqrt"
   ))
@@ -284,7 +284,7 @@ test_that("adpcproj estimate works with negative-binomial glm and identity link 
     cases,
     pyr,
     noperiod = 3,
-    startestage = 1,
+    startage = 1,
     pGOF = 2,
     linkfunc = "identity"
   ))

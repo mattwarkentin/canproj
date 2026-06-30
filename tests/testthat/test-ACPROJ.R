@@ -7,7 +7,7 @@ test_that("acproj works", {
     pdat,
     projfor = "incidence",
     n5case = 5,
-    startestage = 1,
+    startage = 1,
     cuttrd = 0.05,
     shortp = 0.01,
     pGOF = 0.05,
@@ -21,7 +21,7 @@ test_that("acproj works", {
   expect_equal(output$shortp, 0.01)
   expect_equal(output$cuttrend, 0.01)
   expect_equal(output$distribution, "Poisson")
-  expect_equal(output$startestage, 1)
+  expect_equal(output$startage, 1)
   expect_s3_class(output$glm, "glm")
 
   expect_equal(output$gofpvalue, 0.9997187, tolerance = 0.0000001)
@@ -66,14 +66,14 @@ test_that("acproj moves start stage according to n5case when NULL", {
     pdat,
     projfor = "incidence",
     n5case = 6,
-    startestage = NULL,
+    startage = NULL,
     cuttrd = 0.04,
     shortp = 0,
     pGOF = 0.05,
     linkfunc = "power5"
   )
 
-  expect_equal(output$startestage, 2)
+  expect_equal(output$startage, 2)
 })
 
 test_that("acproj works with varying age groups", {
@@ -85,7 +85,7 @@ test_that("acproj works with varying age groups", {
     pdat,
     projfor = "incidence",
     n5case = 5,
-    startestage = 1,
+    startage = 1,
     cuttrd = 0.05,
     shortp = 0.01,
     pGOF = 0.05,
@@ -156,7 +156,7 @@ test_that("acproj plot works", {
     pdat,
     projfor = "incidence",
     n5case = 5,
-    startestage = 1,
+    startage = 1,
     cuttrd = 0.04,
     shortp = 0,
     pGOF = 0.05,

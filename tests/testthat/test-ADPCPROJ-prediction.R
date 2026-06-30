@@ -17,13 +17,13 @@ test_that("adpcproj prediction startuseage must greater or equal to start stage"
     cases = matrix(5, 5, 5),
     pyr = matrix(5, 5, 5),
     glm = list(1:5),
-    startestage = 5
+    startage = 5
   )
   class(adpc_est) <- "adpcproj.estimate"
 
   expect_error(
     adpcproj.prediction(adpc_est, startuseage = 2, TRUE),
-    "\"startuseage\" is set too low compared to \"startestage\"",
+    "\"startuseage\" is set too low compared to \"startage\"",
     fixed = TRUE
   )
 })
@@ -53,7 +53,7 @@ test_that("adpcproj prediction works with recent trend and power5 link func", {
     )),
     noperiod = 3,
     linkfunc = "power5",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8,
     suggestionrecent = TRUE,
@@ -100,7 +100,7 @@ test_that("adpcproj prediction works with recent trend and log link func", {
     )),
     noperiod = 3,
     linkfunc = "log",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8,
     suggestionrecent = TRUE,
@@ -147,7 +147,7 @@ test_that("adpcproj prediction works with recent trend and sqrt link func", {
     )),
     noperiod = 3,
     linkfunc = "sqrt",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8,
     suggestionrecent = TRUE,
@@ -194,7 +194,7 @@ test_that("adpcproj prediction works with recent trend and identity link func", 
     )),
     noperiod = 3,
     linkfunc = "identity",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8,
     suggestionrecent = TRUE,
@@ -241,7 +241,7 @@ test_that("adpcproj prediction works with power5 link function", {
     )),
     noperiod = 3,
     linkfunc = "power5",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8,
     suggestionrecent = FALSE,
@@ -286,7 +286,7 @@ test_that("adpcproj prediction works with log link function", {
     )),
     noperiod = 3,
     linkfunc = "log",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8,
     suggestionrecent = FALSE,
@@ -331,7 +331,7 @@ test_that("adpcproj prediction works with sqrt link function", {
     )),
     noperiod = 3,
     linkfunc = "sqrt",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8,
     suggestionrecent = FALSE,
@@ -376,7 +376,7 @@ test_that("adpcproj prediction works with identity link function (default)", {
     )),
     noperiod = 3,
     linkfunc = "identity",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8,
     suggestionrecent = FALSE,
@@ -406,7 +406,7 @@ test_that("adpcproj prediction works with identity link function (default)", {
   expect_equal(out$cuttrend, 0.01)
   expect_equal(out$distribution, "Poisson")
   expect_equal(out$startuseage, 1)
-  expect_equal(out$startestage, 1)
+  expect_equal(out$startage, 1)
 
   expect_equal(out$predictions["13", "X4"], 2533.490, tolerance = 0.001)
   expect_snapshot_value(out$predictions, style = "json2", tolerance = 0.001)
@@ -437,7 +437,7 @@ test_that("adpcproj prediction works with varying age groups", {
     )),
     noperiod = 3,
     linkfunc = "identity",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8,
     suggestionrecent = FALSE,

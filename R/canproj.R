@@ -9,7 +9,7 @@
 #' @param projfor Specify "incidence" or "mortality" if want ASR as criteria for nagg.
 #' @param nagg Number of years for data aggregation (by years), default: 1-annual data
 #' @param ncase Minimum number of cancer cases/deaths per year for splitting data.
-#' @param startestage User defined age groups for modeling can be input here
+#' @param startage Youngest age group to include in the GLM. Default (`NULL`) picks based on mean cases.
 #' @param newcohort Assign new cohort effect as 0 (NULL) or the last estimated
 #'   cohort effect (T), default is 0, use "T" only if having evidence on negative new cohort effect.
 #' @param Ave5 Ave5=T invokes the 5 year average method when age-only model is selected.
@@ -36,7 +36,7 @@ canproj <- function(
   projfor = "incidence",
   nagg = NULL,
   ncase = NULL,
-  startestage = NULL,
+  startage = NULL,
   newcohort = NULL,
   Ave5 = NULL,
   sum5 = NULL,
@@ -123,7 +123,7 @@ canproj <- function(
             pdat,
             projfor = projfor,
             n5case = n5case,
-            startestage = startestage,
+            startage = startage,
             newcohort = newcohort,
             pGOF = pGOF,
             cuttrd = 0.04,
@@ -147,7 +147,7 @@ canproj <- function(
             pdat,
             projfor = projfor,
             n5case = n5case,
-            startestage = startestage,
+            startage = startage,
             cuttrd = 0.04,
             shortp = 0,
             pGOF = pGOF,
@@ -201,7 +201,7 @@ canproj <- function(
           pdat,
           projfor = projfor,
           n5case = n5case,
-          startestage = startestage,
+          startage = startage,
           newcohort = newcohort,
           pGOF = 0,
           cuttrd = 0.04,
@@ -225,7 +225,7 @@ canproj <- function(
           pdat,
           projfor = projfor,
           n5case = n5case,
-          startestage = startestage,
+          startage = startage,
           newcohort = newcohort,
           pGOF = 1,
           cuttrd = 0.04,
@@ -249,7 +249,7 @@ canproj <- function(
           pdat,
           projfor = projfor,
           n5case = n5case,
-          startestage = startestage,
+          startage = startage,
           cuttrd = 0.04,
           shortp = 0,
           pGOF = 0,
@@ -271,7 +271,7 @@ canproj <- function(
           pdat,
           projfor = projfor,
           n5case = n5case,
-          startestage = startestage,
+          startage = startage,
           cuttrd = 0.04,
           shortp = 0,
           pGOF = 1,

@@ -8,7 +8,7 @@ acproj.estimate(
   cases,
   pyr,
   noperiod,
-  startestage,
+  startage,
   pGOF = 0.05,
   linkfunc = "power5"
 )
@@ -20,7 +20,7 @@ acproj.estimate(
 
 \item{noperiod}{Number of 5-year periods in historical data.}
 
-\item{startestage}{User defined age groups for modeling can be input here}
+\item{startage}{Youngest age group to include in the GLM. Default (\code{NULL}) picks based on mean cases.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
 

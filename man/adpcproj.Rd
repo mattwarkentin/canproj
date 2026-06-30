@@ -11,7 +11,7 @@ adpcproj(
   n5case = NULL,
   noperiods = NULL,
   recent = NULL,
-  startestage = NULL,
+  startage = NULL,
   newcohort = NULL,
   pGOF = 0.05,
   cuttrd = 0.04,
@@ -34,7 +34,7 @@ uses a goodness-of-fit test to determine if ancient periods are removed.}
 \item{recent}{Estimate drift term from recent trend (\code{T}) or whole trend (\code{F}).
 Default (\code{NULL}) uses compares models to pick.}
 
-\item{startestage}{User defined age groups for modeling can be input here}
+\item{startage}{Youngest age group to include in the GLM. Default (\code{NULL}) picks based on mean cases.}
 
 \item{newcohort}{Assign new cohort effect as 0 (NULL) or the last estimated
 cohort effect (T), default is 0, use "T" only if having evidence on negative new cohort effect.}
@@ -54,5 +54,5 @@ A \code{list()}.
 R functions for projection of cancer incidence/mortality. Revising nordpred
 and introducing negative binomial distribution when lack of fit appears
 from nordpred, additional link functions of sqrt and identity, and settings
-of startestage and startuseage.
+of startage and startuseage.
 }

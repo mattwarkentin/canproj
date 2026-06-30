@@ -12,7 +12,7 @@ canproj(
   projfor = "incidence",
   nagg = NULL,
   ncase = NULL,
-  startestage = NULL,
+  startage = NULL,
   newcohort = NULL,
   Ave5 = NULL,
   sum5 = NULL,
@@ -39,7 +39,7 @@ canproj(
 
 \item{ncase}{Minimum number of cancer cases/deaths per year for splitting data.}
 
-\item{startestage}{User defined age groups for modeling can be input here}
+\item{startage}{Youngest age group to include in the GLM. Default (\code{NULL}) picks based on mean cases.}
 
 \item{newcohort}{Assign new cohort effect as 0 (NULL) or the last estimated
 cohort effect (T), default is 0, use "T" only if having evidence on negative new cohort effect.}

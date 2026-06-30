@@ -33,7 +33,7 @@ test_that("acproj prediction works with identity link function (default)", {
     midc = 11,
     noperiod = 3,
     linkfunc = "identity",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8
   )
@@ -49,7 +49,7 @@ test_that("acproj prediction works with identity link function (default)", {
   expect_equal(out$shortp, 0.01)
   expect_equal(out$gofpvalue, 0.8)
   expect_equal(out$distribution, "Poisson")
-  expect_equal(out$startestage, 1)
+  expect_equal(out$startage, 1)
 
   expect_equal(
     out$predictions["10", "X4"],
@@ -84,7 +84,7 @@ test_that("acproj prediction works with log link function", {
     midc = 11,
     noperiod = 3,
     linkfunc = "log",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8
   )
@@ -117,7 +117,7 @@ test_that("acproj prediction works with sqrt link fucntion", {
     midc = 11,
     noperiod = 3,
     linkfunc = "sqrt",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8
   )
@@ -150,7 +150,7 @@ test_that("acproj prediction works with power5 link function", {
     midc = 11,
     noperiod = 3,
     linkfunc = "power5",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8
   )
@@ -191,7 +191,7 @@ test_that("acproj prediction works with varying age groups", {
     midc = 11,
     noperiod = 3,
     linkfunc = "identity",
-    startestage = 1,
+    startage = 1,
     distribution = "Poisson",
     gofpvalue = 0.8
   )

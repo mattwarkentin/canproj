@@ -9,7 +9,7 @@ acproj(
   pdat,
   projfor = "incidence",
   n5case = NULL,
-  startestage = NULL,
+  startage = NULL,
   cuttrd = 0.04,
   shortp = 0,
   pGOF = 0.05,
@@ -25,7 +25,7 @@ acproj(
 
 \item{n5case}{Minimum number of cancer cases/deaths per 5 years for splitting data.}
 
-\item{startestage}{User defined age groups for modeling can be input here}
+\item{startage}{Youngest age group to include in the GLM. Default (\code{NULL}) picks based on mean cases.}
 
 \item{cuttrd}{Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.}
 
