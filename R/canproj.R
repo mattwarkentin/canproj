@@ -131,7 +131,7 @@ canproj <- function(
             linkfunc = linkfunc
           )
 
-          r0 <- adpcproj.getpred(out, incidence = T)
+          r0 <- adpcproj_get_predictions(out, incidence = T)
           outasp <- interpolate_age_specific_rates(
             r0,
             cdat,
@@ -209,7 +209,7 @@ canproj <- function(
           linkfunc = linkfunc
         )
 
-        r0 <- adpcproj.getpred(out, incidence = T)
+        r0 <- adpcproj_get_predictions(out, incidence = T)
         outasp <- interpolate_age_specific_rates(
           r0,
           cdat,
@@ -233,7 +233,7 @@ canproj <- function(
           linkfunc = linkfunc
         )
 
-        r0 <- adpcproj.getpred(out, incidence = T)
+        r0 <- adpcproj_get_predictions(out, incidence = T)
         outasp <- interpolate_age_specific_rates(
           r0,
           cdat,

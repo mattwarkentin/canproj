@@ -3,7 +3,7 @@ test_that("adpcproj estimate must have population data for all periods in cases"
   pyr <- matrix(15, nrow = 19, ncol = 3)
 
   expect_error(
-    adpcproj.estimate(
+    adpcproj_estimate(
       cases,
       pyr,
       noperiod = 4,
@@ -20,7 +20,7 @@ test_that("adpcproj estimate must have population data for projection", {
   pyr <- matrix(15, nrow = 19, ncol = 4)
 
   expect_error(
-    adpcproj.estimate(
+    adpcproj_estimate(
       cases,
       pyr,
       noperiod = 4,
@@ -37,7 +37,7 @@ test_that("adpcproj estimate can't project more than 6 periods", {
   pyr <- matrix(15, nrow = 19, ncol = 9)
 
   expect_error(
-    adpcproj.estimate(
+    adpcproj_estimate(
       cases,
       pyr,
       noperiod = 4,
@@ -54,7 +54,7 @@ test_that("adpcproj estimate requires at least 3 periods", {
   pyr <- matrix(15, nrow = 19, ncol = 4)
 
   expect_error(
-    adpcproj.estimate(
+    adpcproj_estimate(
       cases,
       pyr,
       noperiod = 2,
@@ -70,9 +70,9 @@ test_that("adpcproj estimate works with power5 link function (default)", {
   cases <- matrix(1:57, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
-  out <- adpcproj.estimate(cases, pyr, noperiod = 3, startage = 1, pGOF = 0)
+  out <- adpcproj_estimate(cases, pyr, noperiod = 3, startage = 1, pGOF = 0)
 
-  expect_s3_class(out, "adpcproj.estimate")
+  expect_s3_class(out, "adpcproj_estimate")
   expect_equal(out$cases, cases)
   expect_equal(out$pyr, pyr)
   expect_equal(out$noperiod, 3)
@@ -100,7 +100,7 @@ test_that("adpcproj estimate works with log link function", {
   cases <- matrix(1:57, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
-  out <- adpcproj.estimate(
+  out <- adpcproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -125,7 +125,7 @@ test_that("adpcproj estimate works with sqrt link function", {
   cases <- matrix(1:57, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
-  out <- adpcproj.estimate(
+  out <- adpcproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -150,7 +150,7 @@ test_that("adpcproj estimate works with identity link function", {
   cases <- matrix(1:57, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
-  out <- suppressWarnings(adpcproj.estimate(
+  out <- suppressWarnings(adpcproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -180,7 +180,7 @@ test_that("adpcproj estimate fails with unknown link function", {
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
   expect_error(
-    adpcproj.estimate(
+    adpcproj_estimate(
       cases,
       pyr,
       noperiod = 3,
@@ -197,7 +197,7 @@ test_that("adpcproj estimate works with negative-binomial glm and power5 link fu
   cases <- matrix(floor(4:60 / 3) * floor(5:23 / 5) + 10, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
-  out <- adpcproj.estimate(
+  out <- adpcproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -226,7 +226,7 @@ test_that("adpcproj estimate works with negative-binomial glm and log link funct
   cases <- matrix(1:57, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
-  out <- adpcproj.estimate(
+  out <- adpcproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -251,7 +251,7 @@ test_that("adpcproj estimate works with negative-binomial glm and sqrt link func
   cases <- matrix(1:57, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
-  out <- suppressWarnings(adpcproj.estimate(
+  out <- suppressWarnings(adpcproj_estimate(
     cases,
     pyr,
     noperiod = 3,
@@ -280,7 +280,7 @@ test_that("adpcproj estimate works with negative-binomial glm and identity link 
   cases <- matrix(1:57, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
-  out <- suppressWarnings(adpcproj.estimate(
+  out <- suppressWarnings(adpcproj_estimate(
     cases,
     pyr,
     noperiod = 3,

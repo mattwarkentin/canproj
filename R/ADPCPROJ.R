@@ -68,7 +68,7 @@ adpcproj <- function(
   noperiods <- sort(noperiods)
   while (length(noperiods) > 1) {
     maxnoperiod <- max(noperiods)
-    glmn <- adpcproj.estimate(cases, pyr, maxnoperiod, startage)$glm
+    glmn <- adpcproj_estimate(cases, pyr, maxnoperiod, startage)$glm
     pval <- 1 - stats::pchisq(glmn$deviance, glmn$df.residual)
     if (pval < 0.01) {
       noperiods <- noperiods[1:(length(noperiods) - 1)]
@@ -79,7 +79,7 @@ adpcproj <- function(
   noperiod <- noperiods
 
   if (is.null(recent)) {
-    recent <- adpcproj.estimate(
+    recent <- adpcproj_estimate(
       cases,
       pyr,
       noperiod,
@@ -87,7 +87,7 @@ adpcproj <- function(
     )$suggestionrecent
   }
 
-  est <- adpcproj.estimate(
+  est <- adpcproj_estimate(
     cases = cases,
     pyr = pyr,
     noperiod = noperiod,
@@ -95,8 +95,8 @@ adpcproj <- function(
     startage = startage,
     linkfunc = linkfunc
   )
-  pred <- adpcproj.prediction(
-    adpcproj.estimate.object = est,
+  pred <- adpcproj_predict(
+    adpcproj_estimate.object = est,
     startuseage = startuseage,
     recent = recent,
     cuttrd = cuttrd,
@@ -106,7 +106,7 @@ adpcproj <- function(
 }
 
 
-#' adpcproj.estimate
+#' adpcproj_estimate
 #'
 #' Fit age-drift-period-cohort models
 #'
@@ -118,7 +118,7 @@ adpcproj <- function(
 #' @return A `list()`.
 #'
 #' @export
-adpcproj.estimate <- function(
+adpcproj_estimate <- function(
   cases,
   pyr,
   noperiod,
@@ -250,44 +250,44 @@ adpcproj.estimate <- function(
     suggestionrecent = suggestionrecent,
     pvaluerecent = pdiff
   )
-  class(res) <- "adpcproj.estimate"
+  class(res) <- "adpcproj_estimate"
   attr(res, "Call") <- sys.call()
   return(res)
 }
 
 
-#' adpcproj.prediction
+#' adpcproj_predict
 #'
 #' Extrapolate estimated trend from age-drift-period-cohort model
 #'
 #' @inheritParams canproj
-#' @param adpcproj.estimate.object An object based on the `adpcproj.estimate()` function.
+#' @param adpcproj_estimate.object An object based on the `adpcproj_estimate()` function.
 #' @param startuseage Youngest age group to use estimates from the GLM for projection.
 #' @param recent Indicate estimated drift term from recent trend (`T`) or whole trend (`F`).
 #'
 #' @return A `list()`.
 #'
 #' @export
-adpcproj.prediction <- function(
-  adpcproj.estimate.object,
+adpcproj_predict <- function(
+  adpcproj_estimate.object,
   startuseage,
   recent,
   shortp = 0,
   cuttrd = 0.04
 ) {
-  if (!inherits(adpcproj.estimate.object, "adpcproj.estimate")) {
+  if (!inherits(adpcproj_estimate.object, "adpcproj_estimate")) {
     stop(
-      "Variable \"adpcproj.estimate.object\" must be of type \"adpcproj.estimate\""
+      "Variable \"adpcproj_estimate.object\" must be of type \"adpcproj_estimate\""
     )
   }
 
-  if (adpcproj.estimate.object$startage > startuseage) {
+  if (adpcproj_estimate.object$startage > startuseage) {
     stop("\"startuseage\" is set too low compared to \"startage\"")
   }
 
-  cases <- adpcproj.estimate.object$cases
-  pyr <- adpcproj.estimate.object$pyr
-  noperiod <- adpcproj.estimate.object$noperiod
+  cases <- adpcproj_estimate.object$cases
+  pyr <- adpcproj_estimate.object$pyr
+  noperiod <- adpcproj_estimate.object$noperiod
   nototper <- ncol(pyr)
   noobsper <- ncol(cases)
   nonewpred <- nototper - noobsper
@@ -312,8 +312,8 @@ adpcproj.prediction <- function(
     2) *
     pyr[skipped_ages, (noobsper + 1):nototper]
 
-  startage <- adpcproj.estimate.object$startage
-  coefficients <- adpcproj.estimate.object$glm$coefficients
+  startage <- adpcproj_estimate.object$startage
+  coefficients <- adpcproj_estimate.object$glm$coefficients
   eff_groups <- ngroups - startage + 1
 
   agepar <- matrix(
@@ -343,7 +343,7 @@ adpcproj.prediction <- function(
   driftrecent <- driftpar -
     as.numeric(coefficients[eff_groups + noperiod - 1])
 
-  if (adpcproj.estimate.object$linkfunc == "power5") {
+  if (adpcproj_estimate.object$linkfunc == "power5") {
     if (recent) {
       rate <- (agepar +
         driftpar * noobsper +
@@ -352,7 +352,7 @@ adpcproj.prediction <- function(
     } else {
       rate <- (agepar + driftpar * (noobsper + driftmp) + cohpar)^5
     }
-  } else if (adpcproj.estimate.object$linkfunc == "log") {
+  } else if (adpcproj_estimate.object$linkfunc == "log") {
     if (recent) {
       rate <- exp(
         agepar + driftpar * noobsper + driftrecent * driftmp + cohpar
@@ -360,7 +360,7 @@ adpcproj.prediction <- function(
     } else {
       rate <- exp(agepar + driftpar * (noobsper + driftmp) + cohpar)
     }
-  } else if (adpcproj.estimate.object$linkfunc == "sqrt") {
+  } else if (adpcproj_estimate.object$linkfunc == "sqrt") {
     if (recent) {
       rate <- (agepar +
         driftpar * noobsper +
@@ -385,17 +385,17 @@ adpcproj.prediction <- function(
     predictions = datatable,
     pyr = pyr,
     nopred = nonewpred,
-    noperiod = adpcproj.estimate.object$noperiod,
-    gofpvalue = adpcproj.estimate.object$gofpvalue,
+    noperiod = adpcproj_estimate.object$noperiod,
+    gofpvalue = adpcproj_estimate.object$gofpvalue,
     recent = recent,
-    pvaluerecent = adpcproj.estimate.object$pvaluerecent,
+    pvaluerecent = adpcproj_estimate.object$pvaluerecent,
     cuttrd = cuttrd,
     shortp = shortp,
     cuttrend = cuttrend,
-    distribution = adpcproj.estimate.object$distribution,
+    distribution = adpcproj_estimate.object$distribution,
     startuseage = startuseage,
-    startage = adpcproj.estimate.object$startage,
-    glm = adpcproj.estimate.object$glm
+    startage = adpcproj_estimate.object$startage,
+    glm = adpcproj_estimate.object$glm
   )
   class(res) <- "adpcproj"
   attr(res, "Call") <- sys.call()
@@ -403,7 +403,7 @@ adpcproj.prediction <- function(
 }
 
 
-#' adpcproj.getpred
+#' adpcproj_get_predictions
 #'
 #' Extract projection results by 5-year period
 #'
@@ -419,7 +419,7 @@ adpcproj.prediction <- function(
 #' @return A `data.frame()`.
 #'
 #' @export
-adpcproj.getpred <- function(
+adpcproj_get_predictions <- function(
   adpcproj.object,
   incidence = T,
   standpop = NULL,
@@ -455,7 +455,7 @@ adpcproj.getpred <- function(
 #' Extract annual projection results
 #'
 #' @inheritParams canproj
-#' @inheritParams adpcproj.getpred
+#' @inheritParams adpcproj_get_predictions
 #'
 #' @return A `data.frame()`.
 #'
@@ -471,7 +471,7 @@ adpcproj_get_projections <- function(
     S7::check_is_S7(standpop, StandardPopulation)
   }
 
-  r0 <- adpcproj.getpred(adpcproj.object, incidence = T)
+  r0 <- adpcproj_get_predictions(adpcproj.object, incidence = T)
   outasp <- interpolate_age_specific_rates(
     r0,
     cdat,
@@ -580,7 +580,7 @@ summary.adpcproj <- function(
 #'
 #' Summarize estimations from the final model.
 #'
-#' @inheritParams adpcproj.getpred
+#' @inheritParams adpcproj_get_predictions
 #'
 #' @return A summary table from the `glm.object`.
 #'

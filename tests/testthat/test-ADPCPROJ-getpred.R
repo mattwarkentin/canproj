@@ -5,7 +5,7 @@ test_that("adpcproj getpred requires object class adpcproj", {
   )
 
   expect_error(
-    adpcproj.getpred(object),
+    adpcproj_get_predictions(object),
     "Variable \"adpcproj.object\" must be of type \"adpcproj\"",
     fixed = TRUE
   )
@@ -21,7 +21,7 @@ test_that("adpcproj getpred standpop requires incidence prediction", {
   stdpop <- 1:19
 
   expect_error(
-    adpcproj.getpred(adpc_obj, incidence = FALSE, standpop = stdpop),
+    adpcproj_get_predictions(adpc_obj, incidence = FALSE, standpop = stdpop),
     "\"standpop\" should only be used with incidence predictions (incidence=T)",
     fixed = TRUE
   )
@@ -37,7 +37,7 @@ test_that("adpcproj getpred standpop must be same length as age groups", {
   stdpop <- StandardPopulation("a", rep("a", 2), c(0.5, 0.5))
 
   expect_error(
-    adpcproj.getpred(adpc_obj, agegroups = 4:9, standpop = stdpop),
+    adpcproj_get_predictions(adpc_obj, agegroups = 4:9, standpop = stdpop),
     "\"standpop\" must be the same length as \"agegroups\"",
     fixed = TRUE
   )
@@ -57,7 +57,7 @@ test_that("adpcproj getpred standpop requires 'by age' = F", {
   )
 
   expect_error(
-    adpcproj.getpred(adpc_obj, byage = TRUE, standpop = stdpop),
+    adpcproj_get_predictions(adpc_obj, byage = TRUE, standpop = stdpop),
     "\"standpop\" is only valid for \"byage=F\"",
     fixed = TRUE
   )
@@ -80,7 +80,7 @@ test_that("adpcproj getpred can select specific age groups", {
   attr(expected, "row.names") <- as.integer(c(3, 8))
 
   expect_equal(
-    adpcproj.getpred(adpcproj_obj, agegroups = c(3, 8)),
+    adpcproj_get_predictions(adpcproj_obj, agegroups = c(3, 8)),
     expected,
     tolerance = 0.0001
   )
@@ -103,7 +103,7 @@ test_that("adpcproj getpred works with a standard population", {
   expected <- c(X1 = 503.3541, X2 = 1449.6464, X3 = 2392.3601, X4 = 3331.5152)
 
   expect_equal(
-    adpcproj.getpred(adpcproj_obj, standpop = stdpop),
+    adpcproj_get_predictions(adpcproj_obj, standpop = stdpop),
     expected,
     tolerance = 0.0001
   )
@@ -143,7 +143,7 @@ test_that("adpcproj getpred works when excluding observed values", {
   rownames(expected) <- 1:19
 
   expect_equal(
-    adpcproj.getpred(adpcproj_obj, excludeobs = TRUE),
+    adpcproj_get_predictions(adpcproj_obj, excludeobs = TRUE),
     expected,
     tolerance = 0.0000001
   )

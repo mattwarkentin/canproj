@@ -1,4 +1,4 @@
-test_that("adpcproj prediction requires object class adpcproj.estimate", {
+test_that("adpcproj prediction requires object class adpcproj_estimate", {
   object <- list(
     cases = matrix(5, 5, 5),
     pyr = matrix(5, 5, 5),
@@ -6,8 +6,8 @@ test_that("adpcproj prediction requires object class adpcproj.estimate", {
   )
 
   expect_error(
-    adpcproj.prediction(object, 1, TRUE),
-    "Variable \"adpcproj.estimate.object\" must be of type \"adpcproj.estimate\"",
+    adpcproj_predict(object, 1, TRUE),
+    "Variable \"adpcproj_estimate.object\" must be of type \"adpcproj_estimate\"",
     fixed = TRUE
   )
 })
@@ -19,10 +19,10 @@ test_that("adpcproj prediction startuseage must greater or equal to start stage"
     glm = list(1:5),
     startage = 5
   )
-  class(adpc_est) <- "adpcproj.estimate"
+  class(adpc_est) <- "adpcproj_estimate"
 
   expect_error(
-    adpcproj.prediction(adpc_est, startuseage = 2, TRUE),
+    adpcproj_predict(adpc_est, startuseage = 2, TRUE),
     "\"startuseage\" is set too low compared to \"startage\"",
     fixed = TRUE
   )
@@ -59,9 +59,9 @@ test_that("adpcproj prediction works with recent trend and power5 link func", {
     suggestionrecent = TRUE,
     pvaluerecent = 0.01
   )
-  class(estimate_adpc) <- "adpcproj.estimate"
+  class(estimate_adpc) <- "adpcproj_estimate"
 
-  out <- adpcproj.prediction(
+  out <- adpcproj_predict(
     estimate_adpc,
     startuseage = 1,
     recent = TRUE,
@@ -106,9 +106,9 @@ test_that("adpcproj prediction works with recent trend and log link func", {
     suggestionrecent = TRUE,
     pvaluerecent = 0.01
   )
-  class(estimate_adpc) <- "adpcproj.estimate"
+  class(estimate_adpc) <- "adpcproj_estimate"
 
-  out <- adpcproj.prediction(
+  out <- adpcproj_predict(
     estimate_adpc,
     startuseage = 1,
     recent = TRUE,
@@ -153,9 +153,9 @@ test_that("adpcproj prediction works with recent trend and sqrt link func", {
     suggestionrecent = TRUE,
     pvaluerecent = 0.01
   )
-  class(estimate_adpc) <- "adpcproj.estimate"
+  class(estimate_adpc) <- "adpcproj_estimate"
 
-  out <- adpcproj.prediction(
+  out <- adpcproj_predict(
     estimate_adpc,
     startuseage = 1,
     recent = TRUE,
@@ -200,9 +200,9 @@ test_that("adpcproj prediction works with recent trend and identity link func", 
     suggestionrecent = TRUE,
     pvaluerecent = 0.01
   )
-  class(estimate_adpc) <- "adpcproj.estimate"
+  class(estimate_adpc) <- "adpcproj_estimate"
 
-  out <- adpcproj.prediction(
+  out <- adpcproj_predict(
     estimate_adpc,
     startuseage = 1,
     recent = TRUE,
@@ -247,9 +247,9 @@ test_that("adpcproj prediction works with power5 link function", {
     suggestionrecent = FALSE,
     pvaluerecent = 0.01
   )
-  class(estimate_adpc) <- "adpcproj.estimate"
+  class(estimate_adpc) <- "adpcproj_estimate"
 
-  out <- adpcproj.prediction(
+  out <- adpcproj_predict(
     estimate_adpc,
     startuseage = 1,
     recent = FALSE,
@@ -292,9 +292,9 @@ test_that("adpcproj prediction works with log link function", {
     suggestionrecent = FALSE,
     pvaluerecent = 0.01
   )
-  class(estimate_adpc) <- "adpcproj.estimate"
+  class(estimate_adpc) <- "adpcproj_estimate"
 
-  out <- adpcproj.prediction(
+  out <- adpcproj_predict(
     estimate_adpc,
     startuseage = 1,
     recent = FALSE,
@@ -337,9 +337,9 @@ test_that("adpcproj prediction works with sqrt link function", {
     suggestionrecent = FALSE,
     pvaluerecent = 0.01
   )
-  class(estimate_adpc) <- "adpcproj.estimate"
+  class(estimate_adpc) <- "adpcproj_estimate"
 
-  out <- adpcproj.prediction(
+  out <- adpcproj_predict(
     estimate_adpc,
     startuseage = 1,
     recent = FALSE,
@@ -382,9 +382,9 @@ test_that("adpcproj prediction works with identity link function (default)", {
     suggestionrecent = FALSE,
     pvaluerecent = 0.01
   )
-  class(estimate_adpc) <- "adpcproj.estimate"
+  class(estimate_adpc) <- "adpcproj_estimate"
 
-  out <- adpcproj.prediction(
+  out <- adpcproj_predict(
     estimate_adpc,
     startuseage = 1,
     recent = FALSE,
@@ -443,9 +443,9 @@ test_that("adpcproj prediction works with varying age groups", {
     suggestionrecent = FALSE,
     pvaluerecent = 0.01
   )
-  class(estimate_adpc) <- "adpcproj.estimate"
+  class(estimate_adpc) <- "adpcproj_estimate"
 
-  out <- adpcproj.prediction(
+  out <- adpcproj_predict(
     estimate_adpc,
     startuseage = 1,
     recent = FALSE,
