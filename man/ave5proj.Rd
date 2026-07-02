@@ -4,7 +4,7 @@
 \alias{ave5proj}
 \title{Average5}
 \usage{
-ave5proj(cdat, pdat, startp, sum5 = NULL)
+ave5proj(cdat, pdat, startp, sum5 = TRUE)
 }
 \arguments{
 \item{cdat}{19(age groups)*N(years) historical cancer data, 15<=N<=125.}
@@ -13,8 +13,8 @@ ave5proj(cdat, pdat, startp, sum5 = NULL)
 
 \item{startp}{The start calendar year of projection, e.g. 2009.}
 
-\item{sum5}{When the 5-year average method is used, sum5=NULL call the 5-year
-period based rate, otherwise, average the 5 rates in the 5 years for each age group.}
+\item{sum5}{When the 5-year average method is used, sum5=TRUE call the 5-year
+period based rate, otherwise (sum5=FALSE), average the 5 rates in the 5 years for each age group.}
 }
 \value{
 A \code{list()}.

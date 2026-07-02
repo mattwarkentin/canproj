@@ -38,7 +38,7 @@ canproj <- function(
   ncase = NULL,
   startage = NULL,
   newcohort = NULL,
-  Ave5 = NULL,
+  Ave5 = FALSE,
   sum5 = TRUE,
   methods = NULL,
   linkfunc = "power5",

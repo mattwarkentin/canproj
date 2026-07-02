@@ -379,7 +379,7 @@ hybdproj_get_projections <- function(
   startp,
   hybdproj.object,
   standpop = NULL,
-  Ave5 = NULL,
+  Ave5 = FALSE,
   sum5 = TRUE
 ) {
   if (!is.null(standpop)) {
@@ -397,7 +397,7 @@ hybdproj_get_projections <- function(
     nagg = nagg
   )
 
-  if (finalmod == "average" & !is.null(Ave5)) {
+  if (finalmod == "average" & Ave5) {
     mod <- ave5proj(cdat, pdat, startp, sum5 = sum5)
     outasp <- mod$agsproj
   }
