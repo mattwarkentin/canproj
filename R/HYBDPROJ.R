@@ -380,7 +380,7 @@ hybdproj_get_projections <- function(
   hybdproj.object,
   standpop = NULL,
   Ave5 = NULL,
-  sum5 = NULL
+  sum5 = TRUE
 ) {
   if (!is.null(standpop)) {
     S7::check_is_S7(standpop, StandardPopulation)

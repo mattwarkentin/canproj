@@ -10,7 +10,7 @@
 #' @return A `list()`.
 #'
 #' @export
-ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
+ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
   nc <- dim(cdat)[2]
   np <- dim(pdat)[2]
   noypred <- np - nc
@@ -29,7 +29,7 @@ ave5proj <- function(cdat, pdat, startp, sum5 = NULL) {
   row.names(datatab) <- 1:ngroups
   colnames(datatab) <- (startp - nc):(startp + (np - nc) - 1)
 
-  if (is.null(sum5)) {
+  if (sum5) {
     obsinc <- rowSums(cdat[, (nc - 4):nc]) / rowSums(pdat[, (nc - 4):nc])
   } else {
     obsinc <- rowSums(cdat[, (nc - 4):nc] / pdat[, (nc - 4):nc]) / 5

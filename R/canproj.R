@@ -13,8 +13,8 @@
 #' @param newcohort Assign new cohort effect as 0 (NULL) or the last estimated
 #'   cohort effect (T), default is 0, use "T" only if having evidence on negative new cohort effect.
 #' @param Ave5 Ave5=T invokes the 5 year average method when age-only model is selected.
-#' @param sum5 When the 5-year average method is used, sum5=NULL call the 5-year
-#'   period based rate, otherwise, average the 5 rates in the 5 years for each age group.
+#' @param sum5 When the 5-year average method is used, sum5=TRUE call the 5-year
+#'   period based rate, otherwise (sum5=FALSE), average the 5 rates in the 5 years for each age group.
 #' @param methods User required projection method can be specified by ADPC
 #'   models: "nordpred" or "adpc-nb"; age-cohort models: "ac", "ac-nb"; age-period models: "age-trd", "com-trd"; and average: "ave5".
 #' @param linkfunc Link function, default is power5, can be log, sqrt and identity.
@@ -39,7 +39,7 @@ canproj <- function(
   startage = NULL,
   newcohort = NULL,
   Ave5 = NULL,
-  sum5 = NULL,
+  sum5 = TRUE,
   methods = NULL,
   linkfunc = "power5",
   cuttrd = 0.04,
