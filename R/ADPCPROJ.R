@@ -23,7 +23,7 @@ adpcproj <- function(
   noperiods = NULL,
   recent = NULL,
   startage = NULL,
-  newcohort = NULL,
+  newcohort = FALSE,
   pGOF = 0.05,
   cuttrd = 0.04,
   shortp = 0,
@@ -50,7 +50,7 @@ adpcproj <- function(
     startage <- iage
   }
 
-  if (is.null(newcohort)) {
+  if (!newcohort) {
     startuseage <- startage
   } else {
     startuseage <- startage + 1

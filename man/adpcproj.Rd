@@ -12,7 +12,7 @@ adpcproj(
   noperiods = NULL,
   recent = NULL,
   startage = NULL,
-  newcohort = NULL,
+  newcohort = FALSE,
   pGOF = 0.05,
   cuttrd = 0.04,
   shortp = 0,
@@ -36,8 +36,8 @@ Default (\code{NULL}) uses compares models to pick.}
 
 \item{startage}{Youngest age group to include in the GLM. Default (\code{NULL}) picks based on mean cases.}
 
-\item{newcohort}{Assign new cohort effect as 0 (NULL) or the last estimated
-cohort effect (T), default is 0, use "T" only if having evidence on negative new cohort effect.}
+\item{newcohort}{Assign new cohort effect as 0 (FALSE) or the last estimated
+cohort effect (TRUE), default is 0, use "T" only if having evidence on negative new cohort effect.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
 

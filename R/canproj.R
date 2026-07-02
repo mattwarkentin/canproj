@@ -10,8 +10,8 @@
 #' @param nagg Number of years for data aggregation (by years), default: 1-annual data
 #' @param ncase Minimum number of cancer cases/deaths per year for splitting data.
 #' @param startage Youngest age group to include in the GLM. Default (`NULL`) picks based on mean cases.
-#' @param newcohort Assign new cohort effect as 0 (NULL) or the last estimated
-#'   cohort effect (T), default is 0, use "T" only if having evidence on negative new cohort effect.
+#' @param newcohort Assign new cohort effect as 0 (FALSE) or the last estimated
+#'   cohort effect (TRUE), default is 0, use "T" only if having evidence on negative new cohort effect.
 #' @param Ave5 Ave5=T invokes the 5 year average method when age-only model is selected.
 #' @param sum5 When the 5-year average method is used, sum5=TRUE call the 5-year
 #'   period based rate, otherwise (sum5=FALSE), average the 5 rates in the 5 years for each age group.
@@ -37,7 +37,7 @@ canproj <- function(
   nagg = NULL,
   ncase = NULL,
   startage = NULL,
-  newcohort = NULL,
+  newcohort = FALSE,
   Ave5 = FALSE,
   sum5 = TRUE,
   methods = NULL,

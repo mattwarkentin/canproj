@@ -13,7 +13,7 @@ canproj(
   nagg = NULL,
   ncase = NULL,
   startage = NULL,
-  newcohort = NULL,
+  newcohort = FALSE,
   Ave5 = FALSE,
   sum5 = TRUE,
   methods = NULL,
@@ -41,8 +41,8 @@ canproj(
 
 \item{startage}{Youngest age group to include in the GLM. Default (\code{NULL}) picks based on mean cases.}
 
-\item{newcohort}{Assign new cohort effect as 0 (NULL) or the last estimated
-cohort effect (T), default is 0, use "T" only if having evidence on negative new cohort effect.}
+\item{newcohort}{Assign new cohort effect as 0 (FALSE) or the last estimated
+cohort effect (TRUE), default is 0, use "T" only if having evidence on negative new cohort effect.}
 
 \item{Ave5}{Ave5=T invokes the 5 year average method when age-only model is selected.}
 
