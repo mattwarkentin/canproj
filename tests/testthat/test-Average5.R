@@ -17,7 +17,7 @@ test_that("ave5proj works when aggregating data", {
   expected <- list(
     agsproj = projection,
     startp = 2000,
-    sum5 = NULL,
+    sum5 = TRUE,
     noypred = 5
   )
   class(expected) <- "ave5proj"
@@ -164,6 +164,7 @@ test_that("ave5proj gets projections with default standard population", {
     sum5 = TRUE,
     noypred = 5
   )
+  class(ave5_object) <- "ave5proj"
 
   expect_equal(ave5proj_get_projections(pdat, ave5_object), projection)
 })
@@ -185,6 +186,7 @@ test_that("ave5proj gets projections with specified standard population", {
     sum5 = TRUE,
     noypred = 5
   )
+  class(ave5_object) <- "ave5proj"
 
   out <- matrix(
     c(

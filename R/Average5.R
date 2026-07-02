@@ -11,8 +11,29 @@
 #'
 #' @export
 ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
-  nc <- dim(cdat)[2]
-  np <- dim(pdat)[2]
+  if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
+    stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
+  }
+  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
+    stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
+  }
+
+  if (!inherits(startp, "numeric")) {
+    stop("\"startp\" must be of type \"numerical\"")
+  }
+
+  if (ncol(cdat) > ncol(pdat)) {
+    stop("\"pdat\" must include information about all years in \"cdat\"")
+  }
+  if (ncol(pdat) == ncol(cdat)) {
+    stop("\"pdat\" must include information in projection years")
+  }
+  if (nrow(cdat) != nrow(pdat)) {
+    stop("\"cdat\" and \"pdat\" must have identical age groups")
+  }
+
+  nc <- ncol(cdat)
+  np <- ncol(pdat)
   noypred <- np - nc
   ngroups <- nrow(cdat)
 
@@ -69,7 +90,28 @@ ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
 ave5proj_get_projections <- function(pdat, ave5proj.object, standpop = NULL) {
   if (!is.null(standpop)) {
     S7::check_is_S7(standpop, StandardPopulation)
+
+    if (nrow(pdat) != length(standpop@weights)) {
+      stop(
+        "Variable \"standpop\" must have same number of age groups as \"pdat\""
+      )
+    }
   }
+
+  if (!inherits(ave5proj.object, "ave5proj")) {
+    stop("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
+  }
+
+  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
+    stop("Variable \"pdat\" must be of type \"data.frame\" or \"matrix\"")
+  }
+
+  if (nrow(pdat) != nrow(ave5proj.object$agsproj)) {
+    stop(
+      "Variable \"pdat\" must have same number of age groups as \"ave5proj.object\""
+    )
+  }
+
   outasp <- ave5proj.object$agsproj
 
   if (is.null(standpop)) {
@@ -95,6 +137,10 @@ ave5proj_get_projections <- function(pdat, ave5proj.object, standpop = NULL) {
 summary.ave5proj <- function(object, printcall = FALSE, ...) {
   if (!inherits(object, "ave5proj")) {
     stop("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
+  }
+
+  if (!inherits(printcall, "logical")) {
+    stop("Variable \"printcall\" must be \"TRUE\" or \"FALSE\"")
   }
 
   method <- "Five-Year Average"
