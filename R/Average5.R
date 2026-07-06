@@ -14,8 +14,15 @@ ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
   if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
     stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
   }
+  if (ncol(cdat) < 5) {
+    stop("\"cdat\" must have at least 5 periods")
+  }
+
   if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
     stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
+  }
+  if (ncol(pdat) < 10) {
+    stop("\"pdat\" must have at least 10 periods")
   }
 
   if (!inherits(startp, "numeric")) {
