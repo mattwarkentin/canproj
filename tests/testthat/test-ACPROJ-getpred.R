@@ -12,7 +12,11 @@ test_that("acproj getpred requires incidence if using a standard population", {
   acproj_obj <- list(1:5)
   class(acproj_obj) <- "acproj"
 
-  stdpop <- 1:19
+  stdpop <- StandardPopulation(
+    "dummy",
+    rep("a", 19),
+    c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  )
 
   expect_error(
     acproj_get_predictions(acproj_obj, incidence = F, standpop = stdpop),

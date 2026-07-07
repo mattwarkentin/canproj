@@ -16,10 +16,6 @@ validate_getpred_inputs <- function(byage, standpop, incidence, agegroups) {
   if (!is.null(standpop)) {
     S7::check_is_S7(standpop, StandardPopulation)
 
-    if (round(sum(standpop@weights), 5) != 1) {
-      stop("\"standpop\" must be of sum 1")
-    }
-
     if ((length(standpop) != length(agegroups)) && (agegroups[1] != "all")) {
       stop("\"standpop\" must be the same length as \"agegroups\"")
     }

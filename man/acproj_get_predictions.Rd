@@ -9,7 +9,7 @@ acproj_get_predictions(
   incidence = T,
   standpop = NULL,
   excludeobs = F,
-  byage,
+  byage = NULL,
   agegroups = "all"
 )
 }

@@ -52,7 +52,7 @@ test_that("acproj must have at least 15 years in cases", {
 
   expect_error(
     acproj(cdat, pdat),
-    "Minimum number of period is 3 (15 years) in \"cases\"",
+    "\"cdat\" must have at least 15 years",
     fixed = TRUE
   )
 })
@@ -103,7 +103,8 @@ test_that("acproj getproj works with a standard population", {
   acproj_obj <- list(
     predictions = matrix(floor(0:75 / 19) * 25 + 35, nrow = 19, ncol = 4),
     pyr = matrix(seq(from = 50190, to = 50565, by = 5), nrow = 19, ncol = 4),
-    nopred = 1
+    nopred = 1,
+    noperiod = 3
   )
   class(acproj_obj) <- "acproj"
 
@@ -128,7 +129,8 @@ test_that("acproj getproj works without a standard population", {
   acproj_obj <- list(
     predictions = matrix(floor(0:75 / 19) * 25 + 35, nrow = 19, ncol = 4),
     pyr = matrix(seq(from = 50190, to = 50565, by = 5), nrow = 19, ncol = 4),
-    nopred = 1
+    nopred = 1,
+    noperiod = 3
   )
   class(acproj_obj) <- "acproj"
 
