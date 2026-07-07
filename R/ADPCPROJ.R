@@ -29,6 +29,88 @@ adpcproj <- function(
   shortp = 0,
   linkfunc = "power5"
 ) {
+  if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
+    stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
+  }
+  if (ncol(cdat) < 15) {
+    stop("\"cdat\" must have at least 15 years")
+  }
+
+  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
+    stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
+  }
+  if (ncol(pdat) < 20) {
+    stop("\"pdat\" must have at least 20 years")
+  }
+
+  if (ncol(cdat) > ncol(pdat)) {
+    stop("\"pdat\" must include information about all years in \"cdat\"")
+  } else if (ncol(pdat) == ncol(cdat)) {
+    stop("\"pdat\" must include information in projection years")
+  }
+
+  if (nrow(cdat) != nrow(pdat)) {
+    stop("\"cdat\" and \"pdat\" must have identical age groups")
+  }
+
+  if (!(projfor %in% list("incidence", "mortality"))) {
+    stop("\"projfor\" must be one of \"incidence\" or \"mortality\"")
+  }
+
+  if (!is.null(n5case) & !inherits(n5case, "numeric")) {
+    stop("\"n5case\" must be of type \"numeric\" or NULL")
+  }
+
+  if (
+    !is.null(noperiods) &
+      !inherits(noperiods, "integer") &
+      !inherits(noperiods, "numeric")
+  ) {
+    stop("\"noperiods\" must be of type \"integer\", \"numeric\", or NULL")
+  }
+
+  if (!is.null(recent) & !inherits(recent, "logical")) {
+    stop("\"recent\" must be of type \"logical\" or NULL")
+  }
+
+  if (!is.null(startage) & !inherits(startage, "numeric")) {
+    stop("\"startage\" must be of type \"numeric\" or NULL")
+  }
+
+  if (!inherits(newcohort, "logical")) {
+    stop("\"newcohort\" must be of type \"logical\"")
+  }
+
+  if (!inherits(cuttrd, "numeric")) {
+    stop("Variable \"cuttrd\" must be of type \"numeric\"")
+  }
+
+  if (cuttrd > 1 | cuttrd < 0) {
+    stop("Variable \"cuttrd\" must be >= 0 and <= 1")
+  }
+
+  if (!inherits(shortp, "numeric")) {
+    stop("Variable \"shortp\" must be of type \"numeric\"")
+  }
+
+  if (shortp > 1 | shortp < 0) {
+    stop("Variable \"shortp\" must be >= 0 and <= 1")
+  }
+
+  if (!inherits(pGOF, "numeric")) {
+    stop("Variable \"pGOF\" must be of type \"numeric\"")
+  }
+
+  if (pGOF > 1 | pGOF < 0) {
+    stop("Variable \"pGOF\" must be >= 0 and <= 1")
+  }
+
+  if (!(linkfunc) %in% list("power5", "sqrt", "log", "identity")) {
+    stop(
+      "Variable \"linkfunc\" must be one of \"power5\", \"log\", \"sqrt\", or \"identity\""
+    )
+  }
+
   if (is.null(n5case)) {
     if (projfor == "incidence") {
       n5case <- 5
@@ -126,24 +208,66 @@ adpcproj_estimate <- function(
   pGOF = 0.05,
   linkfunc = "power5"
 ) {
-  if (dim(cases)[2] > dim(pyr)[2]) {
+  if (ncol(cases) > ncol(pyr)) {
     stop("\"pyr\" must include information about all periods in \"cases\"")
   }
 
-  if (dim(pyr)[2] == dim(cases)[2]) {
+  if (ncol(pyr) == ncol(cases)) {
     stop("\"pyr\" must include information on future rates")
   }
 
-  if ((dim(pyr)[2] - dim(cases)[2]) > 6) {
+  if ((ncol(pyr) - ncol(cases)) > 6) {
     stop("Package can not project more than 6 periods")
   }
 
-  if ((dim(cases)[2] - noperiod) < 0) {
+  if (nrow(cases) != nrow(pyr)) {
+    stop("\"cases\" and \"pyr\" must have the same number of age groups")
+  }
+
+  if (ncol(cases) < 2) {
+    stop("\"cases\" must have at least 2 age groups")
+  }
+
+  if (ncol(pyr) < 2) {
+    stop("\"pyr\" must have at least 2 age groups")
+  }
+
+  if (!inherits(noperiod, "numeric") & !inherits(noperiod, "integer")) {
+    stop("Variable \"noperiod\" must be of type \"numeric\" or \"integer\"")
+  }
+
+  if ((ncol(cases) - noperiod) < 0) {
     stop("More periods specified in \"noperiod\" than columns in \"cases\"")
   }
 
   if (noperiod < 3) {
     stop("\"noperiod\" must be 3 or larger")
+  }
+
+  if (!inherits(startage, "numeric")) {
+    stop("Variable \"startage\" must be of type \"numeric\"")
+  }
+
+  if (startage < 1) {
+    stop("Variable \"startage\" must be >= 1")
+  }
+
+  if (startage > nrow(cases) - 1) {
+    stop("Variable \"startage\" is too high relative to number of age groups")
+  }
+
+  if (!inherits(pGOF, "numeric")) {
+    stop("Variable \"pGOF\" must be of type \"numeric\"")
+  }
+
+  if (pGOF > 1 | pGOF < 0) {
+    stop("Variable \"pGOF\" must be >= 0 and <= 1")
+  }
+
+  if (!(linkfunc) %in% list("power5", "sqrt", "log", "identity")) {
+    stop(
+      "Variable \"linkfunc\" must be one of \"power5\", \"log\", \"sqrt\", or \"identity\""
+    )
   }
 
   dnoperiods <- ncol(cases)
@@ -283,6 +407,30 @@ adpcproj_predict <- function(
 
   if (adpcproj_estimate.object$startage > startuseage) {
     stop("\"startuseage\" is set too low compared to \"startage\"")
+  }
+
+  if (!inherits(cuttrd, "numeric")) {
+    stop("Variable \"cuttrd\" must be of type \"numeric\"")
+  }
+
+  if (cuttrd > 1 | cuttrd < 0) {
+    stop("Variable \"cuttrd\" must be >= 0 and <= 1")
+  }
+
+  if (!inherits(shortp, "numeric")) {
+    stop("Variable \"shortp\" must be of type \"numeric\"")
+  }
+
+  if (shortp > 1 | shortp < 0) {
+    stop("Variable \"shortp\" must be >= 0 and <= 1")
+  }
+
+  if (!inherits(recent, "logical")) {
+    stop("\"recent\" must be of type \"logical\"")
+  }
+
+  if (!inherits(startuseage, "numeric")) {
+    stop("\"startuseage\" must be of type \"numeric\"")
   }
 
   cases <- adpcproj_estimate.object$cases
@@ -431,8 +579,20 @@ adpcproj_get_predictions <- function(
     byage <- ifelse(is.null(standpop), T, F)
   }
 
+  if (!is.null(standpop)) {
+    S7::check_is_S7(standpop, StandardPopulation)
+  }
+
   if (!inherits(adpcproj.object, "adpcproj")) {
     stop("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
+  }
+
+  if (!inherits(incidence, "logical")) {
+    stop("Variable \"incidence\" must be \"TRUE\" or \"FALSE\"")
+  }
+
+  if (!inherits(excludeobs, "logical")) {
+    stop("Variable \"excludeobs\" must be \"TRUE\" or \"FALSE\"")
   }
 
   validate_getpred_inputs(byage, standpop, incidence, agegroups)
@@ -469,6 +629,42 @@ adpcproj_get_projections <- function(
 ) {
   if (!is.null(standpop)) {
     S7::check_is_S7(standpop, StandardPopulation)
+  }
+
+  if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
+    stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
+  }
+
+  if (nrow(cdat) != nrow(adpcproj.object$predictions)) {
+    stop(
+      "\"cdat\" must have the same number of age groups as \"acproj.object\""
+    )
+  }
+
+  if (floor(ncol(cdat) / 5) != adpcproj.object$noperiod) {
+    stop(
+      "\"cdat\" must match acproj.object periods (floor(ncol(cdat) / 5) == noperiod)"
+    )
+  }
+
+  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
+    stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
+  }
+
+  if (nrow(pdat) != nrow(adpcproj.object$predictions)) {
+    stop(
+      "\"pdat\" must have the same number of age groups as \"acproj.object\""
+    )
+  }
+
+  if (floor(ncol(pdat) / 5) != ncol(adpcproj.object$predictions)) {
+    stop(
+      "\"pdat\" must match acproj.object periods (floor(ncol(pdat) / 5) == ncol(predictions))"
+    )
+  }
+
+  if (!inherits(startp, "numeric")) {
+    stop("\"startp\" must be of type \"numeric\"")
   }
 
   r0 <- adpcproj_get_predictions(adpcproj.object, incidence = T)
@@ -512,6 +708,23 @@ summary.adpcproj <- function(
   if (!inherits(object, "adpcproj")) {
     stop("Variable \"object\" must be of type \"adpcproj\"")
   }
+
+  if (!inherits(printpred, "logical")) {
+    stop("Variable \"printpred\" must be \"TRUE\" or \"FALSE\"")
+  }
+
+  if (!inherits(printcall, "logical")) {
+    stop("Variable \"printcall\" must be \"TRUE\" or \"FALSE\"")
+  }
+
+  if (!inherits(digits, "numeric")) {
+    stop("Variable \"digits\" must be of type \"numeric\"")
+  }
+
+  if (digits < 0) {
+    stop("Variable \"digits\" must be >= 0")
+  }
+
   obsto <- names(object$predictions)[
     ncol(object$predictions) - object$nopred
   ]

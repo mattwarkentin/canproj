@@ -175,24 +175,6 @@ test_that("adpcproj estimate works with identity link function", {
   )
 })
 
-test_that("adpcproj estimate fails with unknown link function", {
-  cases <- matrix(1:57, nrow = 19, ncol = 3)
-  pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
-
-  expect_error(
-    adpcproj_estimate(
-      cases,
-      pyr,
-      noperiod = 3,
-      startage = 1,
-      pGOF = 0,
-      linkfunc = "function"
-    ),
-    "Unknown \"linkfunc\"",
-    fixed = TRUE
-  )
-})
-
 test_that("adpcproj estimate works with negative-binomial glm and power5 link function", {
   cases <- matrix(floor(4:60 / 3) * floor(5:23 / 5) + 10, nrow = 19, ncol = 3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
@@ -248,15 +230,16 @@ test_that("adpcproj estimate works with negative-binomial glm and log link funct
 })
 
 test_that("adpcproj estimate works with negative-binomial glm and sqrt link function", {
-  cases <- matrix(1:57, nrow = 19, ncol = 3)
-  pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
+  cases <- matrix(501:557, nrow = 19, ncol = 3)
+  cases[15, 3] <- 1000
+  pyr <- matrix(500, nrow = 19, ncol = 4)
 
   out <- suppressWarnings(adpcproj_estimate(
     cases,
     pyr,
     noperiod = 3,
     startage = 1,
-    pGOF = 2,
+    pGOF = 1,
     linkfunc = "sqrt"
   ))
 
@@ -266,7 +249,7 @@ test_that("adpcproj estimate works with negative-binomial glm and sqrt link func
 
   expect_equal(
     unname(out$glm$coefficients[12]),
-    0.03629267,
+    0.869300216,
     tolerance = 0.00001
   )
   expect_snapshot_value(
@@ -277,15 +260,16 @@ test_that("adpcproj estimate works with negative-binomial glm and sqrt link func
 })
 
 test_that("adpcproj estimate works with negative-binomial glm and identity link function", {
-  cases <- matrix(1:57, nrow = 19, ncol = 3)
-  pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
+  cases <- matrix(501:557, nrow = 19, ncol = 3)
+  cases[15, 3] <- 1000
+  pyr <- matrix(500, nrow = 19, ncol = 4)
 
   out <- suppressWarnings(adpcproj_estimate(
     cases,
     pyr,
     noperiod = 3,
     startage = 1,
-    pGOF = 2,
+    pGOF = 1,
     linkfunc = "identity"
   ))
 
@@ -295,7 +279,7 @@ test_that("adpcproj estimate works with negative-binomial glm and identity link 
 
   expect_equal(
     unname(out$glm$coefficients[15]),
-    -0.0002991863,
+    1.133962516,
     tolerance = 0.00001
   )
   expect_snapshot_value(

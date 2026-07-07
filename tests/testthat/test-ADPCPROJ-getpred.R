@@ -18,7 +18,11 @@ test_that("adpcproj getpred standpop requires incidence prediction", {
   )
   class(adpc_obj) <- "adpcproj"
 
-  stdpop <- 1:19
+  stdpop <- StandardPopulation(
+    "a",
+    rep("a", 19),
+    c(rep(0.04, 10), rep(0.07, 8), 0.04)
+  )
 
   expect_error(
     adpcproj_get_predictions(adpc_obj, incidence = FALSE, standpop = stdpop),
