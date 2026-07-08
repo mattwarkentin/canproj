@@ -24,57 +24,18 @@ hybdproj <- function(
 ) {
   S7::check_is_S7(standpop, StandardPopulation)
 
-  if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
-    stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
-
-  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
-    stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
-
-  if (ncol(cdat) > ncol(pdat)) {
-    stop("\"pdat\" must include information about all years in \"cdat\"")
-  } else if (ncol(pdat) == ncol(cdat)) {
-    stop("\"pdat\" must include information in projection years")
-  }
-
-  if (nrow(cdat) != nrow(pdat)) {
-    stop("\"cdat\" and \"pdat\" must have identical age groups")
-  }
-
-  if (!(projfor %in% list("incidence", "mortality"))) {
-    stop("\"projfor\" must be one of \"incidence\" or \"mortality\"")
-  }
-
-  if (!is.null(nagg) & !inherits(nagg, "numeric")) {
-    stop("\"nagg\" must be of type \"numeric\" or NULL")
-  }
-
-  if (!is.null(ncase) & !inherits(ncase, "numeric")) {
-    stop("\"ncase\" must be of type \"numeric\" or NULL")
-  }
-
-  if (!(linkfunc) %in% list("power5", "sqrt", "log", "identity")) {
-    stop(
-      "Variable \"linkfunc\" must be one of \"power5\", \"log\", \"sqrt\", or \"identity\""
-    )
-  }
-
-  if (!inherits(pD, "numeric")) {
-    stop("Variable \"pD\" must be of type \"numeric\"")
-  }
-
-  if (pGOF > 1 | pD < 0) {
-    stop("Variable \"pD\" must be >= 0 and <= 1")
-  }
-
-  if (!inherits(pGOF, "numeric")) {
-    stop("Variable \"pGOF\" must be of type \"numeric\"")
-  }
-
-  if (pGOF > 1 | pGOF < 0) {
-    stop("Variable \"pGOF\" must be >= 0 and <= 1")
-  }
+  validate_projection_inputs(
+    cdat,
+    pdat,
+    projfor = projfor,
+    nagg = nagg,
+    ncase = ncase,
+    cuttrd = cuttrd,
+    shortp = shortp,
+    linkfunc = linkfunc,
+    pD = pD,
+    pGOF = pGOF
+  )
 
   if (is.null(ncase)) {
     if (projfor == "incidence") {
@@ -82,22 +43,6 @@ hybdproj <- function(
     } else {
       ncase <- 3 / 5
     }
-  }
-
-  if (!inherits(cuttrd, "numeric")) {
-    stop("Variable \"cuttrd\" must be of type \"numeric\"")
-  }
-
-  if (cuttrd > 1 | cuttrd < 0) {
-    stop("Variable \"cuttrd\" must be >= 0 and <= 1")
-  }
-
-  if (!inherits(shortp, "numeric")) {
-    stop("Variable \"shortp\" must be of type \"numeric\"")
-  }
-
-  if (shortp > 1 | shortp < 0) {
-    stop("Variable \"shortp\" must be >= 0 and <= 1")
   }
 
   if (is.null(nagg)) {
@@ -159,32 +104,12 @@ hybdproj_estimate <- function(
   pD = 0.05,
   pGOF = 0.05
 ) {
-  if (ncol(cases) > ncol(pyr)) {
-    stop("\"pyr\" must include information about all periods in \"cases\"")
-  }
-
-  if (ncol(pyr) == ncol(cases)) {
-    stop("\"pyr\" must include information on future rates")
-  }
-
   if ((ncol(pyr) - ncol(cases)) > (30 / nagg)) {
     stop("Package can not project more than 30 years")
   }
 
   if (ncol(cases) < 5) {
     stop("\"noperiod\" must be 5 or larger")
-  }
-
-  if (nrow(cases) != nrow(pyr)) {
-    stop("\"cases\" and \"pyr\" must have the same number of age groups")
-  }
-
-  if (ncol(cases) < 2) {
-    stop("\"cases\" must have at least 2 age groups")
-  }
-
-  if (ncol(pyr) < 2) {
-    stop("\"pyr\" must have at least 2 age groups")
   }
 
   if (!is.null(nagg) & !inherits(nagg, "numeric")) {
@@ -203,19 +128,7 @@ hybdproj_estimate <- function(
     stop("Variable \"pD\" must be >= 0 and <= 1")
   }
 
-  if (!inherits(pGOF, "numeric")) {
-    stop("Variable \"pGOF\" must be of type \"numeric\"")
-  }
-
-  if (pGOF > 1 | pGOF < 0) {
-    stop("Variable \"pGOF\" must be >= 0 and <= 1")
-  }
-
-  if (!(linkfunc) %in% list("power5", "sqrt", "log", "identity")) {
-    stop(
-      "Variable \"linkfunc\" must be one of \"power5\", \"log\", \"sqrt\", or \"identity\""
-    )
-  }
+  validate_estimate_inputs(pyr, cases, pGOF, linkfunc)
 
   nage <- 1:nrow(cases)
   mcase <- apply(cases, 1, mean)
@@ -312,21 +225,7 @@ hybdproj_predict <- function(
     )
   }
 
-  if (!inherits(cuttrd, "numeric")) {
-    stop("Variable \"cuttrd\" must be of type \"numeric\"")
-  }
-
-  if (cuttrd > 1 | cuttrd < 0) {
-    stop("Variable \"cuttrd\" must be >= 0 and <= 1")
-  }
-
-  if (!inherits(shortp, "numeric")) {
-    stop("Variable \"shortp\" must be of type \"numeric\"")
-  }
-
-  if (shortp > 1 | shortp < 0) {
-    stop("Variable \"shortp\" must be >= 0 and <= 1")
-  }
+  validate_prediction_inputs(cuttrd, shortp)
 
   cases <- hybdproj_estimate.object$cases
   pyr <- hybdproj_estimate.object$pyr
@@ -470,23 +369,11 @@ hybdproj_get_predictions <- function(
     stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
   }
 
-  if (!is.null(standpop)) {
-    S7::check_is_S7(standpop, StandardPopulation)
-  }
-
-  if (!inherits(incidence, "logical")) {
-    stop("Variable \"incidence\" must be \"TRUE\" or \"FALSE\"")
-  }
-
-  if (!inherits(excludeobs, "logical")) {
-    stop("Variable \"excludeobs\" must be \"TRUE\" or \"FALSE\"")
-  }
-
   if (missing(byage)) {
     byage <- ifelse(is.null(standpop), T, F)
   }
 
-  validate_getpred_inputs(byage, standpop, incidence, agegroups)
+  validate_getpred_inputs(byage, standpop, incidence, agegroups, excludeobs)
 
   res <- make_pred_table(
     hybdproj.object,
@@ -520,33 +407,17 @@ hybdproj_get_projections <- function(
   Ave5 = FALSE,
   sum5 = TRUE
 ) {
-  if (!is.null(standpop)) {
-    S7::check_is_S7(standpop, StandardPopulation)
+  if (!inherits(hybdproj.object, "hybdproj")) {
+    stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
   }
 
-  if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
-    stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
-
-  if (nrow(cdat) != nrow(hybdproj.object$predictions)) {
-    stop(
-      "\"cdat\" must have the same number of age groups as \"hybdproj.object\""
-    )
-  }
-
-  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
-    stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
-
-  if (nrow(pdat) != nrow(hybdproj.object$predictions)) {
-    stop(
-      "\"pdat\" must have the same number of age groups as \"hybdproj.object\""
-    )
-  }
-
-  if (!inherits(startp, "numeric")) {
-    stop("\"startp\" must be of type \"numeric\"")
-  }
+  validate_getproj_inputs(
+    cdat = cdat,
+    pdat = pdat,
+    startp = startp,
+    standpop = standpop,
+    hybdproj.object
+  )
 
   if (!inherits(Ave5, "logical")) {
     stop("\"Ave5\" must be of type \"logical\"")
@@ -607,21 +478,11 @@ summary.hybdproj <- function(
     stop("Variable \"object\" must be of type \"hybdproj\"")
   }
 
-  if (!inherits(printpred, "logical")) {
-    stop("Variable \"printpred\" must be \"TRUE\" or \"FALSE\"")
-  }
-
-  if (!inherits(printcall, "logical")) {
-    stop("Variable \"printcall\" must be \"TRUE\" or \"FALSE\"")
-  }
-
-  if (!inherits(digits, "numeric")) {
-    stop("Variable \"digits\" must be of type \"numeric\"")
-  }
-
-  if (digits < 0) {
-    stop("Variable \"digits\" must be >= 0")
-  }
+  validate_summary_inputs(
+    printpred = printpred,
+    printcall = printcall,
+    digits = digits
+  )
 
   nototper <- object$nototper
   noobsper <- object$noobsper

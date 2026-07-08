@@ -21,71 +21,25 @@ acproj <- function(
   pGOF = 0.05,
   linkfunc = "power5"
 ) {
-  if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
-    stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
   if (ncol(cdat) < 15) {
     stop("\"cdat\" must have at least 15 years")
   }
 
-  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
-    stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
   if (ncol(pdat) < 20) {
     stop("\"pdat\" must have at least 20 years")
   }
 
-  if (ncol(cdat) > ncol(pdat)) {
-    stop("\"pdat\" must include information about all years in \"cdat\"")
-  } else if (ncol(pdat) == ncol(cdat)) {
-    stop("\"pdat\" must include information in projection years")
-  }
-
-  if (nrow(cdat) != nrow(pdat)) {
-    stop("\"cdat\" and \"pdat\" must have identical age groups")
-  }
-
-  if (!(projfor %in% list("incidence", "mortality"))) {
-    stop("\"projfor\" must be one of \"incidence\" or \"mortality\"")
-  }
-
-  if (!is.null(n5case) & !inherits(n5case, "numeric")) {
-    stop("\"n5case\" must be of type \"numeric\" or NULL")
-  }
-
-  if (!is.null(startage) & !inherits(startage, "numeric")) {
-    stop("\"startage\" must be of type \"numeric\" or NULL")
-  }
-
-  if (!inherits(cuttrd, "numeric")) {
-    stop("Variable \"cuttrd\" must be of type \"numeric\"")
-  }
-
-  if (cuttrd > 1 | cuttrd < 0) {
-    stop("Variable \"cuttrd\" must be >= 0 and <= 1")
-  }
-
-  if (!inherits(shortp, "numeric")) {
-    stop("Variable \"shortp\" must be of type \"numeric\"")
-  }
-
-  if (shortp > 1 | shortp < 0) {
-    stop("Variable \"shortp\" must be >= 0 and <= 1")
-  }
-
-  if (!inherits(pGOF, "numeric")) {
-    stop("Variable \"pGOF\" must be of type \"numeric\"")
-  }
-
-  if (pGOF > 1 | pGOF < 0) {
-    stop("Variable \"pGOF\" must be >= 0 and <= 1")
-  }
-
-  if (!(linkfunc) %in% list("power5", "sqrt", "log", "identity")) {
-    stop(
-      "Variable \"linkfunc\" must be one of \"power5\", \"log\", \"sqrt\", or \"identity\""
-    )
-  }
+  validate_projection_inputs(
+    cdat,
+    pdat,
+    projfor = projfor,
+    n5case = n5case,
+    linkfunc = linkfunc,
+    startage = startage,
+    cuttrd = cuttrd,
+    shortp = shortp,
+    pGOF = pGOF
+  )
 
   if (is.null(n5case)) {
     if (projfor == "incidence") {
@@ -152,28 +106,8 @@ acproj_estimate <- function(
   pGOF = 0.05,
   linkfunc = "power5"
 ) {
-  if (ncol(cases) > ncol(pyr)) {
-    stop("\"pyr\" must include information about all periods in \"cases\"")
-  }
-
-  if (ncol(pyr) == ncol(cases)) {
-    stop("\"pyr\" must include information on future rates")
-  }
-
   if ((ncol(pyr) - ncol(cases)) > 6) {
     stop("Package can not project more than 6 periods")
-  }
-
-  if (nrow(cases) != nrow(pyr)) {
-    stop("\"cases\" and \"pyr\" must have the same number of age groups")
-  }
-
-  if (ncol(cases) < 2) {
-    stop("\"cases\" must have at least 2 age groups")
-  }
-
-  if (ncol(pyr) < 2) {
-    stop("\"pyr\" must have at least 2 age groups")
   }
 
   if (!inherits(noperiod, "numeric") & !inherits(noperiod, "integer")) {
@@ -200,19 +134,7 @@ acproj_estimate <- function(
     stop("Variable \"startage\" is too high relative to number of age groups")
   }
 
-  if (!inherits(pGOF, "numeric")) {
-    stop("Variable \"pGOF\" must be of type \"numeric\"")
-  }
-
-  if (pGOF > 1 | pGOF < 0) {
-    stop("Variable \"pGOF\" must be >= 0 and <= 1")
-  }
-
-  if (!(linkfunc) %in% list("power5", "sqrt", "log", "identity")) {
-    stop(
-      "Variable \"linkfunc\" must be one of \"power5\", \"log\", \"sqrt\", or \"identity\""
-    )
-  }
+  validate_estimate_inputs(pyr, cases, pGOF, linkfunc)
 
   dnoperiods <- ncol(cases)
   dnoagegr <- nrow(cases)
@@ -297,21 +219,7 @@ acproj_predict <- function(
     )
   }
 
-  if (!inherits(cuttrd, "numeric")) {
-    stop("Variable \"cuttrd\" must be of type \"numeric\"")
-  }
-
-  if (cuttrd > 1 | cuttrd < 0) {
-    stop("Variable \"cuttrd\" must be >= 0 and <= 1")
-  }
-
-  if (!inherits(shortp, "numeric")) {
-    stop("Variable \"shortp\" must be of type \"numeric\"")
-  }
-
-  if (shortp > 1 | shortp < 0) {
-    stop("Variable \"shortp\" must be >= 0 and <= 1")
-  }
+  validate_prediction_inputs(cuttrd, shortp)
 
   cases <- acproj_estimate.object$cases
   pyr <- acproj_estimate.object$pyr
@@ -438,23 +346,11 @@ acproj_get_predictions <- function(
     byage <- ifelse(is.null(standpop), T, F)
   }
 
-  if (!is.null(standpop)) {
-    S7::check_is_S7(standpop, StandardPopulation)
-  }
-
   if (!inherits(acproj.object, "acproj")) {
     stop("Variable \"acproj.object\" must be of type \"acproj\"")
   }
 
-  if (!inherits(incidence, "logical")) {
-    stop("Variable \"incidence\" must be \"TRUE\" or \"FALSE\"")
-  }
-
-  if (!inherits(excludeobs, "logical")) {
-    stop("Variable \"excludeobs\" must be \"TRUE\" or \"FALSE\"")
-  }
-
-  validate_getpred_inputs(byage, standpop, incidence, agegroups)
+  validate_getpred_inputs(byage, standpop, incidence, agegroups, excludeobs)
 
   res <- make_pred_table(
     acproj.object,
@@ -486,23 +382,17 @@ acproj_get_projections <- function(
   acproj.object,
   standpop = NULL
 ) {
-  if (!is.null(standpop)) {
-    S7::check_is_S7(standpop, StandardPopulation)
-  }
-
   if (!inherits(acproj.object, "acproj")) {
     stop("Variable \"acproj.object\" must be of type \"acproj\"")
   }
 
-  if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
-    stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
-
-  if (nrow(cdat) != nrow(acproj.object$predictions)) {
-    stop(
-      "\"cdat\" must have the same number of age groups as \"acproj.object\""
-    )
-  }
+  validate_getproj_inputs(
+    cdat = cdat,
+    pdat = pdat,
+    startp = startp,
+    standpop = standpop,
+    acproj.object
+  )
 
   if (floor(ncol(cdat) / 5) != acproj.object$noperiod) {
     stop(
@@ -510,24 +400,10 @@ acproj_get_projections <- function(
     )
   }
 
-  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
-    stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
-
-  if (nrow(pdat) != nrow(acproj.object$predictions)) {
-    stop(
-      "\"pdat\" must have the same number of age groups as \"acproj.object\""
-    )
-  }
-
   if (floor(ncol(pdat) / 5) != ncol(acproj.object$predictions)) {
     stop(
       "\"pdat\" must match acproj.object periods (floor(ncol(pdat) / 5) == ncol(predictions))"
     )
-  }
-
-  if (!inherits(startp, "numeric")) {
-    stop("\"startp\" must be of type \"numeric\"")
   }
 
   r0 <- acproj_get_predictions(acproj.object, incidence = T)
@@ -575,21 +451,11 @@ summary.acproj <- function(
     stop("Variable \"object\" must be of type \"acproj\"")
   }
 
-  if (!inherits(printpred, "logical")) {
-    stop("Variable \"printpred\" must be \"TRUE\" or \"FALSE\"")
-  }
-
-  if (!inherits(printcall, "logical")) {
-    stop("Variable \"printcall\" must be \"TRUE\" or \"FALSE\"")
-  }
-
-  if (!inherits(digits, "numeric")) {
-    stop("Variable \"digits\" must be of type \"numeric\"")
-  }
-
-  if (digits < 0) {
-    stop("Variable \"digits\" must be >= 0")
-  }
+  validate_summary_inputs(
+    printpred = printpred,
+    printcall = printcall,
+    digits = digits
+  )
 
   obsto <- names(object$predictions)[
     dim(object$predictions)[2] - object$nopred

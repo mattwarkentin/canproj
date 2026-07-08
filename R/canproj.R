@@ -49,56 +49,20 @@ canproj <- function(
 ) {
   S7::check_is_S7(standpop, StandardPopulation)
 
-  if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
-    stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
   if (ncol(cdat) < 15) {
     stop("\"cdat\" must have at least 15 years")
   }
 
-  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
-    stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
   if (ncol(pdat) < 20) {
     stop("\"pdat\" must have at least 20 years")
   }
 
-  if (ncol(cdat) > ncol(pdat)) {
-    stop("\"pdat\" must include information about all years in \"cdat\"")
-  }
-  if (ncol(pdat) == ncol(cdat)) {
-    stop("\"pdat\" must include information in projection years")
-  }
   if ((ncol(pdat) - ncol(cdat)) > 30) {
     stop("Package can not project more than 30 years")
   }
 
-  if (nrow(cdat) != nrow(pdat)) {
-    stop("\"cdat\" and \"pdat\" must have identical age groups")
-  }
-
-  if (!inherits(startp, "numeric")) {
-    stop("\"startp\" must be of type \"numeric\"")
-  }
-
-  if (!(projfor %in% list("incidence", "mortality"))) {
-    stop("\"projfor\" must be one of \"incidence\" or \"mortality\"")
-  }
-
-  if (!is.null(nagg) & !inherits(nagg, "numeric")) {
-    stop("\"nagg\" must be of type \"numeric\" or NULL")
-  }
-
   if (!is.null(ncase) & !inherits(ncase, "numeric")) {
     stop("\"ncase\" must be of type \"numeric\" or NULL")
-  }
-
-  if (!is.null(startage) & !inherits(startage, "numeric")) {
-    stop("\"startage\" must be of type \"numeric\" or NULL")
-  }
-
-  if (!inherits(newcohort, "logical")) {
-    stop("\"newcohort\" must be of type \"logical\"")
   }
 
   if (!inherits(Ave5, "logical")) {
@@ -109,37 +73,21 @@ canproj <- function(
     stop("\"sum5\" must be of type \"logical\"")
   }
 
-  if (!inherits(cuttrd, "numeric")) {
-    stop("Variable \"cuttrd\" must be of type \"numeric\"")
-  }
-
-  if (cuttrd > 1 | cuttrd < 0) {
-    stop("Variable \"cuttrd\" must be >= 0 and <= 1")
-  }
-
-  if (!inherits(shortp, "numeric")) {
-    stop("Variable \"shortp\" must be of type \"numeric\"")
-  }
-
-  if (shortp > 1 | shortp < 0) {
-    stop("Variable \"shortp\" must be >= 0 and <= 1")
-  }
-
-  if (!inherits(pD, "numeric")) {
-    stop("Variable \"pD\" must be of type \"numeric\"")
-  }
-
-  if (pGOF > 1 | pD < 0) {
-    stop("Variable \"pD\" must be >= 0 and <= 1")
-  }
-
-  if (!inherits(pGOF, "numeric")) {
-    stop("Variable \"pGOF\" must be of type \"numeric\"")
-  }
-
-  if (pGOF > 1 | pGOF < 0) {
-    stop("Variable \"pGOF\" must be >= 0 and <= 1")
-  }
+  validate_projection_inputs(
+    cdat,
+    pdat,
+    startp = startp,
+    projfor = projfor,
+    nagg = nagg,
+    ncase = ncase,
+    startage = startage,
+    newcohort = newcohort,
+    linkfunc = linkfunc,
+    cuttrd = cuttrd,
+    shortp = shortp,
+    pD = pD,
+    pGOF = pGOF
+  )
 
   if (
     !is.null(methods) &&
@@ -159,12 +107,6 @@ canproj <- function(
     stop(
       "\"methods\" must be one of \"nordpred\", \"adpc-nb\", \"ac-poi\", \"ac-nb\", 
          \"age-trd-poi\", \"age-trd-nb\", \"com-trd\", \"age-only\", \"ave5\", or NULL"
-    )
-  }
-
-  if (!(linkfunc) %in% list("power5", "sqrt", "log", "identity")) {
-    stop(
-      "Variable \"linkfunc\" must be one of \"power5\", \"log\", \"sqrt\", or \"identity\""
     )
   }
 

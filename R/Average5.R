@@ -11,33 +11,23 @@
 #'
 #' @export
 ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
-  if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
-    stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
   if (ncol(cdat) < 5) {
     stop("\"cdat\" must have at least 5 periods")
   }
 
-  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
-    stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
   if (ncol(pdat) < 10) {
     stop("\"pdat\" must have at least 10 periods")
   }
 
-  if (!inherits(startp, "numeric")) {
-    stop("\"startp\" must be of type \"numerical\"")
+  if (!inherits(sum5, "logical")) {
+    stop("\"sum5\" must be of type \"logical\"")
   }
 
-  if (ncol(cdat) > ncol(pdat)) {
-    stop("\"pdat\" must include information about all years in \"cdat\"")
-  }
-  if (ncol(pdat) == ncol(cdat)) {
-    stop("\"pdat\" must include information in projection years")
-  }
-  if (nrow(cdat) != nrow(pdat)) {
-    stop("\"cdat\" and \"pdat\" must have identical age groups")
-  }
+  validate_projection_inputs(
+    cdat,
+    pdat,
+    startp = startp
+  )
 
   nc <- ncol(cdat)
   np <- ncol(pdat)
@@ -95,29 +85,15 @@ ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
 #'
 #' @export
 ave5proj_get_projections <- function(pdat, ave5proj.object, standpop = NULL) {
-  if (!is.null(standpop)) {
-    S7::check_is_S7(standpop, StandardPopulation)
-
-    if (nrow(pdat) != length(standpop@weights)) {
-      stop(
-        "Variable \"standpop\" must have same number of age groups as \"pdat\""
-      )
-    }
-  }
-
   if (!inherits(ave5proj.object, "ave5proj")) {
     stop("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
   }
 
-  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
-    stop("Variable \"pdat\" must be of type \"data.frame\" or \"matrix\"")
-  }
-
-  if (nrow(pdat) != nrow(ave5proj.object$agsproj)) {
-    stop(
-      "Variable \"pdat\" must have same number of age groups as \"ave5proj.object\""
-    )
-  }
+  validate_getproj_inputs(
+    pdat = pdat,
+    standpop = standpop,
+    ave5proj.object
+  )
 
   outasp <- ave5proj.object$agsproj
 
@@ -146,9 +122,7 @@ summary.ave5proj <- function(object, printcall = FALSE, ...) {
     stop("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
   }
 
-  if (!inherits(printcall, "logical")) {
-    stop("Variable \"printcall\" must be \"TRUE\" or \"FALSE\"")
-  }
+  validate_summary_inputs(printcall = printcall)
 
   method <- "Five-Year Average"
 
