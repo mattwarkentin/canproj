@@ -2,8 +2,8 @@
 #'
 #' Cancer incidence and mortality projections.
 #'
-#' @param cdat 19(age groups)*N(years) historical cancer data, 15<=N<=125.
-#' @param pdat 19(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.
+#' @param cdat (age groups)*N(years) historical cancer data, 15<=N<=125.
+#' @param pdat (age groups)*(N+M)(years) observed and projected population, 5<=M<=25.
 #' @param startp The start calendar year of projection, e.g. 2009.
 #' @param standpop The weights (proportions) of 19 age groups in a standard population.
 #' @param projfor Specify "incidence" or "mortality" if want ASR as criteria for nagg.
@@ -49,17 +49,126 @@ canproj <- function(
 ) {
   S7::check_is_S7(standpop, StandardPopulation)
 
-  if (dim(cdat)[2] > dim(pdat)[2]) {
+  if (!inherits(cdat, "data.frame") & !inherits(cdat, "matrix")) {
+    stop("\"cdat\" must be of type \"data.frame\" or \"matrix\"")
+  }
+  if (ncol(cdat) < 15) {
+    stop("\"cdat\" must have at least 15 years")
+  }
+
+  if (!inherits(pdat, "data.frame") & !inherits(pdat, "matrix")) {
+    stop("\"pdat\" must be of type \"data.frame\" or \"matrix\"")
+  }
+  if (ncol(pdat) < 20) {
+    stop("\"pdat\" must have at least 20 years")
+  }
+
+  if (ncol(cdat) > ncol(pdat)) {
     stop("\"pdat\" must include information about all years in \"cdat\"")
   }
-  if (dim(pdat)[2] == dim(cdat)[2]) {
+  if (ncol(pdat) == ncol(cdat)) {
     stop("\"pdat\" must include information in projection years")
   }
-  if ((dim(pdat)[2] - dim(cdat)[2]) > 30) {
+  if ((ncol(pdat) - ncol(cdat)) > 30) {
     stop("Package can not project more than 30 years")
   }
 
-  if (mean(apply(cdat, 2, sum)[(dim(cdat)[2] - 9):(dim(cdat)[2])]) < 3) {
+  if (nrow(cdat) != nrow(pdat)) {
+    stop("\"cdat\" and \"pdat\" must have identical age groups")
+  }
+
+  if (!inherits(startp, "numeric")) {
+    stop("\"startp\" must be of type \"numeric\"")
+  }
+
+  if (!(projfor %in% list("incidence", "mortality"))) {
+    stop("\"projfor\" must be one of \"incidence\" or \"mortality\"")
+  }
+
+  if (!is.null(nagg) & !inherits(nagg, "numeric")) {
+    stop("\"nagg\" must be of type \"numeric\" or NULL")
+  }
+
+  if (!is.null(ncase) & !inherits(ncase, "numeric")) {
+    stop("\"ncase\" must be of type \"numeric\" or NULL")
+  }
+
+  if (!is.null(startage) & !inherits(startage, "numeric")) {
+    stop("\"startage\" must be of type \"numeric\" or NULL")
+  }
+
+  if (!inherits(newcohort, "logical")) {
+    stop("\"newcohort\" must be of type \"logical\"")
+  }
+
+  if (!inherits(Ave5, "logical")) {
+    stop("\"Ave5\" must be of type \"logical\"")
+  }
+
+  if (!inherits(sum5, "logical")) {
+    stop("\"sum5\" must be of type \"logical\"")
+  }
+
+  if (!inherits(cuttrd, "numeric")) {
+    stop("Variable \"cuttrd\" must be of type \"numeric\"")
+  }
+
+  if (cuttrd > 1 | cuttrd < 0) {
+    stop("Variable \"cuttrd\" must be >= 0 and <= 1")
+  }
+
+  if (!inherits(shortp, "numeric")) {
+    stop("Variable \"shortp\" must be of type \"numeric\"")
+  }
+
+  if (shortp > 1 | shortp < 0) {
+    stop("Variable \"shortp\" must be >= 0 and <= 1")
+  }
+
+  if (!inherits(pD, "numeric")) {
+    stop("Variable \"pD\" must be of type \"numeric\"")
+  }
+
+  if (pGOF > 1 | pD < 0) {
+    stop("Variable \"pD\" must be >= 0 and <= 1")
+  }
+
+  if (!inherits(pGOF, "numeric")) {
+    stop("Variable \"pGOF\" must be of type \"numeric\"")
+  }
+
+  if (pGOF > 1 | pGOF < 0) {
+    stop("Variable \"pGOF\" must be >= 0 and <= 1")
+  }
+
+  if (
+    !is.null(methods) &&
+      !(methods %in%
+        list(
+          "nordpred",
+          "adpc-nb",
+          "ac-poi",
+          "ac-nb",
+          "age-trd-poi",
+          "age-trd-nb",
+          "com-trd",
+          "age-only",
+          "ave5"
+        ))
+  ) {
+    stop(
+      "\"methods\" must be one of \"nordpred\", \"adpc-nb\", \"ac-poi\", \"ac-nb\", 
+         \"age-trd-poi\", \"age-trd-nb\", \"com-trd\", \"age-only\", \"ave5\", or NULL"
+    )
+  }
+
+  if (!(linkfunc) %in% list("power5", "sqrt", "log", "identity")) {
+    stop(
+      "Variable \"linkfunc\" must be one of \"power5\", \"log\", \"sqrt\", or \"identity\""
+    )
+  }
+
+  if (mean(apply(cdat, 2, sum)[(ncol(cdat) - 9):(ncol(cdat))]) < 3) {
     out <- ave5proj(cdat, pdat, startp = startp, sum5 = sum5)
     outasp <- ave5proj_get_projections(pdat, out, standpop = NULL)
     outann <- ave5proj_get_projections(pdat, out, standpop = standpop)
@@ -419,6 +528,14 @@ canproj <- function(
 #'
 #' @export
 canproj_get_projections <- function(canproj.object, standpop = NULL) {
+  if (!inherits(canproj.object, "canproj")) {
+    stop("Variable \"canproj.object\" must be of type \"canproj\"")
+  }
+
+  if (!is.null(standpop)) {
+    S7::check_is_S7(standpop, StandardPopulation)
+  }
+
   if (is.null(standpop)) {
     return(canproj.object$agsproj)
   } else {

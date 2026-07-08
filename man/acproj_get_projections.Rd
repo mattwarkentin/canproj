@@ -7,9 +7,9 @@
 acproj_get_projections(cdat, pdat, startp, acproj.object, standpop = NULL)
 }
 \arguments{
-\item{cdat}{19(age groups)*N(years) historical cancer data, 15<=N<=125.}
+\item{cdat}{(age groups)*N(years) historical cancer data, 15<=N<=125.}
 
-\item{pdat}{19(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
 
 \item{startp}{The start calendar year of projection, e.g. 2009.}
 

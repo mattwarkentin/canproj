@@ -181,7 +181,11 @@ test_that("canproj plot works", {
 
   cdat <- matrix(floor((0:284) / 19) + 5, nrow = 19, ncol = 15)
   pdat <- matrix(10000:10379, nrow = 19, ncol = 20)
-  stdpop <- c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  stdpop <- StandardPopulation(
+    "dummy",
+    rep("a", 19),
+    c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
+  )
 
   out <- canproj(cdat, pdat, 2000, stdpop_Canada_2021)
 

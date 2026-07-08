@@ -7,7 +7,7 @@
 ave5proj_get_projections(pdat, ave5proj.object, standpop = NULL)
 }
 \arguments{
-\item{pdat}{19(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
 
 \item{ave5proj.object}{An object based on the \code{ave5proj()} function.}
 
