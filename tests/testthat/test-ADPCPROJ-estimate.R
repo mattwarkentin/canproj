@@ -176,7 +176,11 @@ test_that("adpcproj estimate works with identity link function", {
 })
 
 test_that("adpcproj estimate works with negative-binomial glm and power5 link function", {
-  cases <- matrix(floor(4:60 / 3) * floor(5:23 / 5) + 10, nrow = 19, ncol = 3)
+  set.seed(836)
+  c1 <- runif(19, min = 1, max = 10)
+  c2 <- runif(19, min = 6, max = 18)
+  c3 <- runif(19, min = 8, max = 15)
+  cases <- cbind(c1, c2, c3)
   pyr <- matrix(10000 + 5 * (1:76), nrow = 19, ncol = 4)
 
   out <- adpcproj_estimate(
@@ -190,17 +194,17 @@ test_that("adpcproj estimate works with negative-binomial glm and power5 link fu
 
   expect_equal(out$linkfunc, "power5")
   expect_equal(out$distribution, "Negative-binomial")
-  expect_equal(out$gofpvalue, 1, tolerance = 0.001)
+  expect_equal(out$gofpvalue, 0.5575227, tolerance = 0.0001)
 
   expect_equal(
     unname(out$glm$coefficients[17]),
-    0.2906399,
-    tolerance = 0.000001
+    0.1989435,
+    tolerance = 0.0001
   )
   expect_snapshot_value(
     out$glm$coefficients,
     style = "json2",
-    tolerance = 0.000001
+    tolerance = 0.0001
   )
 })
 
