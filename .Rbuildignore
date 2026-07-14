@@ -4,3 +4,9 @@
 ^README\.Rmd$
 ^CODE_OF_CONDUCT\.md$
 ^data-raw$
+^\.positai$
+^\.claude$
+^data/.*$
+^data-raw/.*$
+^graphs_test.R$
+^\.github$
