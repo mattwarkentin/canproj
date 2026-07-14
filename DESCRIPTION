@@ -21,7 +21,7 @@ Depends:
 Imports: 
     MASS,
     rlang,
-    S7
+    S7 (>= 0.2.2)
 Suggests: 
     testthat (>= 3.0.0),
     vdiffr
