@@ -219,7 +219,9 @@ interpolate <- function(
       matrix[, ny_proj] <- (1 / 5) * next_rate + (4 / 5) * next_rate
     }
   } else {
-    stop("Years of aggregation \"nagg\" must be integer between 1 and 5")
+    rlang::abort(
+      "Years of aggregation \"nagg\" must be integer between 1 and 5"
+    )
   }
 
   return(matrix)

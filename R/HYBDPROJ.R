@@ -55,7 +55,7 @@ hybdproj <- function(
 
   percases <- ncol(cases)
   if (percases < 5) {
-    stop("Minimum number of period is 5 (5*nagg years) in \"cases\"")
+    rlang::abort("Minimum number of period is 5 (5*nagg years) in \"cases\"")
   }
 
   noperiod <- percases
@@ -105,27 +105,27 @@ hybdproj_estimate <- function(
   pGOF = 0.05
 ) {
   if ((ncol(pyr) - ncol(cases)) > (30 / nagg)) {
-    stop("Package can not project more than 30 years")
+    rlang::abort("Package can not project more than 30 years")
   }
 
   if (ncol(cases) < 5) {
-    stop("\"noperiod\" must be 5 or larger")
+    rlang::abort("\"noperiod\" must be 5 or larger")
   }
 
   if (!is.null(nagg) & !inherits(nagg, "numeric")) {
-    stop("\"nagg\" must be of type \"numeric\" or NULL")
+    rlang::abort("\"nagg\" must be of type \"numeric\" or NULL")
   }
 
   if (!is.null(ncase) & !inherits(ncase, "numeric")) {
-    stop("\"ncase\" must be of type \"numeric\" or NULL")
+    rlang::abort("\"ncase\" must be of type \"numeric\" or NULL")
   }
 
   if (!inherits(pD, "numeric")) {
-    stop("Variable \"pD\" must be of type \"numeric\"")
+    rlang::abort("Variable \"pD\" must be of type \"numeric\"")
   }
 
   if (pD > 1 | pD < 0) {
-    stop("Variable \"pD\" must be >= 0 and <= 1")
+    rlang::abort("Variable \"pD\" must be >= 0 and <= 1")
   }
 
   validate_estimate_inputs(pyr, cases, pGOF, linkfunc)
@@ -147,7 +147,7 @@ hybdproj_estimate <- function(
   agpave <- casesA[, 1]
 
   if (dnoagegr < 2) {
-    stop("\"dnoagegr\" must be 2 or larger")
+    rlang::abort("\"dnoagegr\" must be 2 or larger")
   }
 
   ageno <- rep(agpreg, dnoperiods)
@@ -220,7 +220,7 @@ hybdproj_predict <- function(
   shortp = 0
 ) {
   if (!inherits(hybdproj_estimate.object, "hybdproj_estimate")) {
-    stop(
+    rlang::abort(
       "Variable \"hybdproj_estimate.object\" must be of type \"hybdproj_estimate\""
     )
   }
@@ -366,7 +366,7 @@ hybdproj_get_predictions <- function(
   agegroups = "all"
 ) {
   if (!inherits(hybdproj.object, "hybdproj")) {
-    stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
+    rlang::abort("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
   }
 
   if (missing(byage)) {
@@ -408,7 +408,7 @@ hybdproj_get_projections <- function(
   sum5 = TRUE
 ) {
   if (!inherits(hybdproj.object, "hybdproj")) {
-    stop("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
+    rlang::abort("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
   }
 
   validate_getproj_inputs(
@@ -420,11 +420,11 @@ hybdproj_get_projections <- function(
   )
 
   if (!inherits(Ave5, "logical")) {
-    stop("\"Ave5\" must be of type \"logical\"")
+    rlang::abort("\"Ave5\" must be of type \"logical\"")
   }
 
   if (!inherits(sum5, "logical")) {
-    stop("\"sum5\" must be of type \"logical\"")
+    rlang::abort("\"sum5\" must be of type \"logical\"")
   }
 
   finalmod <- hybdproj.object$finalmod
@@ -475,7 +475,7 @@ summary.hybdproj <- function(
   method <- "Hybrid approach"
 
   if (!inherits(object, "hybdproj")) {
-    stop("Variable \"object\" must be of type \"hybdproj\"")
+    rlang::abort("Variable \"object\" must be of type \"hybdproj\"")
   }
 
   validate_summary_inputs(
@@ -598,7 +598,7 @@ plot.hybdproj <- function(
   ...
 ) {
   if (!inherits(x, "hybdproj")) {
-    stop("Variable \"x\" must be of type \"hybdproj\"")
+    rlang::abort("Variable \"x\" must be of type \"hybdproj\"")
   }
   S7::check_is_S7(standpop, StandardPopulation)
 

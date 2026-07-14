@@ -12,15 +12,15 @@
 #' @export
 ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
   if (ncol(cdat) < 5) {
-    stop("\"cdat\" must have at least 5 periods")
+    rlang::abort("\"cdat\" must have at least 5 periods")
   }
 
   if (ncol(pdat) < 10) {
-    stop("\"pdat\" must have at least 10 periods")
+    rlang::abort("\"pdat\" must have at least 10 periods")
   }
 
   if (!inherits(sum5, "logical")) {
-    stop("\"sum5\" must be of type \"logical\"")
+    rlang::abort("\"sum5\" must be of type \"logical\"")
   }
 
   validate_projection_inputs(
@@ -86,7 +86,7 @@ ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
 #' @export
 ave5proj_get_projections <- function(pdat, ave5proj.object, standpop = NULL) {
   if (!inherits(ave5proj.object, "ave5proj")) {
-    stop("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
+    rlang::abort("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
   }
 
   validate_getproj_inputs(
@@ -119,7 +119,7 @@ ave5proj_get_projections <- function(pdat, ave5proj.object, standpop = NULL) {
 #' @export
 summary.ave5proj <- function(object, printcall = FALSE, ...) {
   if (!inherits(object, "ave5proj")) {
-    stop("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
+    rlang::abort("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
   }
 
   validate_summary_inputs(printcall = printcall)

@@ -30,11 +30,11 @@ adpcproj <- function(
   linkfunc = "power5"
 ) {
   if (ncol(cdat) < 15) {
-    stop("\"cdat\" must have at least 15 years")
+    rlang::abort("\"cdat\" must have at least 15 years")
   }
 
   if (ncol(pdat) < 20) {
-    stop("\"pdat\" must have at least 20 years")
+    rlang::abort("\"pdat\" must have at least 20 years")
   }
 
   if (
@@ -42,11 +42,14 @@ adpcproj <- function(
       !inherits(noperiods, "integer") &
       !inherits(noperiods, "numeric")
   ) {
-    stop("\"noperiods\" must be of type \"integer\", \"numeric\", or NULL")
+    rlang::abort(
+      "\"noperiods\" must be of type \"integer\", \"numeric\", o
+    r NULL"
+    )
   }
 
   if (!is.null(recent) && !inherits(recent, "logical")) {
-    stop("\"recent\" must be of type \"logical\" or NULL")
+    rlang::abort("\"recent\" must be of type \"logical\" or NULL")
   }
 
   validate_projection_inputs(
@@ -91,7 +94,7 @@ adpcproj <- function(
 
   percases <- ncol(cases)
   if (percases < 3) {
-    stop("Minimum number of period is 3 (15 years) in \"cases\"")
+    rlang::abort("Minimum number of period is 3 (15 years) in \"cases\"")
   }
 
   if (is.null(noperiods)) {
@@ -160,31 +163,40 @@ adpcproj_estimate <- function(
   linkfunc = "power5"
 ) {
   if ((ncol(pyr) - ncol(cases)) > 6) {
-    stop("Package can not project more than 6 periods")
+    rlang::abort("Package can not project more than 6 periods")
   }
 
   if (!inherits(noperiod, "numeric") & !inherits(noperiod, "integer")) {
-    stop("Variable \"noperiod\" must be of type \"numeric\" or \"integer\"")
+    rlang::abort(
+      "Variable \"noperiod\" must be of type \"numeri
+    c\" or \"integer\""
+    )
   }
 
   if ((ncol(cases) - noperiod) < 0) {
-    stop("More periods specified in \"noperiod\" than columns in \"cases\"")
+    rlang::abort(
+      "More periods specified in \"noperi
+    od\" than columns in \"cases\""
+    )
   }
 
   if (noperiod < 3) {
-    stop("\"noperiod\" must be 3 or larger")
+    rlang::abort("\"noperiod\" must be 3 or larger")
   }
 
   if (!inherits(startage, "numeric")) {
-    stop("Variable \"startage\" must be of type \"numeric\"")
+    rlang::abort("Variable \"startage\" must be of type \"numeric\"")
   }
 
   if (startage < 1) {
-    stop("Variable \"startage\" must be >= 1")
+    rlang::abort("Variable \"startage\" must be >= 1")
   }
 
   if (startage > nrow(cases) - 1) {
-    stop("Variable \"startage\" is too high relative to number of age groups")
+    rlang::abort(
+      "Variable \"startage\" is
+     too high relative to number of age groups"
+    )
   }
 
   validate_estimate_inputs(pyr, cases, pGOF, linkfunc)
@@ -319,21 +331,21 @@ adpcproj_predict <- function(
   cuttrd = 0.04
 ) {
   if (!inherits(adpcproj_estimate.object, "adpcproj_estimate")) {
-    stop(
+    rlang::abort(
       "Variable \"adpcproj_estimate.object\" must be of type \"adpcproj_estimate\""
     )
   }
 
   if (adpcproj_estimate.object$startage > startuseage) {
-    stop("\"startuseage\" is set too low compared to \"startage\"")
+    rlang::abort("\"startuseage\" is set too low compared to \"startage\"")
   }
 
   if (!inherits(recent, "logical")) {
-    stop("\"recent\" must be of type \"logical\"")
+    rlang::abort("\"recent\" must be of type \"logical\"")
   }
 
   if (!inherits(startuseage, "numeric")) {
-    stop("\"startuseage\" must be of type \"numeric\"")
+    rlang::abort("\"startuseage\" must be of type \"numeric\"")
   }
 
   validate_prediction_inputs(cuttrd, shortp)
@@ -485,7 +497,7 @@ adpcproj_get_predictions <- function(
   }
 
   if (!inherits(adpcproj.object, "adpcproj")) {
-    stop("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
+    rlang::abort("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
   }
 
   validate_getpred_inputs(byage, standpop, incidence, agegroups, excludeobs)
@@ -521,7 +533,7 @@ adpcproj_get_projections <- function(
   standpop = NULL
 ) {
   if (!inherits(adpcproj.object, "adpcproj")) {
-    stop("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
+    rlang::abort("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
   }
 
   validate_getproj_inputs(
@@ -532,13 +544,13 @@ adpcproj_get_projections <- function(
     adpcproj.object
   )
   if (floor(ncol(cdat) / 5) != adpcproj.object$noperiod) {
-    stop(
+    rlang::abort(
       "\"cdat\" must match adpcproj.object periods (floor(ncol(cdat) / 5) == noperiod)"
     )
   }
 
   if (floor(ncol(pdat) / 5) != ncol(adpcproj.object$predictions)) {
-    stop(
+    rlang::abort(
       "\"pdat\" must match adpcproj.object periods (floor(ncol(pdat) / 5) == ncol(predictions))"
     )
   }
@@ -582,7 +594,7 @@ summary.adpcproj <- function(
 ) {
   method <- "Age-drift-Period-Cohort Model"
   if (!inherits(object, "adpcproj")) {
-    stop("Variable \"object\" must be of type \"adpcproj\"")
+    rlang::abort("Variable \"object\" must be of type \"adpcproj\"")
   }
 
   validate_summary_inputs(
@@ -697,7 +709,7 @@ plot.adpcproj <- function(
   ...
 ) {
   if (!inherits(x, "adpcproj")) {
-    stop("Variable \"x\" must be of type \"adpcproj\"")
+    rlang::abort("Variable \"x\" must be of type \"adpcproj\"")
   }
 
   S7::check_is_S7(standpop, StandardPopulation)

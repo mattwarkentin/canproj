@@ -50,27 +50,27 @@ canproj <- function(
   S7::check_is_S7(standpop, StandardPopulation)
 
   if (ncol(cdat) < 15) {
-    stop("\"cdat\" must have at least 15 years")
+    rlang::abort("\"cdat\" must have at least 15 years")
   }
 
   if (ncol(pdat) < 20) {
-    stop("\"pdat\" must have at least 20 years")
+    rlang::abort("\"pdat\" must have at least 20 years")
   }
 
   if ((ncol(pdat) - ncol(cdat)) > 30) {
-    stop("Package can not project more than 30 years")
+    rlang::abort("Package can not project more than 30 years")
   }
 
   if (!is.null(ncase) & !inherits(ncase, "numeric")) {
-    stop("\"ncase\" must be of type \"numeric\" or NULL")
+    rlang::abort("\"ncase\" must be of type \"numeric\" or NULL")
   }
 
   if (!inherits(Ave5, "logical")) {
-    stop("\"Ave5\" must be of type \"logical\"")
+    rlang::abort("\"Ave5\" must be of type \"logical\"")
   }
 
   if (!inherits(sum5, "logical")) {
-    stop("\"sum5\" must be of type \"logical\"")
+    rlang::abort("\"sum5\" must be of type \"logical\"")
   }
 
   validate_projection_inputs(
@@ -104,7 +104,7 @@ canproj <- function(
           "ave5"
         ))
   ) {
-    stop(
+    rlang::abort(
       "\"methods\" must be one of \"nordpred\", \"adpc-nb\", \"ac-poi\", \"ac-nb\", 
          \"age-trd-poi\", \"age-trd-nb\", \"com-trd\", \"age-only\", \"ave5\", or NULL"
     )
@@ -471,7 +471,7 @@ canproj <- function(
 #' @export
 canproj_get_projections <- function(canproj.object, standpop = NULL) {
   if (!inherits(canproj.object, "canproj")) {
-    stop("Variable \"canproj.object\" must be of type \"canproj\"")
+    rlang::abort("Variable \"canproj.object\" must be of type \"canproj\"")
   }
 
   if (!is.null(standpop)) {
@@ -549,7 +549,7 @@ plot.canproj <- function(
   ...
 ) {
   if (!inherits(x, "canproj")) {
-    stop("Variable \"x\" must be of type \"canproj\"")
+    rlang::abort("Variable \"x\" must be of type \"canproj\"")
   }
   # Reading & formatting data:
   indat <- canproj_get_projections(x, standpop = standpop)

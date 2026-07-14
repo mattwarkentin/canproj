@@ -33,7 +33,7 @@ get_glm <- function(formula_string, data, linkfunc) {
     formula_string <- sub("Cases", "Cases / y", formula_string)
     family <- stats::poisson(link = identity)
   } else {
-    stop("Unknown \"linkfunc\"")
+    rlang::abort("Unknown \"linkfunc\"")
   }
 
   suppressWarnings(
@@ -92,7 +92,7 @@ get_glm_nb <- function(formula_string, data, linkfunc) {
     formula_string <- sub("Cases", "Cases / y", formula_string)
     link <- "identity"
   } else {
-    stop("Unknown \"linkfunc\"")
+    rlang::abort("Unknown \"linkfunc\"")
   }
 
   if (linkfunc == "power5") {

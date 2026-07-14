@@ -22,11 +22,11 @@ acproj <- function(
   linkfunc = "power5"
 ) {
   if (ncol(cdat) < 15) {
-    stop("\"cdat\" must have at least 15 years")
+    rlang::abort("\"cdat\" must have at least 15 years")
   }
 
   if (ncol(pdat) < 20) {
-    stop("\"pdat\" must have at least 20 years")
+    rlang::abort("\"pdat\" must have at least 20 years")
   }
 
   validate_projection_inputs(
@@ -64,7 +64,7 @@ acproj <- function(
 
   percases <- ncol(cases)
   if (percases < 3) {
-    stop("Minimum number of period is 3 (15 years) in \"cases\"")
+    rlang::abort("Minimum number of period is 3 (15 years) in \"cases\"")
   }
 
   est <- acproj_estimate(
@@ -107,31 +107,37 @@ acproj_estimate <- function(
   linkfunc = "power5"
 ) {
   if ((ncol(pyr) - ncol(cases)) > 6) {
-    stop("Package can not project more than 6 periods")
+    rlang::abort("Package can not project more than 6 periods")
   }
 
   if (!inherits(noperiod, "numeric") & !inherits(noperiod, "integer")) {
-    stop("Variable \"noperiod\" must be of type \"numeric\" or \"integer\"")
+    rlang::abort(
+      "Variable \"noperiod\" must be of type \"numeric\" or \"integer\""
+    )
   }
 
   if ((ncol(cases) - noperiod) < 0) {
-    stop("More periods specified in \"noperiod\" than columns in \"cases\"")
+    rlang::abort(
+      "More periods specified in \"noperiod\" than columns in \"cases\""
+    )
   }
 
   if (noperiod < 3) {
-    stop("\"noperiod\" must be 3 or larger")
+    rlang::abort("\"noperiod\" must be 3 or larger")
   }
 
   if (!inherits(startage, "numeric")) {
-    stop("Variable \"startage\" must be of type \"numeric\"")
+    rlang::abort("Variable \"startage\" must be of type \"numeric\"")
   }
 
   if (startage < 1) {
-    stop("Variable \"startage\" must be >= 1")
+    rlang::abort("Variable \"startage\" must be >= 1")
   }
 
   if (startage > nrow(cases) - 1) {
-    stop("Variable \"startage\" is too high relative to number of age groups")
+    rlang::abort(
+      "Variable \"startage\" is too high relative to number of age groups"
+    )
   }
 
   validate_estimate_inputs(pyr, cases, pGOF, linkfunc)
@@ -214,7 +220,7 @@ acproj_predict <- function(
   shortp = 0
 ) {
   if (!inherits(acproj_estimate.object, "acproj_estimate")) {
-    stop(
+    rlang::abort(
       "Variable \"acproj_estimate.object\" must be of type \"acproj_estimate\""
     )
   }
@@ -347,7 +353,7 @@ acproj_get_predictions <- function(
   }
 
   if (!inherits(acproj.object, "acproj")) {
-    stop("Variable \"acproj.object\" must be of type \"acproj\"")
+    rlang::abort("Variable \"acproj.object\" must be of type \"acproj\"")
   }
 
   validate_getpred_inputs(byage, standpop, incidence, agegroups, excludeobs)
@@ -383,7 +389,7 @@ acproj_get_projections <- function(
   standpop = NULL
 ) {
   if (!inherits(acproj.object, "acproj")) {
-    stop("Variable \"acproj.object\" must be of type \"acproj\"")
+    rlang::abort("Variable \"acproj.object\" must be of type \"acproj\"")
   }
 
   validate_getproj_inputs(
@@ -395,13 +401,13 @@ acproj_get_projections <- function(
   )
 
   if (floor(ncol(cdat) / 5) != acproj.object$noperiod) {
-    stop(
+    rlang::abort(
       "\"cdat\" must match acproj.object periods (floor(ncol(cdat) / 5) == noperiod)"
     )
   }
 
   if (floor(ncol(pdat) / 5) != ncol(acproj.object$predictions)) {
-    stop(
+    rlang::abort(
       "\"pdat\" must match acproj.object periods (floor(ncol(pdat) / 5) == ncol(predictions))"
     )
   }
@@ -448,7 +454,7 @@ summary.acproj <- function(
   method <- "Age-Cohort Model"
 
   if (!inherits(object, "acproj")) {
-    stop("Variable \"object\" must be of type \"acproj\"")
+    rlang::abort("Variable \"object\" must be of type \"acproj\"")
   }
 
   validate_summary_inputs(
@@ -551,7 +557,7 @@ plot.acproj <- function(
   ...
 ) {
   if (!inherits(x, "acproj")) {
-    stop("Variable \"x\" must be of type \"acproj\"")
+    rlang::abort("Variable \"x\" must be of type \"acproj\"")
   }
 
   S7::check_is_S7(standpop, StandardPopulation)
