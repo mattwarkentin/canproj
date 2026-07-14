@@ -22,6 +22,8 @@ Imports:
     MASS,
     rlang,
     S7 (>= 0.2.2)
+Remotes:
+    RConsortium/S7
 Suggests: 
     testthat (>= 3.0.0),
     vdiffr
