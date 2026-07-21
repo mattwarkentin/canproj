@@ -377,74 +377,77 @@ adpcproj_predict <- function(
     2) *
     pyr[skipped_ages, (noobsper + 1):nototper]
 
-  startage <- adpcproj_estimate.object$startage
-  coefficients <- adpcproj_estimate.object$glm$coefficients
-  eff_groups <- ngroups - startage + 1
+  for (age in startuseage:ngroups) {
+    startage <- adpcproj_estimate.object$startage
+    coefficients <- adpcproj_estimate.object$glm$coefficients
 
-  agepar <- matrix(
-    as.numeric(coefficients[startage:ngroups]),
-    (eff_groups),
-    nonewpred
-  )
+    coh <- (ngroups - startage) -
+      (age - startage) +
+      (noperiod + 1:nonewpred)
 
-  cohfind <- (eff_groups + noperiod):(noperiod + 1) +
-    floor(0:(eff_groups * nonewpred - 1) / eff_groups) +
-    eff_groups +
-    nonewpred +
-    1
-  cohfind[cohfind >= 2 * (ngroups - startuseage + noperiod)] <- length(
-    coefficients
-  ) -
-    (startuseage - startage)
-  cohpar <- matrix(
-    coefficients[cohfind],
-    eff_groups,
-    nonewpred
-  )
-  cohpar[is.na(cohpar)] <- 0
+    noages <- ngroups - startage + 1
+    driftmp <- cumsum(1 - cuttrend)
+    cohfind <- noages + (noperiod - 1) + 1 + (coh - 1)
+    maxcoh <- ngroups - startuseage + noperiod
+    agepar <- as.numeric(coefficients[age - startage + 1])
+    driftfind <- pmatch("Period", attributes(coefficients)$names)
+    driftpar <- as.numeric(coefficients[driftfind])
 
-  driftpar <- as.numeric(coefficients[eff_groups + 1])
-  driftmp <- t(matrix(cumsum(1 - cuttrend), nonewpred, eff_groups))
-  driftrecent <- driftpar -
-    as.numeric(coefficients[eff_groups + noperiod - 1])
+    cohpar <- rep(NA, length(coh))
+    for (i in 1:length(coh)) {
+      if (coh[i] < maxcoh) {
+        cohpar[i] <- as.numeric(coefficients[cohfind[i]])
+      } else {
+        cohpar[i] <- as.numeric(coefficients[
+          length(coefficients) - (startuseage - startage)
+        ])
+        cohpar[i][is.na(cohpar[i])] <- 0
+      }
+    }
 
-  if (adpcproj_estimate.object$linkfunc == "power5") {
     if (recent) {
-      rate <- (agepar +
-        driftpar * noobsper +
-        driftrecent * driftmp +
-        cohpar)^5
-    } else {
-      rate <- (agepar + driftpar * (noobsper + driftmp) + cohpar)^5
+      lpfind <- driftfind + noperiod - 2
+      lppar <- as.numeric(coefficients[lpfind])
+      driftrecent <- driftpar - lppar
     }
-  } else if (adpcproj_estimate.object$linkfunc == "log") {
-    if (recent) {
-      rate <- exp(
-        agepar + driftpar * noobsper + driftrecent * driftmp + cohpar
-      )
+
+    if (adpcproj_estimate.object$linkfunc == "power5") {
+      if (recent) {
+        rate <- (agepar +
+          driftpar * noobsper +
+          driftrecent * driftmp +
+          cohpar)^5
+      } else {
+        rate <- (agepar + driftpar * (noobsper + driftmp) + cohpar)^5
+      }
+    } else if (adpcproj_estimate.object$linkfunc == "log") {
+      if (recent) {
+        rate <- exp(
+          agepar + driftpar * noobsper + driftrecent * driftmp + cohpar
+        )
+      } else {
+        rate <- exp(agepar + driftpar * (noobsper + driftmp) + cohpar)
+      }
+    } else if (adpcproj_estimate.object$linkfunc == "sqrt") {
+      if (recent) {
+        rate <- (agepar +
+          driftpar * noobsper +
+          driftrecent * driftmp +
+          cohpar)^2
+      } else {
+        rate <- (agepar + driftpar * (noobsper + driftmp) + cohpar)^2
+      }
     } else {
-      rate <- exp(agepar + driftpar * (noobsper + driftmp) + cohpar)
+      # identity link:
+      if (recent) {
+        rate <- (agepar + driftpar * noobsper + driftrecent * driftmp + cohpar)
+      } else {
+        rate <- (agepar + driftpar * (noobsper + driftmp) + cohpar)
+      }
     }
-  } else if (adpcproj_estimate.object$linkfunc == "sqrt") {
-    if (recent) {
-      rate <- (agepar +
-        driftpar * noobsper +
-        driftrecent * driftmp +
-        cohpar)^2
-    } else {
-      rate <- (agepar + driftpar * (noobsper + driftmp) + cohpar)^2
-    }
-  } else {
-    # identity link:
-    if (recent) {
-      rate <- (agepar + driftpar * noobsper + driftrecent * driftmp + cohpar)
-    } else {
-      rate <- (agepar + driftpar * (noobsper + driftmp) + cohpar)
-    }
+    datatable[age, (noobsper + 1):nototper] <- rate *
+      pyr[age, (noobsper + 1):nototper]
   }
-
-  datatable[startage:ngroups, (noobsper + 1):nototper] <- rate *
-    pyr[startage:ngroups, (noobsper + 1):nototper]
 
   res <- list(
     predictions = datatable,
