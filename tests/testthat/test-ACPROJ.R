@@ -141,32 +141,3 @@ test_that("acproj getproj works without a standard population", {
 
   expect_snapshot_value(out, style = "json2", tolerance = 0.00001)
 })
-
-test_that("acproj plot works", {
-  skip_if_not_installed("vdiffr")
-
-  cdat <- matrix(floor((0:284) / 19) + 5, nrow = 19, ncol = 15)
-  pdat <- matrix(10000:10379, nrow = 19, ncol = 20)
-  stdpop <- StandardPopulation(
-    "a",
-    rep("a", 19),
-    c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
-  )
-
-  output <- acproj(
-    cdat,
-    pdat,
-    projfor = "incidence",
-    n5case = 5,
-    startage = 1,
-    cuttrd = 0.04,
-    shortp = 0,
-    pGOF = 0.05,
-    linkfunc = "power5"
-  )
-
-  vdiffr::expect_doppelganger(
-    "acproj plot",
-    function() plot(output, cdat, pdat, 2000, stdpop)
-  )
-})

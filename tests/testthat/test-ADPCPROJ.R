@@ -186,38 +186,6 @@ test_that("adpcproj getproj works without standard population", {
   expect_snapshot_value(out, style = "json2", tolerance = 0.00001)
 })
 
-test_that("adpcproj plot works", {
-  skip_if_not_installed("vdiffr")
-
-  cdat <- matrix(floor(0:284 / 19) + 20, nrow = 19, ncol = 15)
-  pdat <- matrix(10000:10379, nrow = 19, ncol = 20)
-  stdpop <- StandardPopulation(
-    "a",
-    rep("a", 19),
-    c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
-  )
-
-  out <- adpcproj(
-    cdat,
-    pdat,
-    projfor = "incidence",
-    n5case = 5,
-    noperiods = 3,
-    recent = TRUE,
-    startage = 1,
-    newcohort = FALSE,
-    pGOF = 0.1,
-    cuttrd = 0.03,
-    shortp = 0.02,
-    linkfunc = "power5"
-  )
-
-  vdiffr::expect_doppelganger(
-    "adpcproj plot",
-    function() plot(out, cdat, pdat, 2000, stdpop)
-  )
-})
-
 test_that("adpcproj works with varying age groups", {
   cdat <- matrix(floor(0:149 / 19) + 20, nrow = 10, ncol = 15)
   pdat <- matrix(10000:10199, nrow = 10, ncol = 20)

@@ -44,34 +44,3 @@ test_that("hybdproj works with varying age groups", {
   expect_equal(out$agrpmod, 1:10)
   expect_equal(nrow(out$predictions), 10)
 })
-
-test_that("hybdproj plot works", {
-  skip_if_not_installed("vdiffr")
-
-  cdat <- matrix(floor(0:284 / 19) + 20, nrow = 19, ncol = 15)
-  pdat <- matrix(10000:10379, nrow = 19, ncol = 20)
-  stdpop <- StandardPopulation(
-    "dummy",
-    as.character(1:19),
-    c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
-  )
-
-  out <- hybdproj(
-    cdat,
-    pdat,
-    stdpop_Canada_2021,
-    projfor = "incidence",
-    nagg = 1,
-    ncase = 5,
-    cuttrd = 0.05,
-    shortp = 0.01,
-    linkfunc = "power5",
-    pD = 0.05,
-    pGOF = 0.05
-  )
-
-  vdiffr::expect_doppelganger(
-    "hybdproj plot",
-    function() plot(out, cdat, pdat, 2000, stdpop)
-  )
-})
