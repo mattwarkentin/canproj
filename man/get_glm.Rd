@@ -11,7 +11,8 @@ get_glm(formula_string, data, linkfunc)
 
 \item{data}{Data to use.}
 
-\item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
+\item{linkfunc}{Link function. Default is \code{"power5"}. Can be one of \code{"log"},
+\code{"sqrt"}, or \code{"identity"}.}
 }
 \description{
 Get glm output for given link function

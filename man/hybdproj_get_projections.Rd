@@ -15,20 +15,24 @@ hybdproj_get_projections(
 )
 }
 \arguments{
-\item{cdat}{(age groups)*N(years) historical cancer data, 15<=N<=125.}
+\item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
 
-\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
+5<=M<=25.}
 
-\item{startp}{The start calendar year of projection, e.g. 2009.}
+\item{startp}{The start calendar year of projection (e.g., 2009).}
 
 \item{hybdproj.object}{An object based on the 'hybdproj()' function.}
 
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 
-\item{Ave5}{Ave5=T invokes the 5 year average method when age-only model is selected.}
+\item{Ave5}{\code{Ave5 = TRUE} invokes the 5-year average method when age-only
+model is selected.}
 
-\item{sum5}{When the 5-year average method is used, sum5=TRUE call the 5-year
-period based rate, otherwise (sum5=FALSE), average the 5 rates in the 5 years for each age group.}
+\item{sum5}{When the 5-year average method is used, \code{sum5 = TRUE} call the
+5-year period based rate, otherwise (\code{sum5 = FALSE}), average the 5 rates
+in the 5 years for each age group.}
 }
 \value{
 A \code{data.frame()}.

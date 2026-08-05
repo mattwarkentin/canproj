@@ -9,7 +9,8 @@ canproj_get_projections(canproj.object, standpop = NULL)
 \arguments{
 \item{canproj.object}{An object based on the 'canproj()' function.}
 
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 }
 \value{
 A \code{data.frame()}

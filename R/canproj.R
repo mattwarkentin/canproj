@@ -1,31 +1,60 @@
-#' CANPROJ
+#' Canproj: Cancer Projections
 #'
-#' Cancer incidence and mortality projections.
+#' Cancer incidence and mortality projections using the Canproj method. In
+#'   brief, Canproj uses a decision-tree approach to determine the optimal model
+#'   to project cancer data into the future based on historical trends. More
+#'   information about this approach can be found here:
+#'   <https://doi.org/10.24095/hpcdp.40.9.02>.
 #'
-#' @param cdat (age groups)*N(years) historical cancer data, 15<=N<=125.
-#' @param pdat (age groups)*(N+M)(years) observed and projected population, 5<=M<=25.
-#' @param startp The start calendar year of projection, e.g. 2009.
-#' @param standpop The weights (proportions) of 19 age groups in a standard population.
-#' @param projfor Specify "incidence" or "mortality" if want ASR as criteria for nagg.
-#' @param nagg Number of years for data aggregation (by years), default: 1-annual data
-#' @param ncase Minimum number of cancer cases/deaths per year for splitting data.
-#' @param startage Youngest age group to include in the GLM. Default (`NULL`) picks based on mean cases.
-#' @param newcohort Assign new cohort effect as 0 (FALSE) or the last estimated
-#'   cohort effect (TRUE), default is 0, use "T" only if having evidence on negative new cohort effect.
-#' @param Ave5 Ave5=T invokes the 5 year average method when age-only model is selected.
-#' @param sum5 When the 5-year average method is used, sum5=TRUE call the 5-year
-#'   period based rate, otherwise (sum5=FALSE), average the 5 rates in the 5 years for each age group.
+#' @param cdat (age groups) * N (years) historical cancer data, 15<=N<=125.
+#' @param pdat (age groups) * (N + M) (years) observed and projected population,
+#'   5<=M<=25.
+#' @param startp The start calendar year of projection (e.g., 2009).
+#' @param standpop A `StandardPopulation` object that provides the weights
+#'   (proportions) for each age groups in a standard population.
+#' @param projfor Specify `"incidence"` or `"mortality"` if you want ASR as a
+#'   criteria for `nagg`.
+#' @param nagg Number of years for data aggregation (by years). Default is
+#'   1-annual data.
+#' @param ncase Minimum number of cancer cases/deaths per year for splitting
+#'   data.
+#' @param startage Youngest age group to include in the GLM. Default (`NULL`)
+#'   picks based on mean cases.
+#' @param newcohort Assign new cohort effect as `0` (`FALSE`) or the last
+#'   estimated cohort effect (`TRUE`), default is `0`, use `TRUE` only if having
+#'   evidence on negative new cohort effect.
+#' @param Ave5 `Ave5 = TRUE` invokes the 5-year average method when age-only
+#'   model is selected.
+#' @param sum5 When the 5-year average method is used, `sum5 = TRUE` call the
+#'   5-year period based rate, otherwise (`sum5 = FALSE`), average the 5 rates
+#'   in the 5 years for each age group.
 #' @param methods User required projection method can be specified by ADPC
-#'   models: "nordpred" or "adpc-nb"; age-cohort models: "ac", "ac-nb"; age-period models: "age-trd", "com-trd"; and average: "ave5".
-#' @param linkfunc Link function, default is power5, can be log, sqrt and identity.
-#' @param cuttrd Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.
-#' @param shortp Attenuation percent of drift term or slope for the first 5 projection years.
+#'   models: `"nordpred"` or `"adpc-nb"`; age-cohort models: `"ac"`, `"ac-nb"`;
+#'   age-period models: `"age-trd"`, `"com-trd"`; and average: `"ave5"`.
+#' @param linkfunc Link function. Default is `"power5"`. Can be one of `"log"`,
+#'   `"sqrt"`, or `"identity"`.
+#' @param cuttrd Degenerating percent of trends per year after 5 years
+#'   (`shortp = 0`) or the first projection year.
+#' @param shortp Attenuation percent of drift term or slope for the first 5
+#'   projection years.
 #' @param pD Trend selecting criteria of p-value of drift (linear trend) term.
 #' @param pGOF Model selection criteria of p-value of goodness-of-fit.
 #'
 #' @md
 #'
-#' @return A `list()`.
+#' @return A named-`list` with class `"canproj"`. The `list` contains the
+#'   following:
+#'
+#'   - `annproj`: A `matrix` of age-standardized rates and case counts.
+#'   - `agsproj`: A `data.frame` of case counts for each age group and year.
+#'   - `method`: The chosen method for projection. One of `"average"`,
+#'     `"average5"`, `"ADPC"`, `"AC"`, `"Hybrid"`, `"nordpred"`, `"adpc-nb"`,
+#'     `"ac-poi"`, `"ac-nb"`, `"a-s-nb"`, `"a-s-poi"`, or `"c-t"`.
+#'   - `out`: The output from function call for the chosen `method`
+#'     (e.g., `acproj()`, `adpcproj()`, `ave5proj()`, `hybdproj()`).
+#'   - `obsy`: Number of observed years of cancer data from `cdat`.
+#'   - `pdPC`: A vector of p-values for the drift, period, and cohort effects
+#'     in the `"adpc"` model.
 #'
 #' @export
 canproj <- function(
@@ -105,8 +134,7 @@ canproj <- function(
         ))
   ) {
     rlang::abort(
-      "\"methods\" must be one of \"nordpred\", \"adpc-nb\", \"ac-poi\", \"ac-nb\", 
-         \"age-trd-poi\", \"age-trd-nb\", \"com-trd\", \"age-only\", \"ave5\", or NULL"
+      "`methods` must be one of \"nordpred\", \"adpc-nb\", \"ac-poi\", \"ac-nb\", \"age-trd-poi\", \"age-trd-nb\", \"com-trd\", \"age-only\", \"ave5\", or NULL."
     )
   }
 
@@ -182,7 +210,7 @@ canproj <- function(
             linkfunc = linkfunc
           )
 
-          r0 <- adpcproj_get_predictions(out, incidence = T)
+          r0 <- adpcproj_get_predictions(out, incidence = TRUE)
           outasp <- interpolate_age_specific_rates(
             r0,
             cdat,
@@ -260,7 +288,7 @@ canproj <- function(
           linkfunc = linkfunc
         )
 
-        r0 <- adpcproj_get_predictions(out, incidence = T)
+        r0 <- adpcproj_get_predictions(out, incidence = TRUE)
         outasp <- interpolate_age_specific_rates(
           r0,
           cdat,
@@ -284,7 +312,7 @@ canproj <- function(
           linkfunc = linkfunc
         )
 
-        r0 <- adpcproj_get_predictions(out, incidence = T)
+        r0 <- adpcproj_get_predictions(out, incidence = TRUE)
         outasp <- interpolate_age_specific_rates(
           r0,
           cdat,
@@ -445,7 +473,7 @@ canproj <- function(
   }
 
   obsy <- ncol(cdat)
-  resut <- list(
+  result <- list(
     annproj = outann,
     agsproj = outasp,
     method = mod,
@@ -453,9 +481,9 @@ canproj <- function(
     obsy = obsy,
     pdPC = pdPC
   )
-  class(resut) <- "canproj"
-  attr(resut, "Call") <- sys.call()
-  return(resut)
+  class(result) <- c("canproj", class(result))
+  attr(result, "Call") <- sys.call()
+  result
 }
 
 
@@ -574,7 +602,7 @@ plot.canproj <- function(
       type = "n",
       ylab = ylab,
       xlab = xlab,
-      axes = F,
+      axes = FALSE,
       ...
     )
     graphics::axis(2)

@@ -16,7 +16,8 @@ interpolate(
 )
 }
 \arguments{
-\item{nagg}{Number of years for data aggregation (by years), default: 1-annual data}
+\item{nagg}{Number of years for data aggregation (by years). Default is
+1-annual data.}
 
 \item{matrix}{Base matrix to work off of.}
 

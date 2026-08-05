@@ -7,11 +7,13 @@
 ave5proj_get_projections(pdat, ave5proj.object, standpop = NULL)
 }
 \arguments{
-\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
+5<=M<=25.}
 
 \item{ave5proj.object}{An object based on the \code{ave5proj()} function.}
 
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 }
 \value{
 A \code{data.frame()}.

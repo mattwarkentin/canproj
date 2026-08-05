@@ -1,15 +1,15 @@
 Package: canproj
-Title: Project Cancer Incidence and Mortality
+Title: Cancer Incidence and Mortality Projections
 Version: 0.0.0.9000
 Authors@R: 
     c(person("Matthew T.", "Warkentin", , "matthew.warkentin@ucalgary.ca", role = c("aut", "cre", "cph"),
-           comment = c(ORCID = "0000-0001-8730-3511")),
+        comment = c(ORCID = "0000-0001-8730-3511")),
       person("Harmony A.", "Smith",, "harmony.smith@ucalgary.ca", role = "aut"))
 Description: An R package for short-term cancer rate projection that extends the 
     functionality other projection models. The objective of this project is to 
     provide and validate a flexible framework for projecting cancer incidence 
-    and mortality trends, enabling comparison across multiple modeling approaches
-    and supporting improved forecasting of future cancer burden.
+    and mortality trends, enabling comparison across multiple modeling 
+    approaches and supporting improved forecasting of future cancer burden.
 License: MIT + file LICENSE
 URL: https://github.com/mattwarkentin/canproj/
 BugReports: https://github.com/mattwarkentin/canproj/issues

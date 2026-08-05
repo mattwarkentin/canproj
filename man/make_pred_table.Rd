@@ -13,7 +13,8 @@ make_pred_table(object, agegroups, standpop, byage, incidence, excludeobs)
 and individual groups can be selected by group number. E.g. c(1:3, 7) includes
 the first 3 groups and the seventh group.}
 
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 
 \item{byage}{Report numbers by age groups (\code{T}), or use age-standardized rates (\code{F}).}
 

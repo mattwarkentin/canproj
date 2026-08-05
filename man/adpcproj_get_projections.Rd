@@ -7,15 +7,17 @@
 adpcproj_get_projections(cdat, pdat, startp, adpcproj.object, standpop = NULL)
 }
 \arguments{
-\item{cdat}{(age groups)*N(years) historical cancer data, 15<=N<=125.}
+\item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
 
-\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
+5<=M<=25.}
 
-\item{startp}{The start calendar year of projection, e.g. 2009.}
+\item{startp}{The start calendar year of projection (e.g., 2009).}
 
 \item{adpcproj.object}{An object based on the \code{adpcproj()} function.}
 
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 }
 \value{
 A \code{data.frame()}.

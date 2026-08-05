@@ -20,11 +20,13 @@ acproj_estimate(
 
 \item{noperiod}{Number of 5-year periods in historical data.}
 
-\item{startage}{Youngest age group to include in the GLM. Default (\code{NULL}) picks based on mean cases.}
+\item{startage}{Youngest age group to include in the GLM. Default (\code{NULL})
+picks based on mean cases.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
 
-\item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
+\item{linkfunc}{Link function. Default is \code{"power5"}. Can be one of \code{"log"},
+\code{"sqrt"}, or \code{"identity"}.}
 }
 \value{
 A \code{list()}.

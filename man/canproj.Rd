@@ -2,7 +2,7 @@
 % Please edit documentation in R/canproj.R
 \name{canproj}
 \alias{canproj}
-\title{CANPROJ}
+\title{Canproj: Cancer Projections}
 \usage{
 canproj(
   cdat,
@@ -25,46 +25,76 @@ canproj(
 )
 }
 \arguments{
-\item{cdat}{(age groups)*N(years) historical cancer data, 15<=N<=125.}
+\item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
 
-\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
+5<=M<=25.}
 
-\item{startp}{The start calendar year of projection, e.g. 2009.}
+\item{startp}{The start calendar year of projection (e.g., 2009).}
 
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 
-\item{projfor}{Specify "incidence" or "mortality" if want ASR as criteria for nagg.}
+\item{projfor}{Specify \code{"incidence"} or \code{"mortality"} if you want ASR as a
+criteria for \code{nagg}.}
 
-\item{nagg}{Number of years for data aggregation (by years), default: 1-annual data}
+\item{nagg}{Number of years for data aggregation (by years). Default is
+1-annual data.}
 
-\item{ncase}{Minimum number of cancer cases/deaths per year for splitting data.}
+\item{ncase}{Minimum number of cancer cases/deaths per year for splitting
+data.}
 
-\item{startage}{Youngest age group to include in the GLM. Default (\code{NULL}) picks based on mean cases.}
+\item{startage}{Youngest age group to include in the GLM. Default (\code{NULL})
+picks based on mean cases.}
 
-\item{newcohort}{Assign new cohort effect as 0 (FALSE) or the last estimated
-cohort effect (TRUE), default is 0, use "T" only if having evidence on negative new cohort effect.}
+\item{newcohort}{Assign new cohort effect as \code{0} (\code{FALSE}) or the last
+estimated cohort effect (\code{TRUE}), default is \code{0}, use \code{TRUE} only if having
+evidence on negative new cohort effect.}
 
-\item{Ave5}{Ave5=T invokes the 5 year average method when age-only model is selected.}
+\item{Ave5}{\code{Ave5 = TRUE} invokes the 5-year average method when age-only
+model is selected.}
 
-\item{sum5}{When the 5-year average method is used, sum5=TRUE call the 5-year
-period based rate, otherwise (sum5=FALSE), average the 5 rates in the 5 years for each age group.}
+\item{sum5}{When the 5-year average method is used, \code{sum5 = TRUE} call the
+5-year period based rate, otherwise (\code{sum5 = FALSE}), average the 5 rates
+in the 5 years for each age group.}
 
 \item{methods}{User required projection method can be specified by ADPC
-models: "nordpred" or "adpc-nb"; age-cohort models: "ac", "ac-nb"; age-period models: "age-trd", "com-trd"; and average: "ave5".}
+models: \code{"nordpred"} or \code{"adpc-nb"}; age-cohort models: \code{"ac"}, \code{"ac-nb"};
+age-period models: \code{"age-trd"}, \code{"com-trd"}; and average: \code{"ave5"}.}
 
-\item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
+\item{linkfunc}{Link function. Default is \code{"power5"}. Can be one of \code{"log"},
+\code{"sqrt"}, or \code{"identity"}.}
 
-\item{cuttrd}{Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.}
+\item{cuttrd}{Degenerating percent of trends per year after 5 years
+(\code{shortp = 0}) or the first projection year.}
 
-\item{shortp}{Attenuation percent of drift term or slope for the first 5 projection years.}
+\item{shortp}{Attenuation percent of drift term or slope for the first 5
+projection years.}
 
 \item{pD}{Trend selecting criteria of p-value of drift (linear trend) term.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
 }
 \value{
-A \code{list()}.
+A named-\code{list} with class \code{"canproj"}. The \code{list} contains the
+following:
+\itemize{
+\item \code{annproj}: A \code{matrix} of age-standardized rates and case counts.
+\item \code{agsproj}: A \code{data.frame} of case counts for each age group and year.
+\item \code{method}: The chosen method for projection. One of \code{"average"},
+\code{"average5"}, \code{"ADPC"}, \code{"AC"}, \code{"Hybrid"}, \code{"nordpred"}, \code{"adpc-nb"},
+\code{"ac-poi"}, \code{"ac-nb"}, \code{"a-s-nb"}, \code{"a-s-poi"}, or \code{"c-t"}.
+\item \code{out}: The output from function call for the chosen \code{method}
+(e.g., \code{acproj()}, \code{adpcproj()}, \code{ave5proj()}, \code{hybdproj()}).
+\item \code{obsy}: Number of observed years of cancer data from \code{cdat}.
+\item \code{pdPC}: A vector of p-values for the drift, period, and cohort effects
+in the \code{"adpc"} model.
+}
 }
 \description{
-Cancer incidence and mortality projections.
+Cancer incidence and mortality projections using the Canproj method. In
+brief, Canproj uses a decision-tree approach to determine the optimal model
+to project cancer data into the future based on historical trends. More
+information about this approach can be found here:
+\url{https://doi.org/10.24095/hpcdp.40.9.02}.
 }

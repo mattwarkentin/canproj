@@ -20,11 +20,14 @@ hybdproj_estimate(
 \item{pyr}{\code{data.frame} with observed and projected population size in \code{nagg}-year.
 period by ascending age groups in row.}
 
-\item{nagg}{Number of years for data aggregation (by years), default: 1-annual data}
+\item{nagg}{Number of years for data aggregation (by years). Default is
+1-annual data.}
 
-\item{ncase}{Minimum number of cancer cases/deaths per year for splitting data.}
+\item{ncase}{Minimum number of cancer cases/deaths per year for splitting
+data.}
 
-\item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
+\item{linkfunc}{Link function. Default is \code{"power5"}. Can be one of \code{"log"},
+\code{"sqrt"}, or \code{"identity"}.}
 
 \item{pD}{Trend selecting criteria of p-value of drift (linear trend) term.}
 

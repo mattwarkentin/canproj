@@ -11,7 +11,8 @@ select_hybd_method(casesB, apdata, nagg, pGOF, dnoperiods, pD)
 
 \item{apdata}{A \code{data.frame()}.}
 
-\item{nagg}{Number of years for data aggregation (by years), default: 1-annual data}
+\item{nagg}{Number of years for data aggregation (by years). Default is
+1-annual data.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
 

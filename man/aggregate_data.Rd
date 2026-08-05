@@ -7,11 +7,13 @@
 aggregate_data(cdat, pdat, nagg)
 }
 \arguments{
-\item{cdat}{(age groups)*N(years) historical cancer data, 15<=N<=125.}
+\item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
 
-\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
+5<=M<=25.}
 
-\item{nagg}{Number of years for data aggregation (by years), default: 1-annual data}
+\item{nagg}{Number of years for data aggregation (by years). Default is
+1-annual data.}
 }
 \value{
 A \code{list()}.

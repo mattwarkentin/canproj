@@ -7,13 +7,15 @@
 interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
 }
 \arguments{
-\item{cdat}{(age groups)*N(years) historical cancer data, 15<=N<=125.}
+\item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
 
-\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
+5<=M<=25.}
 
-\item{startp}{The start calendar year of projection, e.g. 2009.}
+\item{startp}{The start calendar year of projection (e.g., 2009).}
 
-\item{nagg}{Number of years for data aggregation (by years), default: 1-annual data}
+\item{nagg}{Number of years for data aggregation (by years). Default is
+1-annual data.}
 }
 \value{
 A \code{data.frame()}.

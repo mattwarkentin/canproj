@@ -19,9 +19,11 @@ adpcproj_predict(
 
 \item{recent}{Indicate estimated drift term from recent trend (\code{T}) or whole trend (\code{F}).}
 
-\item{shortp}{Attenuation percent of drift term or slope for the first 5 projection years.}
+\item{shortp}{Attenuation percent of drift term or slope for the first 5
+projection years.}
 
-\item{cuttrd}{Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.}
+\item{cuttrd}{Degenerating percent of trends per year after 5 years
+(\code{shortp = 0}) or the first projection year.}
 }
 \value{
 A \code{list()}.

@@ -1,3 +1,3 @@
 # canproj (development version)
 
-* TBD.
+* Package under active development.

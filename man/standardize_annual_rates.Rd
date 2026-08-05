@@ -9,7 +9,8 @@ standardize_annual_rates(rates, pdat, stdpop)
 \arguments{
 \item{rates}{Observed and projected age-specific rates.}
 
-\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
+5<=M<=25.}
 }
 \description{
 Calculate age-standardized annual rates and counts

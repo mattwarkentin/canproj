@@ -7,13 +7,16 @@
 get_hybd_cuttrend(shortp, nonewpred, nagg, cuttrd)
 }
 \arguments{
-\item{shortp}{Attenuation percent of drift term or slope for the first 5 projection years.}
+\item{shortp}{Attenuation percent of drift term or slope for the first 5
+projection years.}
 
 \item{nonewpred}{Number of predicted periods}
 
-\item{nagg}{Number of years for data aggregation (by years), default: 1-annual data}
+\item{nagg}{Number of years for data aggregation (by years). Default is
+1-annual data.}
 
-\item{cuttrd}{Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.}
+\item{cuttrd}{Degenerating percent of trends per year after 5 years
+(\code{shortp = 0}) or the first projection year.}
 }
 \description{
 Create cuttrend for hybdproj

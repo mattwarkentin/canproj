@@ -7,13 +7,16 @@
 select_nagg(cdat, pdat, standpop, projfor)
 }
 \arguments{
-\item{cdat}{(age groups)*N(years) historical cancer data, 15<=N<=125.}
+\item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
 
-\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
+5<=M<=25.}
 
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 
-\item{projfor}{Specify "incidence" or "mortality" if want ASR as criteria for nagg.}
+\item{projfor}{Specify \code{"incidence"} or \code{"mortality"} if you want ASR as a
+criteria for \code{nagg}.}
 }
 \value{
 A whole number.

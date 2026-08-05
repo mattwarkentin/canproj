@@ -17,23 +17,29 @@ acproj(
 )
 }
 \arguments{
-\item{cdat}{(age groups)*N(years) historical cancer data, 15<=N<=125.}
+\item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
 
-\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
+5<=M<=25.}
 
-\item{projfor}{Specify "incidence" or "mortality" if want ASR as criteria for nagg.}
+\item{projfor}{Specify \code{"incidence"} or \code{"mortality"} if you want ASR as a
+criteria for \code{nagg}.}
 
 \item{n5case}{Minimum number of cancer cases/deaths per 5 years for splitting data.}
 
-\item{startage}{Youngest age group to include in the GLM. Default (\code{NULL}) picks based on mean cases.}
+\item{startage}{Youngest age group to include in the GLM. Default (\code{NULL})
+picks based on mean cases.}
 
-\item{cuttrd}{Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.}
+\item{cuttrd}{Degenerating percent of trends per year after 5 years
+(\code{shortp = 0}) or the first projection year.}
 
-\item{shortp}{Attenuation percent of drift term or slope for the first 5 projection years.}
+\item{shortp}{Attenuation percent of drift term or slope for the first 5
+projection years.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
 
-\item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
+\item{linkfunc}{Link function. Default is \code{"power5"}. Can be one of \code{"log"},
+\code{"sqrt"}, or \code{"identity"}.}
 }
 \value{
 A \code{list()}.

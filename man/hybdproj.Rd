@@ -19,23 +19,31 @@ hybdproj(
 )
 }
 \arguments{
-\item{cdat}{(age groups)*N(years) historical cancer data, 15<=N<=125.}
+\item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
 
-\item{pdat}{(age groups)*(N+M)(years) observed and projected population, 5<=M<=25.}
+\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
+5<=M<=25.}
 
-\item{standpop}{The weights (proportions) of 19 age groups in a standard population.}
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 
-\item{projfor}{Specify "incidence" or "mortality" if want ASR as criteria for nagg.}
+\item{projfor}{Specify \code{"incidence"} or \code{"mortality"} if you want ASR as a
+criteria for \code{nagg}.}
 
-\item{nagg}{Number of years for data aggregation (by years), default: 1-annual data}
+\item{nagg}{Number of years for data aggregation (by years). Default is
+1-annual data.}
 
-\item{ncase}{Minimum number of cancer cases/deaths per year for splitting data.}
+\item{ncase}{Minimum number of cancer cases/deaths per year for splitting
+data.}
 
-\item{cuttrd}{Degenerating percent of trends per year after 5 years (shortp=0) or the first projection year.}
+\item{cuttrd}{Degenerating percent of trends per year after 5 years
+(\code{shortp = 0}) or the first projection year.}
 
-\item{shortp}{Attenuation percent of drift term or slope for the first 5 projection years.}
+\item{shortp}{Attenuation percent of drift term or slope for the first 5
+projection years.}
 
-\item{linkfunc}{Link function, default is power5, can be log, sqrt and identity.}
+\item{linkfunc}{Link function. Default is \code{"power5"}. Can be one of \code{"log"},
+\code{"sqrt"}, or \code{"identity"}.}
 
 \item{pD}{Trend selecting criteria of p-value of drift (linear trend) term.}
 
