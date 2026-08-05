@@ -2,6 +2,7 @@
 % Please edit documentation in R/canproj.R
 \name{canproj}
 \alias{canproj}
+\alias{print.canproj}
 \title{Canproj: Cancer Projections}
 \usage{
 canproj(
@@ -23,6 +24,8 @@ canproj(
   pD = 0.05,
   pGOF = 0.05
 )
+
+\method{print}{canproj}(x, ...)
 }
 \arguments{
 \item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
@@ -74,6 +77,10 @@ projection years.}
 \item{pD}{Trend selecting criteria of p-value of drift (linear trend) term.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
+
+\item{x}{A object of class \code{"canproj"} to print.}
+
+\item{...}{Not currently used.}
 }
 \value{
 A named-\code{list} with class \code{"canproj"}. The \code{list} contains the
@@ -87,6 +94,7 @@ following:
 \item \code{out}: The output from function call for the chosen \code{method}
 (e.g., \code{acproj()}, \code{adpcproj()}, \code{ave5proj()}, \code{hybdproj()}).
 \item \code{obsy}: Number of observed years of cancer data from \code{cdat}.
+\item \code{projy}: Number of projected years based on \code{pdat}.
 \item \code{pdPC}: A vector of p-values for the drift, period, and cohort effects
 in the \code{"adpc"} model.
 }

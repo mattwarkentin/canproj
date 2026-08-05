@@ -40,6 +40,9 @@
 #' @param pD Trend selecting criteria of p-value of drift (linear trend) term.
 #' @param pGOF Model selection criteria of p-value of goodness-of-fit.
 #'
+#' @param x A object of class `"canproj"` to print.
+#' @param ... Not currently used.
+#'
 #' @md
 #'
 #' @return A named-`list` with class `"canproj"`. The `list` contains the
@@ -53,6 +56,7 @@
 #'   - `out`: The output from function call for the chosen `method`
 #'     (e.g., `acproj()`, `adpcproj()`, `ave5proj()`, `hybdproj()`).
 #'   - `obsy`: Number of observed years of cancer data from `cdat`.
+#'   - `projy`: Number of projected years based on `pdat`.
 #'   - `pdPC`: A vector of p-values for the drift, period, and cohort effects
 #'     in the `"adpc"` model.
 #'
@@ -473,12 +477,14 @@ canproj <- function(
   }
 
   obsy <- ncol(cdat)
+  projy <- ncol(pdat) - ncol(cdat)
   result <- list(
     annproj = outann,
     agsproj = outasp,
     method = mod,
     out = out,
     obsy = obsy,
+    projy = projy,
     pdPC = pdPC
   )
   class(result) <- c("canproj", class(result))
@@ -511,6 +517,17 @@ canproj_get_projections <- function(canproj.object, standpop = NULL) {
   } else {
     return(canproj.object$annproj)
   }
+}
+
+
+#' Print method
+#' @rdname canproj
+#' @export
+print.canproj <- function(x, ...) {
+  cli::cat_line(glue::glue("Canproj ({x$method} approach)"))
+  cli::cli_alert("Observed data: {x$obsy} years")
+  cli::cli_alert("Projected data: {x$projy} years")
+  invisible(x)
 }
 
 

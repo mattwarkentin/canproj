@@ -15,10 +15,11 @@ URL: https://github.com/mattwarkentin/canproj/
 BugReports: https://github.com/mattwarkentin/canproj/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 8.0.0
 Depends: 
     R (>= 4.1.0)
 Imports: 
+    cli,
+    glue,
     MASS,
     rlang,
     S7 (>= 0.2.2)
@@ -28,5 +29,5 @@ Suggests:
     testthat (>= 3.0.0),
     vdiffr
 LazyData: true
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3

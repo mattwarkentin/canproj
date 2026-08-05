@@ -20,6 +20,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Matthew T. Warkentin \email{matthew.warkentin@ucalgary.ca} (\href{https://orcid.org/0000-0001-8730-3511}{ORCID}) [copyright holder]
   \item Harmony A. Smith \email{harmony.smith@ucalgary.ca}
 }
 
