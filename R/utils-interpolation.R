@@ -52,9 +52,9 @@ interpolate_age_specific_rates <- function(rate, cdat, pdat, startp, nagg) {
 
   obasr <- matrix(NA, ngroups, tot_obs_years)
 
-  for (i in 1:tot_obs_years) {
-    obasr[, i] <- 100000 * cdat[, i] / pdat[, i]
-  }
+  obasr <- 100000 *
+    as.matrix(cdat[, 1:tot_obs_years]) /
+    as.matrix(pdat[, 1:tot_obs_years])
 
   datatab <- matrix(NA, ngroups, tot_years)
   datatab[, 1:tot_obs_years] <- as.matrix(obasr)
