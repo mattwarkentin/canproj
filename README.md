@@ -6,8 +6,7 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/mattwarkentin/canproj/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mattwarkentin/canproj/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/mattwarkentin/canproj/graph/badge.svg)](https://app.codecov.io/gh/mattwarkentin/canproj)
+
 <!-- badges: end -->
 
 ## Installation
