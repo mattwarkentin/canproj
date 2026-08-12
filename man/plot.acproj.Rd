@@ -44,15 +44,15 @@ increasing this number removes the oldest years from the graph.}
 
 \item{main}{Title for graph}
 
-\item{labels}{Labels for age groups. \code{NULL} matches canproj labels.}
+\item{labels}{Labels for age groups.}
 
-\item{ylim}{y-axis limit}
+\item{ylim}{Y limit}
 
-\item{lty}{Line type. Applies to oberved rates and predicted rates, respectively.}
+\item{lty}{Line type. Applies to observed rates and predicted rates, respectively.}
 
 \item{col}{Line colour.Applies to observed rates and predicted rates, respectively.}
 
-\item{new}{Produce graph in new window (\code{T}), or in the same window (\code{F}).}
+\item{new}{Whether to draw on a new plot (default = T).}
 
 \item{...}{Other parameters}
 }

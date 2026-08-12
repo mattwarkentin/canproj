@@ -692,6 +692,9 @@ glm.adpcproj <- function(adpcproj.object) {
 #' @inheritParams plot.canproj
 #' @inheritParams canproj
 #' @param x An object based on the 'adpcproj()' function.
+#' @param labels  Labels for age groups.
+#' @param ylim Y limit
+#' @param new Whether to draw on a new plot (default = T).
 #'
 #' @export
 plot.adpcproj <- function(

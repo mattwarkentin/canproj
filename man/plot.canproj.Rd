@@ -9,13 +9,10 @@
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
-  ylab = "Rates",
+  ylab = "Rate per 100,000 people",
   main = "",
-  labels = NULL,
-  ylim = NULL,
-  lty = c(1, 3),
-  col = c(1, 1),
-  new = T,
+  lty = c(1, 2),
+  col = c("black", "black"),
   ...
 )
 }
@@ -34,15 +31,9 @@ increasing this number removes the oldest years from the graph.}
 
 \item{main}{Title for graph}
 
-\item{labels}{Labels for age groups. \code{NULL} matches canproj labels.}
-
-\item{ylim}{y-axis limit}
-
-\item{lty}{Line type. Applies to oberved rates and predicted rates, respectively.}
+\item{lty}{Line type. Applies to observed rates and predicted rates, respectively.}
 
 \item{col}{Line colour.Applies to observed rates and predicted rates, respectively.}
-
-\item{new}{Produce graph in new window (\code{T}), or in the same window (\code{F}).}
 
 \item{...}{Other parameters}
 }

@@ -530,6 +530,9 @@ glm.acproj <- function(acproj.object) {
 #' @inheritParams plot.canproj
 #' @inheritParams canproj
 #' @param x An object based on the 'acproj()' function.
+#' @param labels  Labels for age groups.
+#' @param ylim Y limit
+#' @param new Whether to draw on a new plot (default = T).
 #'
 #' @export
 plot.acproj <- function(

@@ -572,11 +572,8 @@ glm.canproj <- function(canproj.object) {
 #' @param xlab x-axis label
 #' @param ylab y-axis label
 #' @param main Title for graph
-#' @param labels Labels for age groups. `NULL` matches canproj labels.
-#' @param ylim y-axis limit
-#' @param lty Line type. Applies to oberved rates and predicted rates, respectively.
+#' @param lty Line type. Applies to observed rates and predicted rates, respectively.
 #' @param col Line colour.Applies to observed rates and predicted rates, respectively.
-#' @param new Produce graph in new window (`T`), or in the same window (`F`).
 #' @param ... Other parameters
 #' @export
 plot.canproj <- function(
@@ -584,65 +581,57 @@ plot.canproj <- function(
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
-  ylab = "Rates",
+  ylab = "Rate per 100,000 people",
   main = "",
-  labels = NULL,
-  ylim = NULL,
-  lty = c(1, 3),
-  col = c(1, 1),
-  new = T,
+  lty = c(1, 2),
+  col = c("black", "black"),
   ...
 ) {
   if (!inherits(x, "canproj")) {
     rlang::abort("Variable \"x\" must be of type \"canproj\"")
   }
-  # Reading & formatting data:
+
   indat <- canproj_get_projections(x, standpop = standpop)
   indata <- indat[, 1]
-  indata <- indata[startplot:length(indata)]
+  data <- as.data.frame(indata)
+  data$year <- as.numeric(names(indata))
 
-  # Setting internal variables:
-  nopredy <- length(indata) - x$obsy
-  if (is.null(labels)) {
-    labels <- row.names(indat)
-  }
-  # Create plots:
-  maxx <- length(indata)
-  if (new) {
-    maxy <- max(indata) * (21 / 20)
-    if (is.null(ylim)) {
-      ylim <- c(0, maxy)
-    }
-    graphics::plot(
-      c(1, maxx),
-      ylim,
-      type = "n",
-      ylab = ylab,
-      xlab = xlab,
-      axes = FALSE,
-      ...
+  observed <- data[startplot:x$obsy, ]
+  projected <- data[(x$obsy + 1):length(indata), ]
+
+  plot <- ggplot2::ggplot() +
+    ggplot2::geom_point(
+      data = observed,
+      mapping = ggplot2::aes(year, indata),
+      colour = col[1],
+      size = 2
+    ) +
+    ggplot2::geom_line(
+      data = observed,
+      mapping = ggplot2::aes(year, indata),
+      colour = col[1],
+      linetype = lty[1],
+      linewidth = 1
+    ) +
+    ggplot2::geom_line(
+      data = projected,
+      mapping = ggplot2::aes(year, indata),
+      colour = col[2],
+      linetype = lty[2],
+      linewidth = 1
+    ) +
+    ggplot2::scale_y_continuous(
+      limits = c(0, NA),
+      expand = ggplot2::expansion(mult = c(0, 0.05))
+    ) +
+    ggplot2::xlab(xlab) +
+    ggplot2::ylab(ylab) +
+    ggplot2::ggtitle(main) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      axis.line = ggplot2::element_line(colour = "black"),
+      plot.title = ggplot2::element_text(size = 15)
     )
-    graphics::axis(2)
-    graphics::axis(1, at = 1:maxx, labels = labels)
-    graphics::box()
-    graphics::title(main)
-  }
-  graphics::lines(
-    1:(maxx - nopredy),
-    indata[1:(maxx - nopredy)],
-    type = "o",
-    pch = 20,
-    lty = lty[1],
-    col = col[1],
-    ...
-  )
-  graphics::lines(
-    (maxx - nopredy):maxx,
-    indata[(maxx - nopredy):maxx],
-    lty = lty[2],
-    col = col[2],
-    ...
-  )
-  # Returning object as invisible
-  invisible(x)
+
+  return(plot)
 }
