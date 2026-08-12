@@ -575,6 +575,9 @@ glm.canproj <- function(canproj.object) {
 #' @param lty Line type. Applies to observed rates and predicted rates, respectively.
 #' @param col Line colour.Applies to observed rates and predicted rates, respectively.
 #' @param ... Other parameters
+#'
+#' @importFrom rlang .data
+#'
 #' @export
 plot.canproj <- function(
   x,
@@ -602,20 +605,20 @@ plot.canproj <- function(
   plot <- ggplot2::ggplot() +
     ggplot2::geom_point(
       data = observed,
-      mapping = ggplot2::aes(year, indata),
+      mapping = ggplot2::aes(x = .data$year, y = .data[[2]]),
       colour = col[1],
       size = 2
     ) +
     ggplot2::geom_line(
       data = observed,
-      mapping = ggplot2::aes(year, indata),
+      mapping = ggplot2::aes(x = .data$year, y = .data[[2]]),
       colour = col[1],
       linetype = lty[1],
       linewidth = 1
     ) +
     ggplot2::geom_line(
       data = projected,
-      mapping = ggplot2::aes(year, indata),
+      mapping = ggplot2::aes(x = .data$year, y = .data[[2]]),
       colour = col[2],
       linetype = lty[2],
       linewidth = 1
