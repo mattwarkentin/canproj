@@ -100,7 +100,13 @@ ave5proj_get_projections <- function(pdat, ave5proj.object, standpop = NULL) {
   if (is.null(standpop)) {
     return(outasp)
   } else {
-    annproj <- standardize_annual_rates(outasp, pdat, standpop)
+    annproj <- standardize_annual_rates(
+      outasp,
+      pdat,
+      ave5proj.object$startp,
+      standpop,
+      check = FALSE
+    )
     return(annproj)
   }
 }

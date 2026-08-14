@@ -222,7 +222,12 @@ canproj <- function(
             startp = startp,
             nagg = 5
           )
-          outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
+          outann <- standardize_annual_rates(
+            outasp,
+            pdat,
+            startp,
+            stdpop = standpop
+          )
           mod <- "ADPC"
         } else {
           out <- acproj(
@@ -272,7 +277,12 @@ canproj <- function(
           sum5 = sum5
         )
 
-        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(
+          outasp,
+          pdat,
+          startp,
+          stdpop = standpop
+        )
         mod <- "Hybrid"
       }
     } else {
@@ -300,7 +310,12 @@ canproj <- function(
           startp = startp,
           nagg = 5
         )
-        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(
+          outasp,
+          pdat,
+          startp,
+          stdpop = standpop
+        )
         mod <- "nordpred"
       } else if (methods == "adpc-nb") {
         out <- adpcproj(
@@ -324,7 +339,12 @@ canproj <- function(
           startp = startp,
           nagg = 5
         )
-        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(
+          outasp,
+          pdat,
+          startp,
+          stdpop = standpop
+        )
         mod <- "adpc-nb"
       } else if (methods == "ac-poi") {
         out <- acproj(
@@ -392,7 +412,12 @@ canproj <- function(
           out,
           Ave5 = Ave5
         )
-        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(
+          outasp,
+          pdat,
+          startp,
+          stdpop = standpop
+        )
         mod <- "a-s-nb"
       } else if (methods == "age-trd-poi") {
         out <- hybdproj(
@@ -416,7 +441,12 @@ canproj <- function(
           out,
           Ave5 = Ave5
         )
-        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(
+          outasp,
+          pdat,
+          startp,
+          stdpop = standpop
+        )
         mod <- "a-s-poi"
       } else if (methods == "com-trd") {
         out <- hybdproj(
@@ -440,7 +470,12 @@ canproj <- function(
           out,
           Ave5 = Ave5
         )
-        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(
+          outasp,
+          pdat,
+          startp,
+          stdpop = standpop
+        )
         mod <- "c-t"
       } else if (methods == "age-only") {
         out <- hybdproj(
@@ -465,7 +500,12 @@ canproj <- function(
           Ave5 = Ave5,
           sum5 = sum5
         )
-        outann <- standardize_annual_rates(outasp, pdat, stdpop = standpop)
+        outann <- standardize_annual_rates(
+          outasp,
+          pdat,
+          startp,
+          stdpop = standpop
+        )
         mod <- "average"
       } else if (methods == "ave5") {
         out <- ave5proj(cdat, pdat, startp = startp, sum5 = sum5)

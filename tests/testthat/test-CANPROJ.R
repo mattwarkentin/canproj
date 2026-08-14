@@ -1,13 +1,13 @@
 test_that("canproj can choose adpcproj during model selection", {
-  cdat <- data.frame(matrix(floor(0:284 / 19), nrow = 19, ncol = 15))
-  pdat <- data.frame(matrix(10000:10379, nrow = 19, ncol = 20))
+  cdat <- data.frame(matrix(500 + floor(1:285 / 19), nrow = 19, ncol = 15))
+  pdat <- data.frame(matrix(100000:100379, nrow = 19, ncol = 20))
   standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop)
 
   expect_equal(out$method, "ADPC")
-  expect_equal(out$annproj["2003", "asr"], 203.65801, tolerance = 0.00001)
-  expect_equal(out$agsproj["7", "2004"], 218.1044, tolerance = 0.0001)
+  expect_equal(out$annproj["2003", "asr"], 516.2776, tolerance = 0.00001)
+  expect_equal(out$agsproj["7", "2004"], 517.1903, tolerance = 0.0001)
 })
 
 test_that("canproj can choose acproj during model selection", {
@@ -59,99 +59,99 @@ test_that("canproj can choose ave5proj during model selection", {
 })
 
 test_that("canproj can specify nordpred method", {
-  cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
+  cdat <- data.frame(matrix(300 + floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
   standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "nordpred")
 
   expect_equal(out$method, "nordpred")
-  expect_equal(out$annproj["2003", "asr"], 404.35309, tolerance = 0.00001)
-  expect_equal(out$agsproj["14", "2004"], 553.8477, tolerance = 0.0001)
+  expect_equal(out$annproj["2003", "asr"], 318.0060, tolerance = 0.00001)
+  expect_equal(out$agsproj["14", "2004"], 318.9471, tolerance = 0.0001)
 })
 
 test_that("canproj can specify adpc-nb method", {
-  cdat <- data.frame(matrix(1:285, nrow = 19, ncol = 15))
+  cdat <- data.frame(matrix(300 + floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
   standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "adpc-nb")
 
   expect_equal(out$method, "adpc-nb")
-  expect_equal(out$annproj["2001", "asr"], 47.25288, tolerance = 0.00001)
-  expect_equal(out$agsproj["17", "2001"], 48.88024, tolerance = 0.0001)
+  expect_equal(out$annproj["2001", "asr"], 316.0908, tolerance = 0.00001)
+  expect_equal(out$agsproj["17", "2001"], 316.0651, tolerance = 0.0001)
 })
 
 test_that("canproj can specify ac-poi method", {
-  cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
+  cdat <- data.frame(matrix(300 + floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
   standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "ac-poi")
 
   expect_equal(out$method, "ac-poi")
-  expect_equal(out$annproj["2002", "asr"], 399.25027, tolerance = 0.00001)
-  expect_equal(out$agsproj["9", "2003"], 488.12615, tolerance = 0.00001)
+  expect_equal(out$annproj["2002", "asr"], 312.8873, tolerance = 0.00001)
+  expect_equal(out$agsproj["9", "2003"], 318.0188, tolerance = 0.00001)
 })
 
 test_that("canproj can specify ac-nb method", {
-  cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
+  cdat <- data.frame(matrix(300 + floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
   standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "ac-nb")
 
   expect_equal(out$method, "ac-nb")
-  expect_equal(out$annproj["2003", "asr"], 466.08970, tolerance = 0.00001)
-  expect_equal(out$agsproj["18", "2000"], 570.75521, tolerance = 0.00001)
+  expect_equal(out$annproj["2003", "asr"], 313.0127, tolerance = 0.00001)
+  expect_equal(out$agsproj["18", "2000"], 315.1104, tolerance = 0.00001)
 })
 
 test_that("canproj can specify age-trd-nb method", {
-  cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
+  cdat <- data.frame(matrix(300 + floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
   standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "age-trd-nb")
 
   expect_equal(out$method, "a-s-nb")
-  expect_equal(out$annproj["2004", "asr"], 509.25829, tolerance = 0.00001)
-  expect_equal(out$agsproj["15", "2001"], 505.1084, tolerance = 0.00001)
+  expect_equal(out$annproj["2004", "asr"], 312.2601, tolerance = 0.00001)
+  expect_equal(out$agsproj["15", "2001"], 312.2409, tolerance = 0.00001)
 })
 
 test_that("canproj can specify age-trd-poi method", {
-  cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
+  cdat <- data.frame(matrix(300 + floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
   standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "age-trd-poi")
 
   expect_equal(out$method, "a-s-poi")
-  expect_equal(out$annproj["2002", "asr"], 410.22099, tolerance = 0.00001)
-  expect_equal(out$agsproj["3", "2003"], 311.9490, tolerance = 0.00001)
+  expect_equal(out$annproj["2002", "asr"], 317.0568, tolerance = 0.00001)
+  expect_equal(out$agsproj["3", "2003"], 318.0399, tolerance = 0.00001)
 })
 
 test_that("canproj can specify com-trd method", {
-  cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
+  cdat <- data.frame(matrix(300 + floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
   standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "com-trd")
 
   expect_equal(out$method, "c-t")
-  expect_equal(out$annproj["2001", "asr"], 374.76110, tolerance = 0.00001)
-  expect_equal(out$agsproj["7", "2000"], 310.6442, tolerance = 0.00001)
+  expect_equal(out$annproj["2001", "asr"], 316.0946, tolerance = 0.00001)
+  expect_equal(out$agsproj["7", "2000"], 315.1404, tolerance = 0.00001)
 })
 
 test_that("canproj can specify age-only method", {
-  cdat <- data.frame(matrix(11:29 * floor(19:303 / 19), nrow = 19, ncol = 15))
+  cdat <- data.frame(matrix(300 + floor(19:303 / 19), nrow = 19, ncol = 15))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
   standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "age-only")
 
   expect_equal(out$method, "average")
-  expect_equal(out$annproj["2004", "asr"], 501.74981, tolerance = 0.00001)
-  expect_equal(out$agsproj["2", "2002"], 284.9060, tolerance = 0.0001)
+  expect_equal(out$annproj["2004", "asr"], 307.5638, tolerance = 0.00001)
+  expect_equal(out$agsproj["2", "2002"], 307.5848, tolerance = 0.0001)
 })
 
 test_that("canproj can specify ave5 method", {
@@ -167,7 +167,7 @@ test_that("canproj can specify ave5 method", {
 })
 
 test_that("canproj works with varying age groups", {
-  cdat <- data.frame(matrix(floor(0:149 / 10), nrow = 10, ncol = 15))
+  cdat <- data.frame(matrix(95, nrow = 10, ncol = 15))
   pdat <- data.frame(matrix(10000:10199, nrow = 10, ncol = 20))
   standpop <- StandardPopulation("dummy", rep("a", 10), rep(0.1, 10))
   out <- canproj(cdat, pdat, 2000, standpop)

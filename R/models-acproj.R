@@ -418,7 +418,7 @@ acproj_get_projections <- function(
   if (is.null(standpop)) {
     return(outasp)
   } else {
-    outann <- standardize_annual_rates(outasp, pdat, standpop)
+    outann <- standardize_annual_rates(outasp, pdat, startp, standpop)
     return(outann)
   }
 }

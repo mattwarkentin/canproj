@@ -135,11 +135,11 @@ test_that("adpcproj decides between recent or whole trend when NULL", {
 })
 
 test_that("adpcproj getproj works with standard population", {
-  cdat <- matrix(floor((0:284) / 19), nrow = 19, ncol = 15)
+  cdat <- matrix(500 + floor((0:284) / 19), nrow = 19, ncol = 15)
   pdat <- matrix(50000:50379, nrow = 19, ncol = 20)
 
   adpcproj_obj <- list(
-    predictions = matrix(floor(0:75 / 19) * 25 + 35, nrow = 19, ncol = 4),
+    predictions = matrix(300 + floor(0:75 / 19), nrow = 19, ncol = 4),
     pyr = matrix(seq(from = 50190, to = 50565, by = 5), nrow = 19, ncol = 4),
     nopred = 1,
     noperiod = 3
@@ -160,8 +160,8 @@ test_that("adpcproj getproj works with standard population", {
     standpop = stdpop
   )
 
-  expect_equal(out["1994", "asr"], 17.935293, tolerance = 0.00001)
-  expect_equal(out["2000", "case"], 1893, tolerance = 0.00001)
+  expect_equal(out["1994", "asr"], 1014.3405, tolerance = 0.00001)
+  expect_equal(out["2000", "case"], 5728, tolerance = 0.00001)
 
   expect_snapshot_value(out, style = "json2", tolerance = 0.00001)
 })

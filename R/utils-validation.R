@@ -303,3 +303,24 @@ validate_projection_inputs <- function(
     rlang::abort("\"ncase\" must be of type \"numeric\"")
   }
 }
+
+#' Check annual projections for abnormalities
+#'
+#' @keywords internal
+check_apc <- function(
+  annproj,
+  startp
+) {
+  test_apc <- as.data.frame(annproj)
+  test_apc$year <- as.integer(rownames(annproj))
+  test_apc$asr[test_apc$asr == 0] <- min(test_apc[test_apc$asr > 0, ]$asr)
+
+  fit <- cantrends::segmented_reg(asr ~ year, test_apc, knots = c(startp))
+  apc <- cantrends::extract_best_apc(fit)
+
+  if (abs(apc[2, "apc"] - apc[1, "apc"]) >= 10) {
+    rlang::warn(
+      message = "Projections show large differences in annual percent change"
+    )
+  }
+}

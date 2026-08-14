@@ -4,9 +4,16 @@
 #'
 #' @inheritParams canproj
 #' @param rates Observed and projected age-specific rates.
+#' @param check Whether to check APC for extreme differences
 #'
 #' @keywords internal
-standardize_annual_rates <- function(rates, pdat, stdpop) {
+standardize_annual_rates <- function(
+  rates,
+  pdat,
+  startp,
+  stdpop,
+  check = TRUE
+) {
   S7::check_is_S7(stdpop, StandardPopulation)
   c1 <- rates * pdat / 100000
   case <- round(colSums(c1), 0)
@@ -16,7 +23,13 @@ standardize_annual_rates <- function(rates, pdat, stdpop) {
   asr <- round(colSums(a1), 6)
   asr[asr < 0] <- 0
 
-  return(cbind(asr, case))
+  annproj <- cbind(asr, case)
+
+  if (check) {
+    check_apc(annproj, startp)
+  }
+
+  return(annproj)
 }
 
 #' Age-standardized rates and standard error
@@ -28,7 +41,11 @@ standardize_annual_rates <- function(rates, pdat, stdpop) {
 #' @return A `data.frame()`.
 #'
 #' @keywords internal
-standardize_rates <- function(cdat, pdat, stdpop = stdpop_Canada_2021) {
+standardize_rates <- function(
+  cdat,
+  pdat,
+  stdpop = stdpop_Canada_2021
+) {
   num_years <- ncol(cdat)
   num_agegps <- nrow(cdat)
 
