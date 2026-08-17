@@ -107,15 +107,20 @@ test_that("canproj can specify ac-nb method", {
 })
 
 test_that("canproj can specify age-trd-nb method", {
-  cdat <- data.frame(matrix(300 + floor(19:303 / 19), nrow = 19, ncol = 15))
+  set.seed(54638)
+  cdat <- data.frame(matrix(
+    rnbinom(19 * 15, size = 10, mu = 320),
+    nrow = 19,
+    ncol = 15
+  ))
   pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
   standpop <- stdpop_Canada_2021
 
   out <- canproj(cdat, pdat, 2000, standpop, methods = "age-trd-nb")
 
   expect_equal(out$method, "a-s-nb")
-  expect_equal(out$annproj["2004", "asr"], 312.2601, tolerance = 0.00001)
-  expect_equal(out$agsproj["15", "2001"], 312.2409, tolerance = 0.00001)
+  expect_equal(out$annproj["2004", "asr"], 380.3885, tolerance = 0.00001)
+  expect_equal(out$agsproj["15", "2001"], 285.9604, tolerance = 0.00001)
 })
 
 test_that("canproj can specify age-trd-poi method", {
