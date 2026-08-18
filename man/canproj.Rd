@@ -15,7 +15,7 @@ canproj(
   ncase = NULL,
   startage = NULL,
   newcohort = FALSE,
-  Ave5 = FALSE,
+  ave5 = FALSE,
   sum5 = TRUE,
   methods = NULL,
   linkfunc = "power5",
@@ -54,7 +54,7 @@ picks based on mean cases.}
 estimated cohort effect (\code{TRUE}), default is \code{0}, use \code{TRUE} only if having
 evidence on negative new cohort effect.}
 
-\item{Ave5}{\code{Ave5 = TRUE} invokes the 5-year average method when age-only
+\item{ave5}{\code{ave5 = TRUE} invokes the 5-year average method when age-only
 model is selected.}
 
 \item{sum5}{When the 5-year average method is used, \code{sum5 = TRUE} call the
@@ -88,9 +88,9 @@ following:
 \itemize{
 \item \code{annproj}: A \code{matrix} of age-standardized rates and case counts.
 \item \code{agsproj}: A \code{data.frame} of case counts for each age group and year.
-\item \code{method}: The chosen method for projection. One of \code{"average"},
-\code{"average5"}, \code{"ADPC"}, \code{"AC"}, \code{"Hybrid"}, \code{"nordpred"}, \code{"adpc-nb"},
-\code{"ac-poi"}, \code{"ac-nb"}, \code{"a-s-nb"}, \code{"a-s-poi"}, or \code{"c-t"}.
+\item \code{method}: The chosen method for projection. One of
+\code{"ave5"}, \code{"nordpred"}, \code{"adpc-nb"},
+\code{"ac-poi"}, \code{"ac-nb"}, \code{"age-trd-nb"}, \code{"age-trd-poi"}, \code{"age-only"}, or \code{"com-trd"}.
 \item \code{out}: The output from function call for the chosen \code{method}
 (e.g., \code{acproj()}, \code{adpcproj()}, \code{ave5proj()}, \code{hybdproj()}).
 \item \code{obsy}: Number of observed years of cancer data from \code{cdat}.

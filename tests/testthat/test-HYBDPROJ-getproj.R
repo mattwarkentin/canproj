@@ -102,7 +102,7 @@ test_that("hybdproj getproj works with 5-year average method", {
     pdat,
     startp = 2000,
     hybd_obj,
-    Ave5 = TRUE
+    ave5 = TRUE
   )
 
   expect_equal(out["17", "2003"], 376)
@@ -145,7 +145,7 @@ test_that("hybdproj getproj works with 5-year average method and standpop", {
       pdat,
       startp = 2000,
       hybd_obj,
-      Ave5 = TRUE,
+      ave5 = TRUE,
       standpop = stdpop
     )
   )

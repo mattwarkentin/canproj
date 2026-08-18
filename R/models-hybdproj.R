@@ -404,7 +404,7 @@ hybdproj_get_projections <- function(
   startp,
   hybdproj.object,
   standpop = NULL,
-  Ave5 = FALSE,
+  ave5 = FALSE,
   sum5 = TRUE
 ) {
   if (!inherits(hybdproj.object, "hybdproj")) {
@@ -419,8 +419,8 @@ hybdproj_get_projections <- function(
     hybdproj.object
   )
 
-  if (!inherits(Ave5, "logical")) {
-    rlang::abort("\"Ave5\" must be of type \"logical\"")
+  if (!inherits(ave5, "logical")) {
+    rlang::abort("\"ave5\" must be of type \"logical\"")
   }
 
   if (!inherits(sum5, "logical")) {
@@ -438,7 +438,7 @@ hybdproj_get_projections <- function(
     nagg = nagg
   )
 
-  if (finalmod == "average" & Ave5) {
+  if (finalmod == "average" & ave5) {
     mod <- ave5proj(cdat, pdat, startp, sum5 = sum5)
     outasp <- mod$agsproj
   }

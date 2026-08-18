@@ -10,7 +10,7 @@ hybdproj_get_projections(
   startp,
   hybdproj.object,
   standpop = NULL,
-  Ave5 = FALSE,
+  ave5 = FALSE,
   sum5 = TRUE
 )
 }
@@ -27,7 +27,7 @@ hybdproj_get_projections(
 \item{standpop}{A \code{StandardPopulation} object that provides the weights
 (proportions) for each age groups in a standard population.}
 
-\item{Ave5}{\code{Ave5 = TRUE} invokes the 5-year average method when age-only
+\item{ave5}{\code{ave5 = TRUE} invokes the 5-year average method when age-only
 model is selected.}
 
 \item{sum5}{When the 5-year average method is used, \code{sum5 = TRUE} call the
