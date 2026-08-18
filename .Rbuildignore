@@ -8,5 +8,7 @@
 ^\.claude$
 ^data/.*$
 ^data-raw/.*$
-^graphs_test.R$
 ^\.github$
+^comparison.html$
+^comparison.qmd$
+^comparison_files$

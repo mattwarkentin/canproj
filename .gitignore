@@ -4,5 +4,3 @@ canproj.Rproj
 inst
 canproj-v2019.R
 .Rhistory
-.Rbuildignore
-data
