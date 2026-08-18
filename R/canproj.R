@@ -23,7 +23,7 @@
 #' @param newcohort Assign new cohort effect as `0` (`FALSE`) or the last
 #'   estimated cohort effect (`TRUE`), default is `0`, use `TRUE` only if having
 #'   evidence on negative new cohort effect.
-#' @param Ave5 `Ave5 = TRUE` invokes the 5-year average method when age-only
+#' @param ave5 `ave5 = TRUE` invokes the 5-year average method when age-only
 #'   model is selected.
 #' @param sum5 When the 5-year average method is used, `sum5 = TRUE` call the
 #'   5-year period based rate, otherwise (`sum5 = FALSE`), average the 5 rates
@@ -50,9 +50,9 @@
 #'
 #'   - `annproj`: A `matrix` of age-standardized rates and case counts.
 #'   - `agsproj`: A `data.frame` of case counts for each age group and year.
-#'   - `method`: The chosen method for projection. One of `"average"`,
-#'     `"average5"`, `"ADPC"`, `"AC"`, `"Hybrid"`, `"nordpred"`, `"adpc-nb"`,
-#'     `"ac-poi"`, `"ac-nb"`, `"a-s-nb"`, `"a-s-poi"`, or `"c-t"`.
+#'   - `method`: The chosen method for projection. One of
+#'     `"ave5"`, `"nordpred"`, `"adpc-nb"`,
+#'     `"ac-poi"`, `"ac-nb"`, `"age-trd-nb"`, `"age-trd-poi"`, `"age-only"`, or `"com-trd"`.
 #'   - `out`: The output from function call for the chosen `method`
 #'     (e.g., `acproj()`, `adpcproj()`, `ave5proj()`, `hybdproj()`).
 #'   - `obsy`: Number of observed years of cancer data from `cdat`.
@@ -71,7 +71,7 @@ canproj <- function(
   ncase = NULL,
   startage = NULL,
   newcohort = FALSE,
-  Ave5 = FALSE,
+  ave5 = FALSE,
   sum5 = TRUE,
   methods = NULL,
   linkfunc = "power5",
@@ -81,6 +81,11 @@ canproj <- function(
   pGOF = 0.05
 ) {
   S7::check_is_S7(standpop, StandardPopulation)
+  if (length(standpop@weights) != nrow(pdat)) {
+    rlang::abort(
+      "\"standpop\" must have the same number of age groups as population data"
+    )
+  }
 
   if (ncol(cdat) < 15) {
     rlang::abort("\"cdat\" must have at least 15 years")
@@ -98,8 +103,8 @@ canproj <- function(
     rlang::abort("\"ncase\" must be of type \"numeric\" or NULL")
   }
 
-  if (!inherits(Ave5, "logical")) {
-    rlang::abort("\"Ave5\" must be of type \"logical\"")
+  if (!inherits(ave5, "logical")) {
+    rlang::abort("\"ave5\" must be of type \"logical\"")
   }
 
   if (!inherits(sum5, "logical")) {
@@ -273,7 +278,7 @@ canproj <- function(
           pdat,
           startp = startp,
           out,
-          Ave5 = Ave5,
+          ave5 = ave5,
           sum5 = sum5
         )
 
@@ -410,7 +415,7 @@ canproj <- function(
           pdat,
           startp = startp,
           out,
-          Ave5 = Ave5
+          ave5 = ave5
         )
         outann <- standardize_annual_rates(
           outasp,
@@ -439,7 +444,7 @@ canproj <- function(
           pdat,
           startp = startp,
           out,
-          Ave5 = Ave5
+          ave5 = ave5
         )
         outann <- standardize_annual_rates(
           outasp,
@@ -468,7 +473,7 @@ canproj <- function(
           pdat,
           startp = startp,
           out,
-          Ave5 = Ave5
+          ave5 = ave5
         )
         outann <- standardize_annual_rates(
           outasp,
@@ -497,7 +502,7 @@ canproj <- function(
           pdat,
           startp = startp,
           out,
-          Ave5 = Ave5,
+          ave5 = ave5,
           sum5 = sum5
         )
         outann <- standardize_annual_rates(
@@ -532,6 +537,128 @@ canproj <- function(
   result
 }
 
+#' Canproj all methods
+#'
+#' Run all canproj methods and name the selected method.
+#'
+#' @inheritParams canproj
+#'
+#' @return A `list`. The `list` contains the
+#'   following:
+#'
+#'   - `selected_method`: Projection method selected by Canproj
+#'   - `nordpred`: `canproj` object produced by the `"nordpred"` method.
+#'   - `adpc-nb`: `canproj` object produced by the `"adpc-nb"` method.
+#'   - `ac-poi`: `canproj` object produced by the `"ac-poi"` method.
+#'   - `ac-nb`:`canproj` object produced by the `"ac-nb"` method.
+#'   - `a-s-nb`: `canproj` object produced by the `"a-s-nb"` method.
+#'   - `a-s-poi`: `canproj` object produced by the `"a-s-poi"` method.
+#'   - `c-t`: `canproj` object produced by the `"c-t"` method.
+#'   - `average`: `canproj` object produced by the `"average"` method.
+#'   - `ave5`: `canproj` object produced by the `"ave5"` method.
+#'
+#' @export
+canproj_all_methods <- function(
+  cdat,
+  pdat,
+  startp,
+  standpop,
+  projfor = "incidence",
+  nagg = NULL,
+  ncase = NULL,
+  startage = NULL,
+  newcohort = FALSE,
+  ave5 = FALSE,
+  sum5 = TRUE,
+  linkfunc = "power5",
+  cuttrd = 0.04,
+  shortp = 0,
+  pD = 0.05,
+  pGOF = 0.05
+) {
+  methods <- c(
+    "nordpred",
+    "adpc-nb",
+    "ac-poi",
+    "ac-nb",
+    "age-trd-poi",
+    "age-trd-nb",
+    "com-trd",
+    "age-only",
+    "ave5"
+  )
+  out <- list()
+
+  selected <- canproj(
+    cdat,
+    pdat,
+    startp,
+    standpop,
+    projfor = projfor,
+    nagg = nagg,
+    ncase = ncase,
+    startage = startage,
+    newcohort = newcohort,
+    ave5 = ave5,
+    sum5 = sum5,
+    linkfunc = linkfunc,
+    cuttrd = cuttrd,
+    shortp = shortp,
+    pD = pD,
+    pGOF = pGOF
+  )
+
+  if (selected$method == "ADPC") {
+    if (selected$out$distribution == "Poisson") {
+      out$selected_method <- "nordpred"
+    } else {
+      out$selected_method <- "adpc_nb"
+    }
+  } else if (selected$method == "AC") {
+    if (selected$out$distribution == "Poisson") {
+      out$selected_method <- "ac_poi"
+    } else {
+      out$selected_method <- "ac_nb"
+    }
+  } else if (selected$method == "Hybrid") {
+    if (selected$out$finalmod == "age-specific") {
+      out$selected_method <- "age_trd_poi"
+    } else if (selected$out$finalmod == "nba-specific") {
+      out$selected_method <- "age_trd_nb"
+    } else if (selected$out$finalmod == "common-trend") {
+      out$selected_method <- "com_trd"
+    } else {
+      out$selected_method <- "age_only"
+    }
+  } else {
+    # ave5
+    out$selected_method <- "ave5"
+  }
+
+  for (m in methods) {
+    out[[gsub("-", "_", m)]] <- canproj(
+      cdat,
+      pdat,
+      startp,
+      standpop,
+      projfor = projfor,
+      nagg = nagg,
+      ncase = ncase,
+      startage = startage,
+      newcohort = newcohort,
+      ave5 = ave5,
+      sum5 = sum5,
+      methods = m,
+      linkfunc = linkfunc,
+      cuttrd = cuttrd,
+      shortp = shortp,
+      pD = pD,
+      pGOF = pGOF
+    )
+  }
+
+  return(out)
+}
 
 #' canproj_get_projections
 #'

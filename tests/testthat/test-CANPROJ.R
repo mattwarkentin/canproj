@@ -180,3 +180,28 @@ test_that("canproj works with varying age groups", {
   expect_equal(nrow(out$agsproj), 10)
   expect_equal(nrow(out$out$predictions), 10)
 })
+
+test_that("canproj all methods works", {
+  set.seed(54638)
+  cdat <- data.frame(matrix(
+    floor(rnorm(19 * 15, mean = 350, sd = 50)),
+    nrow = 19,
+    ncol = 15
+  ))
+  pdat <- data.frame(matrix(100001:100380, nrow = 19, ncol = 20))
+  standpop <- stdpop_Canada_2021
+
+  out <- canproj_all_methods(cdat, pdat, 2020, standpop)
+
+  expect_equal(length(out), 10)
+  expect_equal(out$selected_method, "adpc_nb")
+  expect_equal(out$nordpred$method, "nordpred")
+  expect_equal(out$adpc_nb$method, "adpc-nb")
+  expect_equal(out$ac_poi$method, "ac-poi")
+  expect_equal(out$ac_nb$method, "ac-nb")
+  expect_equal(out$age_trd_poi$method, "a-s-poi")
+  expect_equal(out$age_trd_nb$method, "a-s-nb")
+  expect_equal(out$com_trd$method, "c-t")
+  expect_equal(out$age_only$method, "average")
+  expect_equal(out$ave5$method, "average5")
+})
