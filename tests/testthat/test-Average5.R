@@ -213,3 +213,14 @@ test_that("ave5proj summary accepts only ave5proj class objects", {
     "Variable \"ave5proj.object\" must be of type \"ave5proj\""
   )
 })
+
+test_that("ave5proj plotting works", {
+  cdat <- data.frame((row(matrix(1, 19, 15)) - col(matrix(1, 19, 15)) + 50))
+  pdat <- data.frame(matrix(50000, nrow = 19, ncol = 20))
+
+  out <- ave5proj(cdat, pdat, 2020)
+
+  vdiffr::expect_doppelganger("acproj plot", function() {
+    plot(out, pdat, stdpop_Canada_2021)
+  })
+})

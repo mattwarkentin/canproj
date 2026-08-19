@@ -205,3 +205,54 @@ test_that("canproj all methods works", {
   expect_equal(out$age_only$method, "average")
   expect_equal(out$ave5$method, "average5")
 })
+
+test_that("canproj plotting works", {
+  obj <- list(
+    annproj = structure(
+      c(
+        102.79,
+        101.05,
+        99.82,
+        96.94,
+        98.62,
+        98.24,
+        97.20,
+        97.11,
+        97.98,
+        94.78,
+        9800,
+        9920,
+        10150,
+        10090,
+        10590,
+        10880,
+        11090,
+        11435,
+        11780,
+        11880
+      ),
+      dim = c(10L, 2L),
+      dimnames = list(
+        c(
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009"
+        ),
+        c("asr", "case")
+      )
+    ),
+    obsy = 5
+  )
+  class(obj) <- "canproj"
+
+  vdiffr::expect_doppelganger("canproj plot", function() {
+    plot(obj, stdpop_Canada_2021)
+  })
+})
