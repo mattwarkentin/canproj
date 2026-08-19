@@ -12,3 +12,6 @@
 ^comparison.html$
 ^comparison.qmd$
 ^comparison_files$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
