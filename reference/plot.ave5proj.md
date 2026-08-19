@@ -1,17 +1,15 @@
-# plot.adpcproj
+# plot.ave5proj
 
 Create the graph of the observed and projected age-standardized rates
-from a adpcproj object
+from a ave5proj object
 
 ## Usage
 
 ``` r
-# S3 method for class 'adpcproj'
+# S3 method for class 'ave5proj'
 plot(
   x,
-  cdat,
   pdat,
-  startp,
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
@@ -29,18 +27,10 @@ plot(
 
   An object based on the 'canproj()' function.
 
-- cdat:
-
-  (age groups) \* N (years) historical cancer data, 15\<=N\<=125.
-
 - pdat:
 
   (age groups) \* (N + M) (years) observed and projected population,
   5\<=M\<=25.
-
-- startp:
-
-  The start calendar year of projection (e.g., 2009).
 
 - standpop:
 

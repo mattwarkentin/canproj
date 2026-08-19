@@ -15,7 +15,7 @@ plot(
   ylab = "Rate per 100,000 people",
   main = "",
   lty = c(1, 2),
-  col = c("black", "black"),
+  col = c("black", "azure4"),
   ...
 )
 ```
@@ -55,7 +55,7 @@ plot(
 
 - col:
 
-  Line colour.Applies to observed rates and predicted rates,
+  Line colour. Applies to observed rates and predicted rates,
   respectively.
 
 - ...:

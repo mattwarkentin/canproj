@@ -15,13 +15,10 @@ plot(
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
-  ylab = "Rates",
+  ylab = "Rate per 100,000 people",
   main = "",
-  labels = NULL,
-  ylim = NULL,
   lty = c(1, 3),
-  col = c(1, 1),
-  new = T,
+  col = c("black", "azure4"),
   ...
 )
 ```
@@ -30,7 +27,7 @@ plot(
 
 - x:
 
-  An object based on the 'hybdproj()' function.
+  An object based on the 'canproj()' function.
 
 - cdat:
 
@@ -67,14 +64,6 @@ plot(
 
   Title for graph
 
-- labels:
-
-  Labels for age groups.
-
-- ylim:
-
-  Y limit
-
 - lty:
 
   Line type. Applies to observed rates and predicted rates,
@@ -82,12 +71,8 @@ plot(
 
 - col:
 
-  Line colour.Applies to observed rates and predicted rates,
+  Line colour. Applies to observed rates and predicted rates,
   respectively.
-
-- new:
-
-  Whether to draw on a new plot (default = T).
 
 - ...:
 

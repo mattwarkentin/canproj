@@ -61,6 +61,8 @@
   : plot.acproj
 - [`plot(`*`<adpcproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/plot.adpcproj.md)
   : plot.adpcproj
+- [`plot(`*`<ave5proj>`*`)`](https://mattwarkentin.github.io/canproj/reference/plot.ave5proj.md)
+  : plot.ave5proj
 - [`plot(`*`<canproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/plot.canproj.md)
   : plot.canproj
 - [`plot(`*`<hybdproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/plot.hybdproj.md)

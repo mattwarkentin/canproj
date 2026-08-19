@@ -51,13 +51,10 @@ adpcproj object</p>
 <span>  <span class="va">standpop</span>,</span>
 <span>  startplot <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">"Calendar Year"</span>,</span>
-<span>  ylab <span class="op">=</span> <span class="st">"Rates"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"Rate per 100,000 people"</span>,</span>
 <span>  main <span class="op">=</span> <span class="st">""</span>,</span>
-<span>  labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>,</span>
-<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  new <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"azure4"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -67,7 +64,7 @@ adpcproj object</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>An object based on the 'adpcproj()' function.</p></dd>
+<dd><p>An object based on the 'canproj()' function.</p></dd>
 
 
 <dt id="arg-cdat">cdat<a class="anchor" aria-label="anchor" href="#arg-cdat"></a></dt>
@@ -105,24 +102,12 @@ increasing this number removes the oldest years from the graph.</p></dd>
 <dd><p>Title for graph</p></dd>
 
 
-<dt id="arg-labels">labels<a class="anchor" aria-label="anchor" href="#arg-labels"></a></dt>
-<dd><p>Labels for age groups.</p></dd>
-
-
-<dt id="arg-ylim">ylim<a class="anchor" aria-label="anchor" href="#arg-ylim"></a></dt>
-<dd><p>Y limit</p></dd>
-
-
 <dt id="arg-lty">lty<a class="anchor" aria-label="anchor" href="#arg-lty"></a></dt>
 <dd><p>Line type. Applies to observed rates and predicted rates, respectively.</p></dd>
 
 
 <dt id="arg-col">col<a class="anchor" aria-label="anchor" href="#arg-col"></a></dt>
-<dd><p>Line colour.Applies to observed rates and predicted rates, respectively.</p></dd>
-
-
-<dt id="arg-new">new<a class="anchor" aria-label="anchor" href="#arg-new"></a></dt>
-<dd><p>Whether to draw on a new plot (default = T).</p></dd>
+<dd><p>Line colour. Applies to observed rates and predicted rates, respectively.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
