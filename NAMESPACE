@@ -2,6 +2,7 @@
 
 S3method(plot,acproj)
 S3method(plot,adpcproj)
+S3method(plot,ave5proj)
 S3method(plot,canproj)
 S3method(plot,hybdproj)
 S3method(print,canproj)

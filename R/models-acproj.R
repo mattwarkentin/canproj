@@ -529,10 +529,6 @@ glm.acproj <- function(acproj.object) {
 #'
 #' @inheritParams plot.canproj
 #' @inheritParams canproj
-#' @param x An object based on the 'acproj()' function.
-#' @param labels  Labels for age groups.
-#' @param ylim Y limit
-#' @param new Whether to draw on a new plot (default = T).
 #'
 #' @export
 plot.acproj <- function(
@@ -543,13 +539,10 @@ plot.acproj <- function(
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
-  ylab = "Rates",
+  ylab = "Rate per 100,000 people",
   main = "",
-  labels = NULL,
-  ylim = NULL,
   lty = c(1, 3),
-  col = c(1, 1),
-  new = T,
+  col = c("black", "azure4"),
   ...
 ) {
   if (!inherits(x, "acproj")) {
@@ -558,7 +551,6 @@ plot.acproj <- function(
 
   S7::check_is_S7(standpop, StandardPopulation)
 
-  # Reading & formatting data:
   indat <- acproj_get_projections(
     cdat,
     pdat,
@@ -567,55 +559,42 @@ plot.acproj <- function(
     standpop = standpop
   )
   indata <- indat[, 1]
-  indata <- indata[startplot:length(indata)]
+  obsy <- 5 * x$noperiod
 
-  # Setting internal variables:
-  obsy <- dim(cdat)[2]
-  nopredy <- length(indata) - obsy
-  if (is.null(labels)) {
-    labels <- row.names(indat)
-  }
+  data <- as.data.frame(indata)
+  data$year <- as.numeric(names(indata))
 
-  # Create plots:
-  maxx <- length(indata)
-  if (new) {
-    maxy <- max(indata) * (21 / 20)
-    if (is.null(ylim)) {
-      ylim <- c(0, maxy)
-    }
-    graphics::plot(
-      c(1, maxx),
-      ylim,
-      type = "n",
-      ylab = ylab,
-      xlab = xlab,
-      axes = F,
-      ...
+  data$Period <- "Observed"
+  data$Period[(obsy + 1):length(indata)] <- "Projected"
+  dupe <- data[obsy, 1:2]
+  dupe$Period <- "Projected"
+
+  data <- data[startplot:nrow(data), ]
+  data <- rbind(dupe, data)
+
+  custom_colours <- c("Observed" = col[1], "Projected" = col[2])
+  custom_line <- c("Observed" = lty[1], "Projected" = lty[2])
+
+  plot <- ggplot2::ggplot(
+    data,
+    ggplot2::aes(x = .data$year, y = indata, color = .data$Period)
+  ) +
+    ggplot2::geom_line(ggplot2::aes(linetype = .data$Period)) +
+    ggplot2::geom_point(size = 1) +
+    ggplot2::scale_color_manual(values = custom_colours) +
+    ggplot2::scale_linetype_manual(values = custom_line) +
+    ggplot2::xlab(xlab) +
+    ggplot2::ylab(ylab) +
+    ggplot2::ggtitle(main) +
+    ggplot2::scale_y_continuous(
+      limits = c(0, NA),
+      expand = ggplot2::expansion(mult = c(0, 0.05))
+    ) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      axis.line = ggplot2::element_line(colour = "black"),
+      plot.title = ggplot2::element_text(size = 15)
     )
-    graphics::axis(2)
-    graphics::axis(1, at = 1:maxx, labels = labels)
-    graphics::box()
-    graphics::title(main)
-  }
 
-  graphics::lines(
-    1:(maxx - nopredy),
-    indata[1:(maxx - nopredy)],
-    type = "o",
-    pch = 20,
-    lty = lty[1],
-    col = col[1],
-    ...
-  )
-
-  graphics::lines(
-    (maxx - nopredy):maxx,
-    indata[(maxx - nopredy):maxx],
-    lty = lty[2],
-    col = col[2],
-    ...
-  )
-
-  # Returning object as invisible
-  invisible(x)
+  return(plot)
 }

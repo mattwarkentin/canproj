@@ -12,18 +12,15 @@
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
-  ylab = "Rates",
+  ylab = "Rate per 100,000 people",
   main = "",
-  labels = NULL,
-  ylim = NULL,
   lty = c(1, 3),
-  col = c(1, 1),
-  new = T,
+  col = c("black", "azure4"),
   ...
 )
 }
 \arguments{
-\item{x}{An object based on the 'hybdproj()' function.}
+\item{x}{An object based on the 'canproj()' function.}
 
 \item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
 
@@ -44,15 +41,9 @@ increasing this number removes the oldest years from the graph.}
 
 \item{main}{Title for graph}
 
-\item{labels}{Labels for age groups.}
-
-\item{ylim}{Y limit}
-
 \item{lty}{Line type. Applies to observed rates and predicted rates, respectively.}
 
-\item{col}{Line colour.Applies to observed rates and predicted rates, respectively.}
-
-\item{new}{Whether to draw on a new plot (default = T).}
+\item{col}{Line colour. Applies to observed rates and predicted rates, respectively.}
 
 \item{...}{Other parameters}
 }

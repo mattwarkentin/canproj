@@ -740,7 +740,7 @@ glm.canproj <- function(canproj.object) {
 #' @param ylab y-axis label
 #' @param main Title for graph
 #' @param lty Line type. Applies to observed rates and predicted rates, respectively.
-#' @param col Line colour.Applies to observed rates and predicted rates, respectively.
+#' @param col Line colour. Applies to observed rates and predicted rates, respectively.
 #' @param ... Other parameters
 #'
 #' @importFrom rlang .data
@@ -754,7 +754,7 @@ plot.canproj <- function(
   ylab = "Rate per 100,000 people",
   main = "",
   lty = c(1, 2),
-  col = c("black", "black"),
+  col = c("black", "azure4"),
   ...
 ) {
   if (!inherits(x, "canproj")) {
@@ -766,37 +766,32 @@ plot.canproj <- function(
   data <- as.data.frame(indata)
   data$year <- as.numeric(names(indata))
 
-  observed <- data[startplot:x$obsy, ]
-  projected <- data[(x$obsy + 1):length(indata), ]
+  data$Period <- "Observed"
+  data$Period[(x$obsy + 1):length(indata)] <- "Projected"
+  dupe <- data[x$obsy, 1:2]
+  dupe$Period <- "Projected"
 
-  plot <- ggplot2::ggplot() +
-    ggplot2::geom_point(
-      data = observed,
-      mapping = ggplot2::aes(x = .data$year, y = .data[[2]]),
-      colour = col[1],
-      size = 2
-    ) +
-    ggplot2::geom_line(
-      data = observed,
-      mapping = ggplot2::aes(x = .data$year, y = .data[[2]]),
-      colour = col[1],
-      linetype = lty[1],
-      linewidth = 1
-    ) +
-    ggplot2::geom_line(
-      data = projected,
-      mapping = ggplot2::aes(x = .data$year, y = .data[[2]]),
-      colour = col[2],
-      linetype = lty[2],
-      linewidth = 1
-    ) +
+  data <- data[startplot:nrow(data), ]
+  data <- rbind(dupe, data)
+
+  custom_colours <- c("Observed" = col[1], "Projected" = col[2])
+  custom_line <- c("Observed" = lty[1], "Projected" = lty[2])
+
+  plot <- ggplot2::ggplot(
+    data,
+    ggplot2::aes(x = .data$year, y = .data$indata, color = .data$Period)
+  ) +
+    ggplot2::geom_line(ggplot2::aes(linetype = .data$Period)) +
+    ggplot2::geom_point(size = 1) +
+    ggplot2::scale_color_manual(values = custom_colours) +
+    ggplot2::scale_linetype_manual(values = custom_line) +
+    ggplot2::xlab(xlab) +
+    ggplot2::ylab(ylab) +
+    ggplot2::ggtitle(main) +
     ggplot2::scale_y_continuous(
       limits = c(0, NA),
       expand = ggplot2::expansion(mult = c(0, 0.05))
     ) +
-    ggplot2::xlab(xlab) +
-    ggplot2::ylab(ylab) +
-    ggplot2::ggtitle(main) +
     ggplot2::theme_minimal() +
     ggplot2::theme(
       axis.line = ggplot2::element_line(colour = "black"),

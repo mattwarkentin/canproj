@@ -166,3 +166,74 @@ summary.ave5proj <- function(object, printcall = FALSE, ...) {
 
   invisible(object)
 }
+
+#' plot.ave5proj
+#'
+#' Create the graph of the observed and projected age-standardized rates from a
+#' ave5proj object
+#'
+#' @inheritParams plot.canproj
+#' @inheritParams canproj
+#'
+#' @export
+plot.ave5proj <- function(
+  x,
+  pdat,
+  standpop,
+  startplot = 1,
+  xlab = "Calendar Year",
+  ylab = "Rate per 100,000 people",
+  main = "",
+  lty = c(1, 3),
+  col = c("black", "azure4"),
+  ...
+) {
+  if (!inherits(x, "ave5proj")) {
+    rlang::abort("Variable \"x\" must be of type \"ave5proj\"")
+  }
+  S7::check_is_S7(standpop, StandardPopulation)
+
+  indat <- ave5proj_get_projections(
+    pdat,
+    x,
+    standpop = standpop
+  )
+  indata <- indat[, 1]
+
+  data <- as.data.frame(indata)
+  data$year <- as.numeric(names(indata))
+
+  data$Period <- "Observed"
+  data$Period[(length(indata) - x$noypred + 1):length(indata)] <- "Projected"
+  dupe <- data[(length(indata) - x$noypred), 1:2]
+  dupe$Period <- "Projected"
+
+  data <- data[startplot:nrow(data), ]
+  data <- rbind(dupe, data)
+
+  custom_colours <- c("Observed" = col[1], "Projected" = col[2])
+  custom_line <- c("Observed" = lty[1], "Projected" = lty[2])
+
+  plot <- ggplot2::ggplot(
+    data,
+    ggplot2::aes(x = .data$year, y = indata, color = .data$Period)
+  ) +
+    ggplot2::geom_line(ggplot2::aes(linetype = .data$Period)) +
+    ggplot2::geom_point(size = 1) +
+    ggplot2::scale_color_manual(values = custom_colours) +
+    ggplot2::scale_linetype_manual(values = custom_line) +
+    ggplot2::xlab(xlab) +
+    ggplot2::ylab(ylab) +
+    ggplot2::ggtitle(main) +
+    ggplot2::scale_y_continuous(
+      limits = c(0, NA),
+      expand = ggplot2::expansion(mult = c(0, 0.05))
+    ) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      axis.line = ggplot2::element_line(colour = "black"),
+      plot.title = ggplot2::element_text(size = 15)
+    )
+
+  return(plot)
+}
