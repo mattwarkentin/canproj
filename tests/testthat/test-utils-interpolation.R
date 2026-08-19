@@ -12,6 +12,22 @@ test_that("can interpolate age-specific rates from 5-year aggregation", {
   rownames(expected) <- 1:19
 
   expect_equal(out, expected)
+
+  pdat <- matrix(100000, 19, 11)
+  out <- interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
+  expect_equal(out[1, 11], 191)
+
+  pdat <- matrix(100000, 19, 12)
+  out <- interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
+  expect_equal(out[5, 12], 214)
+
+  pdat <- matrix(100000, 19, 13)
+  out <- interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
+  expect_equal(out[14, 13], 242)
+
+  pdat <- matrix(100000, 19, 14)
+  out <- interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
+  expect_equal(out[10, 14], 238)
 })
 
 test_that("can interpolate age-specific rates from 4-year aggregation", {
@@ -28,6 +44,18 @@ test_that("can interpolate age-specific rates from 4-year aggregation", {
   rownames(expected) <- 1:19
 
   expect_equal(out, expected)
+
+  pdat <- matrix(100000, 19, 9)
+  out <- interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
+  expect_equal(out[8, 9], 160)
+
+  pdat <- matrix(100000, 19, 10)
+  out <- interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
+  expect_equal(out[18, 10], 189)
+
+  pdat <- matrix(100000, 19, 11)
+  out <- interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
+  expect_equal(out[10, 11], 190.5)
 })
 
 test_that("asrpy interpolates annual rates from 3-year aggregation", {
@@ -44,6 +72,14 @@ test_that("asrpy interpolates annual rates from 3-year aggregation", {
   rownames(expected) <- 1:19
 
   expect_equal(out, expected)
+
+  pdat <- matrix(100000, 19, 7)
+  out <- interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
+  expect_equal(out[4, 7], 118)
+
+  pdat <- matrix(100000, 19, 8)
+  out <- interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
+  expect_equal(out[15, 7], 129)
 })
 
 test_that("can interpolate age-specific rates from 2-year aggregation", {
@@ -60,6 +96,10 @@ test_that("can interpolate age-specific rates from 2-year aggregation", {
   rownames(expected) <- 1:19
 
   expect_equal(out, expected)
+
+  pdat <- matrix(100000, 19, 5)
+  out <- interpolate_age_specific_rates(rate, cdat, pdat, startp, nagg)
+  expect_equal(out[10, 5], 86)
 })
 
 test_that("interpolation without aggregation returns original rates", {
