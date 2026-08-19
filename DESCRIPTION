@@ -27,7 +27,6 @@ Imports:
     S7 (>= 0.2.2),
     cantrends
 Remotes:
-    RConsortium/S7,
     mattwarkentin/cantrends
 Suggests: 
     testthat (>= 3.0.0),
