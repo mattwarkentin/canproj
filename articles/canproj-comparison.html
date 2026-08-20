@@ -166,15 +166,13 @@ standard populations.</td>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mattwarkentin/canproj/" class="external-link">canproj</a></span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="va">incidence</span> <span class="op">&lt;-</span> <span class="fu">canproj</span><span class="fu">::</span><span class="va">colorectal_incidence_male</span></span>
-<span></span>
 <span><span class="va">population</span> <span class="op">&lt;-</span> <span class="fu">canproj</span><span class="fu">::</span><span class="va">canada_male_population</span></span>
-<span></span>
 <span><span class="va">proj_cr_incidence_male</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/canproj.html">canproj</a></span><span class="op">(</span></span>
 <span>  <span class="va">incidence</span>, </span>
 <span>  <span class="va">population</span>, </span>
 <span>  <span class="fl">2020</span>, </span>
 <span>  <span class="va">stdpop_Canada_2011</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p>Given the same inputs, the equivalent command in the original package
 would be:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -184,7 +182,10 @@ would be:</p>
 <p>The resulting annual projections are identical in this case, showing
 that the refactored package aligns with Canproj. For brevity, only
 projected rate and counts are displayed.</p>
+<div style="display: flex; gap: 20px;">
+<div style="width: 45%;">
 <table class="table">
+<caption>Refactored Canproj</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">asr</th>
@@ -343,7 +344,10 @@ projected rate and counts are displayed.</p>
 </tr>
 </tbody>
 </table>
+</div>
+<div style="width: 45%;">
 <table class="table">
+<caption>Canproj</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">asr</th>
@@ -502,31 +506,17 @@ projected rate and counts are displayed.</p>
 </tr>
 </tbody>
 </table>
-<div class="panel-tabset">
-
-
-<ul class="nav nav-tabs" id="NA" role="tablist">
-<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#refactored-canproj" id="refactored-canproj-tab" type="button" role="tab" aria-controls="refactored-canproj" aria-selected="true" class="active nav-link">Refactored Canproj</button></li>
-<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#canproj" id="canproj-tab" type="button" role="tab" aria-controls="canproj" aria-selected="false" class="nav-link">Canproj</button></li>
-</ul>
-<div class="tab-content">
-<div class="active  tab-pane" id="refactored-canproj" role="tabpanel" aria-labelledby="refactored-canproj-tab">
-
+</div>
+</div>
 <div class="figure" style="text-align: center">
 <img src="colorectal_incidence_refactor.png" class="r-plt" alt="Graph 1: Graph produced by refactored Canproj" width="70%"><p class="caption">
 Graph 1: Graph produced by refactored Canproj
 </p>
 </div>
-</div>
-<div class="tab-pane" id="canproj" role="tabpanel" aria-labelledby="canproj-tab">
-
 <div class="figure" style="text-align: center">
-<img src="colorectal_incidence_old.png" class="r-plt" alt="Graph 2: Graph produced by Canproj" width="80%"><p class="caption">
+<img src="colorectal_incidence_old.png" class="r-plt" alt="Graph 2: Graph produced by Canproj" width="70%"><p class="caption">
 Graph 2: Graph produced by Canproj
 </p>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="section level2">
@@ -552,7 +542,10 @@ cases.</p>
 <span><span class="fu"><a href="../reference/canproj.html">canproj</a></span><span class="op">(</span><span class="va">incidence</span>, <span class="va">population</span>, <span class="fl">2025</span><span class="op">)</span></span></code></pre></div>
 <p>The bug has been fixed in the refactored package, resulting in
 different projections across packages.</p>
+<div style="display: flex; gap: 20px;">
+<div style="width: 45%;">
 <table class="table">
+<caption>Refactored Canproj</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">asr</th>
@@ -616,7 +609,10 @@ different projections across packages.</p>
 </tr>
 </tbody>
 </table>
+</div>
+<div style="width: 45%;">
 <table class="table">
+<caption>Canproj</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">asr</th>
@@ -680,6 +676,8 @@ different projections across packages.</p>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
 <p>In this case, the refactored package produces slightly lower
 projections than the original Canproj. Refactored Canproj uses the most
 recent 5 observed years (2020-2024) to calculate averages, while Canproj
@@ -718,7 +716,10 @@ the console warning.</p>
 <span>  weights <span class="op">=</span> <span class="va">weights</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">proj_oral_incidence_mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/canproj.html">canproj</a></span><span class="op">(</span><span class="va">incidence</span>, <span class="va">population</span>, <span class="fl">2013</span>, <span class="va">standpop</span><span class="op">)</span></span></code></pre></div>
+<div style="display: flex; gap: 20px;">
+<div style="width: 45%;">
 <table class="table">
+<caption>Observed incidence</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">asr</th>
@@ -877,7 +878,10 @@ the console warning.</p>
 </tr>
 </tbody>
 </table>
+</div>
+<div style="width: 45%;">
 <table class="table">
+<caption>Projected incidence</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">asr</th>
@@ -1016,6 +1020,8 @@ the console warning.</p>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

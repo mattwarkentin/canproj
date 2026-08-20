@@ -43,15 +43,13 @@ This example can be run with the refactored package as follows:
 library(canproj)
   
 incidence <- canproj::colorectal_incidence_male
-
 population <- canproj::canada_male_population
-
 proj_cr_incidence_male <- canproj(
   incidence, 
   population, 
   2020, 
   stdpop_Canada_2011
-)
+  )
 ```
 
 Given the same inputs, the equivalent command in the original package
@@ -101,6 +99,8 @@ projected rate and counts are displayed.
 | 2048 | 75.39803 | 21409 |
 | 2049 | 76.85994 | 21947 |
 
+Refactored Canproj {.table}
+
 |      |      asr |  case |
 |:-----|---------:|------:|
 | 2020 | 65.93250 | 13253 |
@@ -134,8 +134,7 @@ projected rate and counts are displayed.
 | 2048 | 75.39803 | 21409 |
 | 2049 | 76.85994 | 21947 |
 
-- Refactored Canproj
-- Canproj
+Canproj {.table}
 
 ![Graph 1: Graph produced by refactored
 Canproj](colorectal_incidence_refactor.png)
@@ -187,6 +186,8 @@ projections across packages.
 | 2028 | 0.154606 |    2 |
 | 2029 | 0.154606 |    2 |
 
+Refactored Canproj {.table}
+
 |      |      asr | case |
 |:-----|---------:|-----:|
 | 2019 | 0.409781 |    3 |
@@ -200,6 +201,8 @@ projections across packages.
 | 2027 | 0.196576 |    2 |
 | 2028 | 0.196576 |    2 |
 | 2029 | 0.196576 |    2 |
+
+Canproj {.table}
 
 In this case, the refactored package produces slightly lower projections
 than the original Canproj. Refactored Canproj uses the most recent 5
@@ -277,6 +280,8 @@ proj_oral_incidence_mb <- canproj(incidence, population, 2013, standpop)
 | 2011 | 44.42704 |  165 |
 | 2012 | 31.25867 |  120 |
 
+Observed incidence {.table}
+
 |      |       asr | case |
 |:-----|----------:|-----:|
 | 2013 |  32.51331 |  150 |
@@ -305,3 +310,5 @@ proj_oral_incidence_mb <- canproj(incidence, population, 2013, standpop)
 | 2036 | 578.07376 | 4548 |
 | 2037 | 687.43069 | 4730 |
 | 2038 | 729.67026 | 4896 |
+
+Projected incidence {.table}
