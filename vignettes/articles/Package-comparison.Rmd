@@ -1,5 +1,5 @@
 ---
-title: "Comparison of the validated Canproj R package and a refactored Canproj"
+title: "Comparison of the validated Canproj R package and refactored Canproj"
 format: 
   html:
     toc: true
@@ -7,7 +7,7 @@ format:
 
 In 2013, an R-based tool, Canproj, was developed to streamline the process of model fitting and selection. Despite being widely used, Canproj is limited by its outdated development standards and aging dependencies. Canproj was refactored into this R package with an opinionated design, formal classes, testing suite, continuous integration, increased modularity, and improved documentation while preserving the original functionality.
 
-Setting aside internal modifications, the key changes in this package are the ability to use any number of age groups (where n \>= 2), and the introduction of S7 classes for standard populations.
+Aside from internal modifications, the key changes in this package are the ability to use any number of age groups (where n \>= 2), and the introduction of S7 classes for standard populations.
 
 ## Cheat Sheet
 
@@ -113,7 +113,7 @@ knitr::kable(proj_original)
 #| fig-align: "center"
 #| echo: false
 
-knitr::include_graphics("data/colorectal_incidence_refactor.png")
+knitr::include_graphics("../../data/colorectal_incidence_refactor.png")
 
 ```
 
@@ -125,7 +125,7 @@ knitr::include_graphics("data/colorectal_incidence_refactor.png")
 #| fig-align: "center"
 #| echo: false
 
-knitr::include_graphics("data/colorectal_incidence_old.png")
+knitr::include_graphics("../../data/colorectal_incidence_old.png")
 
 ```
 :::
