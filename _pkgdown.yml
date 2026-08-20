@@ -2,3 +2,47 @@ url: https://mattwarkentin.github.io/canproj/
 template:
   bootstrap: 5
 
+reference:
+- title: Model Functions
+  desc: >
+    Functions to estimate cancer projections using the various methods supported
+    in this package.
+  contents:
+  - canproj
+  - acproj
+  - adpcproj
+  - ave5proj
+  - hybdproj
+
+- title: Model-Specific Utility Functions
+  desc: > 
+    Helper functions to work with outputs from model fitting functions.
+  contents:
+  - starts_with("canproj_")
+  - starts_with("acproj_")
+  - starts_with("adpcproj_")
+  - starts_with("ave5proj_")
+  - starts_with("hybdproj_")
+
+- title: Standard Populations
+  desc: > 
+    Tools for creating and working with standard populations.
+  contents:
+  - StandardPopulation
+  - get_standard_population
+  - stdpop_Canada_2011
+  - stdpop_Canada_2021
+  - stdpop_WHO_2000_2025
+
+- title: Utility Functions
+  contents:
+  - plot.acproj
+  - plot.adpcproj
+  - plot.ave5proj
+  - plot.canproj
+  - plot.hybdproj
+  - summary.acproj
+  - summary.adpcproj
+  - summary.ave5proj
+  - summary.canproj
+  - summary.hybdproj
