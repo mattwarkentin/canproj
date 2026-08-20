@@ -22,7 +22,7 @@ package development best practices. The goal is to move from a large,
 monolithic R script to a modular, documented, tested, and reusable
 software framework that can support future cancer projection work.
 
-## Objectives
+### Objectives
 
 The new `canproj` package aims to:
 
@@ -77,7 +77,7 @@ The new `canproj` package aims to:
   analytical requirements without requiring substantial restructuring of
   the underlying software.
 
-## From script to package
+### From script to package
 
 The original `canproj` implementation was developed as a large R script
 for a specific projection workflow. While this approach was effective

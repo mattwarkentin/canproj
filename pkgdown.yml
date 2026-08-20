@@ -3,7 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   canproj-comparison: canproj-comparison.html
-last_built: 2026-08-20T18:50Z
+last_built: 2026-08-20T18:56Z
 urls:
   reference: https://mattwarkentin.github.io/canproj/reference
   article: https://mattwarkentin.github.io/canproj/articles
