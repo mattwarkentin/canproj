@@ -1,4 +1,4 @@
-#' Standard Population
+#' Access or Create Standard Populations
 #'
 #' An `S7` class for creating standard populations to be used in other functions
 #'   in this package. For convenience, we provide three commonly used standard
