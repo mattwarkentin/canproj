@@ -6,9 +6,9 @@ Authors@R:
         comment = c(ORCID = "0000-0001-8730-3511")),
       person("Harmony A.", "Smith",, "harmony.smith@ucalgary.ca", role = "aut", 
       comment = c(ORCID = "0009-0003-9926-8188")))
-Description: An R package for short-term cancer rate projection that extends the 
-    functionality other projection models. The objective of this project is to 
-    provide and validate a flexible framework for projecting cancer incidence 
+Description: An R package for short-term cancer projection that extends the 
+    functionality of other projection models. The objective of this project is
+    to provide and validate a flexible framework for projecting cancer incidence 
     and mortality trends, enabling comparison across multiple modeling 
     approaches and supporting improved forecasting of future cancer burden.
 License: MIT + file LICENSE
@@ -29,9 +29,12 @@ Imports:
 Remotes:
     mattwarkentin/cantrends
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0),
     vdiffr
 LazyData: true
 Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3
 Config/Needs/website: rmarkdown
+VignetteBuilder: knitr

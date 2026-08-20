@@ -1,8 +1,10 @@
 ---
 title: "Comparison of the validated Canproj R package and refactored Canproj"
-format: 
-  html:
-    toc: true
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Comparison of the validated Canproj R package and refactored Canproj}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 In 2013, an R-based tool, Canproj, was developed to streamline the process of model fitting and selection. Despite being widely used, Canproj is limited by its outdated development standards and aging dependencies. Canproj was refactored into this R package with an opinionated design, formal classes, testing suite, continuous integration, increased modularity, and improved documentation while preserving the original functionality.
@@ -35,24 +37,24 @@ This example can be run with the refactored package as follows:
 
 ```{r}
 #| eval: false
-
 library(canproj)
   
 incidence <- canproj::colorectal_incidence_male
+
 population <- canproj::canada_male_population
+
 proj_cr_incidence_male <- canproj(
   incidence, 
   population, 
   2020, 
-  stdpop_Canada_2011)
-
+  stdpop_Canada_2011
+)
 ```
 
 Given the same inputs, the equivalent command in the original package would be:
 
 ```{r}
 #| eval: false
-
 source("canproj-v2019.R") 
 
 proj_cr_incidence_male <- canproj(incidence, population, 2020)
@@ -113,7 +115,7 @@ knitr::kable(proj_original)
 #| fig-align: "center"
 #| echo: false
 
-knitr::include_graphics("../../data/colorectal_incidence_refactor.png")
+knitr::include_graphics("colorectal_incidence_refactor.png")
 
 ```
 
@@ -125,7 +127,7 @@ knitr::include_graphics("../../data/colorectal_incidence_refactor.png")
 #| fig-align: "center"
 #| echo: false
 
-knitr::include_graphics("../../data/colorectal_incidence_old.png")
+knitr::include_graphics("colorectal_incidence_old.png")
 
 ```
 :::
@@ -192,6 +194,7 @@ This example uses male oral cancer in Manitoba. Canproj projections show a stark
 library(canproj)
   
 incidence <- canproj::oral_incidence_mb
+
 population <- canproj::mb_male_population
 
 weights <- c(
@@ -236,6 +239,6 @@ projected <- structure(c(32.513308, 29.956574, 27.391006, 27.919985, 31.4767, 42
 "2034", "2035", "2036", "2037", "2038"), c("asr", "case")))
 
 knitr::kable(observed)
-knitr::kable(projected)
 
+knitr::kable(projected)
 ```

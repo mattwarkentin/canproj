@@ -5,12 +5,13 @@
 \alias{canproj-package}
 \title{canproj: Cancer Incidence and Mortality Projections}
 \description{
-An R package for short-term cancer rate projection that extends the functionality other projection models. The objective of this project is to provide and validate a flexible framework for projecting cancer incidence and mortality trends, enabling comparison across multiple modeling approaches and supporting improved forecasting of future cancer burden.
+An R package for short-term cancer projection that extends the functionality of other projection models. The objective of this project is to provide and validate a flexible framework for projecting cancer incidence and mortality trends, enabling comparison across multiple modeling approaches and supporting improved forecasting of future cancer burden.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/mattwarkentin/canproj/}
+  \item \url{https://mattwarkentin.github.io/canproj/}
   \item Report bugs at \url{https://github.com/mattwarkentin/canproj/issues}
 }
 
@@ -21,7 +22,7 @@ Useful links:
 Authors:
 \itemize{
   \item Matthew T. Warkentin \email{matthew.warkentin@ucalgary.ca} (\href{https://orcid.org/0000-0001-8730-3511}{ORCID}) [copyright holder]
-  \item Harmony A. Smith \email{harmony.smith@ucalgary.ca}
+  \item Harmony A. Smith \email{harmony.smith@ucalgary.ca} (\href{https://orcid.org/0009-0003-9926-8188}{ORCID})
 }
 
 }
