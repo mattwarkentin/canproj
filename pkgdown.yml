@@ -1,8 +1,9 @@
 pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2026-08-19T22:15Z
+articles:
+  articles/Package-comparison: Package-comparison.html
+last_built: 2026-08-20T16:42Z
 urls:
   reference: https://mattwarkentin.github.io/canproj/reference
   article: https://mattwarkentin.github.io/canproj/articles
