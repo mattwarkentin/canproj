@@ -3,4 +3,4 @@
 ### All vignettes
 
 - [Comparison of the validated Canproj R package and refactored
-  Canproj](https://mattwarkentin.github.io/canproj/articles/Package-comparison.md):
+  Canproj](https://mattwarkentin.github.io/canproj/articles/canproj-comparison.md):
