@@ -4,6 +4,9 @@ R functions for projection of cancer incidence/mortality. Revising and
 combining nordpred and Osmond's to extrapolation cohort when no drift
 appears from nordpred.
 
+[`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
+extracts annual projection results from an `acproj()` object.
+
 ## Usage
 
 ``` r
@@ -18,6 +21,9 @@ acproj(
   pGOF = 0.05,
   linkfunc = "power5"
 )
+
+# S3 method for class 'acproj'
+get_projections(object, ..., cdat, pdat, startp, standpop = NULL)
 ```
 
 ## Arguments
@@ -64,6 +70,26 @@ acproj(
   Link function. Default is `"power5"`. Can be one of `"log"`, `"sqrt"`,
   or `"identity"`.
 
+- object:
+
+  An output object from `acproj()`.
+
+- ...:
+
+  Not currently used.
+
+- startp:
+
+  The start calendar year of projection (e.g., 2009).
+
+- standpop:
+
+  A `StandardPopulation` object that provides the weights (proportions)
+  for each age groups in a standard population.
+
 ## Value
 
-A [`list()`](https://rdrr.io/r/base/list.html).
+`acproj()` returns a `list`.
+
+[`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
+returns a `data.frame`.

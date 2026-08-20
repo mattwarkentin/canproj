@@ -6,6 +6,9 @@ model to project cancer data into the future based on historical trends.
 More information about this approach can be found here:
 <https://doi.org/10.24095/hpcdp.40.9.02>.
 
+[`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
+extracts projection results from a `canproj()` object.
+
 ## Usage
 
 ``` r
@@ -28,6 +31,9 @@ canproj(
   pD = 0.05,
   pGOF = 0.05
 )
+
+# S3 method for class 'canproj'
+get_projections(object, ..., standpop = NULL)
 
 # S3 method for class 'canproj'
 print(x, ...)
@@ -118,18 +124,22 @@ print(x, ...)
 
   Model selection criteria of p-value of goodness-of-fit.
 
-- x:
+- object:
 
-  A object of class `"canproj"` to print.
+  Output object from `canproj()`.
 
 - ...:
 
   Not currently used.
 
+- x:
+
+  A object of class `"canproj"` to print.
+
 ## Value
 
-A named-`list` with class `"canproj"`. The `list` contains the
-following:
+`canproj()` returns a named-`list` with class `"canproj"`. The `list`
+contains the following:
 
 - `annproj`: A `matrix` of age-standardized rates and case counts.
 
@@ -151,3 +161,6 @@ following:
 
 - `pdPC`: A vector of p-values for the drift, period, and cohort effects
   in the `"adpc"` model.
+
+[`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
+returns a `data.frame`.

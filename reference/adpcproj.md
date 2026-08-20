@@ -5,6 +5,9 @@ nordpred and introducing negative binomial distribution when lack of fit
 appears from nordpred, additional link functions of sqrt and identity,
 and settings of startage and startuseage.
 
+[`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
+extracts annual projection results from an `adpcproj()` object.
+
 ## Usage
 
 ``` r
@@ -22,6 +25,9 @@ adpcproj(
   shortp = 0,
   linkfunc = "power5"
 )
+
+# S3 method for class 'adpcproj'
+get_projections(object, ..., cdat, pdat, startp, standpop = NULL)
 ```
 
 ## Arguments
@@ -84,6 +90,26 @@ adpcproj(
   Link function. Default is `"power5"`. Can be one of `"log"`, `"sqrt"`,
   or `"identity"`.
 
+- object:
+
+  Output from `adpcproj()`.
+
+- ...:
+
+  Not currently used.
+
+- startp:
+
+  The start calendar year of projection (e.g., 2009).
+
+- standpop:
+
+  A `StandardPopulation` object that provides the weights (proportions)
+  for each age groups in a standard population.
+
 ## Value
 
-A [`list()`](https://rdrr.io/r/base/list.html).
+`adpcproj()` returns a `list`.
+
+[`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
+returns a `data.frame`.

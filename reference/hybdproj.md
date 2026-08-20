@@ -4,6 +4,9 @@ R functions for projection of cancer incidence/mortality using the
 modified Hybrid methods. Modified Hybrid by adding choice of age-model,
 cut-trend parameter, and power 5 link function.
 
+[`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
+extracts projection results from a `hybdproj()` object.
+
 ## Usage
 
 ``` r
@@ -19,6 +22,18 @@ hybdproj(
   linkfunc = "power5",
   pD = 0.05,
   pGOF = 0.05
+)
+
+# S3 method for class 'hybdproj'
+get_projections(
+  object,
+  ...,
+  cdat,
+  pdat,
+  startp,
+  standpop = NULL,
+  ave5 = FALSE,
+  sum5 = TRUE
 )
 ```
 
@@ -75,6 +90,32 @@ hybdproj(
 
   Model selection criteria of p-value of goodness-of-fit.
 
+- object:
+
+  Output from `hybdproj()`.
+
+- ...:
+
+  Not currently used.
+
+- startp:
+
+  The start calendar year of projection (e.g., 2009).
+
+- ave5:
+
+  `ave5 = TRUE` invokes the 5-year average method when age-only model is
+  selected.
+
+- sum5:
+
+  When the 5-year average method is used, `sum5 = TRUE` call the 5-year
+  period based rate, otherwise (`sum5 = FALSE`), average the 5 rates in
+  the 5 years for each age group.
+
 ## Value
 
-A [`list()`](https://rdrr.io/r/base/list.html).
+`hybdproj()` returns a `list`.
+
+[`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
+returns a `data.frame`.

@@ -5,10 +5,16 @@ average methods based on the recent 5 years data: (i) average numbers
 and population sizes then calculate rates (default), or (ii) average the
 calculated yearly rates (sum5=T)
 
+[`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
+extracts the projection results from an `ave5proj()` object.
+
 ## Usage
 
 ``` r
 ave5proj(cdat, pdat, startp, sum5 = TRUE)
+
+# S3 method for class 'ave5proj'
+get_projections(object, ..., pdat, standpop = NULL)
 ```
 
 ## Arguments
@@ -32,6 +38,22 @@ ave5proj(cdat, pdat, startp, sum5 = TRUE)
   period based rate, otherwise (`sum5 = FALSE`), average the 5 rates in
   the 5 years for each age group.
 
+- object:
+
+  Output object from `ave5proj()`.
+
+- ...:
+
+  Not currently used.
+
+- standpop:
+
+  A `StandardPopulation` object that provides the weights (proportions)
+  for each age groups in a standard population.
+
 ## Value
 
-A [`list()`](https://rdrr.io/r/base/list.html).
+`ave5proj()` returns a `list`.
+
+[`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
+returns a `data.frame`.
