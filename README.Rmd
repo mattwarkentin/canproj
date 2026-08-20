@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# canproj
+# canproj <a href="https://mattwarkentin.github.io/canproj/"><img src="man/figures/logo.png" align="right" height="120" alt="canproj website" /></a>
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -32,7 +32,7 @@ remotes::install_github("mattwarkentin/canproj")
 
 The new version preserves the core purpose and methodology of the original `canproj` while redesigning the software around modern R package development best practices. The goal is to move from a large, monolithic R script to a modular, documented, tested, and reusable software framework that can support future cancer projection work.
 
-## Objectives
+### Objectives
 
 The new `canproj` package aims to:
 
@@ -60,7 +60,7 @@ The new `canproj` package aims to:
 
 - **Facilitate future development** - Create a foundation that can support new projection methods, cancer sites, data sources, and analytical requirements without requiring substantial restructuring of the underlying software.
 
-## From script to package
+### From script to package
 
 The original `canproj` implementation was developed as a large R script for a specific projection workflow. While this approach was effective for its original purpose, it makes software reuse, testing, documentation, and adaptation more difficult.
 
