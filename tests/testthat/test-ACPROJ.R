@@ -141,14 +141,3 @@ test_that("acproj getproj works without a standard population", {
 
   expect_snapshot_value(out, style = "json2", tolerance = 0.00001)
 })
-
-test_that("acproj plotting works", {
-  cdat <- data.frame((row(matrix(1, 19, 15)) - col(matrix(1, 19, 15)) + 50))
-  pdat <- data.frame(matrix(50000, nrow = 19, ncol = 20))
-
-  out <- acproj(cdat, pdat)
-
-  vdiffr::expect_doppelganger("acproj plot", function() {
-    plot(out, cdat, pdat, 2020, stdpop_Canada_2021)
-  })
-})

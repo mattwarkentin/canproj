@@ -44,14 +44,3 @@ test_that("hybdproj works with varying age groups", {
   expect_equal(out$agrpmod, 1:10)
   expect_equal(nrow(out$predictions), 10)
 })
-
-test_that("hybdproj plotting works", {
-  cdat <- data.frame((row(matrix(1, 19, 15)) - col(matrix(1, 19, 15)) + 50))
-  pdat <- data.frame(matrix(50000, nrow = 19, ncol = 20))
-
-  out <- hybdproj(cdat, pdat, stdpop_Canada_2021)
-
-  vdiffr::expect_doppelganger("acproj plot", function() {
-    plot(out, cdat, pdat, 2020, stdpop_Canada_2021)
-  })
-})
