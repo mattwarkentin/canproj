@@ -2,7 +2,7 @@
 % Please edit documentation in R/models-acproj.R
 \name{acproj}
 \alias{acproj}
-\title{ACPROJ}
+\title{ACPROJ: Age-Cohort Projections}
 \usage{
 acproj(
   cdat,

@@ -5,6 +5,8 @@
 \alias{canproj-package}
 \title{canproj: Cancer Incidence and Mortality Projections}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 An R package for short-term cancer projection that extends the functionality of other projection models. The objective of this project is to provide and validate a flexible framework for projecting cancer incidence and mortality trends, enabling comparison across multiple modeling approaches and supporting improved forecasting of future cancer burden.
 }
 \seealso{

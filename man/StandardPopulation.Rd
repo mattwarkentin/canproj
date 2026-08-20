@@ -6,7 +6,7 @@
 \alias{stdpop_Canada_2011}
 \alias{stdpop_Canada_2021}
 \alias{stdpop_WHO_2000_2025}
-\title{Standard Population}
+\title{Access or Create Standard Populations}
 \usage{
 StandardPopulation(
   name = rlang::abort("@name is required."),

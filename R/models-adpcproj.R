@@ -1,4 +1,4 @@
-#' ADPCPROJ
+#' ADPCPROJ: Age-Drift-Period-Cohort Projections
 #'
 #' R functions for projection of cancer incidence/mortality. Revising nordpred
 #'   and introducing negative binomial distribution when lack of fit appears
@@ -245,11 +245,11 @@ adpcproj_estimate <- function(
     mod2 <- stats::glm(
       Cases ~
         as.factor(Age) +
-          Period +
-          I(Period^2) +
-          as.factor(Cohort) +
-          offset(log(y)) -
-          1,
+        Period +
+        I(Period^2) +
+        as.factor(Cohort) +
+        offset(log(y)) -
+        1,
       data = apcdata,
       family = stats::poisson
     )
@@ -273,11 +273,11 @@ adpcproj_estimate <- function(
     mod2 <- suppressWarnings(MASS::glm.nb(
       Cases ~
         as.factor(Age) +
-          Period +
-          I(Period^2) +
-          as.factor(Cohort) +
-          offset(log(y)) -
-          1,
+        Period +
+        I(Period^2) +
+        as.factor(Cohort) +
+        offset(log(y)) -
+        1,
       data = apcdata,
       link = log
     ))
@@ -667,20 +667,6 @@ summary.adpcproj <- function(
     dput(attr(object, "Call"))
   }
   invisible(object)
-}
-
-
-#' glm.adpcproj
-#'
-#' Summarize estimations from the final model.
-#'
-#' @inheritParams adpcproj_get_predictions
-#'
-#' @return A summary table from the `glm.object`.
-#'
-#' @export
-glm.adpcproj <- function(adpcproj.object) {
-  summary(adpcproj.object$glm)
 }
 
 

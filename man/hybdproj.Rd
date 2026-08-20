@@ -2,7 +2,7 @@
 % Please edit documentation in R/models-hybdproj.R
 \name{hybdproj}
 \alias{hybdproj}
-\title{HYBDPROJ}
+\title{HYBDPROJ: Hybrid Projections}
 \usage{
 hybdproj(
   cdat,

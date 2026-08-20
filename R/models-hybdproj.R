@@ -1,4 +1,4 @@
-#' HYBDPROJ
+#' HYBDPROJ: Hybrid Projections
 #'
 #' R functions for projection of cancer incidence/mortality using the modified
 #'   Hybrid methods. Modified Hybrid by adding choice of age-model, cut-trend
@@ -554,20 +554,6 @@ summary.hybdproj <- function(
   }
 
   invisible(object)
-}
-
-
-#' glm.hybdproj
-#'
-#' Summarize estimations from the final model.
-#'
-#' @inheritParams hybdproj_get_predictions
-#'
-#' @return A summary table from the `glm.object`.
-#'
-#' @export
-glm.hybdproj <- function(hybdproj.object) {
-  summary(hybdproj.object$glm)
 }
 
 

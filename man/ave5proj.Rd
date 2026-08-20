@@ -2,7 +2,7 @@
 % Please edit documentation in R/models-average5.R
 \name{ave5proj}
 \alias{ave5proj}
-\title{Average5}
+\title{Average5: Five-Year Average Projections}
 \usage{
 ave5proj(cdat, pdat, startp, sum5 = TRUE)
 }

@@ -1,4 +1,4 @@
-#' ACPROJ
+#' ACPROJ: Age-Cohort Projections
 #'
 #' R functions for projection of cancer incidence/mortality. Revising and
 #'   combining nordpred and Osmond's to extrapolation cohort when no drift
@@ -505,20 +505,6 @@ summary.acproj <- function(
     dput(attr(object, "Call"))
   }
   invisible(object)
-}
-
-
-#' glm.acproj
-#'
-#' Summarize estimations from the final model.
-#'
-#' @inheritParams acproj_get_predictions
-#'
-#' @return A summary table from the `glm.object`.
-#'
-#' @export
-glm.acproj <- function(acproj.object) {
-  summary(acproj.object$glm)
 }
 
 

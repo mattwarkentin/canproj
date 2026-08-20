@@ -2,7 +2,7 @@
 % Please edit documentation in R/models-adpcproj.R
 \name{adpcproj}
 \alias{adpcproj}
-\title{ADPCPROJ}
+\title{ADPCPROJ: Age-Drift-Period-Cohort Projections}
 \usage{
 adpcproj(
   cdat,
