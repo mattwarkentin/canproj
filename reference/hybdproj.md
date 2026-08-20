@@ -1,4 +1,4 @@
-# HYBDPROJ
+# HYBDPROJ: Hybrid Projections
 
 R functions for projection of cancer incidence/mortality using the
 modified Hybrid methods. Modified Hybrid by adding choice of age-model,

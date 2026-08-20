@@ -1,4 +1,4 @@
-# ADPCPROJ
+# ADPCPROJ: Age-Drift-Period-Cohort Projections
 
 R functions for projection of cancer incidence/mortality. Revising
 nordpred and introducing negative binomial distribution when lack of fit

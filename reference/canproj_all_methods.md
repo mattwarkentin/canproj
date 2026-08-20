@@ -1,6 +1,13 @@
-# Canproj all methods
+# Fit all Canproj models
 
-Run all canproj methods and name the selected method.
+Fits all of the available
+[`canproj()`](https://mattwarkentin.github.io/canproj/reference/canproj.md)
+methods. This function accepts all the same arguments as
+[`canproj()`](https://mattwarkentin.github.io/canproj/reference/canproj.md)
+and they are passed on to each function call. The methods fit by this
+model include: `"nordpred"`, `"adpc-nb"`, `"ac-poi"`, `"ac-nb"`,
+`"age-trd-poi"`, `"age-trd-nb"`, `"com-trd"`, `"age-only"`, and
+`"ave5"`.
 
 ## Usage
 
@@ -106,9 +113,10 @@ canproj_all_methods(
 
 ## Value
 
-A `list`. The `list` contains the following:
+A `list`. The `list` contains the following items:
 
-- `selected_method`: Projection method selected by Canproj
+- `<selected_method>`: Projection method selected by
+  [`canproj()`](https://mattwarkentin.github.io/canproj/reference/canproj.md).
 
 - `nordpred`: `canproj` object produced by the `"nordpred"` method.
 

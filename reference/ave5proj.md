@@ -1,4 +1,4 @@
-# Average5
+# Average5: Five-Year Average Projections
 
 R functions for projection of cancer incidence/mortality using the
 average methods based on the recent 5 years data: (i) average numbers

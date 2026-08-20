@@ -1,15 +1,30 @@
 # Package index
 
-## All functions
+## Model Functions
 
-- [`StandardPopulation()`](https://mattwarkentin.github.io/canproj/reference/StandardPopulation.md)
-  [`get_standard_population()`](https://mattwarkentin.github.io/canproj/reference/StandardPopulation.md)
-  [`stdpop_Canada_2011`](https://mattwarkentin.github.io/canproj/reference/StandardPopulation.md)
-  [`stdpop_Canada_2021`](https://mattwarkentin.github.io/canproj/reference/StandardPopulation.md)
-  [`stdpop_WHO_2000_2025`](https://mattwarkentin.github.io/canproj/reference/StandardPopulation.md)
-  : Standard Population
+Functions to estimate cancer projections using the various methods
+supported in this package.
+
+- [`canproj()`](https://mattwarkentin.github.io/canproj/reference/canproj.md)
+  [`print(`*`<canproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/canproj.md)
+  : Canproj: Cancer Projections
 - [`acproj()`](https://mattwarkentin.github.io/canproj/reference/acproj.md)
-  : ACPROJ
+  : ACPROJ: Age-Cohort Projections
+- [`adpcproj()`](https://mattwarkentin.github.io/canproj/reference/adpcproj.md)
+  : ADPCPROJ: Age-Drift-Period-Cohort Projections
+- [`ave5proj()`](https://mattwarkentin.github.io/canproj/reference/ave5proj.md)
+  : Average5: Five-Year Average Projections
+- [`hybdproj()`](https://mattwarkentin.github.io/canproj/reference/hybdproj.md)
+  : HYBDPROJ: Hybrid Projections
+
+## Model-Specific Utility Functions
+
+Helper functions to work with outputs from model fitting functions.
+
+- [`canproj_all_methods()`](https://mattwarkentin.github.io/canproj/reference/canproj_all_methods.md)
+  : Fit all Canproj models
+- [`canproj_get_projections()`](https://mattwarkentin.github.io/canproj/reference/canproj_get_projections.md)
+  : canproj_get_projections
 - [`acproj_estimate()`](https://mattwarkentin.github.io/canproj/reference/acproj_estimate.md)
   : acproj_estimate
 - [`acproj_get_predictions()`](https://mattwarkentin.github.io/canproj/reference/acproj_get_predictions.md)
@@ -18,8 +33,6 @@
   : acproj_get_projections
 - [`acproj_predict()`](https://mattwarkentin.github.io/canproj/reference/acproj_predict.md)
   : acproj_predict
-- [`adpcproj()`](https://mattwarkentin.github.io/canproj/reference/adpcproj.md)
-  : ADPCPROJ
 - [`adpcproj_estimate()`](https://mattwarkentin.github.io/canproj/reference/adpcproj_estimate.md)
   : adpcproj_estimate
 - [`adpcproj_get_predictions()`](https://mattwarkentin.github.io/canproj/reference/adpcproj_get_predictions.md)
@@ -28,27 +41,8 @@
   : adpcproj_get_projections
 - [`adpcproj_predict()`](https://mattwarkentin.github.io/canproj/reference/adpcproj_predict.md)
   : adpcproj_predict
-- [`ave5proj()`](https://mattwarkentin.github.io/canproj/reference/ave5proj.md)
-  : Average5
 - [`ave5proj_get_projections()`](https://mattwarkentin.github.io/canproj/reference/ave5proj_get_projections.md)
   : ave5proj_get_projections
-- [`canproj()`](https://mattwarkentin.github.io/canproj/reference/canproj.md)
-  [`print(`*`<canproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/canproj.md)
-  : Canproj: Cancer Projections
-- [`canproj_all_methods()`](https://mattwarkentin.github.io/canproj/reference/canproj_all_methods.md)
-  : Canproj all methods
-- [`canproj_get_projections()`](https://mattwarkentin.github.io/canproj/reference/canproj_get_projections.md)
-  : canproj_get_projections
-- [`glm.acproj()`](https://mattwarkentin.github.io/canproj/reference/glm.acproj.md)
-  : glm.acproj
-- [`glm.adpcproj()`](https://mattwarkentin.github.io/canproj/reference/glm.adpcproj.md)
-  : glm.adpcproj
-- [`glm.canproj()`](https://mattwarkentin.github.io/canproj/reference/glm.canproj.md)
-  : glm.canproj
-- [`glm.hybdproj()`](https://mattwarkentin.github.io/canproj/reference/glm.hybdproj.md)
-  : glm.hybdproj
-- [`hybdproj()`](https://mattwarkentin.github.io/canproj/reference/hybdproj.md)
-  : HYBDPROJ
 - [`hybdproj_estimate()`](https://mattwarkentin.github.io/canproj/reference/hybdproj_estimate.md)
   : hybdproj_estimate
 - [`hybdproj_get_predictions()`](https://mattwarkentin.github.io/canproj/reference/hybdproj_get_predictions.md)
@@ -57,6 +51,20 @@
   : hybdproj_get_projections
 - [`hybdproj_predict()`](https://mattwarkentin.github.io/canproj/reference/hybdproj_predict.md)
   : hybdproj_predict
+
+## Standard Populations
+
+Tools for creating and working with standard populations.
+
+- [`StandardPopulation()`](https://mattwarkentin.github.io/canproj/reference/StandardPopulation.md)
+  [`get_standard_population()`](https://mattwarkentin.github.io/canproj/reference/StandardPopulation.md)
+  [`stdpop_Canada_2011`](https://mattwarkentin.github.io/canproj/reference/StandardPopulation.md)
+  [`stdpop_Canada_2021`](https://mattwarkentin.github.io/canproj/reference/StandardPopulation.md)
+  [`stdpop_WHO_2000_2025`](https://mattwarkentin.github.io/canproj/reference/StandardPopulation.md)
+  : Access or Create Standard Populations
+
+## Utility Functions
+
 - [`plot(`*`<acproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/plot.acproj.md)
   : plot.acproj
 - [`plot(`*`<adpcproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/plot.adpcproj.md)

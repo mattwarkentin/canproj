@@ -1,4 +1,4 @@
-# ACPROJ
+# ACPROJ: Age-Cohort Projections
 
 R functions for projection of cancer incidence/mortality. Revising and
 combining nordpred and Osmond's to extrapolation cohort when no drift
