@@ -35,26 +35,25 @@ As part of refactoring, some aspects of the visible functions and variables have
 
 This example can be run with the refactored package as follows:
 
-```{r}
-#| eval: false
+```{r, eval=FALSE}
+
 library(canproj)
   
 incidence <- canproj::colorectal_incidence_male
-
 population <- canproj::canada_male_population
-
 proj_cr_incidence_male <- canproj(
   incidence, 
   population, 
   2020, 
   stdpop_Canada_2011
-)
+  )
+
 ```
 
 Given the same inputs, the equivalent command in the original package would be:
 
-```{r}
-#| eval: false
+```{r, eval=FALSE}
+
 source("canproj-v2019.R") 
 
 proj_cr_incidence_male <- canproj(incidence, population, 2020)
@@ -62,12 +61,10 @@ proj_cr_incidence_male <- canproj(incidence, population, 2020)
 
 The resulting annual projections are identical in this case, showing that the refactored package aligns with Canproj. For brevity, only projected rate and counts are displayed.
 
-```{r}
-#| label: tbl-large
-#| layout-ncol: 2
-#| tbl-cap: Annual colon and rectum cancer incidence projections in Canadian males
-#| tbl-subcap: ["Refactored Canproj","Canproj"]
-#| echo: false
+::::: {style="display: flex; gap: 20px;"}
+::: {style="width: 45%;"}
+```{r, echo = FALSE, results = 'asis', warning = F}
+library(knitr)
 
 # refactored
 proj_refactored <- structure(c(65.932503, 64.798297, 63.66409, 63.014422, 62.364754, 
@@ -85,6 +82,14 @@ proj_refactored <- structure(c(65.932503, 64.798297, 63.66409, 63.014422, 62.364
     "2043", "2044", "2045", "2046", "2047", "2048", "2049"), 
     c("asr", "case")))
 
+knitr::kable(proj_refactored, caption = "Refactored Canproj")
+```
+:::
+
+::: {style="width: 45%;"}
+```{r, echo = FALSE, results = 'asis', warning = F}
+library(knitr)
+
 # original
 proj_original <- structure(c(65.932503, 64.798297, 63.66409, 63.014422, 62.364754, 
 61.715086, 61.065418, 60.41575, 60.317378, 60.219006, 60.120634, 
@@ -101,36 +106,24 @@ proj_original <- structure(c(65.932503, 64.798297, 63.66409, 63.014422, 62.36475
     "2043", "2044", "2045", "2046", "2047", "2048", "2049"), 
     c("asr", "case")))
 
-knitr::kable(proj_refactored)
-knitr::kable(proj_original)
+knitr::kable(proj_original, caption = "Canproj")
 
 ```
+:::
+:::::
 
-::: panel-tabset
-### Refactored Canproj
 
-```{r}
-#| fig-cap: "Graph 1: Graph produced by refactored Canproj"
-#| out-width: "70%"
-#| fig-align: "center"
-#| echo: false
-
+```{r, fig.cap="Graph 1: Graph produced by refactored Canproj", out.width="70%", fig.align="center", echo=FALSE}
 knitr::include_graphics("colorectal_incidence_refactor.png")
-
 ```
 
-### Canproj
 
-```{r}
-#| fig-cap: "Graph 2: Graph produced by Canproj"
-#| out-width: "80%"
-#| fig-align: "center"
-#| echo: false
+```{r, fig.cap="Graph 2: Graph produced by Canproj", out.width="70%", fig.align="center", echo=FALSE}
 
 knitr::include_graphics("colorectal_incidence_old.png")
 
 ```
-:::
+
 
 ## Rare cancers and small populations
 
@@ -138,8 +131,7 @@ With sufficiently small case counts, Canproj will select the 5-year average mode
 
 This example will use the following simulated data.
 
-```{r}
-#| eval: false
+```{r, eval=FALSE}
 
 set.seed(83765)
 incidence <- matrix(floor(abs(rnorm(285, 0.1, 0.5))), nrow = 19, ncol = 15)
@@ -154,12 +146,9 @@ canproj(incidence, population, 2025)
 
 The bug has been fixed in the refactored package, resulting in different projections across packages.
 
-```{r}
-#| label: tbl-small
-#| layout-ncol: 2
-#| tbl-cap: Simulated cancer incidence in a small population
-#| tbl-subcap: ["Refactored Canproj","Canproj"]
-#| echo: false
+::::: {style="display: flex; gap: 20px;"}
+::: {style="width: 45%;"}
+```{r,  echo=FALSE}
 
 #refactored
 proj_refactored <- structure(c(0.409781, 0.122117, 0.30166, 0.129736, 0.106271, 
@@ -167,16 +156,23 @@ proj_refactored <- structure(c(0.409781, 0.122117, 0.30166, 0.129736, 0.106271,
 2, 3, 1, 1, 1, 2, 2, 2, 2, 2), dim = c(11L, 2L), dimnames = list(
     c("2019", "2020", "2021", "2022", "2023", "2024", "2025", 
     "2026", "2027", "2028", "2029"), c("asr", "case")))
+knitr::kable(proj_refactored, caption = "Refactored Canproj")
 
+```
+:::
+
+::: {style="width: 45%;"}
+```{r, echo=FALSE}
 
 # original
 proj_original <- structure(c(0.409781, 0.122117, 0.301660, 0.129736, 0.106271, 0.110790, 0.196576, 0.196576, 0.196576, 0.196576, 0.196576, 
 3, 2, 3, 1, 1, 1, 2, 2, 2, 2, 2), dim = c(11L, 2L), dimnames = list(2019:2029, c("asr", "case")))
 
-knitr::kable(proj_refactored)
-knitr::kable(proj_original)
+knitr::kable(proj_original, caption = "Canproj")
 
 ```
+:::
+:::::
 
 In this case, the refactored package produces slightly lower projections than the original Canproj. Refactored Canproj uses the most recent 5 observed years (2020-2024) to calculate averages, while Canproj projected inflated rates due to including 2019 during calculations.
 
@@ -188,8 +184,7 @@ This is done by calculating two annual percent changes (APCs): one for all obser
 
 This example uses male oral cancer in Manitoba. Canproj projections show a stark difference between observed and projected periods, where observed cases hover around 110 people per year, but projected cases reach into the 4000s. The difference in APCs is about 15%, triggering the console warning.
 
-```{r}
-#| eval: false
+```{r, eval=FALSE}
 
 library(canproj)
   
@@ -209,12 +204,9 @@ proj_oral_incidence_mb <- canproj(incidence, population, 2013, standpop)
 
 ```
 
-```{r}
-#| label: tbl-mb
-#| layout-ncol: 2
-#| tbl-cap: Observed and projected male oral cancer incidence in Manitoba, 1983-2038
-#| tbl-subcap: ["Observed","Projected"]
-#| echo: false
+::::: {style="display: flex; gap: 20px;"}
+::: {style="width: 45%;"}
+```{r, echo=FALSE}
 
 observed <- structure(c(38.9912, 42.492735, 40.342095, 31.08622, 49.680286, 
 57.591963, 52.2465, 50.928825, 41.784824, 46.14897, 53.34537, 
@@ -229,7 +221,13 @@ observed <- structure(c(38.9912, 42.492735, 40.342095, 31.08622, 49.680286,
 "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", 
 "2010", "2011", "2012"), c("asr", "case")))
 
+knitr::kable(observed, caption = "Observed incidence")
 
+```
+:::
+
+::: {style="width: 45%;"}
+```{r, echo=FALSE}
 projected <- structure(c(32.513308, 29.956574, 27.391006, 27.919985, 31.4767, 42.193478, 60.635802, 76.946775, 100.11654, 132.165246, 168.520448, 202.540489, 228.372189, 234.523754, 252.073142, 291.15289, 109.226805, 
 141.640005, 190.889956, 238.775242, 289.46234, 368.350465, 495.107521, 
 578.073765, 687.430691, 729.670259, 150, 170, 
@@ -238,7 +236,8 @@ projected <- structure(c(32.513308, 29.956574, 27.391006, 27.919985, 31.4767, 42
 4896), dim = c(26L, 2L), dimnames = list(c("2013", "2014", "2015", "2016","2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", 
 "2034", "2035", "2036", "2037", "2038"), c("asr", "case")))
 
-knitr::kable(observed)
+knitr::kable(projected, caption = "Projected incidence")
 
-knitr::kable(projected)
 ```
+:::
+:::::
