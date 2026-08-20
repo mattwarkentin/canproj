@@ -2,6 +2,7 @@
 % Please edit documentation in R/models-hybdproj.R
 \name{hybdproj}
 \alias{hybdproj}
+\alias{get_projections.hybdproj}
 \title{HYBDPROJ: Hybrid Projections}
 \usage{
 hybdproj(
@@ -16,6 +17,17 @@ hybdproj(
   linkfunc = "power5",
   pD = 0.05,
   pGOF = 0.05
+)
+
+\method{get_projections}{hybdproj}(
+  object,
+  ...,
+  cdat,
+  pdat,
+  startp,
+  standpop = NULL,
+  ave5 = FALSE,
+  sum5 = TRUE
 )
 }
 \arguments{
@@ -48,12 +60,29 @@ projection years.}
 \item{pD}{Trend selecting criteria of p-value of drift (linear trend) term.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
+
+\item{object}{Output from \code{hybdproj()}.}
+
+\item{...}{Not currently used.}
+
+\item{startp}{The start calendar year of projection (e.g., 2009).}
+
+\item{ave5}{\code{ave5 = TRUE} invokes the 5-year average method when age-only
+model is selected.}
+
+\item{sum5}{When the 5-year average method is used, \code{sum5 = TRUE} call the
+5-year period based rate, otherwise (\code{sum5 = FALSE}), average the 5 rates
+in the 5 years for each age group.}
 }
 \value{
-A \code{list()}.
+\code{hybdproj()} returns a \code{list}.
+
+\code{get_projections()} returns a \code{data.frame}.
 }
 \description{
 R functions for projection of cancer incidence/mortality using the modified
 Hybrid methods. Modified Hybrid by adding choice of age-model, cut-trend
 parameter, and power 5 link function.
+
+\code{get_projections()} extracts projection results from a \code{hybdproj()} object.
 }

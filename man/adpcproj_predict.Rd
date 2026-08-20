@@ -31,3 +31,4 @@ A \code{list()}.
 \description{
 Extrapolate estimated trend from age-drift-period-cohort model
 }
+\keyword{internal}

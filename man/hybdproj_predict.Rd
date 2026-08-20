@@ -21,3 +21,4 @@ A \code{list()}.
 \description{
 Extrapolate estimated trend from the final model
 }
+\keyword{internal}

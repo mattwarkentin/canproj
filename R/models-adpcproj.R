@@ -12,7 +12,7 @@
 #' @param recent Estimate drift term from recent trend (`T`) or whole trend (`F`).
 #'  Default (`NULL`) uses compares models to pick.
 #'
-#' @return A `list()`.
+#' @return `adpcproj()` returns a `list`.
 #'
 #' @export
 adpcproj <- function(
@@ -152,8 +152,7 @@ adpcproj <- function(
 #' @param noperiod Number of 5-year periods in historical data.
 #'
 #' @return A `list()`.
-#'
-#' @export
+#' @keywords internal
 adpcproj_estimate <- function(
   cases,
   pyr,
@@ -321,8 +320,7 @@ adpcproj_estimate <- function(
 #' @param recent Indicate estimated drift term from recent trend (`T`) or whole trend (`F`).
 #'
 #' @return A `list()`.
-#'
-#' @export
+#' @keywords internal
 adpcproj_predict <- function(
   adpcproj_estimate.object,
   startuseage,
@@ -485,8 +483,7 @@ adpcproj_predict <- function(
 #'  the first 3 groups and the seventh group.
 #'
 #' @return A `data.frame()`.
-#'
-#' @export
+#' @keywords internal
 adpcproj_get_predictions <- function(
   adpcproj.object,
   incidence = T,
@@ -518,47 +515,49 @@ adpcproj_get_predictions <- function(
 }
 
 
-#' adpcproj_get_projections
+#' Get ADPCPROJ Projections
 #'
-#' Extract annual projection results
+#' `get_projections()` extracts annual projection results from an `adpcproj()`
+#'   object.
 #'
 #' @inheritParams canproj
 #' @inheritParams adpcproj_get_predictions
+#' @param object Output from `adpcproj()`.
 #'
-#' @return A `data.frame()`.
+#' @return `get_projections()` returns a `data.frame`.
+#'
+#' @rdname adpcproj
 #'
 #' @export
-adpcproj_get_projections <- function(
+get_projections.adpcproj <- function(
+  object,
+  ...,
   cdat,
   pdat,
   startp,
-  adpcproj.object,
   standpop = NULL
 ) {
-  if (!inherits(adpcproj.object, "adpcproj")) {
-    rlang::abort("Variable \"adpcproj.object\" must be of type \"adpcproj\"")
-  }
-
+  rlang::check_dots_empty()
   validate_getproj_inputs(
+    object = object,
     cdat = cdat,
     pdat = pdat,
     startp = startp,
-    standpop = standpop,
-    adpcproj.object
+    standpop = standpop
   )
-  if (floor(ncol(cdat) / 5) != adpcproj.object$noperiod) {
+  if (floor(ncol(cdat) / 5) != object$noperiod) {
     rlang::abort(
       "\"cdat\" must match adpcproj.object periods (floor(ncol(cdat) / 5) == noperiod)"
     )
   }
 
-  if (floor(ncol(pdat) / 5) != ncol(adpcproj.object$predictions)) {
+  if (floor(ncol(pdat) / 5) != ncol(object$predictions)) {
     rlang::abort(
       "\"pdat\" must match adpcproj.object periods (floor(ncol(pdat) / 5) == ncol(predictions))"
     )
   }
 
-  r0 <- adpcproj_get_predictions(adpcproj.object, incidence = T)
+  r0 <- adpcproj_get_predictions(object, incidence = T)
   outasp <- interpolate_age_specific_rates(
     r0,
     cdat,
@@ -699,11 +698,11 @@ plot.adpcproj <- function(
 
   S7::check_is_S7(standpop, StandardPopulation)
 
-  indat <- adpcproj_get_projections(
-    cdat,
-    pdat,
+  indat <- get_projections(
+    object = x,
+    cdat = cdat,
+    pdat = pdat,
     startp = startp,
-    x,
     standpop = standpop
   )
   indata <- indat[, 1]

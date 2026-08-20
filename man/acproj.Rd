@@ -2,6 +2,7 @@
 % Please edit documentation in R/models-acproj.R
 \name{acproj}
 \alias{acproj}
+\alias{get_projections.acproj}
 \title{ACPROJ: Age-Cohort Projections}
 \usage{
 acproj(
@@ -15,6 +16,8 @@ acproj(
   pGOF = 0.05,
   linkfunc = "power5"
 )
+
+\method{get_projections}{acproj}(object, ..., cdat, pdat, startp, standpop = NULL)
 }
 \arguments{
 \item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
@@ -40,12 +43,26 @@ projection years.}
 
 \item{linkfunc}{Link function. Default is \code{"power5"}. Can be one of \code{"log"},
 \code{"sqrt"}, or \code{"identity"}.}
+
+\item{object}{An output object from \code{acproj()}.}
+
+\item{...}{Not currently used.}
+
+\item{startp}{The start calendar year of projection (e.g., 2009).}
+
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 }
 \value{
-A \code{list()}.
+\code{acproj()} returns a \code{list}.
+
+\code{get_projections()} returns a \code{data.frame}.
 }
 \description{
 R functions for projection of cancer incidence/mortality. Revising and
 combining nordpred and Osmond's to extrapolation cohort when no drift
 appears from nordpred.
+
+\code{get_projections()} extracts annual projection results from an \code{acproj()}
+object.
 }

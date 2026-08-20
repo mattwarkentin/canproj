@@ -34,3 +34,4 @@ A \code{list()}.
 \description{
 Fit age-drift-period-cohort models
 }
+\keyword{internal}

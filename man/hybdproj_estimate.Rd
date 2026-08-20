@@ -39,3 +39,4 @@ A \code{list()}.
 \description{
 Define projection base, model selection, and fitting
 }
+\keyword{internal}

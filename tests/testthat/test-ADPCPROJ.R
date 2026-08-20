@@ -152,11 +152,11 @@ test_that("adpcproj getproj works with standard population", {
     c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
   )
 
-  out <- adpcproj_get_projections(
-    cdat,
-    pdat,
-    2000,
+  out <- get_projections(
     adpcproj_obj,
+    cdat = cdat,
+    pdat = pdat,
+    startp = 2000,
     standpop = stdpop
   )
 
@@ -178,7 +178,7 @@ test_that("adpcproj getproj works without standard population", {
   )
   class(adpcproj_obj) <- "adpcproj"
 
-  out <- adpcproj_get_projections(cdat, pdat, 2000, adpcproj_obj)
+  out <- get_projections(adpcproj_obj, cdat = cdat, pdat = pdat, startp = 2000)
 
   expect_equal(out["19", "1987"], 3.995525, tolerance = 0.00001)
   expect_equal(out["6", "2000"], 198.1467, tolerance = 0.00001)

@@ -7,7 +7,7 @@
 #'
 #' @inheritParams canproj
 #'
-#' @return A `list()`.
+#' @return `ave5proj()` returns a `list`.
 #'
 #' @export
 ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
@@ -74,28 +74,27 @@ ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
 }
 
 
-#' ave5proj_get_projections
+#' Get Average5 Projections
 #'
-#' Extract the projection results
+#' `get_projections()` extracts the projection results from an `ave5proj()`
+#'   object.
 #'
 #' @inheritParams canproj
-#' @param ave5proj.object An object based on the `ave5proj()` function.
+#' @param object Output object from `ave5proj()`.
 #'
-#' @return A `data.frame()`.
+#' @return `get_projections()` returns a `data.frame`.
 #'
+#' @rdname ave5proj
 #' @export
-ave5proj_get_projections <- function(pdat, ave5proj.object, standpop = NULL) {
-  if (!inherits(ave5proj.object, "ave5proj")) {
-    rlang::abort("Variable \"ave5proj.object\" must be of type \"ave5proj\"")
-  }
-
+get_projections.ave5proj <- function(object, ..., pdat, standpop = NULL) {
+  rlang::check_dots_empty()
   validate_getproj_inputs(
+    object = object,
     pdat = pdat,
-    standpop = standpop,
-    ave5proj.object
+    standpop = standpop
   )
 
-  outasp <- ave5proj.object$agsproj
+  outasp <- object$agsproj
 
   if (is.null(standpop)) {
     return(outasp)
@@ -103,7 +102,7 @@ ave5proj_get_projections <- function(pdat, ave5proj.object, standpop = NULL) {
     annproj <- standardize_annual_rates(
       outasp,
       pdat,
-      ave5proj.object$startp,
+      object$startp,
       standpop,
       check = FALSE
     )
@@ -193,11 +192,7 @@ plot.ave5proj <- function(
   }
   S7::check_is_S7(standpop, StandardPopulation)
 
-  indat <- ave5proj_get_projections(
-    pdat,
-    x,
-    standpop = standpop
-  )
+  indat <- get_projections(object = x, pdat = pdat, standpop = standpop)
   indata <- indat[, 1]
 
   data <- as.data.frame(indata)

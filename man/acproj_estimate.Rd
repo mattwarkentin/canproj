@@ -34,3 +34,4 @@ A \code{list()}.
 \description{
 Fit age-cohort models
 }
+\keyword{internal}

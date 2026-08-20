@@ -2,6 +2,7 @@
 % Please edit documentation in R/canproj.R
 \name{canproj}
 \alias{canproj}
+\alias{get_projections.canproj}
 \alias{print.canproj}
 \title{Canproj: Cancer Projections}
 \usage{
@@ -24,6 +25,8 @@ canproj(
   pD = 0.05,
   pGOF = 0.05
 )
+
+\method{get_projections}{canproj}(object, ..., standpop = NULL)
 
 \method{print}{canproj}(x, ...)
 }
@@ -78,13 +81,15 @@ projection years.}
 
 \item{pGOF}{Model selection criteria of p-value of goodness-of-fit.}
 
-\item{x}{A object of class \code{"canproj"} to print.}
+\item{object}{Output object from \code{canproj()}.}
 
 \item{...}{Not currently used.}
+
+\item{x}{A object of class \code{"canproj"} to print.}
 }
 \value{
-A named-\code{list} with class \code{"canproj"}. The \code{list} contains the
-following:
+\code{canproj()} returns a named-\code{list} with class \code{"canproj"}.
+The \code{list} contains the following:
 \itemize{
 \item \code{annproj}: A \code{matrix} of age-standardized rates and case counts.
 \item \code{agsproj}: A \code{data.frame} of case counts for each age group and year.
@@ -98,6 +103,8 @@ following:
 \item \code{pdPC}: A vector of p-values for the drift, period, and cohort effects
 in the \code{"adpc"} model.
 }
+
+\code{get_projections()} returns a \code{data.frame}.
 }
 \description{
 Cancer incidence and mortality projections using the Canproj method. In
@@ -105,4 +112,6 @@ brief, Canproj uses a decision-tree approach to determine the optimal model
 to project cancer data into the future based on historical trends. More
 information about this approach can be found here:
 \url{https://doi.org/10.24095/hpcdp.40.9.02}.
+
+\code{get_projections()} extracts projection results from a \code{canproj()} object.
 }

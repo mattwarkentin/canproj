@@ -2,6 +2,7 @@
 % Please edit documentation in R/models-adpcproj.R
 \name{adpcproj}
 \alias{adpcproj}
+\alias{get_projections.adpcproj}
 \title{ADPCPROJ: Age-Drift-Period-Cohort Projections}
 \usage{
 adpcproj(
@@ -18,6 +19,8 @@ adpcproj(
   shortp = 0,
   linkfunc = "power5"
 )
+
+\method{get_projections}{adpcproj}(object, ..., cdat, pdat, startp, standpop = NULL)
 }
 \arguments{
 \item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
@@ -53,13 +56,27 @@ projection years.}
 
 \item{linkfunc}{Link function. Default is \code{"power5"}. Can be one of \code{"log"},
 \code{"sqrt"}, or \code{"identity"}.}
+
+\item{object}{Output from \code{adpcproj()}.}
+
+\item{...}{Not currently used.}
+
+\item{startp}{The start calendar year of projection (e.g., 2009).}
+
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 }
 \value{
-A \code{list()}.
+\code{adpcproj()} returns a \code{list}.
+
+\code{get_projections()} returns a \code{data.frame}.
 }
 \description{
 R functions for projection of cancer incidence/mortality. Revising nordpred
 and introducing negative binomial distribution when lack of fit appears
 from nordpred, additional link functions of sqrt and identity, and settings
 of startage and startuseage.
+
+\code{get_projections()} extracts annual projection results from an \code{adpcproj()}
+object.
 }

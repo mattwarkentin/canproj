@@ -22,7 +22,12 @@ test_that("hybdproj getproj works with non-average model", {
   )
   class(hybd_obj) <- "hybdproj"
 
-  out <- hybdproj_get_projections(cdat, pdat, startp = 2000, hybd_obj)
+  out <- get_projections(
+    hybd_obj,
+    cdat = cdat,
+    pdat = pdat,
+    startp = 2000
+  )
 
   expect_equal(out["11", "2002"], 57.41385, tolerance = 0.00001)
   expect_snapshot_value(out, style = "json2", tolerance = 0.00001)
@@ -59,11 +64,11 @@ test_that("hybdproj getproj works with non-average model and standpop", {
   )
 
   suppressWarnings(
-    out <- hybdproj_get_projections(
-      cdat,
-      pdat,
-      startp = 2000,
+    out <- get_projections(
       hybd_obj,
+      cdat = cdat,
+      pdat = pdat,
+      startp = 2000,
       standpop = stdpop
     )
   )
@@ -97,11 +102,11 @@ test_that("hybdproj getproj works with 5-year average method", {
   )
   class(hybd_obj) <- "hybdproj"
 
-  out <- hybdproj_get_projections(
-    cdat,
-    pdat,
-    startp = 2000,
+  out <- get_projections(
     hybd_obj,
+    cdat = cdat,
+    pdat = pdat,
+    startp = 2000,
     ave5 = TRUE
   )
 
@@ -140,11 +145,11 @@ test_that("hybdproj getproj works with 5-year average method and standpop", {
   )
 
   suppressWarnings(
-    out <- hybdproj_get_projections(
-      cdat,
-      pdat,
-      startp = 2000,
+    out <- get_projections(
       hybd_obj,
+      cdat = cdat,
+      pdat = pdat,
+      startp = 2000,
       ave5 = TRUE,
       standpop = stdpop
     )
@@ -179,7 +184,7 @@ test_that("hybdproj getproj works with average method", {
   )
   class(hybd_obj) <- "hybdproj"
 
-  out <- hybdproj_get_projections(cdat, pdat, startp = 2000, hybd_obj)
+  out <- get_projections(hybd_obj, cdat = cdat, pdat = pdat, startp = 2000)
 
   expect_equal(out["7", "2002"], 57.41844, tolerance = 0.00001)
   expect_snapshot_value(out, style = "json2", tolerance = 0.00001)
@@ -216,11 +221,11 @@ test_that("hybdproj getproj works with average method and standpop", {
   )
 
   suppressWarnings(
-    out <- hybdproj_get_projections(
-      cdat,
-      pdat,
-      startp = 2000,
+    out <- get_projections(
       hybd_obj,
+      cdat = cdat,
+      pdat = pdat,
+      startp = 2000,
       standpop = stdpop
     )
   )
@@ -261,11 +266,11 @@ test_that("hybdproj getproj triggers apc warning", {
   )
 
   expect_warning(
-    out <- hybdproj_get_projections(
-      cdat,
-      pdat,
-      startp = 2000,
+    out <- get_projections(
       hybd_obj,
+      cdat = cdat,
+      pdat = pdat,
+      startp = 2000,
       standpop = stdpop
     )
   )

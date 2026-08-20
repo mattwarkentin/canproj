@@ -166,7 +166,7 @@ test_that("ave5proj gets projections with default standard population", {
   )
   class(ave5_object) <- "ave5proj"
 
-  expect_equal(ave5proj_get_projections(pdat, ave5_object), projection)
+  expect_equal(get_projections(ave5_object, pdat = pdat), projection)
 })
 
 test_that("ave5proj gets projections with specified standard population", {
@@ -200,7 +200,7 @@ test_that("ave5proj gets projections with specified standard population", {
   colnames(out) <- c("asr", "case")
 
   expect_equal(
-    ave5proj_get_projections(pdat, ave5_object, stdpop_Canada_2021),
+    get_projections(ave5_object, pdat = pdat, standpop = stdpop_Canada_2021),
     out
   )
 })

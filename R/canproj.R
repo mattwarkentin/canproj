@@ -45,8 +45,8 @@
 #'
 #' @md
 #'
-#' @return A named-`list` with class `"canproj"`. The `list` contains the
-#'   following:
+#' @return `canproj()` returns a named-`list` with class `"canproj"`.
+#'   The `list` contains the following:
 #'
 #'   - `annproj`: A `matrix` of age-standardized rates and case counts.
 #'   - `agsproj`: A `data.frame` of case counts for each age group and year.
@@ -149,8 +149,8 @@ canproj <- function(
 
   if (mean(apply(cdat, 2, sum)[(ncol(cdat) - 9):(ncol(cdat))]) < 3) {
     out <- ave5proj(cdat, pdat, startp = startp, sum5 = sum5)
-    outasp <- ave5proj_get_projections(pdat, out, standpop = NULL)
-    outann <- ave5proj_get_projections(pdat, out, standpop = standpop)
+    outasp <- get_projections(out, pdat = pdat, standpop = NULL)
+    outann <- get_projections(out, pdat = pdat, standpop = standpop)
     mod <- "average5"
     pdPC <- NA
   } else {
@@ -247,12 +247,17 @@ canproj <- function(
             linkfunc = linkfunc
           )
 
-          outasp <- acproj_get_projections(cdat, pdat, startp = startp, out)
-          outann <- acproj_get_projections(
-            cdat,
-            pdat,
-            startp = startp,
+          outasp <- get_projections(
             out,
+            cdat = cdat,
+            pdat = pdat,
+            startp = startp
+          )
+          outann <- get_projections(
+            out,
+            cdat = cdat,
+            pdat = pdat,
+            startp = startp,
             standpop = standpop
           )
 
@@ -273,11 +278,11 @@ canproj <- function(
           pGOF = pGOF
         )
 
-        outasp <- hybdproj_get_projections(
-          cdat,
-          pdat,
-          startp = startp,
+        outasp <- get_projections(
           out,
+          cdat = cdat,
+          pdat = pdat,
+          startp = startp,
           ave5 = ave5,
           sum5 = sum5
         )
@@ -364,12 +369,17 @@ canproj <- function(
           linkfunc = linkfunc
         )
 
-        outasp <- acproj_get_projections(cdat, pdat, startp = startp, out)
-        outann <- acproj_get_projections(
-          cdat,
-          pdat,
-          startp = startp,
+        outasp <- get_projections(
           out,
+          cdat = cdat,
+          pdat = pdat,
+          startp = startp
+        )
+        outann <- get_projections(
+          out,
+          cdat = cdat,
+          pdat = pdat,
+          startp = startp,
           standpop = standpop
         )
         mod <- "ac-poi"
@@ -386,12 +396,17 @@ canproj <- function(
           linkfunc = linkfunc
         )
 
-        outasp <- acproj_get_projections(cdat, pdat, startp = startp, out)
-        outann <- acproj_get_projections(
-          cdat,
-          pdat,
-          startp = startp,
+        outasp <- get_projections(
           out,
+          cdat = cdat,
+          pdat = pdat,
+          startp = startp
+        )
+        outann <- get_projections(
+          out,
+          cdat = cdat,
+          pdat = pdat,
+          startp = startp,
           standpop = standpop
         )
         mod <- "ac-nb"
@@ -410,11 +425,11 @@ canproj <- function(
           pGOF = 1
         )
 
-        outasp <- hybdproj_get_projections(
-          cdat,
-          pdat,
-          startp = startp,
+        outasp <- get_projections(
           out,
+          cdat = cdat,
+          pdat = pdat,
+          startp = startp,
           ave5 = ave5
         )
         outann <- standardize_annual_rates(
@@ -439,11 +454,11 @@ canproj <- function(
           pGOF = 1
         )
 
-        outasp <- hybdproj_get_projections(
-          cdat,
-          pdat,
-          startp = startp,
+        outasp <- get_projections(
           out,
+          cdat = cdat,
+          pdat = pdat,
+          startp = startp,
           ave5 = ave5
         )
         outann <- standardize_annual_rates(
@@ -468,11 +483,11 @@ canproj <- function(
           pGOF = 0
         )
 
-        outasp <- hybdproj_get_projections(
-          cdat,
-          pdat,
-          startp = startp,
+        outasp <- get_projections(
           out,
+          cdat = cdat,
+          pdat = pdat,
+          startp = startp,
           ave5 = ave5
         )
         outann <- standardize_annual_rates(
@@ -497,11 +512,11 @@ canproj <- function(
           pGOF = 0
         )
 
-        outasp <- hybdproj_get_projections(
-          cdat,
-          pdat,
-          startp = startp,
+        outasp <- get_projections(
           out,
+          cdat = cdat,
+          pdat = pdat,
+          startp = startp,
           ave5 = ave5,
           sum5 = sum5
         )
@@ -514,8 +529,8 @@ canproj <- function(
         mod <- "average"
       } else if (methods == "ave5") {
         out <- ave5proj(cdat, pdat, startp = startp, sum5 = sum5)
-        outasp <- ave5proj_get_projections(pdat, out, standpop = NULL)
-        outann <- ave5proj_get_projections(pdat, out, standpop = standpop)
+        outasp <- get_projections(out, pdat = pdat, standpop = NULL)
+        outann <- get_projections(out, pdat = pdat, standpop = standpop)
         mod <- "average5"
       }
     }
@@ -538,29 +553,27 @@ canproj <- function(
 }
 
 
-#' canproj_get_projections
+#' Get Canproj Projections
 #'
-#' Extract projection results.
+#' `get_projections()` extracts projection results from a `canproj()` object.
 #'
-#' @param canproj.object An object based on the 'canproj()' function.
-#' @inheritParams canproj
+#' @param object Output object from `canproj()`.
 #'
-#' @return A `data.frame()`
+#' @return `get_projections()` returns a `data.frame`.
+#'
+#' @rdname canproj
 #'
 #' @export
-canproj_get_projections <- function(canproj.object, standpop = NULL) {
-  if (!inherits(canproj.object, "canproj")) {
-    rlang::abort("Variable \"canproj.object\" must be of type \"canproj\"")
-  }
-
+get_projections.canproj <- function(object, ..., standpop = NULL) {
+  rlang::check_dots_empty()
   if (!is.null(standpop)) {
     S7::check_is_S7(standpop, StandardPopulation)
   }
 
   if (is.null(standpop)) {
-    return(canproj.object$agsproj)
+    return(object$agsproj)
   } else {
-    return(canproj.object$annproj)
+    return(object$annproj)
   }
 }
 
@@ -626,7 +639,7 @@ plot.canproj <- function(
     rlang::abort("Variable \"x\" must be of type \"canproj\"")
   }
 
-  indat <- canproj_get_projections(x, standpop = standpop)
+  indat <- get_projections(x, standpop = standpop)
   indata <- indat[, 1]
   data <- as.data.frame(indata)
   data$year <- as.numeric(names(indata))

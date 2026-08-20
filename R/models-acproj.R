@@ -7,7 +7,7 @@
 #' @inheritParams canproj
 #' @param n5case Minimum number of cancer cases/deaths per 5 years for splitting data.
 #'
-#' @return A `list()`.
+#' @return `acproj()` returns a `list`.
 #'
 #' @export
 acproj <- function(
@@ -96,8 +96,7 @@ acproj <- function(
 #' @param noperiod Number of 5-year periods in historical data.
 #'
 #' @return A `list()`.
-#'
-#' @export
+#' @keywords internal
 acproj_estimate <- function(
   cases,
   pyr,
@@ -212,8 +211,7 @@ acproj_estimate <- function(
 #' @param acproj_estimate.object An object based on the `acproj_estimate()` function.
 #'
 #' @return A `list()`.
-#'
-#' @export
+#' @keywords internal
 acproj_predict <- function(
   acproj_estimate.object,
   cuttrd = 0.04,
@@ -331,8 +329,7 @@ acproj_predict <- function(
 #'  the first 3 groups and the seventh group.
 #'
 #' @return A `data.frame()`.
-#'
-#' @export
+#' @keywords internal
 acproj_get_predictions <- function(
   acproj.object,
   incidence = T,
@@ -364,48 +361,50 @@ acproj_get_predictions <- function(
 }
 
 
-#' acproj_get_projections
+#' Get ACPROJ Projections
 #'
-#' Extract annual projection results
+#' `get_projections()` extracts annual projection results from an `acproj()`
+#'   object.
 #'
 #' @inheritParams canproj
 #' @inheritParams acproj_get_predictions
+#' @param object An output object from `acproj()`.
 #'
-#' @return A `data.frame()`.
+#' @return `get_projections()` returns a `data.frame`.
+#'
+#' @rdname acproj
 #'
 #' @export
-acproj_get_projections <- function(
+get_projections.acproj <- function(
+  object,
+  ...,
   cdat,
   pdat,
   startp,
-  acproj.object,
   standpop = NULL
 ) {
-  if (!inherits(acproj.object, "acproj")) {
-    rlang::abort("Variable \"acproj.object\" must be of type \"acproj\"")
-  }
-
+  rlang::check_dots_empty()
   validate_getproj_inputs(
+    object = object,
     cdat = cdat,
     pdat = pdat,
     startp = startp,
-    standpop = standpop,
-    acproj.object
+    standpop = standpop
   )
 
-  if (floor(ncol(cdat) / 5) != acproj.object$noperiod) {
+  if (floor(ncol(cdat) / 5) != object$noperiod) {
     rlang::abort(
       "\"cdat\" must match acproj.object periods (floor(ncol(cdat) / 5) == noperiod)"
     )
   }
 
-  if (floor(ncol(pdat) / 5) != ncol(acproj.object$predictions)) {
+  if (floor(ncol(pdat) / 5) != ncol(object$predictions)) {
     rlang::abort(
       "\"pdat\" must match acproj.object periods (floor(ncol(pdat) / 5) == ncol(predictions))"
     )
   }
 
-  r0 <- acproj_get_predictions(acproj.object, incidence = T)
+  r0 <- acproj_get_predictions(object, incidence = T)
 
   outasp <- interpolate_age_specific_rates(
     r0,
@@ -537,11 +536,11 @@ plot.acproj <- function(
 
   S7::check_is_S7(standpop, StandardPopulation)
 
-  indat <- acproj_get_projections(
-    cdat,
-    pdat,
+  indat <- get_projections(
+    object = x,
+    cdat = cdat,
+    pdat = pdat,
     startp = startp,
-    x,
     standpop = standpop
   )
   indata <- indat[, 1]

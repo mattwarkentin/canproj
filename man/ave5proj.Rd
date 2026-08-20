@@ -2,9 +2,12 @@
 % Please edit documentation in R/models-average5.R
 \name{ave5proj}
 \alias{ave5proj}
+\alias{get_projections.ave5proj}
 \title{Average5: Five-Year Average Projections}
 \usage{
 ave5proj(cdat, pdat, startp, sum5 = TRUE)
+
+\method{get_projections}{ave5proj}(object, ..., pdat, standpop = NULL)
 }
 \arguments{
 \item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}
@@ -17,13 +20,25 @@ ave5proj(cdat, pdat, startp, sum5 = TRUE)
 \item{sum5}{When the 5-year average method is used, \code{sum5 = TRUE} call the
 5-year period based rate, otherwise (\code{sum5 = FALSE}), average the 5 rates
 in the 5 years for each age group.}
+
+\item{object}{Output object from \code{ave5proj()}.}
+
+\item{...}{Not currently used.}
+
+\item{standpop}{A \code{StandardPopulation} object that provides the weights
+(proportions) for each age groups in a standard population.}
 }
 \value{
-A \code{list()}.
+\code{ave5proj()} returns a \code{list}.
+
+\code{get_projections()} returns a \code{data.frame}.
 }
 \description{
 R functions for projection of cancer incidence/mortality using the average
 methods based on the recent 5 years data:
 (i) average numbers and population sizes then calculate rates (default), or
 (ii) average the calculated yearly rates (sum5=T)
+
+\code{get_projections()} extracts the projection results from an \code{ave5proj()}
+object.
 }

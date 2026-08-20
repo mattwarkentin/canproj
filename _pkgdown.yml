@@ -13,29 +13,13 @@ reference:
   - adpcproj
   - ave5proj
   - hybdproj
+  - canproj_all_methods
 
 - title: Model-Specific Utility Functions
   desc: > 
     Helper functions to work with outputs from model fitting functions.
   contents:
-  - starts_with("canproj_")
-  - starts_with("acproj_")
-  - starts_with("adpcproj_")
-  - starts_with("ave5proj_")
-  - starts_with("hybdproj_")
-
-- title: Standard Populations
-  desc: > 
-    Tools for creating and working with standard populations.
-  contents:
-  - StandardPopulation
-  - get_standard_population
-  - stdpop_Canada_2011
-  - stdpop_Canada_2021
-  - stdpop_WHO_2000_2025
-
-- title: Utility Functions
-  contents:
+  - get_projections
   - plot.acproj
   - plot.adpcproj
   - plot.ave5proj
@@ -46,3 +30,13 @@ reference:
   - summary.ave5proj
   - summary.canproj
   - summary.hybdproj
+
+- title: Standard Populations
+  desc: > 
+    Tools for creating and working with standard populations.
+  contents:
+  - StandardPopulation
+  - get_standard_population
+  - stdpop_Canada_2011
+  - stdpop_Canada_2021
+  - stdpop_WHO_2000_2025

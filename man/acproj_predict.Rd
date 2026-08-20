@@ -21,3 +21,4 @@ A \code{list()}.
 \description{
 Extrapolate estimated trend from age-cohort model
 }
+\keyword{internal}

@@ -6,7 +6,7 @@
 #'
 #' @inheritParams canproj
 #'
-#' @return A `list()`.
+#' @return `hybdproj()` returns a `list`.
 #'
 #' @export
 hybdproj <- function(
@@ -93,8 +93,7 @@ hybdproj <- function(
 #'  period by ascending age groups in row.
 #'
 #' @return A `list()`.
-#'
-#' @export
+#' @keywords internal
 hybdproj_estimate <- function(
   cases,
   pyr,
@@ -212,8 +211,7 @@ hybdproj_estimate <- function(
 #' @param hybdproj_estimate.object An object based on the `hybdproj_estimate` function.
 #'
 #' @return A `list()`.
-#'
-#' @export
+#' @keywords internal
 hybdproj_predict <- function(
   hybdproj_estimate.object,
   cuttrd = 0.04,
@@ -355,8 +353,7 @@ hybdproj_predict <- function(
 #'  the first 3 groups and the seventh group.
 #'
 #' @return A `data.frame()`.
-#'
-#' @export
+#' @keywords internal
 hybdproj_get_predictions <- function(
   hybdproj.object,
   incidence = T,
@@ -388,35 +385,36 @@ hybdproj_get_predictions <- function(
 }
 
 
-#' hybdproj_get_projections
+#' Get HYBDPROJ Projections
 #'
-#' Extract projection results.
+#' `get_projections()` extracts projection results from a `hybdproj()` object.
 #'
 #' @inheritParams hybdproj_get_predictions
 #' @inheritParams canproj
+#' @param object Output from `hybdproj()`.
 #'
-#' @return A `data.frame()`.
+#' @return `get_projections()` returns a `data.frame`.
+#'
+#' @rdname hybdproj
 #'
 #' @export
-hybdproj_get_projections <- function(
+get_projections.hybdproj <- function(
+  object,
+  ...,
   cdat,
   pdat,
   startp,
-  hybdproj.object,
   standpop = NULL,
   ave5 = FALSE,
   sum5 = TRUE
 ) {
-  if (!inherits(hybdproj.object, "hybdproj")) {
-    rlang::abort("Variable \"hybdproj.object\" must be of type \"hybdproj\"")
-  }
-
+  rlang::check_dots_empty()
   validate_getproj_inputs(
+    object = object,
     cdat = cdat,
     pdat = pdat,
     startp = startp,
-    standpop = standpop,
-    hybdproj.object
+    standpop = standpop
   )
 
   if (!inherits(ave5, "logical")) {
@@ -427,9 +425,9 @@ hybdproj_get_projections <- function(
     rlang::abort("\"sum5\" must be of type \"logical\"")
   }
 
-  finalmod <- hybdproj.object$finalmod
-  r0 <- hybdproj_get_predictions(hybdproj.object, incidence = T)
-  nagg <- hybdproj.object$noyearagg
+  finalmod <- object$finalmod
+  r0 <- hybdproj_get_predictions(object, incidence = T)
+  nagg <- object$noyearagg
   outasp <- interpolate_age_specific_rates(
     r0,
     cdat,
@@ -585,11 +583,11 @@ plot.hybdproj <- function(
   }
   S7::check_is_S7(standpop, StandardPopulation)
 
-  indat <- hybdproj_get_projections(
-    cdat,
-    pdat,
+  indat <- get_projections(
+    object = x,
+    cdat = cdat,
+    pdat = pdat,
     startp = startp,
-    x,
     standpop = standpop
   )
   indata <- indat[, 1]

@@ -114,7 +114,13 @@ test_that("acproj getproj works with a standard population", {
     c(rep(0.05, 15), 0.06, 0.06, 0.06, 0.07)
   )
 
-  out <- acproj_get_projections(cdat, pdat, 2000, acproj_obj, standpop = stdpop)
+  out <- get_projections(
+    acproj_obj,
+    cdat = cdat,
+    pdat = pdat,
+    startp = 2000,
+    standpop = stdpop
+  )
 
   expect_equal(out["2002", "asr"], 217.72721, tolerance = 0.00001)
   expect_equal(out["1990", "case"], 190, tolerance = 0.00001)
@@ -134,7 +140,7 @@ test_that("acproj getproj works without a standard population", {
   )
   class(acproj_obj) <- "acproj"
 
-  out <- acproj_get_projections(cdat, pdat, 2000, acproj_obj)
+  out <- get_projections(acproj_obj, cdat = cdat, pdat = pdat, startp = 2000)
 
   expect_equal(out["5", "1988"], 79.51496, tolerance = 0.00001)
   expect_equal(out["12", "2003"], 227.5242, tolerance = 0.00001)
