@@ -6,7 +6,6 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/mattwarkentin/canproj/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mattwarkentin/canproj/actions/workflows/R-CMD-check.yaml)
-
 <!-- badges: end -->
 
 ## Installation
@@ -17,6 +16,89 @@ You can install the development version of `canproj` from
 ``` r
 remotes::install_github("mattwarkentin/canproj")
 ```
+
+## Motivation
+
+`canproj` is a modern R package for cancer incidence and mortality
+projections. It is a refactoring of the original `canproj` software,
+which was developed in 2013 to support future cancer projections.
+
+The new version preserves the core purpose and methodology of the
+original `canproj` while redesigning the software around modern R
+package development best practices. The goal is to move from a large,
+monolithic R script to a modular, documented, tested, and reusable
+software framework that can support future cancer projection work.
+
+## Objectives
+
+The new `canproj` package aims to:
+
+- **Modernize the original canproj codebase** - Refactor the 2013-era
+  implementation into a maintainable R package while preserving its core
+  functionality and scientific intent.
+
+- **Follow modern R development practices** - Structure the software as
+  a formal R package with a clear API, standard project structure,
+  consistent coding conventions, and modern R tooling.
+
+- **Modularize the projection workflow** - Break the previous monolithic
+  script into smaller, well-defined components that can be developed,
+  tested, and reused independently.
+
+- **Improve usability for R users** - Provide an intuitive interface
+  that follows established R conventions and makes common projection
+  tasks easier to understand and perform.
+
+- **Provide comprehensive documentation** - Document functions,
+  arguments, expected inputs and outputs, methods, and workflows so that
+  users can understand both how to use the software and how the
+  projections are produced.
+
+- **Formalize dependency management** - Explicitly define and manage
+  package dependencies to improve reproducibility, installation, and
+  long-term maintenance.
+
+- **Improve transportability** - Separate the projection methodology
+  from data-specific assumptions and implementation details so that the
+  framework can be adapted to different cancer sites, populations,
+  jurisdictions, and data sources.
+
+- **Support reproducible analyses** - Provide a consistent and
+  transparent framework for generating projections, with clearly defined
+  inputs, transformations, models, and outputs.
+
+- **Introduce systematic unit testing** - Build automated tests for
+  individual components and critical workflows to detect errors and
+  prevent regressions as the package evolves.
+
+- **Improve maintainability and extensibility** - Make it easier for
+  developers to understand, modify, and extend the software without
+  having to work through a single large script.
+
+- **Separate data, methods, and outputs** - Establish clearer boundaries
+  between input data, projection methods, configuration, and generated
+  results.
+
+- **Facilitate future development** - Create a foundation that can
+  support new projection methods, cancer sites, data sources, and
+  analytical requirements without requiring substantial restructuring of
+  the underlying software.
+
+## From script to package
+
+The original `canproj` implementation was developed as a large R script
+for a specific projection workflow. While this approach was effective
+for its original purpose, it makes software reuse, testing,
+documentation, and adaptation more difficult.
+
+The new package treats cancer projection as a reusable software
+framework rather than a single analysis script. Individual components of
+the workflow can be called independently, tested in isolation,
+documented clearly, and combined into reproducible projection pipelines.
+
+The result is intended to be more than a rewrite of the original code.
+`canproj` provides a modern foundation for future cancer projection
+work.
 
 ## Code of Conduct
 
