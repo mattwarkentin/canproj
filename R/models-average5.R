@@ -183,8 +183,8 @@ plot.ave5proj <- function(
   x,
   standpop,
   startplot = 1,
-  xlab = "Calendar Year",
-  ylab = "Rate per 100,000 people",
+  xlab = "Year",
+  ylab = "Rate per 100,000",
   main = "",
   lty = c(1, 3),
   col = c("black", "azure4"),
@@ -192,7 +192,7 @@ plot.ave5proj <- function(
 ) {
   S7::check_is_S7(standpop, StandardPopulation)
 
-  indat <- get_projections(object = x, pdat = x$pdat, standpop = standpop)
+  indat <- get_projections(x, standpop = standpop)
   indata <- indat[, 1]
 
   data <- as.data.frame(indata)
