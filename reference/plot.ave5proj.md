@@ -9,7 +9,6 @@ from a ave5proj object
 # S3 method for class 'ave5proj'
 plot(
   x,
-  pdat,
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
@@ -26,11 +25,6 @@ plot(
 - x:
 
   An object based on the 'canproj()' function.
-
-- pdat:
-
-  (age groups) \* (N + M) (years) observed and projected population,
-  5\<=M\<=25.
 
 - standpop:
 

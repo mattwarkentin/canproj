@@ -14,7 +14,7 @@ extracts the projection results from an `ave5proj()` object.
 ave5proj(cdat, pdat, startp, sum5 = TRUE)
 
 # S3 method for class 'ave5proj'
-get_projections(object, ..., pdat, standpop = NULL)
+get_projections(object, ..., standpop = NULL)
 ```
 
 ## Arguments
