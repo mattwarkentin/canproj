@@ -11,8 +11,8 @@ plot(
   x,
   standpop,
   startplot = 1,
-  xlab = "Calendar Year",
-  ylab = "Rate per 100,000 people",
+  xlab = "Year",
+  ylab = "Rate per 100,000",
   main = "",
   lty = c(1, 3),
   col = c("black", "azure4"),
@@ -29,7 +29,7 @@ plot(
 - standpop:
 
   A `StandardPopulation` object that provides the weights (proportions)
-  for each age groups in a standard population.
+  for each age group in a standard population.
 
 - startplot:
 

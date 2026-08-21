@@ -30,7 +30,7 @@ adpcproj_get_predictions(
 - standpop:
 
   A `StandardPopulation` object that provides the weights (proportions)
-  for each age groups in a standard population.
+  for each age group in a standard population.
 
 - excludeobs:
 

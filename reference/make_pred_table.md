@@ -23,7 +23,7 @@ make_pred_table(object, agegroups, standpop, byage, incidence, excludeobs)
 - standpop:
 
   A `StandardPopulation` object that provides the weights (proportions)
-  for each age groups in a standard population.
+  for each age group in a standard population.
 
 - byage:
 

@@ -22,7 +22,7 @@ select_nagg(cdat, pdat, standpop, projfor)
 - standpop:
 
   A `StandardPopulation` object that provides the weights (proportions)
-  for each age groups in a standard population.
+  for each age group in a standard population.
 
 - projfor:
 
