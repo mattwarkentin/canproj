@@ -20,7 +20,7 @@
 \item{x}{An object based on the 'canproj()' function.}
 
 \item{standpop}{A \code{StandardPopulation} object that provides the weights
-(proportions) for each age groups in a standard population.}
+(proportions) for each age group in a standard population.}
 
 \item{startplot}{Start for usage of data. Default (\code{1}) uses all years,
 increasing this number removes the oldest years from the graph.}

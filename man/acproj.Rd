@@ -51,7 +51,7 @@ projection years.}
 \item{startp}{The start calendar year of projection (e.g., 2009).}
 
 \item{standpop}{A \code{StandardPopulation} object that provides the weights
-(proportions) for each age groups in a standard population.}
+(proportions) for each age group in a standard population.}
 }
 \value{
 \code{acproj()} returns a \code{list}.

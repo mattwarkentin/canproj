@@ -37,7 +37,7 @@ hybdproj(
 5<=M<=25.}
 
 \item{standpop}{A \code{StandardPopulation} object that provides the weights
-(proportions) for each age groups in a standard population.}
+(proportions) for each age group in a standard population.}
 
 \item{projfor}{Specify \code{"incidence"} or \code{"mortality"} if you want ASR as a
 criteria for \code{nagg}.}

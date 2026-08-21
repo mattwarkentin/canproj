@@ -26,7 +26,7 @@ in the 5 years for each age group.}
 \item{...}{Not currently used.}
 
 \item{standpop}{A \code{StandardPopulation} object that provides the weights
-(proportions) for each age groups in a standard population.}
+(proportions) for each age group in a standard population.}
 }
 \value{
 \code{ave5proj()} returns a \code{list}.

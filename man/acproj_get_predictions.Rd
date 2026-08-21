@@ -19,7 +19,7 @@ acproj_get_predictions(
 \item{incidence}{Whether to give rates (\code{T}) or numbers (\code{F}).}
 
 \item{standpop}{A \code{StandardPopulation} object that provides the weights
-(proportions) for each age groups in a standard population.}
+(proportions) for each age group in a standard population.}
 
 \item{excludeobs}{Whether to include observed values (\code{T} or \code{F}).}
 

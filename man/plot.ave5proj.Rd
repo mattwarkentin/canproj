@@ -8,8 +8,8 @@
   x,
   standpop,
   startplot = 1,
-  xlab = "Calendar Year",
-  ylab = "Rate per 100,000 people",
+  xlab = "Year",
+  ylab = "Rate per 100,000",
   main = "",
   lty = c(1, 3),
   col = c("black", "azure4"),
@@ -20,7 +20,7 @@
 \item{x}{An object based on the 'canproj()' function.}
 
 \item{standpop}{A \code{StandardPopulation} object that provides the weights
-(proportions) for each age groups in a standard population.}
+(proportions) for each age group in a standard population.}
 
 \item{startplot}{Start for usage of data. Default (\code{1}) uses all years,
 increasing this number removes the oldest years from the graph.}

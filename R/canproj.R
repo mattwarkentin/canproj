@@ -11,7 +11,7 @@
 #'   5<=M<=25.
 #' @param startp The start calendar year of projection (e.g., 2009).
 #' @param standpop A `StandardPopulation` object that provides the weights
-#'   (proportions) for each age groups in a standard population.
+#'   (proportions) for each age group in a standard population.
 #' @param projfor Specify `"incidence"` or `"mortality"` if you want ASR as a
 #'   criteria for `nagg`.
 #' @param nagg Number of years for data aggregation (by years). Default is
