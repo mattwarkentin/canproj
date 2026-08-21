@@ -29,7 +29,7 @@ standardize_annual_rates <- function(
     check_apc(annproj, startp)
   }
 
-  return(annproj)
+  annproj
 }
 
 #' Age-standardized rates and standard error

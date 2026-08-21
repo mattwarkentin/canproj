@@ -6,7 +6,6 @@
 \usage{
 \method{plot}{ave5proj}(
   x,
-  pdat,
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
@@ -19,9 +18,6 @@
 }
 \arguments{
 \item{x}{An object based on the 'canproj()' function.}
-
-\item{pdat}{(age groups) * (N + M) (years) observed and projected population,
-5<=M<=25.}
 
 \item{standpop}{A \code{StandardPopulation} object that provides the weights
 (proportions) for each age groups in a standard population.}

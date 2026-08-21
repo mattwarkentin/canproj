@@ -7,7 +7,7 @@
 \usage{
 ave5proj(cdat, pdat, startp, sum5 = TRUE)
 
-\method{get_projections}{ave5proj}(object, ..., pdat, standpop = NULL)
+\method{get_projections}{ave5proj}(object, ..., standpop = NULL)
 }
 \arguments{
 \item{cdat}{(age groups) * N (years) historical cancer data, 15<=N<=125.}

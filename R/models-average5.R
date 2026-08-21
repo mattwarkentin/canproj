@@ -61,9 +61,11 @@ ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
 
   res <- list(
     agsproj = datatab,
+    noypred = noypred,
+    cdat = cdat,
+    pdat = pdat,
     startp = startp,
-    sum5 = sum5,
-    noypred = noypred
+    sum5 = sum5
   )
 
   class(res) <- "ave5proj"
@@ -86,28 +88,30 @@ ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
 #'
 #' @rdname ave5proj
 #' @export
-get_projections.ave5proj <- function(object, ..., pdat, standpop = NULL) {
+get_projections.ave5proj <- function(object, ..., standpop = NULL) {
   rlang::check_dots_empty()
+
   validate_getproj_inputs(
     object = object,
-    pdat = pdat,
+    pdat = object$pdat,
     standpop = standpop
   )
 
   outasp <- object$agsproj
 
-  if (is.null(standpop)) {
+  if (rlang::is_null(standpop)) {
     return(outasp)
-  } else {
-    annproj <- standardize_annual_rates(
-      outasp,
-      pdat,
-      object$startp,
-      standpop,
-      check = FALSE
-    )
-    return(annproj)
   }
+
+  annproj <- standardize_annual_rates(
+    outasp,
+    object$pdat,
+    object$startp,
+    standpop,
+    check = FALSE
+  )
+
+  annproj
 }
 
 
@@ -177,7 +181,6 @@ summary.ave5proj <- function(object, printcall = FALSE, ...) {
 #' @export
 plot.ave5proj <- function(
   x,
-  pdat,
   standpop,
   startplot = 1,
   xlab = "Calendar Year",
@@ -187,12 +190,9 @@ plot.ave5proj <- function(
   col = c("black", "azure4"),
   ...
 ) {
-  if (!inherits(x, "ave5proj")) {
-    rlang::abort("Variable \"x\" must be of type \"ave5proj\"")
-  }
   S7::check_is_S7(standpop, StandardPopulation)
 
-  indat <- get_projections(object = x, pdat = pdat, standpop = standpop)
+  indat <- get_projections(object = x, pdat = x$pdat, standpop = standpop)
   indata <- indat[, 1]
 
   data <- as.data.frame(indata)

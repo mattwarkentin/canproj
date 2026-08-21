@@ -149,8 +149,8 @@ canproj <- function(
 
   if (mean(apply(cdat, 2, sum)[(ncol(cdat) - 9):(ncol(cdat))]) < 3) {
     out <- ave5proj(cdat, pdat, startp = startp, sum5 = sum5)
-    outasp <- get_projections(out, pdat = pdat, standpop = NULL)
-    outann <- get_projections(out, pdat = pdat, standpop = standpop)
+    outasp <- get_projections(out, standpop = NULL)
+    outann <- get_projections(out, standpop = standpop)
     mod <- "average5"
     pdPC <- NA
   } else {
@@ -529,15 +529,17 @@ canproj <- function(
         mod <- "average"
       } else if (methods == "ave5") {
         out <- ave5proj(cdat, pdat, startp = startp, sum5 = sum5)
-        outasp <- get_projections(out, pdat = pdat, standpop = NULL)
-        outann <- get_projections(out, pdat = pdat, standpop = standpop)
+        outasp <- get_projections(out, standpop = NULL)
+        outann <- get_projections(out, standpop = standpop)
         mod <- "average5"
       }
     }
   }
 
   obsy <- ncol(cdat)
+
   projy <- ncol(pdat) - ncol(cdat)
+
   result <- list(
     annproj = outann,
     agsproj = outasp,
@@ -547,8 +549,11 @@ canproj <- function(
     projy = projy,
     pdPC = pdPC
   )
+
   class(result) <- c("canproj", class(result))
+
   attr(result, "Call") <- sys.call()
+
   result
 }
 

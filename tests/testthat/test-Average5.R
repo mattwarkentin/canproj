@@ -16,9 +16,11 @@ test_that("ave5proj works when aggregating data", {
 
   expected <- list(
     agsproj = projection,
+    noypred = 5,
+    cdat = cdat,
+    pdat = pdat,
     startp = 2000,
-    sum5 = TRUE,
-    noypred = 5
+    sum5 = TRUE
   )
   class(expected) <- "ave5proj"
   attr(expected, "Call") <- as.call(str2lang("ave5proj(cdat, pdat, startp)"))
@@ -44,9 +46,11 @@ test_that("ave5proj works when averaging data", {
 
   expected <- list(
     agsproj = projection,
+    noypred = 5,
+    cdat = cdat,
+    pdat = pdat,
     startp = 2000,
-    sum5 = TRUE,
-    noypred = 5
+    sum5 = TRUE
   )
   class(expected) <- "ave5proj"
   attr(expected, "Call") <- as.call(str2lang(
@@ -160,16 +164,19 @@ test_that("ave5proj gets projections with default standard population", {
 
   ave5_object <- list(
     agsproj = projection,
+    noypred = 5,
+    cdat = cdat,
+    pdat = pdat,
     startp = 2000,
-    sum5 = TRUE,
-    noypred = 5
+    sum5 = TRUE
   )
   class(ave5_object) <- "ave5proj"
 
-  expect_equal(get_projections(ave5_object, pdat = pdat), projection)
+  expect_equal(get_projections(ave5_object), projection)
 })
 
 test_that("ave5proj gets projections with specified standard population", {
+  cdat <- data.frame(matrix(1:190, nrow = 19, ncol = 10))
   pdat <- data.frame(matrix(10000, nrow = 19, ncol = 5))
 
   projection <- data.frame(matrix(
@@ -182,9 +189,11 @@ test_that("ave5proj gets projections with specified standard population", {
 
   ave5_object <- list(
     agsproj = projection,
+    noypred = 5,
+    cdat = cdat,
+    pdat = pdat,
     startp = 2000,
-    sum5 = TRUE,
-    noypred = 5
+    sum5 = TRUE
   )
   class(ave5_object) <- "ave5proj"
 
@@ -200,7 +209,7 @@ test_that("ave5proj gets projections with specified standard population", {
   colnames(out) <- c("asr", "case")
 
   expect_equal(
-    get_projections(ave5_object, pdat = pdat, standpop = stdpop_Canada_2021),
+    get_projections(ave5_object, standpop = stdpop_Canada_2021),
     out
   )
 })
