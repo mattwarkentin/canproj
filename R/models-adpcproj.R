@@ -463,9 +463,9 @@ adpcproj_predict <- function(
     startage = adpcproj_estimate.object$startage,
     glm = adpcproj_estimate.object$glm
   )
-  class(res) <- "adpcproj"
+  class(res) <- c("adpcproj", "proj_model")
   attr(res, "Call") <- sys.call()
-  return(res)
+  res
 }
 
 
@@ -692,10 +692,6 @@ plot.adpcproj <- function(
   col = c("black", "azure4"),
   ...
 ) {
-  if (!inherits(x, "adpcproj")) {
-    rlang::abort("Variable \"x\" must be of type \"adpcproj\"")
-  }
-
   S7::check_is_S7(standpop, StandardPopulation)
 
   indat <- get_projections(
@@ -722,7 +718,7 @@ plot.adpcproj <- function(
   custom_colours <- c("Observed" = col[1], "Projected" = col[2])
   custom_line <- c("Observed" = lty[1], "Projected" = lty[2])
 
-  plot <- ggplot2::ggplot(
+  ggplot2::ggplot(
     data,
     ggplot2::aes(x = .data$year, y = indata, color = .data$Period)
   ) +
@@ -742,6 +738,4 @@ plot.adpcproj <- function(
       axis.line = ggplot2::element_line(colour = "black"),
       plot.title = ggplot2::element_text(size = 15)
     )
-
-  return(plot)
 }

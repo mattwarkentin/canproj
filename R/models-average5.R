@@ -68,11 +68,9 @@ ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
     sum5 = sum5
   )
 
-  class(res) <- "ave5proj"
-
+  class(res) <- c("ave5proj", "proj_model")
   attr(res, "Call") <- sys.call()
-
-  return(res)
+  res
 }
 
 
@@ -209,7 +207,7 @@ plot.ave5proj <- function(
   custom_colours <- c("Observed" = col[1], "Projected" = col[2])
   custom_line <- c("Observed" = lty[1], "Projected" = lty[2])
 
-  plot <- ggplot2::ggplot(
+  ggplot2::ggplot(
     data,
     ggplot2::aes(x = .data$year, y = indata, color = .data$Period)
   ) +
@@ -229,6 +227,4 @@ plot.ave5proj <- function(
       axis.line = ggplot2::element_line(colour = "black"),
       plot.title = ggplot2::element_text(size = 15)
     )
-
-  return(plot)
 }

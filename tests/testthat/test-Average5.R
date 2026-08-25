@@ -22,7 +22,7 @@ test_that("ave5proj works when aggregating data", {
     startp = 2000,
     sum5 = TRUE
   )
-  class(expected) <- "ave5proj"
+  class(expected) <- c("ave5proj", "proj_model")
   attr(expected, "Call") <- as.call(str2lang("ave5proj(cdat, pdat, startp)"))
 
   expect_equal(ave5proj(cdat, pdat, startp), expected)
@@ -52,7 +52,7 @@ test_that("ave5proj works when averaging data", {
     startp = 2000,
     sum5 = TRUE
   )
-  class(expected) <- "ave5proj"
+  class(expected) <- c("ave5proj", "proj_model")
   attr(expected, "Call") <- as.call(str2lang(
     "ave5proj(cdat, pdat, startp, sum5 = T)"
   ))

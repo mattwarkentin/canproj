@@ -550,7 +550,7 @@ canproj <- function(
     pdPC = pdPC
   )
 
-  class(result) <- c("canproj", class(result))
+  class(result) <- c("canproj", "proj_model")
 
   attr(result, "Call") <- sys.call()
 
@@ -640,9 +640,7 @@ plot.canproj <- function(
   col = c("black", "azure4"),
   ...
 ) {
-  if (!inherits(x, "canproj")) {
-    rlang::abort("Variable \"x\" must be of type \"canproj\"")
-  }
+  S7::check_is_S7(standpop, StandardPopulation)
 
   indat <- get_projections(x, standpop = standpop)
   indata <- indat[, 1]
@@ -660,7 +658,7 @@ plot.canproj <- function(
   custom_colours <- c("Observed" = col[1], "Projected" = col[2])
   custom_line <- c("Observed" = lty[1], "Projected" = lty[2])
 
-  plot <- ggplot2::ggplot(
+  ggplot2::ggplot(
     data,
     ggplot2::aes(x = .data$year, y = .data$indata, color = .data$Period)
   ) +
@@ -680,6 +678,4 @@ plot.canproj <- function(
       axis.line = ggplot2::element_line(colour = "black"),
       plot.title = ggplot2::element_text(size = 15)
     )
-
-  return(plot)
 }
