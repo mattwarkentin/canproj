@@ -19,15 +19,13 @@ Roxygen: list(markdown = TRUE)
 Depends: 
     R (>= 4.1.0)
 Imports: 
+    cantrends,
     cli,
+    ggplot2,
     glue,
     MASS,
     rlang,
-    ggplot2,
-    S7 (>= 0.2.2),
-    cantrends
-Remotes:
-    mattwarkentin/cantrends
+    S7 (>= 0.2.2)
 Suggests: 
     knitr,
     rmarkdown,
