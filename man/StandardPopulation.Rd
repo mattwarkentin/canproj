@@ -26,7 +26,7 @@ stdpop_WHO_2000_2025
 \arguments{
 \item{name}{Name of the standard population.}
 
-\item{strata}{Character vector of strata labels.}
+\item{strata}{Character or integer vector of strata labels.}
 
 \item{weights}{Numeric vector of strata weights.}
 

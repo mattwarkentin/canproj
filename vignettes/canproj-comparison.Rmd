@@ -197,7 +197,7 @@ weights <- c(
   stdpop_Canada_2011@weights[18] + stdpop_Canada_2011@weights[19])
 standpop <- StandardPopulation(
   name = "18grp Canada 2011", 
-  strata = as.character(1:18), 
+  strata = 1:18, 
   weights = weights)
 
 proj_oral_incidence_mb <- canproj(incidence, population, 2013, standpop)

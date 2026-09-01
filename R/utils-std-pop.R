@@ -8,7 +8,7 @@
 #'   object as an argument to other functions, as needed.
 #'
 #' @param name Name of the standard population.
-#' @param strata Character vector of strata labels.
+#' @param strata Character or integer vector of strata labels.
 #' @param weights Numeric vector of strata weights.
 #' @param metadata Optional. We provide this `metadata` property so that users
 #'   can include arbitrary metadata in an object.
@@ -28,7 +28,7 @@ StandardPopulation <-
         default = quote(rlang::abort("@name is required."))
       ),
       strata = S7::new_property(
-        class = S7::class_character,
+        class = S7::class_character | S7::class_integer,
         default = quote(rlang::abort("@strata is required."))
       ),
       weights = S7::new_property(
