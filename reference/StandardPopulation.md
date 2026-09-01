@@ -34,7 +34,7 @@ stdpop_WHO_2000_2025
 
 - strata:
 
-  Character vector of strata labels.
+  Character or integer vector of strata labels.
 
 - weights:
 
