@@ -44,5 +44,9 @@ project_constant <- function(cdat, pdat, startp) {
     pdat = pdat,
     startp = startp
   )
+
+  class(res) <- c("constant", "proj_model")
+  attr(res, "Call") <- sys.call()
+
   res
 }
