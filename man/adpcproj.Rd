@@ -2,10 +2,26 @@
 % Please edit documentation in R/models-adpcproj.R
 \name{adpcproj}
 \alias{adpcproj}
+\alias{project_adpc}
 \alias{get_projections.adpcproj}
 \title{ADPCPROJ: Age-Drift-Period-Cohort Projections}
 \usage{
 adpcproj(
+  cdat,
+  pdat,
+  projfor = "incidence",
+  n5case = NULL,
+  noperiods = NULL,
+  recent = NULL,
+  startage = NULL,
+  newcohort = FALSE,
+  pGOF = 0.05,
+  cuttrd = 0.04,
+  shortp = 0,
+  linkfunc = "power5"
+)
+
+project_adpc(
   cdat,
   pdat,
   projfor = "incidence",
@@ -75,7 +91,8 @@ projection years.}
 R functions for projection of cancer incidence/mortality. Revising nordpred
 and introducing negative binomial distribution when lack of fit appears
 from nordpred, additional link functions of sqrt and identity, and settings
-of startage and startuseage.
+of startage and startuseage. \code{project_adpc()} is an alias for
+\code{adpcproj()}.
 
 \code{get_projections()} extracts annual projection results from an \code{adpcproj()}
 object.

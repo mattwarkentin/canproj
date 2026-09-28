@@ -7,6 +7,9 @@
 #'
 #' @inheritParams canproj
 #'
+#' @details
+#' `project_ave5()` is an alias for `ave5proj()`.
+#'
 #' @return `ave5proj()` returns a `list`.
 #'
 #' @export
@@ -73,6 +76,9 @@ ave5proj <- function(cdat, pdat, startp, sum5 = TRUE) {
   res
 }
 
+#' @rdname ave5proj
+#' @export
+project_ave5 <- ave5proj
 
 #' Get Average5 Projections
 #'

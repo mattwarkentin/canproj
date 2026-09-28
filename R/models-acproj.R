@@ -2,7 +2,7 @@
 #'
 #' R functions for projection of cancer incidence/mortality. Revising and
 #'   combining nordpred and Osmond's to extrapolation cohort when no drift
-#'   appears from nordpred.
+#'   appears from nordpred. `project_ac()` is an alias for `acproj()`.
 #'
 #' @inheritParams canproj
 #' @param n5case Minimum number of cancer cases/deaths per 5 years for splitting data.
@@ -85,6 +85,9 @@ acproj <- function(
   return(pred)
 }
 
+#' @rdname acproj
+#' @export
+project_ac <- acproj
 
 #' acproj_estimate
 #'

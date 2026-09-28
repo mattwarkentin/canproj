@@ -2,7 +2,8 @@
 #'
 #' R functions for projection of cancer incidence/mortality using the modified
 #'   Hybrid methods. Modified Hybrid by adding choice of age-model, cut-trend
-#'   parameter, and power 5 link function.
+#'   parameter, and power 5 link function. `project_hybrid()` is an alias for
+#'   `hybdproj()`.
 #'
 #' @inheritParams canproj
 #'
@@ -81,6 +82,11 @@ hybdproj <- function(
   )
   return(pred)
 }
+
+
+#' @rdname hybdproj
+#' @export
+project_hybrid <- hybdproj
 
 
 #' hybdproj_estimate

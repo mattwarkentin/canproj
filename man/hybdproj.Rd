@@ -2,10 +2,25 @@
 % Please edit documentation in R/models-hybdproj.R
 \name{hybdproj}
 \alias{hybdproj}
+\alias{project_hybrid}
 \alias{get_projections.hybdproj}
 \title{HYBDPROJ: Hybrid Projections}
 \usage{
 hybdproj(
+  cdat,
+  pdat,
+  standpop,
+  projfor = "incidence",
+  nagg = NULL,
+  ncase = NULL,
+  cuttrd = 0.04,
+  shortp = 0,
+  linkfunc = "power5",
+  pD = 0.05,
+  pGOF = 0.05
+)
+
+project_hybrid(
   cdat,
   pdat,
   standpop,
@@ -82,7 +97,8 @@ in the 5 years for each age group.}
 \description{
 R functions for projection of cancer incidence/mortality using the modified
 Hybrid methods. Modified Hybrid by adding choice of age-model, cut-trend
-parameter, and power 5 link function.
+parameter, and power 5 link function. \code{project_hybrid()} is an alias for
+\code{hybdproj()}.
 
 \code{get_projections()} extracts projection results from a \code{hybdproj()} object.
 }

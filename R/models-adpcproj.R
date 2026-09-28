@@ -3,7 +3,8 @@
 #' R functions for projection of cancer incidence/mortality. Revising nordpred
 #'   and introducing negative binomial distribution when lack of fit appears
 #'   from nordpred, additional link functions of sqrt and identity, and settings
-#'    of startage and startuseage.
+#'    of startage and startuseage. `project_adpc()` is an alias for
+#'   `adpcproj()`.
 #'
 #' @inheritParams canproj
 #' @param n5case Minimum number of cancer cases/deaths per 5 years for splitting data.
@@ -141,6 +142,9 @@ adpcproj <- function(
   return(pred)
 }
 
+#' @rdname adpcproj
+#' @export
+project_adpc <- adpcproj
 
 #' adpcproj_estimate
 #'

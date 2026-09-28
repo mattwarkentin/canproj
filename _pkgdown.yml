@@ -14,6 +14,7 @@ reference:
   - ave5proj
   - hybdproj
   - canproj_all_methods
+  - project_constant
 
 - title: Model-Specific Utility Functions
   desc: > 

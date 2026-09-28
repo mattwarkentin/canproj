@@ -2,10 +2,13 @@
 % Please edit documentation in R/models-average5.R
 \name{ave5proj}
 \alias{ave5proj}
+\alias{project_ave5}
 \alias{get_projections.ave5proj}
 \title{Average5: Five-Year Average Projections}
 \usage{
 ave5proj(cdat, pdat, startp, sum5 = TRUE)
+
+project_ave5(cdat, pdat, startp, sum5 = TRUE)
 
 \method{get_projections}{ave5proj}(object, ..., standpop = NULL)
 }
@@ -41,4 +44,7 @@ methods based on the recent 5 years data:
 
 \code{get_projections()} extracts the projection results from an \code{ave5proj()}
 object.
+}
+\details{
+\code{project_ave5()} is an alias for \code{ave5proj()}.
 }

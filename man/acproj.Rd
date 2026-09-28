@@ -2,10 +2,23 @@
 % Please edit documentation in R/models-acproj.R
 \name{acproj}
 \alias{acproj}
+\alias{project_ac}
 \alias{get_projections.acproj}
 \title{ACPROJ: Age-Cohort Projections}
 \usage{
 acproj(
+  cdat,
+  pdat,
+  projfor = "incidence",
+  n5case = NULL,
+  startage = NULL,
+  cuttrd = 0.04,
+  shortp = 0,
+  pGOF = 0.05,
+  linkfunc = "power5"
+)
+
+project_ac(
   cdat,
   pdat,
   projfor = "incidence",
@@ -61,7 +74,7 @@ projection years.}
 \description{
 R functions for projection of cancer incidence/mortality. Revising and
 combining nordpred and Osmond's to extrapolation cohort when no drift
-appears from nordpred.
+appears from nordpred. \code{project_ac()} is an alias for \code{acproj()}.
 
 \code{get_projections()} extracts annual projection results from an \code{acproj()}
 object.
