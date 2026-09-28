@@ -2,7 +2,7 @@
 
 R functions for projection of cancer incidence/mortality. Revising and
 combining nordpred and Osmond's to extrapolation cohort when no drift
-appears from nordpred.
+appears from nordpred. `project_ac()` is an alias for `acproj()`.
 
 [`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
 extracts annual projection results from an `acproj()` object.
@@ -11,6 +11,18 @@ extracts annual projection results from an `acproj()` object.
 
 ``` r
 acproj(
+  cdat,
+  pdat,
+  projfor = "incidence",
+  n5case = NULL,
+  startage = NULL,
+  cuttrd = 0.04,
+  shortp = 0,
+  pGOF = 0.05,
+  linkfunc = "power5"
+)
+
+project_ac(
   cdat,
   pdat,
   projfor = "incidence",

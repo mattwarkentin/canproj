@@ -2,7 +2,8 @@
 
 R functions for projection of cancer incidence/mortality using the
 modified Hybrid methods. Modified Hybrid by adding choice of age-model,
-cut-trend parameter, and power 5 link function.
+cut-trend parameter, and power 5 link function. `project_hybrid()` is an
+alias for `hybdproj()`.
 
 [`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
 extracts projection results from a `hybdproj()` object.
@@ -11,6 +12,20 @@ extracts projection results from a `hybdproj()` object.
 
 ``` r
 hybdproj(
+  cdat,
+  pdat,
+  standpop,
+  projfor = "incidence",
+  nagg = NULL,
+  ncase = NULL,
+  cuttrd = 0.04,
+  shortp = 0,
+  linkfunc = "power5",
+  pD = 0.05,
+  pGOF = 0.05
+)
+
+project_hybrid(
   cdat,
   pdat,
   standpop,

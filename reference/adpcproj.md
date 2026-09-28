@@ -3,7 +3,8 @@
 R functions for projection of cancer incidence/mortality. Revising
 nordpred and introducing negative binomial distribution when lack of fit
 appears from nordpred, additional link functions of sqrt and identity,
-and settings of startage and startuseage.
+and settings of startage and startuseage. `project_adpc()` is an alias
+for `adpcproj()`.
 
 [`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
 extracts annual projection results from an `adpcproj()` object.
@@ -12,6 +13,21 @@ extracts annual projection results from an `adpcproj()` object.
 
 ``` r
 adpcproj(
+  cdat,
+  pdat,
+  projfor = "incidence",
+  n5case = NULL,
+  noperiods = NULL,
+  recent = NULL,
+  startage = NULL,
+  newcohort = FALSE,
+  pGOF = 0.05,
+  cuttrd = 0.04,
+  shortp = 0,
+  linkfunc = "power5"
+)
+
+project_adpc(
   cdat,
   pdat,
   projfor = "incidence",

@@ -10,19 +10,25 @@ supported in this package.
   [`print(`*`<canproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/canproj.md)
   : Canproj: Cancer Projections
 - [`acproj()`](https://mattwarkentin.github.io/canproj/reference/acproj.md)
+  [`project_ac()`](https://mattwarkentin.github.io/canproj/reference/acproj.md)
   [`get_projections(`*`<acproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/acproj.md)
   : ACPROJ: Age-Cohort Projections
 - [`adpcproj()`](https://mattwarkentin.github.io/canproj/reference/adpcproj.md)
+  [`project_adpc()`](https://mattwarkentin.github.io/canproj/reference/adpcproj.md)
   [`get_projections(`*`<adpcproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/adpcproj.md)
   : ADPCPROJ: Age-Drift-Period-Cohort Projections
 - [`ave5proj()`](https://mattwarkentin.github.io/canproj/reference/ave5proj.md)
+  [`project_ave5()`](https://mattwarkentin.github.io/canproj/reference/ave5proj.md)
   [`get_projections(`*`<ave5proj>`*`)`](https://mattwarkentin.github.io/canproj/reference/ave5proj.md)
   : Average5: Five-Year Average Projections
 - [`hybdproj()`](https://mattwarkentin.github.io/canproj/reference/hybdproj.md)
+  [`project_hybrid()`](https://mattwarkentin.github.io/canproj/reference/hybdproj.md)
   [`get_projections(`*`<hybdproj>`*`)`](https://mattwarkentin.github.io/canproj/reference/hybdproj.md)
   : HYBDPROJ: Hybrid Projections
 - [`canproj_all_methods()`](https://mattwarkentin.github.io/canproj/reference/canproj_all_methods.md)
   : Fit all Canproj models
+- [`project_constant()`](https://mattwarkentin.github.io/canproj/reference/project_constant.md)
+  : Project Using Constant Rates
 
 ## Model-Specific Utility Functions
 

@@ -13,6 +13,8 @@ extracts the projection results from an `ave5proj()` object.
 ``` r
 ave5proj(cdat, pdat, startp, sum5 = TRUE)
 
+project_ave5(cdat, pdat, startp, sum5 = TRUE)
+
 # S3 method for class 'ave5proj'
 get_projections(object, ..., standpop = NULL)
 ```
@@ -57,3 +59,7 @@ get_projections(object, ..., standpop = NULL)
 
 [`get_projections()`](https://mattwarkentin.github.io/canproj/reference/get_projections.md)
 returns a `data.frame`.
+
+## Details
+
+`project_ave5()` is an alias for `ave5proj()`.
