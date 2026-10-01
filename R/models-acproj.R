@@ -402,12 +402,6 @@ get_projections.acproj <- function(
     )
   }
 
-  if (floor(ncol(pdat) / 5) != ncol(object$predictions)) {
-    rlang::abort(
-      "\"pdat\" must match acproj.object periods (floor(ncol(pdat) / 5) == ncol(predictions))"
-    )
-  }
-
   r0 <- acproj_get_predictions(object, incidence = T)
 
   outasp <- interpolate_age_specific_rates(
